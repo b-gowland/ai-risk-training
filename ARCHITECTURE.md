@@ -165,6 +165,58 @@ This is why `App` and `ScenarioPlayer` are separate components.
 
 ---
 
+### 6. All state fields must be explicitly initialised (RT-003)
+
+**What happens:** `Cannot read properties of undefined (reading 'startsWith')` or similar crashes when the engine tries to operate on a field that was never set.
+
+**The rule:** Every field in `createInitialState` must have an explicit value — never leave a field absent or undefined. Use `null` as the explicit "not yet set" value. Before calling any method on a state field (`.startsWith()`, `.at()`, `.find()`) guard with `if (!field) return`.
+
+**Engine contract:** Every reducer case that reads `nextNodeId` must guard: `if (!nextNodeId) return state` before `.startsWith()`.
+
+---
+
+### 7. useEffect dependency arrays must not cause double-firing (RT-004)
+
+**What happens:** Feedback text is generated twice, or a timer fires twice, causing race conditions or duplicate dispatches.
+
+**Why it happens:** Two state fields that change together in the same action (e.g. `state.state` and `state.feedbackLoading` both change when `SELECT_CHOICE` fires) both appear in a useEffect dependency array. React runs the effect once per render where any dependency changed — if both change in the same render, the effect fires, but if they then change again in quick succession it can fire again.
+
+**The rule:** Each useEffect dependency array should contain the minimum set that causes exactly one fire per intended trigger. For the feedback effect, `[state.feedbackLoading]` is sufficient — it becomes `true` once per choice, which is exactly when we want to generate feedback.
+
+**Check:** Before finalising any useEffect, ask — "could two items in this dependency array change in the same action?" If yes, reduce to just the one that is the actual trigger.
+
+---
+### 8. kb_url must use the exact Docusaurus path pattern (RT-005)
+
+**What happens:** 404 Page Not Found when clicking Knowledge Base link from the outcome screen.
+
+**The correct pattern:**
+```
+https://b-gowland.github.io/ai-risk-kb/docs/<domain-slug>/<entry-id>
+```
+
+**Domain slug reference:**
+| Risk ref | Domain slug |
+|---|---|
+| A1–A4 | `domain-a-technical` |
+| B1–B4 | `domain-b-governance` |
+| C1–C5 | `domain-c-security` |
+| D1–D3 | `domain-d-data` |
+| E1–E3 | `domain-e-fairness` |
+| F1–F3 | `domain-f-deployment` |
+| G1–G4 | `domain-g-systemic` |
+
+**Entry ID pattern:** lowercase risk ref + hyphenated name, e.g. `f2-shadow-ai`, `c4-deepfakes-synthetic-media`, `a1-hallucination`.
+
+**Common mistakes:**
+- Missing `/docs/` prefix → 404
+- Using the full domain name (`domain-f-hci-deployment`) instead of the slug (`domain-f-deployment`) → 404
+- Using the old title instead of the MDX filename → 404
+
+**The check:** Layer 1 of `qa-audit.js` validates the domain slug. Always open the URL in a browser before pushing — the audit checks format but cannot confirm the page actually exists.
+
+---
+
 ## File reference
 
 | File | Purpose |

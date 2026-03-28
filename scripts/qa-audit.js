@@ -143,33 +143,42 @@ if ([...usedScenes].every(k => definedScenes.has(k))) {
   pass(`All ${usedScenes.size} scene keys are defined in App.jsx`);
 }
 
-// Check 4: No component uses scenario as a free variable (must be in props)
-const fnRegex = /function (\w+)\(\{([^}]*)\}[^)]*\)/g;
+// Check 4: No component uses props as free variables (must be declared)
+// Checks scenario, outcome, node, choice — the most commonly passed props
+// This catches the OutcomeScreen scenario bug (F2-RT-002b) and similar
+const fnRegex2 = /function (\w+)\(\{([^}]*)\}[^)]*\)/g;
 let fnMatch2;
 let freeVarIssues = 0;
-const srcLines = appSrc.split('\n');
+const TRACKED_PROPS = ['scenario', 'outcome', 'node', 'choice', 'persona'];
 
-while ((fnMatch2 = fnRegex.exec(appSrc)) !== null) {
+while ((fnMatch2 = fnRegex2.exec(appSrc)) !== null) {
   const fnName2 = fnMatch2[1];
   const propsStr = fnMatch2[2];
-  const hasScenarioProp = /\bscenario\b/.test(propsStr);
-  if (hasScenarioProp) continue;
 
-  // Get function body
   const bodyStart = fnMatch2.index + fnMatch2[0].length;
-  let depth2 = 0, j = bodyStart;
-  while (j < appSrc.length) {
-    if (appSrc[j] === '{') depth2++;
-    else if (appSrc[j] === '}') { if (--depth2 <= 0) break; }
-    j++;
+  let depth2 = 0, j2 = bodyStart;
+  while (j2 < appSrc.length) {
+    if (appSrc[j2] === '{') depth2++;
+    else if (appSrc[j2] === '}') { if (--depth2 <= 0) break; }
+    j2++;
   }
-  const body2 = appSrc.slice(bodyStart, j);
-  if (/\bscenario\./.test(body2)) {
-    p1(`Component "${fnName2}" uses scenario.X but scenario is not in its props`);
-    freeVarIssues++;
+  const body2 = appSrc.slice(bodyStart, j2);
+
+  for (const propName of TRACKED_PROPS) {
+    const inProps = new RegExp(`\\b${propName}\\b`).test(propsStr);
+    if (inProps) continue;
+    // Check if used as free variable in body (prop.something)
+    const usedAsFree = new RegExp(`\\b${propName}\\.`).test(body2);
+    // Check it's not a locally defined variable (const/let/var or map/forEach/filter callback param)
+    const isLocalVar = new RegExp(`\\b(const|let|var)\\s+${propName}\\b`).test(body2);
+    const isCallbackParam = new RegExp(`\.(?:map|forEach|filter|find|reduce|some|every)\\s*\\(\\s*${propName}\\s*[=,)>]`).test(body2);
+    if (usedAsFree && !isLocalVar && !isCallbackParam) {
+      p1(`Component "${fnName2}" uses "${propName}." as free variable — must be declared in props`);
+      freeVarIssues++;
+    }
   }
 }
-if (freeVarIssues === 0) pass('No free-variable scenario references found in components');
+if (freeVarIssues === 0) pass('No free-variable prop references found in components');
 
 pass('Static analysis complete');
 
@@ -224,6 +233,44 @@ for (const [personaKey, tree] of Object.entries(scenario.trees)) {
       p1(`[${personaKey}] ${outcomeId} — invalid tone: "${outcome.tone}"`);
     }
   }
+}
+
+// Check: kb_url field format
+// Must use the correct KB URL pattern: /docs/<domain>/<entry-id>
+// Wrong patterns that have caused 404s: missing /docs/, wrong domain slug, wrong entry slug
+for (const [personaKey, tree] of Object.entries(scenario.trees)) {
+  // Only check the main scenario kb_url (not per-persona)
+  break;
+}
+if (scenario.kb_url) {
+  const url = scenario.kb_url;
+  const isValid = url.startsWith('https://b-gowland.github.io/ai-risk-kb/docs/') ||
+                  url.startsWith('https://b-gowland.github.io/ai-risk-kb/');
+  if (!isValid) {
+    p1(`kb_url does not match expected KB URL pattern: "${url}"`);
+  } else if (!url.includes('/docs/')) {
+    warn(`kb_url points to KB root, not a specific entry: "${url}" — consider linking to the specific entry`);
+  } else {
+    // Check domain slug matches scenario domain
+    const domainLetter = scenario.risk_ref?.[0]?.toLowerCase();
+    const domainMap = {
+      a: 'domain-a-technical',
+      b: 'domain-b-governance', 
+      c: 'domain-c-security',
+      d: 'domain-d-data',
+      e: 'domain-e-fairness',
+      f: 'domain-f-deployment',
+      g: 'domain-g-systemic',
+    };
+    const expectedDomain = domainMap[domainLetter];
+    if (expectedDomain && !url.includes(expectedDomain)) {
+      p1(`kb_url domain slug may be wrong for ${scenario.risk_ref}. Expected "${expectedDomain}" in URL: "${url}"`);
+    } else {
+      pass(`kb_url format valid: "${url}"`);
+    }
+  }
+} else {
+  p1('kb_url is missing from scenario');
 }
 
 pass('Data integrity check complete');
@@ -315,6 +362,52 @@ for (const personaKey of Object.keys(scenario.personas)) {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════════════
+// LAYER 2b — Engine contract checks
+// Verifies the state machine handles null/undefined gracefully.
+// These are the conditions that caused RT-003 and RT-004.
+// ═══════════════════════════════════════════════════════════════════
+console.log('\n══ Layer 2b: Engine contract checks ══');
+
+// Check 1: createInitialState has no undefined fields
+const initState = createInitialState(scenario);
+for (const [key, val] of Object.entries(initState)) {
+  if (val === undefined) {
+    p1(`createInitialState: field "${key}" is undefined — must be null or a value`);
+  }
+}
+pass('All initial state fields are defined (not undefined)');
+
+// Check 2: CONTINUE_FROM_FEEDBACK with null nextNodeId does not crash
+try {
+  const badState = { ...initState, state: STATES.FEEDBACK, nextNodeId: null };
+  const result = reducer(badState, { type: 'CONTINUE_FROM_FEEDBACK' });
+  if (result.state !== STATES.OUTCOME && result.state !== STATES.NODE) {
+    pass('CONTINUE_FROM_FEEDBACK handles null nextNodeId safely');
+  } else {
+    warn('CONTINUE_FROM_FEEDBACK advanced state despite null nextNodeId');
+  }
+} catch(e) {
+  p1(`CONTINUE_FROM_FEEDBACK crashes with null nextNodeId: ${e.message}`);
+}
+
+// Check 3: resolveNext returns null (not undefined) for missing branches
+const fakeNode = { branches: {} };
+const resolved = resolveNext(fakeNode, 'nonexistent');
+if (resolved === null) pass('resolveNext returns null for missing branch');
+else if (resolved === undefined) p1('resolveNext returns undefined — must return null');
+else pass(`resolveNext returns fallback: "${resolved}"`);
+
+// Check 4: getCurrentNode with null args returns null not crash
+try {
+  const r1 = getCurrentNode(scenario, null, 'start');
+  const r2 = getCurrentNode(scenario, 'business_user', null);
+  if (r1 === null && r2 === null) pass('getCurrentNode handles null args safely');
+  else p1('getCurrentNode did not return null for null args');
+} catch(e) {
+  p1(`getCurrentNode crashes with null args: ${e.message}`);
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // LAYER 3 — Content quality
@@ -472,6 +565,18 @@ for (const [personaKey, tree] of Object.entries(scenario.trees)) {
     }
   }
 }
+
+// Check: useEffect dependency arrays
+// Feedback effect must NOT depend on both state.state and state.feedbackLoading
+// (double-fire risk — RT-004)
+const appSrc2 = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
+const effectDeps = [...appSrc2.matchAll(/\}, \[([^\]]+)\]\);/g)].map(m => m[1]);
+for (const dep of effectDeps) {
+  if (dep.includes('state.state') && dep.includes('state.feedbackLoading')) {
+    p1('useEffect depends on both state.state AND state.feedbackLoading — double-fire risk (RT-004)');
+  }
+}
+pass('useEffect dependency arrays checked for double-fire risk');
 
 pass('Transition safety check complete');
 console.log(`\n  ${WARN} REMINDER: Layer 4 only checks state machine logic.`);

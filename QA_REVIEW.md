@@ -123,6 +123,8 @@ Copy this checklist into a new `QA_REVIEW_<id>.md` for each scenario.
 - [ ] Continue button works after 5+ second wait on feedback screen ✓
 - [ ] Browser back button mid-scenario: shows error boundary (not blank screen) ✓
 - [ ] Page reload mid-scenario: shows error boundary (not blank screen) ✓
+- [ ] **KB link on outcome screen opens correct KB entry (not 404)** ✓
+- [ ] **KB link in scenario card on homepage opens correct KB entry (not 404)** ✓
 
 ### Content sign-off
 - [ ] All outcomes have result ≥25 words and learning ≥15 words
@@ -173,3 +175,50 @@ This is the correct React pattern for this situation. Any component that needs b
 | 1.0 | March 2026 | Initial framework — Layers 1–3 only |
 | 1.1 | March 2026 | Added Layer 4 (transition safety) after F2 blank screen bug |
 | 1.2 | March 2026 | Added hooks-before-return static check after F2-RT-002. Added ARCHITECTURE.md. Split App into router + ScenarioPlayer pattern documented. |
+
+---
+
+## F2-RT-003: CONTINUE_FROM_FEEDBACK crash on null nextNodeId
+
+**Found by:** Deep code review (first principles pass)  
+**Symptom:** `Cannot read properties of undefined (reading 'startsWith')` in engine reducer  
+**Root cause:** `nextNodeId` was not initialised in `createInitialState`. In certain edge cases it remained `undefined`, causing `.startsWith()` to crash when `CONTINUE_FROM_FEEDBACK` fired.  
+**Fix:** `nextNodeId: null` added to initial state. Every reducer case that uses `nextNodeId` now guards with `if (!nextNodeId) return state` before calling `.startsWith()`.  
+**Rule added to engine:** All state fields must be explicitly initialised in `createInitialState`. No field may be undefined.
+
+---
+
+## F2-RT-004: Feedback useEffect double-firing
+
+**Found by:** Deep code review  
+**Symptom:** Feedback text generated twice, potential race condition on rapid Continue clicks  
+**Root cause:** The feedback `useEffect` depended on both `state.state` and `state.feedbackLoading`. Both can change in the same render cycle, causing the effect to fire twice.  
+**Fix:** Dependency array reduced to `[state.feedbackLoading]` only. The effect fires exactly once when `feedbackLoading` becomes true.  
+**Rule added to checklist:** useEffect dependency arrays must contain the minimum set that causes exactly one fire per intended trigger. Having two state fields that change together in the same action is a double-fire risk.
+
+---
+
+---
+
+## F2-RT-005: kb_url pointed to wrong path — 404 on Knowledge Base link
+
+**Found by:** Manual browser testing (outcome screen)  
+**Symptom:** Clicking "Knowledge base ↗" on the outcome screen returned a 404 Page Not Found.  
+**Root cause:** The `kb_url` field in `f2-shadow-ai.js` used an incorrect path pattern (`/domain-f-hci-deployment/shadow-ai`) that did not match the actual Docusaurus URL structure (`/docs/domain-f-deployment/f2-shadow-ai`). Two errors: missing `/docs/` prefix, wrong domain slug, wrong entry slug.  
+**Fix:** Corrected to `https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f2-shadow-ai`.  
+**Rule added:** Every scenario's `kb_url` must match the pattern `/docs/<domain-slug>/<entry-id>` where domain slug is one of: `domain-a-technical`, `domain-b-governance`, `domain-c-security`, `domain-d-data`, `domain-e-fairness`, `domain-f-deployment`, `domain-g-systemic`.  
+**Added to audit script:** Layer 1 now validates `kb_url` format and checks the domain slug matches the scenario's risk_ref letter.  
+**Added to checklist:** "Verify kb_url loads in browser before push" is now a mandatory browser test step.
+
+---
+
+## Framework version history (updated)
+
+| Version | Date | Change |
+|---|---|---|
+| 1.0 | March 2026 | Initial — Layers 1–3 |
+| 1.1 | March 2026 | Layer 4 added after blank screen bug |
+| 1.2 | March 2026 | Hooks-before-return static check. ARCHITECTURE.md. ScenarioPlayer pattern. |
+| 1.3 | March 2026 | Free-variable prop check in Layer 0. OutcomeScreen scenario prop fix. |
+| 1.4 | March 2026 | Engine null guards (RT-003). Feedback double-fire fix (RT-004). Deep review protocol established. |
+| 1.5 | March 2026 | kb_url format validation in Layer 1 (RT-005). Free-variable check generalised to all common props. Browser checklist updated with URL verification step. |
