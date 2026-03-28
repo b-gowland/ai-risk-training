@@ -556,6 +556,32 @@ export default function App() {
 
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
 
+  // Unknown or stub scenario — friendly error
+  // (rendered after hooks to satisfy React rules of hooks)
+  if (!scenario || scenario.stub) {
+    return (
+      <div className={styles.app}>
+        <header className={styles.header}>
+          <div className={styles.logo}><span className={styles.logoMark}>◈</span>AI Risk Training</div>
+        </header>
+        <main className={styles.main} style={{textAlign:'center', paddingTop:'80px'}}>
+          <div style={{fontSize:'48px', marginBottom:'20px'}}>◎</div>
+          <h2 style={{fontFamily:'var(--font-display)', fontSize:'28px', marginBottom:'12px'}}>
+            {scenario ? 'Coming soon' : 'Scenario not found'}
+          </h2>
+          <p style={{color:'var(--c-text-secondary)', marginBottom:'32px', fontSize:'16px'}}>
+            {scenario
+              ? `${scenario.risk_ref} — ${scenario.title} is in development.`
+              : "That scenario doesn't exist yet."}
+          </p>
+          <Link to="/" className={styles.primaryBtn} style={{textDecoration:'none', display:'inline-block'}}>
+            ← Back to all scenarios
+          </Link>
+        </main>
+      </div>
+    );
+  }
+
   // Auto-advance nodes with no decision
   useEffect(() => {
     if (state.state !== STATES.NODE) return;
