@@ -525,62 +525,10 @@ function OutcomeScreen({ outcome, persona, onRestart }) {
 
 // ── App shell ─────────────────────────────────────────────────────
 // ── App shell ─────────────────────────────────────────────────────
-export default function App() {
-  const { id } = useParams();
-  const scenario = getScenario(id);
-
-  // Unknown or stub scenario — friendly error
-  if (!scenario || scenario.stub) {
-    return (
-      <div className={styles.app}>
-        <header className={styles.header}>
-          <div className={styles.logo}><span className={styles.logoMark}>◈</span>AI Risk Training</div>
-        </header>
-        <main className={styles.main} style={{textAlign:'center', paddingTop:'80px'}}>
-          <div style={{fontSize:'48px', marginBottom:'20px'}}>◎</div>
-          <h2 style={{fontFamily:'var(--font-display)', fontSize:'28px', marginBottom:'12px'}}>
-            {scenario ? 'Coming soon' : 'Scenario not found'}
-          </h2>
-          <p style={{color:'var(--c-text-secondary)', marginBottom:'32px', fontSize:'16px'}}>
-            {scenario
-              ? `${scenario.risk_ref} — ${scenario.title} is in development.`
-              : 'That scenario doesn\'t exist yet.'}
-          </p>
-          <Link to="/" className={styles.primaryBtn} style={{textDecoration:'none', display:'inline-block'}}>
-            ← Back to all scenarios
-          </Link>
-        </main>
-      </div>
-    );
-  }
-
+// ScenarioPlayer owns ALL hooks — receives scenario as a prop
+// This satisfies React rules of hooks (no conditional returns before hooks)
+function ScenarioPlayer({ scenario }) {
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
-
-  // Unknown or stub scenario — friendly error
-  // (rendered after hooks to satisfy React rules of hooks)
-  if (!scenario || scenario.stub) {
-    return (
-      <div className={styles.app}>
-        <header className={styles.header}>
-          <div className={styles.logo}><span className={styles.logoMark}>◈</span>AI Risk Training</div>
-        </header>
-        <main className={styles.main} style={{textAlign:'center', paddingTop:'80px'}}>
-          <div style={{fontSize:'48px', marginBottom:'20px'}}>◎</div>
-          <h2 style={{fontFamily:'var(--font-display)', fontSize:'28px', marginBottom:'12px'}}>
-            {scenario ? 'Coming soon' : 'Scenario not found'}
-          </h2>
-          <p style={{color:'var(--c-text-secondary)', marginBottom:'32px', fontSize:'16px'}}>
-            {scenario
-              ? `${scenario.risk_ref} — ${scenario.title} is in development.`
-              : "That scenario doesn't exist yet."}
-          </p>
-          <Link to="/" className={styles.primaryBtn} style={{textDecoration:'none', display:'inline-block'}}>
-            ← Back to all scenarios
-          </Link>
-        </main>
-      </div>
-    );
-  }
 
   // Auto-advance nodes with no decision
   useEffect(() => {
@@ -596,7 +544,6 @@ export default function App() {
   useEffect(() => {
     if (state.state !== STATES.FEEDBACK || !state.feedbackLoading) return;
     if (!state.selectedChoice) return;
-    // Find the choice in the node that triggered this feedback
     const lastEntry = state.history.at(-1);
     if (!lastEntry) return;
     const node = getCurrentNode(scenario, state.persona, lastEntry.nodeId);
@@ -610,10 +557,12 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [state.state, state.feedbackLoading, scenario]);
 
-  const currentNode    = (state.persona && state.currentNodeId && !state.currentNodeId.startsWith('outcome_'))
+  const currentNode = (state.persona && state.currentNodeId && !state.currentNodeId.startsWith('outcome_'))
     ? getCurrentNode(scenario, state.persona, state.currentNodeId)
     : null;
-  const currentOutcome = state.outcomeId ? getOutcome(scenario, state.persona, state.outcomeId) : null;
+  const currentOutcome = state.outcomeId
+    ? getOutcome(scenario, state.persona, state.outcomeId)
+    : null;
 
   return (
     <div className={styles.app}>
@@ -679,4 +628,38 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+// App is a pure router — no hooks, just picks the right component to render
+export default function App() {
+  const { id } = useParams();
+  const scenario = getScenario(id);
+
+  if (!scenario || scenario.stub) {
+    return (
+      <div className={styles.app}>
+        <header className={styles.header}>
+          <Link to="/" className={styles.logo}>
+            <span className={styles.logoMark}>◈</span>AI Risk Training
+          </Link>
+        </header>
+        <main className={styles.main} style={{textAlign:'center', paddingTop:'80px'}}>
+          <div style={{fontSize:'48px', marginBottom:'20px'}}>◎</div>
+          <h2 style={{fontFamily:'var(--font-display)', fontSize:'28px', marginBottom:'12px'}}>
+            {scenario ? 'Coming soon' : 'Scenario not found'}
+          </h2>
+          <p style={{color:'var(--c-text-secondary)', marginBottom:'32px', fontSize:'16px'}}>
+            {scenario
+              ? `${scenario.risk_ref} — ${scenario.title} is in development.`
+              : "That scenario doesn't exist yet."}
+          </p>
+          <Link to="/" className={styles.primaryBtn} style={{textDecoration:'none', display:'inline-block'}}>
+            ← Back to all scenarios
+          </Link>
+        </main>
+      </div>
+    );
+  }
+
+  return <ScenarioPlayer scenario={scenario} />;
 }

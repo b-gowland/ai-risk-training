@@ -61,6 +61,92 @@ function pass(msg) { console.log(`  ${PASS} ${msg}`); }
 
 
 // ═══════════════════════════════════════════════════════════════════
+// LAYER 0 — Static analysis
+// Catches React rule violations that cause browser-only bugs.
+// Reads source files directly — no module loading required.
+// ═══════════════════════════════════════════════════════════════════
+console.log('\n══ Layer 0: Static analysis ══');
+
+import { readFileSync } from 'fs';
+
+const appSrc = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
+
+// Check 1: No hooks before conditional returns in any component
+// Find all function components and check their hook/return ordering
+const fnPattern = /function\s+(\w+)\s*\([^)]*\)\s*\{/g;
+let match;
+let hookOrderIssues = 0;
+
+while ((match = fnPattern.exec(appSrc)) !== null) {
+  const fnName = match[1];
+  const fnStart = match.index + match[0].length;
+  // Find the body — scan for matching brace
+  let depth = 1;
+  let i = fnStart;
+  while (i < appSrc.length && depth > 0) {
+    if (appSrc[i] === '{') depth++;
+    else if (appSrc[i] === '}') depth--;
+    i++;
+  }
+  const fnBody = appSrc.slice(fnStart, i - 1);
+
+  // Find first hook and first return positions
+  const hookMatch  = fnBody.match(/\b(useReducer|useEffect|useState|useRef|useMemo|useCallback)\b/);
+  const returnMatch = fnBody.match(/\breturn\b/);
+
+  if (hookMatch && returnMatch) {
+    const hookPos   = fnBody.indexOf(hookMatch[0]);
+    const returnPos = fnBody.indexOf('return');
+    if (returnPos < hookPos) {
+      p1(`Component "${fnName}" has a return statement before ${hookMatch[1]} — React hooks ordering violation`);
+      hookOrderIssues++;
+    }
+  }
+}
+
+if (hookOrderIssues === 0) pass('No hooks-before-return violations found');
+
+// Check 2: scenario variable used inside useEffect must be in scope
+// (Simple check: ensure ScenarioPlayer pattern is used, not App with inline hooks)
+const appFnMatch = appSrc.match(/export default function App\(\)[\s\S]*?^}/m);
+if (appFnMatch) {
+  const appBody = appFnMatch[0];
+  const hasHooks = /\b(useReducer|useEffect|useState)\b/.test(appBody);
+  if (hasHooks) {
+    p1('export default App() contains hooks — use ScenarioPlayer pattern (see ARCHITECTURE.md)');
+  } else {
+    pass('App() is a pure router with no hooks');
+  }
+}
+
+// Check 3: All scene keys in scenario files exist in App.jsx scenes object
+const scenesMatch = appSrc.match(/const scenes = \{([\s\S]*?)\};/);
+const definedScenes = new Set();
+if (scenesMatch) {
+  const sceneEntries = scenesMatch[1].matchAll(/'([\w-]+)'\s*:/g);
+  for (const entry of sceneEntries) definedScenes.add(entry[1]);
+}
+
+const scenarioSrc = readFileSync(
+  new URL(`../src/scenarios/${scenarioId}.js`, import.meta.url), 'utf8'
+);
+const usedScenes = new Set();
+const sceneMatches = scenarioSrc.matchAll(/scene:\s*'([\w-]+)'/g);
+for (const m of sceneMatches) usedScenes.add(m[1]);
+
+for (const key of usedScenes) {
+  if (!definedScenes.has(key)) {
+    p1(`Scene key "${key}" used in scenario but not defined in App.jsx scenes object`);
+  }
+}
+if ([...usedScenes].every(k => definedScenes.has(k))) {
+  pass(`All ${usedScenes.size} scene keys are defined in App.jsx`);
+}
+
+pass('Static analysis complete');
+
+
+// ═══════════════════════════════════════════════════════════════════
 // LAYER 1 — Data integrity
 // ═══════════════════════════════════════════════════════════════════
 console.log('\n══ Layer 1: Data integrity ══');

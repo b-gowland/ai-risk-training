@@ -138,3 +138,38 @@ Copy this checklist into a new `QA_REVIEW_<id>.md` for each scenario.
 |---|---|---|
 | 1.0 | March 2026 | Initial framework — Layers 1–3 only |
 | 1.1 | March 2026 | Added Layer 4 (transition safety) after F2 blank screen bug. Added browser checklist. Documented React render-cycle limitation. |
+
+---
+
+## Additional runtime bugs found during F2 browser testing
+
+### F2-RT-002: `scenario is not defined` on Continue click
+
+**Symptom:** `ReferenceError: scenario is not defined` in browser console after clicking Continue on the feedback screen. Error boundary triggers. Occurred consistently after 3 choices on the Business User poor path.
+
+**Root cause:** Two compounding issues:
+1. The `App` component had a conditional `return` before `useReducer` (violated React rules of hooks). React requires hooks to be called in the same order on every render — a `return` before a hook breaks this.
+2. When Vite minifies the bundle, this violation causes the `scenario` variable to fall out of scope in the `useEffect` closures that fire after renders.
+
+**Why the first fix attempt failed:** The Python replacement script that moved `useReducer` after the early return left a duplicate stub check — the original early return was still in place before the hooks. The violation persisted.
+
+**Fix applied:** Split `App` into two components:
+- `App` — pure router, no hooks. Reads URL param, checks if scenario exists, renders error screen or `ScenarioPlayer`
+- `ScenarioPlayer` — receives scenario as prop, owns all hooks with nothing before them
+
+This is the correct React pattern for this situation. Any component that needs both conditional rendering logic AND hooks should be split this way.
+
+**Rule to follow for all future components:**
+> Never put a `return` statement before a `useReducer`, `useEffect`, `useState`, or any other hook in a React component. If you need conditional rendering based on a prop or derived value, either move the condition after all hooks, or split into a wrapper component (no hooks) and an inner component (owns hooks, receives guaranteed-valid props).
+
+**Added to Layer 4 audit checks:** Static check that scans App.jsx for hooks-before-return pattern.
+
+---
+
+## Framework version history (updated)
+
+| Version | Date | Change |
+|---|---|---|
+| 1.0 | March 2026 | Initial framework — Layers 1–3 only |
+| 1.1 | March 2026 | Added Layer 4 (transition safety) after F2 blank screen bug |
+| 1.2 | March 2026 | Added hooks-before-return static check after F2-RT-002. Added ARCHITECTURE.md. Split App into router + ScenarioPlayer pattern documented. |
