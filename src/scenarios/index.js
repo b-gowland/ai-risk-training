@@ -1,4 +1,7 @@
 import { scenario as f2 } from './f2-shadow-ai.js';
+import { scenario as c4 } from './c4-deepfakes.js';
+import { scenario as a1 } from './a1-hallucination.js';
+import { scenario as e1 } from './e1-bias.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -10,7 +13,7 @@ const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) =
 
 // Business User available for F2, C4, A1, E1 only
 export const scenarios = [
-  stub('a1-hallucination',   'A1', 'Confident and Wrong',      'A — Technical',              'Foundational', true),
+  a1,
   stub('a2-model-drift',     'A2', 'The Slow Decay',            'A — Technical',              'Intermediate'),
   stub('a3-robustness',      'A3', 'Edge of the Map',           'A — Technical',              'Intermediate'),
   stub('a4-explainability',  'A4', 'The Black Box Decision',    'A — Technical',              'Advanced'),
@@ -21,12 +24,12 @@ export const scenarios = [
   stub('c1-data-poisoning',  'C1', 'Poisoned at the Source',    'C — Security & Adversarial', 'Advanced'),
   stub('c2-prompt-injection','C2', 'The Hidden Instruction',    'C — Security & Adversarial', 'Advanced'),
   stub('c3-model-theft',     'C3', 'The Extraction',            'C — Security & Adversarial', 'Advanced'),
-  stub('c4-deepfakes',       'C4', 'The Fabricated Call',       'C — Security & Adversarial', 'Foundational', true),
+  c4,
   stub('c5-cyber',           'C5', 'Precision Strike',          'C — Security & Adversarial', 'Intermediate'),
   stub('d1-data-quality',    'D1', 'Garbage In',                'D — Data',                   'Intermediate'),
   stub('d2-privacy',         'D2', 'The Accidental Disclosure', 'D — Data',                   'Foundational'),
   stub('d3-ip',              'D3', "Who Owns This?",            'D — Data',                   'Intermediate'),
-  stub('e1-bias',            'E1', 'The Score',                 'E — Fairness & Social',      'Intermediate', true),
+  e1,
   stub('e2-harmful-content', 'E2', 'The Guardrail Gap',         'E — Fairness & Social',      'Advanced'),
   stub('e3-misinfo',         'E3', 'The Fabricated Story',      'E — Fairness & Social',      'Foundational'),
   f2,

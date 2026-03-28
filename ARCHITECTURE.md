@@ -46,56 +46,165 @@ Key state fields:
 
 ## Scenario data structure
 
-Each scenario file exports a `scenario` object with:
-- `personas` — object keyed by persona name, each with `label`, `role`, `character`, `icon`, `framing`, `premise`
-- `trees` — object keyed by persona name, each with `nodes` and `outcomes`
-- `controls_summary` — array of controls shown on the outcome screen
-- `has_business_user` — boolean, whether business_user persona is available
+Each scenario file exports a `scenario` object. The complete field reference is below.
+**Do not guess field names — use this reference exactly.**
 
-Each **node** has:
-- `scene` — key mapping to an SVG scene component in App.jsx (must exist)
-- `caption` — main caption bar text
-- `sub_caption` — optional secondary caption
-- `decision` — object with `prompt` and `choices` array (null for auto-advance nodes)
-- `branches` — object mapping choice IDs to next node IDs or outcome IDs
+### Top-level fields
 
-Each **choice** has:
-- `id` — single letter ('a', 'b', 'c', 'd')
-- `label` — the button text the player sees
-- `quality` — 'good', 'partial', or 'poor'
-- `note` — the authored feedback text shown after selection
-
-Outcome IDs must start with `outcome_`. Node IDs must not.
-
----
-
-## Adding a new scenario
-
-1. Create `src/scenarios/<id>.js` — copy `f2-shadow-ai.js` as template
-2. Add to `src/scenarios/index.js` — import and add to the `scenarios` array
-3. Add any new scene keys to the `scenes` object in `ScenarioPlayer` in `App.jsx`
-4. Run `node scripts/qa-audit.js <id>` — fix all P1 issues
-5. Complete the browser checklist in `QA_REVIEW.md`
-6. Create `QA_REVIEW_<id>.md` using the checklist template
-
----
-
-## Adding a new scene illustration
-
-Scenes are SVG React components defined in `App.jsx` inside `SceneSVG`.
-
-The scenes object maps string keys to components:
 ```js
-const scenes = {
-  'desk-casual':    <DeskCasualScene />,
-  'office-busted':  <OfficeBustedScene />,
-  // add new ones here
+export const scenario = {
+  id:                'f2-shadow-ai',          // kebab-case, matches filename
+  risk_ref:          'F2',                    // e.g. 'A1', 'C4', 'E1'
+  title:             'The Shortcut',          // short display title
+  subtitle:          'Shadow AI & Data Exposure',
+  domain:            'F — HCI & Deployment',  // full domain label
+  difficulty:        'Foundational',          // 'Foundational' | 'Intermediate' | 'Advanced'
+  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f2-shadow-ai',
+  estimated_minutes: 10,
+  has_business_user: true,                    // false for scenarios without BU persona
+  personas:          { ... },                 // see Personas below
+  trees:             { ... },                 // see Trees below
 };
 ```
 
-If a scenario references a scene key that isn't in this object, the fallback is `desk-casual`. This won't crash but will show the wrong illustration. The Layer 4 audit checks for this.
+### Personas object
 
-SVG scenes use hardcoded hex colours (not CSS variables) because they're physical illustrations that should not invert in dark mode. The app's CSS variables are used for UI chrome only.
+```js
+personas: {
+  business_user: {
+    label:    'Business User',         // display label
+    role:     'Marketing Team',        // short role description
+    character: 'Jamie',               // character first name
+    icon:     '◇',                    // one of: ◇ ◈ ◎ ◉
+    framing:  'One-sentence hook shown on persona select screen.',
+    premise:  `Multi-sentence scene-setting shown before the first node.
+               This is what the player reads before making any choices.`,
+  },
+  executive: { ... },   // same fields
+  pm:        { ... },   // same fields
+  analyst:   { ... },   // same fields
+},
+```
+
+### Trees object — nodes
+
+```js
+trees: {
+  business_user: {
+    nodes: {
+      start: {                          // first node must always be named 'start'
+        scene:       'desk-casual',     // key in the scenes object in App.jsx SceneSVG
+        caption:     'Caption bar text — advances the story.',
+        sub_caption: 'Optional secondary caption.',   // omit if not needed
+        decision: {
+          prompt: 'The question posed to the player?',   // MUST end with ?
+          choices: [
+            {
+              id:      'a',             // single letter — 'a', 'b', 'c', 'd'
+              label:   'Button text the player sees.',
+              quality: 'good',          // 'good' | 'partial' | 'poor'
+              note:    'Authored feedback shown after selection. Min ~10 words.',
+            },
+            {
+              id:      'b',
+              label:   'Another choice.',
+              quality: 'poor',
+              note:    'Why this was the wrong call.',
+            },
+          ],
+        },
+        branches: { a: 'n2_next_node', b: 'outcome_bad' },
+        //          ^                   ^
+        //          choice id           node id or outcome id
+        //          must exist in       node ids must NOT start with 'outcome_'
+        //          choices array       outcome ids MUST start with 'outcome_'
+      },
+
+      n2_next_node: {
+        scene:    'office-meeting',
+        caption:  'Next story beat.',
+        decision: { ... },
+        branches: { a: 'outcome_good', b: 'n3_another' },
+      },
+
+      // Auto-advance node (no decision — player doesn't choose, just continues)
+      n3_bridge: {
+        scene:    'desk-casual',
+        caption:  'Narrative bridge — moves to next node automatically.',
+        decision: null,
+        branches: { auto: 'outcome_warn' },   // 'auto' is the special key
+      },
+    },
+
+    outcomes: {
+      outcome_good: {
+        heading:  'Short punchy outcome title.',      // ~4 words
+        tone:     'good',                             // 'good' | 'warn' | 'bad'
+        result:   'What actually happened as a result of the player\'s choices. '
+                + 'Min ~25 words. Narrative, specific, consequence-driven.',
+        learning: 'The key takeaway. Min ~15 words. '
+                + 'What the player should remember.',
+        score:    100,   // integer 0–100. good ~70-100, warn ~30-60, bad ~0-20
+      },
+      outcome_warn: {
+        heading:  'Bruised but standing.',
+        tone:     'warn',
+        result:   '...',
+        learning: '...',
+        score:    45,
+      },
+      outcome_bad: {
+        heading:  'The case study nobody wants to be.',
+        tone:     'bad',
+        result:   '...',
+        learning: '...',
+        score:    8,
+      },
+    },
+  }, // end business_user tree
+
+  executive: { nodes: { ... }, outcomes: { ... } },
+  pm:        { nodes: { ... }, outcomes: { ... } },
+  analyst:   { nodes: { ... }, outcomes: { ... } },
+},
+```
+
+### Field name quick-reference — common mistakes
+
+| Wrong (do not use) | Correct |
+|---|---|
+| `text:` on a choice | `label:` |
+| `next:` on a choice | add to `branches` object on the node |
+| `title:` on an outcome | `heading:` |
+| `consequence:` on an outcome | part of `result:` |
+| `situation:` on a persona | `premise:` |
+| `name:` on a persona | `character:` |
+| `controls_summary: [...]` | omit — not used by engine |
+
+---
+
+## Available scene keys
+
+These are the scene keys currently defined in `App.jsx`. Use only these values for `scene:` in nodes.
+
+```
+desk-casual       desk-typing       desk-colleague    desk-intranet
+desk-focused      office-meeting    office-busted     office-bright
+boardroom         analyst-desk
+```
+
+If a scenario uses a key not in this list, Layer 0 of qa-audit.js will flag it as a P1 issue.
+To add a new scene: add the key + SVG component to the `scenes` object inside `SceneSVG` in `App.jsx`.
+
+---
+
+## Adding a new scenario — exact steps
+
+1. Create `src/scenarios/<id>.js` — copy `f2-shadow-ai.js` as template, replace all content
+2. Run `node scripts/qa-audit.js <id>` — fix all P1 issues before doing anything else
+3. Add import to `src/scenarios/index.js` and replace the stub entry
+4. If new scene keys are needed, add SVG components to `App.jsx`
+5. Complete browser checklist in `QA_REVIEW.md`
 
 ---
 
@@ -153,17 +262,11 @@ This is why `App` and `ScenarioPlayer` are separate components.
 
 **What happens:** Wrong illustration shown — the fallback `desk-casual` scene renders instead of the intended one.
 
-**Why:** The `scenes` object in `SceneSVG` must contain every key used in any scenario file. If a new scenario uses a scene key not yet defined, it silently falls back.
-
-**The fix:** The Layer 4 audit now checks this. Always run `qa-audit.js` after adding new scene keys.
+**The fix:** The Layer 0 audit now checks this. Always run `qa-audit.js` after authoring a new scenario.
 
 ### 5. Duplicate QA_REVIEW content from failed fix attempts
 
-**What happens:** QA_REVIEW.md accumulates duplicate issue entries from iterative fix attempts.
-
 **The pattern:** When a fix attempt fails, update the existing issue entry rather than adding a new one. Mark attempts clearly: "Fix attempt 1 — failed, reason: X. Fix attempt 2 — succeeded."
-
----
 
 ### 6. All state fields must be explicitly initialised (RT-003)
 
@@ -173,19 +276,14 @@ This is why `App` and `ScenarioPlayer` are separate components.
 
 **Engine contract:** Every reducer case that reads `nextNodeId` must guard: `if (!nextNodeId) return state` before `.startsWith()`.
 
----
-
 ### 7. useEffect dependency arrays must not cause double-firing (RT-004)
 
 **What happens:** Feedback text is generated twice, or a timer fires twice, causing race conditions or duplicate dispatches.
 
-**Why it happens:** Two state fields that change together in the same action (e.g. `state.state` and `state.feedbackLoading` both change when `SELECT_CHOICE` fires) both appear in a useEffect dependency array. React runs the effect once per render where any dependency changed — if both change in the same render, the effect fires, but if they then change again in quick succession it can fire again.
-
-**The rule:** Each useEffect dependency array should contain the minimum set that causes exactly one fire per intended trigger. For the feedback effect, `[state.feedbackLoading]` is sufficient — it becomes `true` once per choice, which is exactly when we want to generate feedback.
+**The rule:** Each useEffect dependency array should contain the minimum set that causes exactly one fire per intended trigger. For the feedback effect, `[state.feedbackLoading]` is sufficient — it becomes `true` once per choice.
 
 **Check:** Before finalising any useEffect, ask — "could two items in this dependency array change in the same action?" If yes, reduce to just the one that is the actual trigger.
 
----
 ### 8. kb_url must use the exact Docusaurus path pattern (RT-005)
 
 **What happens:** 404 Page Not Found when clicking Knowledge Base link from the outcome screen.
@@ -205,15 +303,6 @@ https://b-gowland.github.io/ai-risk-kb/docs/<domain-slug>/<entry-id>
 | E1–E3 | `domain-e-fairness` |
 | F1–F3 | `domain-f-deployment` |
 | G1–G4 | `domain-g-systemic` |
-
-**Entry ID pattern:** lowercase risk ref + hyphenated name, e.g. `f2-shadow-ai`, `c4-deepfakes-synthetic-media`, `a1-hallucination`.
-
-**Common mistakes:**
-- Missing `/docs/` prefix → 404
-- Using the full domain name (`domain-f-hci-deployment`) instead of the slug (`domain-f-deployment`) → 404
-- Using the old title instead of the MDX filename → 404
-
-**The check:** Layer 1 of `qa-audit.js` validates the domain slug. Always open the URL in a browser before pushing — the audit checks format but cannot confirm the page actually exists.
 
 ---
 
