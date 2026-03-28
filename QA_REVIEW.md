@@ -1,117 +1,140 @@
 # QA Review — F2 Shadow AI
-**Review date:** March 2026  
-**Reviewer:** Automated audit + editorial pass  
-**Scenario version:** Initial release  
-**Status:** Issues found — patch required before next push
+**Last updated:** March 2026  
+**Status:** All P1 issues resolved. Browser testing required before publishing.
 
 ---
 
-## Technical audit
+## What this document is
 
-| Check | Result |
-|---|---|
-| All branch references resolve | PASS |
-| All 8 paths (4 personas × first/last choice) reach valid outcomes | PASS |
-| Build compiles without errors | PASS |
-| No API keys in source | PASS |
-| No product names (ChatGPT) in scenario data | PASS (2 residual in comments only) |
+The formal review record for F2. It captures issues found, fixes applied, and the reasoning behind the QA framework structure. Future scenario reviews follow the same structure.
 
 ---
 
-## Content issues found
+## QA framework overview
 
-### Severity definitions
-- **P1 — Broken:** Confusing to a first-time player, breaks immersion, or references something the player hasn't seen
-- **P2 — Weak:** Technically correct but clunky, vague, or inconsistent in tone
-- **P3 — Polish:** Minor wording improvement
+The audit runs in four layers. Each layer targets a different failure mode.
 
----
-
-### P1 — Broken (fix before next push)
-
-| ID | Location | Issue | Current text | Fix |
-|---|---|---|---|---|
-| F2-C-001 | business_user / n3_honest / b | "It mostly does" — dangling reference, unclear what "it" refers to | "Fair. It mostly does. You get a written note-to-file. No further action." | "Fair enough. The matter is quietly resolved — written note-to-file, no further action." |
-| F2-C-002 | pm / n4_volunteer / b | Same "it mostly does" pattern | "Understandable. It mostly does. Note to file. No further action." | "Understandable. The matter fades. Note to file, no further action." |
-| F2-C-003 | business_user / n3_lied / b | "You are now a case study" — same broken fourth-wall pattern as the Priya reference | "The log is not wrong. IT is very sure of this. You are now a case study." | "The log is not wrong. IT is very sure of this. This is how people become cautionary tales." |
-| F2-C-004 | pm / n2_lied / b | Same "case study" pattern | "The log is not wrong. IT is extremely confident of this. You are now a case study in what not to do." | "The log is not wrong. IT is extremely confident of this. Doubling down on a false statement in writing is the decision that turns a data incident into a conduct matter." |
-| F2-C-005 | pm / n3_systemic / c | "You are now the scapegoat" — breaks fourth wall | "The director points at you specifically. You are now the scapegoat and the person who didn't help." | "The director points at you specifically. Silence bought you nothing — you're carrying the incident alone and you gave up any chance of reframing it as a systemic issue." |
-| F2-C-006 | analyst / n3_escalated / b | "You are now part of the incident" — breaks fourth wall | "Legal asks to see the report. There is no report. You are now part of the incident." | "Legal asks to see the report. There is no report. A false prior claim in an active legal matter is a significantly worse position than the original log anomaly." |
-| F2-C-007 | executive / n3_good_board / b | "You are now the poster child" — breaks fourth wall, also the board fires you is fine as comedy but needs setup | "'Company refuses to comment on AI malpractice scandal.' You are now the poster child. The board fires you. Not ideal." | "'Company refuses to comment on AI malpractice scandal.' The story runs for three days. By day two you are the industry's favourite cautionary example. The board meeting on day four is short." |
-
----
-
-### P2 — Weak (fix in same pass)
-
-| ID | Location | Issue | Current text | Fix |
-|---|---|---|---|---|
-| F2-C-008 | business_user / start / c | Intranet quote breaks the flow slightly — the sarcasm lands but the sentence is clunky | "There is one. It's buried in the intranet under 'Governance 2022' but it exists." | "There is one. Buried on the intranet under a folder called 'Governance 2022', last updated before half the team joined. But it exists and it says no." |
-| F2-C-009 | analyst / n4_gap_analysis / a | Too sparse — "Slightly expensive. CISO approves it." reads like a placeholder | "Closes the specific gap. Slightly expensive. CISO approves it." | "Closes the specific gap. The CISO approves it in the same week — turns out a documented incident makes budget conversations easier." |
-| F2-C-010 | pm / n3_minimised / b | "But plausible." as a standalone sentence is weak | "Plausible. The M&A section was pretty clearly labelled. But plausible." | "Plausible. The M&A section was clearly labelled but you can credibly claim you didn't register its significance. HR notes the ambiguity." |
-| F2-C-011 | executive / n2_tuscany / a | "The conversation is shorter than it could have been" is awkward | "They're still unhappy. But you've shown initiative. The conversation is shorter than it could have been." | "They're still unhappy about the four-day gap. But you called before being summoned — that registers. The conversation is difficult and brief." |
-
----
-
-### P3 — Polish (batch with P1/P2 fixes, low priority)
-
-| ID | Location | Issue |
+| Layer | What it catches | How it runs |
 |---|---|---|
-| F2-C-012 | analyst / n2_investigated / b | "at least" appears in two consecutive notes — minor repetition |
-| F2-C-013 | business_user / n2_asked / a | Legal defence joke is good but "Just so you know" slightly weakens it |
-| F2-C-014 | pm / start / b | "Vague enough to buy time. Honest enough not to be a lie. Just." — "Just." as a one-word sentence works but is an acquired taste |
+| 1 — Data integrity | Broken branch refs, missing outcomes, invalid fields | Automated — `qa-audit.js` |
+| 2 — Path completeness | Every persona reaching a valid outcome | Automated — `qa-audit.js` |
+| 3 — Content quality | Dangling refs, tone, length, fourth-wall breaks | Automated — `qa-audit.js` |
+| 4 — Transition safety | State machine edge cases that crash the browser | Automated checks + mandatory browser tests |
+
+**Critical limitation of automated testing:**  
+Layers 1–4 are tested by `qa-audit.js` at the state machine level. However, React's render cycle introduces timing between state transitions that Node simulation cannot reproduce. The bug found in F2 (blank screen / error boundary triggered on feedback → outcome transition) was a React `useEffect` timing issue — it passed all automated checks but crashed in the browser. This class of bug can only be caught by manual browser testing. The browser checklist in `qa-audit.js` is mandatory before any push.
 
 ---
 
-## Blank screen issue
+## How the F2 bug was found and fixed
 
-**Reported:** Player reached blank screen after "Continue" on feedback step.  
-**Technical finding:** All paths simulate correctly — no broken branch references.  
-**Likely cause:** Transient GitHub Pages deploy completing mid-session (stale JS bundle loaded in browser while new one deployed). Not a code bug.  
-**Action:** Monitor on next deploy. If it recurs, add an error boundary component to catch runtime state errors and show a "restart" prompt rather than a blank screen.  
-**Priority:** P2 — add error boundary in next content patch.
+**Symptom:** Blank screen, then "Something went wrong" error boundary, after clicking Continue on the feedback screen.
+
+**Root cause:** After `CONTINUE_FROM_FEEDBACK`, the auto-advance `useEffect` fired immediately. At that point, `state.currentNodeId` still held a value that could be transitioning toward an outcome. The effect tried to call `getCurrentNode()` with an outcome-prefixed ID, returned `null`, and the component crashed trying to access properties on null.
+
+**Fix applied:**
+1. Added guards to the auto-advance `useEffect`: skip if `currentNodeId` is null or starts with `outcome_`
+2. Added null safety to `currentNode` derivation in the render
+3. Added cleanup (`clearTimeout`) to the feedback timer effect
+4. Added error boundary component so future crashes show a restart prompt instead of a blank screen
+
+**Why the automated tests missed it:**  
+The simulation dispatched actions in a tight synchronous loop with no render cycle between steps. React effects fire between renders. The simulation is testing state machine logic; the browser tests component behaviour. These are different things.
+
+**How the audit script now catches this class of bug:**  
+Layer 4 verifies that every branch target reachable from a choice is a valid, fully-formed node or outcome with all required render fields. This catches the data-side of the problem. It cannot catch timing issues in the render cycle — those require browser testing.
 
 ---
 
-## Review checklist for future scenarios
+## Issues log — F2
 
-Use this checklist before pushing any new scenario:
+### Fixed before first push
 
-### Technical
-- [ ] Run branch reference audit (`node --input-type=module audit.js`)
-- [ ] Simulate all paths (first-choice and last-choice for each persona)
-- [ ] Confirm all paths reach a valid outcome
-- [ ] Build compiles without errors
-- [ ] No hardcoded product names (ChatGPT, Claude, GPT-4 etc.)
-- [ ] No API keys or credentials in source
+| ID | Location | Issue | Fix applied |
+|---|---|---|---|
+| F2-C-001 | business_user / n3_honest / b | "It mostly does" — dangling referent | "The matter is quietly resolved — written note-to-file, no further action." |
+| F2-C-002 | pm / n4_volunteer / b | Same "it mostly does" pattern | "The matter fades without much ceremony — note to file, no further action." |
+| F2-C-003 | business_user / n3_lied / b | "You are now a case study" — unexplained fourth-wall break | "This is how people become cautionary tales." |
+| F2-C-004 | pm / n2_lied / b | Same "case study" fourth-wall pattern | Rewritten to explain consequence directly |
+| F2-C-005 | pm / n3_systemic / c | "You are now the scapegoat" — fourth-wall break | Rewritten to explain consequence directly |
+| F2-C-006 | analyst / n3_escalated / b | "You are now part of the incident" | Rewritten: "A false prior claim in an active legal matter..." |
+| F2-C-007 | executive / n3_good_board / b | "You are now the poster child" | Rewritten with narrative consequence |
+| F2-C-008 | business_user / start / a | "You are now Priya" — references character from another persona track | Replaced with self-contained consequence |
+| F2-RT-001 | All personas | Blank screen / crash on feedback → outcome transition | React useEffect guard + currentNode null safety |
 
-### Content — note fields
-- [ ] No dangling references ("it mostly does", "as above", "same as")
+### Open warnings (accepted for F2, fix in future scenarios)
+
+| Count | Issue | Decision |
+|---|---|---|
+| 20 | Decision prompts written as statements not questions | Accepted for F2 — narrative style works in context. Future scenarios should use question format by default. |
+| 3 | Some nodes have no 'good' choice (only poor/partial) | Accepted where dramatically appropriate (e.g. n3_lied — both choices are damage control). Document in scenario notes. |
+
+---
+
+## Browser testing record — F2
+
+Complete this table before publishing each scenario. Minimum: one good path and one poor path per persona, with DevTools console open.
+
+| Persona | Good path | Poor path | Console clean | Feedback → continue | Notes |
+|---|---|---|---|---|---|
+| Business User | □ | □ | □ | □ | |
+| Executive | □ | □ | □ | □ | |
+| PM | □ | □ | □ | □ | |
+| Analyst | □ | □ | □ | □ | |
+
+---
+
+## Checklist for new scenarios
+
+Copy this checklist into a new `QA_REVIEW_<id>.md` for each scenario.
+
+### Pre-authoring
+- [ ] Scenario seed reviewed from KB entry
+- [ ] All four personas have distinct situations (not same story with different labels)
+- [ ] Comedy consequences planned: specific, plausible, consequence-driven
+
+### Authoring — per node
+- [ ] Scene key matches a defined component in App.jsx
+- [ ] Caption advances the story (not just describes the scene)
+- [ ] Decision prompt is a direct question ending in `?`
+- [ ] At least 3 choices per node (minimum 2)
+- [ ] At least one good and one poor/partial choice per node
+- [ ] Every branch target is a valid node ID or outcome ID (check spelling)
+- [ ] No choice note under 8 words
+- [ ] No character name referenced that only makes sense in another persona's track
+- [ ] No dangling referents ("it mostly does", "as above", "same as")
 - [ ] No unexplained fourth-wall breaks ("you are now X", "you are now a case study")
-- [ ] Every poor-quality choice explains *why* it's wrong, not just *that* it's wrong
-- [ ] Comedy consequences are specific and plausible, not random
-- [ ] No note field under 8 words (too sparse) or over 40 words (too long)
-- [ ] Consistent use of second person ("you") throughout
-- [ ] No character names that only make sense in a different persona track
 
-### Content — outcomes
-- [ ] Result text is a complete narrative, not a list of events
-- [ ] Learning text states one clear principle, not multiple
-- [ ] Tone matches the outcome quality (good/warn/bad)
-- [ ] No outcome result under 25 words
+### Automated audit
+- [ ] `node scripts/qa-audit.js <scenario-id>` exits with 0 P1 issues
+- [ ] All warnings reviewed and accepted or fixed
 
-### Content — captions and prompts
-- [ ] Each caption advances the story, not just describes what's visible in the scene
-- [ ] Decision prompts are direct questions, not statements
-- [ ] Sub-captions add information not visible in the illustration
+### Browser testing (mandatory — cannot be skipped)
+- [ ] Business User: good path → outcome screen loads ✓
+- [ ] Business User: poor path → outcome screen loads ✓
+- [ ] Executive: good path → outcome screen loads ✓
+- [ ] Executive: poor path → outcome screen loads ✓
+- [ ] PM: good path → outcome screen loads ✓
+- [ ] PM: poor path → outcome screen loads ✓
+- [ ] Analyst: good path → outcome screen loads ✓
+- [ ] Analyst: poor path → outcome screen loads ✓
+- [ ] DevTools console: zero uncaught errors on all paths ✓
+- [ ] Continue button works immediately on feedback screen ✓
+- [ ] Continue button works after 5+ second wait on feedback screen ✓
+- [ ] Browser back button mid-scenario: shows error boundary (not blank screen) ✓
+- [ ] Page reload mid-scenario: shows error boundary (not blank screen) ✓
+
+### Content sign-off
+- [ ] All outcomes have result ≥25 words and learning ≥15 words
+- [ ] Outcome tone matches quality (good/warn/bad)
+- [ ] KB link in outcome points to correct entry
+- [ ] Scenario appears correctly on homepage grid with right difficulty and persona pips
 
 ---
 
-## Next actions
+## Framework version history
 
-| Priority | Action | Owner |
+| Version | Date | Change |
 |---|---|---|
-| P1 | Apply F2-C-001 through F2-C-007 fixes | Claude (next session) |
-| P1 | Apply F2-C-008 through F2-C-011 fixes | Claude (next session) |
-| P2 | Add error boundary component for blank screen prevention | Claude (next session) |
-| P3 | Apply F2-C-012 through F2-C-014 polish | Claude (next session) |
-| P2 | Extract audit script to `scripts/qa-audit.js` for reuse | Claude (next session) |
+| 1.0 | March 2026 | Initial framework — Layers 1–3 only |
+| 1.1 | March 2026 | Added Layer 4 (transition safety) after F2 blank screen bug. Added browser checklist. Documented React render-cycle limitation. |

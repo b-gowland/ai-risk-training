@@ -559,27 +559,34 @@ export default function App() {
   // Auto-advance nodes with no decision
   useEffect(() => {
     if (state.state !== STATES.NODE) return;
+    if (!state.currentNodeId || state.currentNodeId.startsWith('outcome_')) return;
     const node = getCurrentNode(scenario, state.persona, state.currentNodeId);
     if (!node || node.decision) return;
+    if (!node.branches.auto) return;
     dispatch({ type: 'AUTO_ADVANCE', payload: { nextNodeId: node.branches.auto } });
   }, [state.state, state.currentNodeId, state.persona, scenario]);
 
   // Generate feedback from scenario data (no API call required)
   useEffect(() => {
     if (state.state !== STATES.FEEDBACK || !state.feedbackLoading) return;
+    if (!state.selectedChoice) return;
+    // Find the choice in the node that triggered this feedback
     const lastEntry = state.history.at(-1);
     if (!lastEntry) return;
     const node = getCurrentNode(scenario, state.persona, lastEntry.nodeId);
     if (!node?.decision) return;
-    const choice = node.decision.choices.find(c => c.id === state.selectedChoice?.id);
+    const choice = node.decision.choices.find(c => c.id === state.selectedChoice.id);
     if (!choice) return;
     const personaData = scenario.personas[state.persona];
+    if (!personaData) return;
     const text = getLocalFeedback(choice, state.persona, personaData);
-    // Small delay so the UI transition feels intentional rather than instant
-    setTimeout(() => dispatch({ type: 'FEEDBACK_LOADED', payload: text }), 600);
+    const timer = setTimeout(() => dispatch({ type: 'FEEDBACK_LOADED', payload: text }), 600);
+    return () => clearTimeout(timer);
   }, [state.state, state.feedbackLoading, scenario]);
 
-  const currentNode    = state.persona ? getCurrentNode(scenario, state.persona, state.currentNodeId) : null;
+  const currentNode    = (state.persona && state.currentNodeId && !state.currentNodeId.startsWith('outcome_'))
+    ? getCurrentNode(scenario, state.persona, state.currentNodeId)
+    : null;
   const currentOutcome = state.outcomeId ? getOutcome(scenario, state.persona, state.outcomeId) : null;
 
   return (
