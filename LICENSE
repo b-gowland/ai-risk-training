@@ -1,0 +1,49 @@
+AI Risk Training
+Copyright 2026 Ben Gowland
+
+CODE LICENCE — Apache License 2.0
+The source code in this repository (React components, build configuration,
+automation scripts) is licensed under the Apache License, Version 2.0.
+
+You may obtain a copy of the Apache License at:
+http://www.apache.org/licenses/LICENSE-2.0
+
+CONTENT LICENCE — Creative Commons Attribution 4.0 International (CC BY 4.0)
+The scenario content, knowledge base entries, risk descriptions, and
+educational materials in this repository are licensed under CC BY 4.0.
+https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt this content for any purpose, including
+commercial use, provided you give appropriate credit:
+"AI Risk Training by Ben Gowland (github.com/b-gowland/ai-risk-training)"
+
+ATTRIBUTION
+This project draws on the following sources:
+
+- MIT AI Risk Repository (CC BY 4.0)
+  Slattery et al., 2024. airisk.mit.edu
+  
+- NIST AI Risk Management Framework 1.0 and AI 600-1
+  National Institute of Standards and Technology (public domain)
+  nist.gov/artificial-intelligence
+
+- OWASP LLM Top 10 (CC BY-SA 4.0)
+  owasp.org/www-project-top-10-for-large-language-model-applications
+
+- EU AI Act (Regulation 2024/1689)
+  European Parliament and Council (public domain)
+
+- MITRE ATLAS (CC BY 4.0)
+  atlas.mitre.org
+
+Incident examples are drawn from publicly documented real-world events
+and are cited with approximate dates. Scenario characters and organisations
+are entirely fictional. Any resemblance to real persons or companies
+is coincidental.
+
+DISCLAIMER
+This material is provided for educational purposes only. It does not
+constitute legal, compliance, or professional advice. Risk ratings and
+controls described are illustrative starting points, not prescribed
+requirements. Organisations should conduct their own risk assessments
+appropriate to their specific context and applicable regulations.

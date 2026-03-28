@@ -1,0 +1,121 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  animation: panelIn 0.4s ease-out;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pips {
+  display: flex;
+  gap: 6px;
+  padding: 0 0 12px;
+  justify-content: center;
+}
+
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-border);
+  transition: background 0.3s, transform 0.2s;
+}
+.pipActive {
+  background: var(--c-ink);
+  transform: scale(1.3);
+}
+.pipDone {
+  background: var(--c-ink);
+  opacity: 0.4;
+}
+
+.scene {
+  border: 3px solid var(--c-ink);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--panel-bg);
+  position: relative;
+}
+
+.captionBar {
+  background: var(--c-ink);
+  padding: 12px 20px 14px;
+}
+
+.caption {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--c-bg);
+  font-family: var(--font-serif);
+}
+
+.subCaption {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--c-bg);
+  opacity: 0.7;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.narration {
+  margin-top: 16px;
+  padding: 16px 20px;
+  border: 1.5px solid var(--c-border);
+  border-radius: 8px;
+  background: var(--c-surface);
+}
+
+.narrationPill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-accent);
+  border: 1px solid var(--c-accent);
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-bottom: 10px;
+}
+
+.narrationText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--c-text-secondary);
+  font-style: italic;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+}
+
+.nextBtn {
+  background: var(--c-ink);
+  color: var(--c-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.nextBtn:hover {
+  opacity: 0.85;
+  transform: translateX(2px);
+}

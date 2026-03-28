@@ -1,0 +1,122 @@
+.wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.contextBox {
+  border-left: 3px solid var(--c-ink);
+  padding: 14px 20px;
+  margin-bottom: 32px;
+  background: var(--c-surface);
+  border-radius: 0 8px 8px 0;
+}
+
+.contextLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-text-secondary);
+  margin-bottom: 8px;
+}
+
+.contextText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--c-ink);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.prompt {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 18px 20px;
+  border: 2px solid var(--c-border);
+  border-radius: 8px;
+  background: var(--c-surface);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+  font-family: var(--font-sans);
+  width: 100%;
+}
+
+.choiceHovered {
+  border-color: var(--c-ink);
+  transform: translateX(4px);
+}
+
+.choiceLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--c-ink);
+  margin-bottom: 6px;
+}
+
+.choiceDesc {
+  font-size: 13px;
+  color: var(--c-text-secondary);
+  line-height: 1.5;
+}
+
+.personaHint {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--c-text-secondary);
+  line-height: 1.5;
+  font-style: italic;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  animation: hintIn 0.2s ease-out;
+}
+
+@keyframes hintIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hintIcon {
+  flex-shrink: 0;
+  color: var(--c-accent);
+  font-style: normal;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--c-text-secondary);
+  text-align: center;
+  opacity: 0.6;
+  margin: 0;
+}
