@@ -473,7 +473,7 @@ function Feedback({ choice, feedbackText, loading, onContinue }) {
 // ── Outcome ──────────────────────────────────────────────────────
 const TONE_CLASS = { good: styles.outcomeGood, warn: styles.outcomeWarn, bad: styles.outcomeBad };
 
-function OutcomeScreen({ outcome, persona, onRestart }) {
+function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
   const personaData = scenario.personas[persona];
   const toneClass = TONE_CLASS[outcome.tone] || TONE_CLASS.warn;
 
@@ -530,21 +530,22 @@ function OutcomeScreen({ outcome, persona, onRestart }) {
 function ScenarioPlayer({ scenario }) {
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
 
-  // Auto-advance nodes with no decision
+  // Auto-advance nodes with no decision (e.g. n3_manager_saved_it)
   useEffect(() => {
     if (state.state !== STATES.NODE) return;
-    if (!state.currentNodeId || state.currentNodeId.startsWith('outcome_')) return;
     const node = getCurrentNode(scenario, state.persona, state.currentNodeId);
     if (!node || node.decision) return;
-    if (!node.branches.auto) return;
-    dispatch({ type: 'AUTO_ADVANCE', payload: { nextNodeId: node.branches.auto } });
+    const nextId = node.branches.auto;
+    if (!nextId) return;
+    dispatch({ type: 'AUTO_ADVANCE', payload: { nextNodeId: nextId } });
   }, [state.state, state.currentNodeId, state.persona, scenario]);
 
-  // Generate feedback from scenario data (no API call required)
+  // Generate feedback — fires once when feedbackLoading becomes true
+  // Depends only on feedbackLoading (not state.state) to avoid double-firing
   useEffect(() => {
-    if (state.state !== STATES.FEEDBACK || !state.feedbackLoading) return;
+    if (!state.feedbackLoading) return;
     if (!state.selectedChoice) return;
-    const lastEntry = state.history.at(-1);
+    const lastEntry = state.history[state.history.length - 1];
     if (!lastEntry) return;
     const node = getCurrentNode(scenario, state.persona, lastEntry.nodeId);
     if (!node?.decision) return;
@@ -555,14 +556,10 @@ function ScenarioPlayer({ scenario }) {
     const text = getLocalFeedback(choice, state.persona, personaData);
     const timer = setTimeout(() => dispatch({ type: 'FEEDBACK_LOADED', payload: text }), 600);
     return () => clearTimeout(timer);
-  }, [state.state, state.feedbackLoading, scenario]);
+  }, [state.feedbackLoading]);
 
-  const currentNode = (state.persona && state.currentNodeId && !state.currentNodeId.startsWith('outcome_'))
-    ? getCurrentNode(scenario, state.persona, state.currentNodeId)
-    : null;
-  const currentOutcome = state.outcomeId
-    ? getOutcome(scenario, state.persona, state.outcomeId)
-    : null;
+  const currentNode = getCurrentNode(scenario, state.persona, state.currentNodeId);
+  const currentOutcome = getOutcome(scenario, state.persona, state.outcomeId);
 
   return (
     <div className={styles.app}>

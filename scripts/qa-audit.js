@@ -143,6 +143,34 @@ if ([...usedScenes].every(k => definedScenes.has(k))) {
   pass(`All ${usedScenes.size} scene keys are defined in App.jsx`);
 }
 
+// Check 4: No component uses scenario as a free variable (must be in props)
+const fnRegex = /function (\w+)\(\{([^}]*)\}[^)]*\)/g;
+let fnMatch2;
+let freeVarIssues = 0;
+const srcLines = appSrc.split('\n');
+
+while ((fnMatch2 = fnRegex.exec(appSrc)) !== null) {
+  const fnName2 = fnMatch2[1];
+  const propsStr = fnMatch2[2];
+  const hasScenarioProp = /\bscenario\b/.test(propsStr);
+  if (hasScenarioProp) continue;
+
+  // Get function body
+  const bodyStart = fnMatch2.index + fnMatch2[0].length;
+  let depth2 = 0, j = bodyStart;
+  while (j < appSrc.length) {
+    if (appSrc[j] === '{') depth2++;
+    else if (appSrc[j] === '}') { if (--depth2 <= 0) break; }
+    j++;
+  }
+  const body2 = appSrc.slice(bodyStart, j);
+  if (/\bscenario\./.test(body2)) {
+    p1(`Component "${fnName2}" uses scenario.X but scenario is not in its props`);
+    freeVarIssues++;
+  }
+}
+if (freeVarIssues === 0) pass('No free-variable scenario references found in components');
+
 pass('Static analysis complete');
 
 
