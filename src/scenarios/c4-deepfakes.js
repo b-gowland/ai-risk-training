@@ -9,7 +9,7 @@ export const scenario = {
   subtitle: 'Deepfakes & Synthetic Media Fraud',
   domain: 'C — Security & Adversarial',
   difficulty: 'Foundational',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c4-deepfakes-synthetic-media',
+  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c4-deepfakes',
   estimated_minutes: 10,
   has_business_user: true,
 
@@ -54,7 +54,7 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
-          scene: 'desk-casual',
+          scene: 'video-call',
           caption: 'The call looked real. The account details are on the screen. End of business is in two hours.',
           sub_caption: 'Dana said: keep it confidential until the announcement.',
           decision: {
@@ -72,7 +72,7 @@ export const scenario = {
         },
 
         n2_verified: {
-          scene: 'office-bright',
+          scene: 'phone-verify',
           caption: 'Dana answers immediately. She has no idea what you\'re talking about. She was in meetings all afternoon.',
           sub_caption: 'You just stopped a $180,000 fraud. She asks you to report it to IT security right now.',
           decision: {
@@ -106,7 +106,7 @@ export const scenario = {
         },
 
         n2_transferred: {
-          scene: 'desk-typing',
+          scene: 'payment-screen',
           caption: 'The transfer goes through. Dana posts in the team channel two hours later asking if anyone has seen unusual activity.',
           sub_caption: 'She was never on that call. Your name is on the payment.',
           decision: {
@@ -122,7 +122,7 @@ export const scenario = {
         },
 
         n3_late_verify: {
-          scene: 'office-bright',
+          scene: 'phone-verify',
           caption: 'Dana answers. The fraud was stopped. But the ninety-minute delay gave the attacker more time to try others.',
           sub_caption: 'Security later confirms a second attempt was made on a colleague the same evening.',
           decision: null,
@@ -380,7 +380,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene: 'analyst-desk',
+          scene: 'security-alert',
           caption: 'Three anomalies: foreign IP, wrong codec, audio artefacts consistent with AI synthesis.',
           sub_caption: 'You\'re reasonably confident this was a deepfake. Not 100%. Deepfake detection is probabilistic.',
           decision: {
@@ -479,4 +479,10 @@ export const scenario = {
     }, // end analyst
 
   },
+  controls_summary: [
+    { id: 'c1', label: 'Out-of-band verification for high-value transactions', effort: 'Low', owner: 'Finance / Operations', go_live: true },
+    { id: 'c2', label: 'Code word / challenge-response protocol', effort: 'Low', owner: 'Finance / Executive', go_live: false },
+    { id: 'c3', label: 'Staff awareness training on deepfakes', effort: 'Low', owner: 'HR / Security', go_live: false },
+    { id: 'c4', label: 'Deepfake detection tooling on video platforms', effort: 'High', owner: 'IT Security', go_live: false },
+  ],
 };

@@ -8,7 +8,7 @@ export const scenario = {
   subtitle: 'Hallucination & Confabulation',
   domain: 'A — Technical',
   difficulty: 'Foundational',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a1-hallucination-confabulation',
+  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a1-hallucination',
   estimated_minutes: 10,
   has_business_user: true,
 
@@ -53,7 +53,7 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
-          scene: 'desk-casual',
+          scene: 'document-error',
           caption: 'The client is on the phone. The regulation they\'re asking about appears to be completely fabricated by the AI.',
           sub_caption: 'Two other citations are in the document. You haven\'t checked them yet.',
           decision: {
@@ -87,7 +87,7 @@ export const scenario = {
         },
 
         n2_audit_first: {
-          scene: 'desk-typing',
+          scene: 'document-error',
           caption: 'You audit the document. Two of three citations are fabricated.',
           sub_caption: 'The client has now sent a follow-up email, copying their compliance director. Their tone has shifted.',
           decision: {
@@ -155,7 +155,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene: 'boardroom',
+          scene: 'document-error',
           caption: 'A client briefing went out with fabricated regulatory citations. The client has shared it with their board.',
           sub_caption: 'The AI writing tool was deployed last month. No verification step was ever required.',
           decision: {
@@ -354,7 +354,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene: 'analyst-desk',
+          scene: 'document-error',
           caption: 'The Managing Partner wants to know: is the fabricated citation isolated, or is there more?',
           sub_caption: 'The AI tool has been in use for three weeks. Multiple client-facing documents have gone out.',
           decision: {
@@ -446,4 +446,10 @@ export const scenario = {
     }, // end analyst
 
   },
+  controls_summary: [
+    { id: 'c1', label: 'Output verification requirement for high-stakes content', effort: 'Low', owner: 'Risk', go_live: true },
+    { id: 'c2', label: 'Retrieval-Augmented Generation (RAG) implementation', effort: 'High', owner: 'Technology', go_live: true },
+    { id: 'c3', label: 'Staff training on LLM hallucination risk', effort: 'Low', owner: 'HR', go_live: true },
+    { id: 'c4', label: 'Hallucination rate monitoring on evaluation set', effort: 'Medium', owner: 'Technology', go_live: false },
+  ],
 };

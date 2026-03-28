@@ -9,7 +9,7 @@ export const scenario = {
   subtitle: 'Algorithmic Bias & Discrimination',
   domain: 'E — Fairness & Social',
   difficulty: 'Intermediate',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e1-algorithmic-bias-discrimination',
+  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e1-algorithmic-bias',
   estimated_minutes: 12,
   has_business_user: true,
 
@@ -54,7 +54,7 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
-          scene: 'desk-casual',
+          scene: 'chart-declining',
           caption: 'Ten shortlists. The same narrow profile, repeated. Your colleague noticed it first. Now you\'re seeing it too.',
           sub_caption: 'You don\'t have access to demographic data — just an observable pattern in the outputs.',
           decision: {
@@ -156,7 +156,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene: 'boardroom',
+          scene: 'chart-declining',
           caption: 'The benchmarking correlation is clear. Shortlist diversity declined in the three months since the tool launched.',
           sub_caption: 'Board meeting in two weeks. Regulator not yet involved.',
           decision: {
@@ -369,7 +369,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene: 'analyst-desk',
+          scene: 'security-alert',
           caption: 'Statistically significant disparities in shortlist rates across gender and ethnicity — even after controlling for qualifications.',
           sub_caption: 'The tool has been live for six months. You are the first person who knows.',
           decision: {
@@ -468,4 +468,10 @@ export const scenario = {
     }, // end analyst
 
   },
+  controls_summary: [
+    { id: 'c1', label: 'Pre-deployment bias testing (disaggregated metrics)', effort: 'Medium', owner: 'Technology / Risk', go_live: true },
+    { id: 'c2', label: 'Fairness metrics definition and thresholds', effort: 'Low', owner: 'Risk / Legal', go_live: true },
+    { id: 'c3', label: 'Ongoing fairness monitoring in production', effort: 'Medium', owner: 'Technology', go_live: false },
+    { id: 'c4', label: 'Independent fairness audit (high-stakes AI)', effort: 'High', owner: 'Compliance', go_live: false },
+  ],
 };
