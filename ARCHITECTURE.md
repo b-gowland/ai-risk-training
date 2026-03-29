@@ -304,6 +304,26 @@ https://b-gowland.github.io/ai-risk-kb/docs/<domain-slug>/<entry-id>
 | F1–F3 | `domain-f-deployment` |
 | G1–G4 | `domain-g-systemic` |
 
+**Verified entry slugs — use exactly as shown, do not construct from titles:**
+
+| Risk ref | Entry slug | Risk ref | Entry slug |
+|---|---|---|---|
+| A1 | `a1-hallucination` | B1 | `b1-accountability` |
+| A2 | `a2-model-drift` | B2 | `b2-compliance` |
+| A3 | `a3-robustness` | B3 | `b3-lifecycle` |
+| A4 | `a4-explainability` | B4 | `b4-supply-chain` |
+| C1 | `c1-data-poisoning` | D1 | `d1-training-data-quality` |
+| C2 | `c2-prompt-injection` | D2 | `d2-privacy` |
+| C3 | `c3-model-theft` | D3 | `d3-intellectual-property` |
+| C4 | `c4-deepfakes` | E1 | `e1-algorithmic-bias` |
+| C5 | `c5-ai-cyber-attacks` | E2 | `e2-harmful-content` |
+| F1 | `f1-automation-bias` | E3 | `e3-misinformation` |
+| F2 | `f2-shadow-ai` | G1 | `g1-concentration-risk` |
+| F3 | `f3-scope-creep` | G2 | `g2-environmental-impact` |
+| G3 | `g3-workforce-displacement` | G4 | `g4-ai-safety` |
+
+These slugs were verified against the live KB in March 2026. If a new entry is added to the KB, confirm its slug by fetching the live page before using it in a scenario.
+
 ---
 
 ## File reference
