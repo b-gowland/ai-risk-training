@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global process */
 // ═══════════════════════════════════════════════════════════════════
 // QA Audit Script — ai-risk-training
 // Run before pushing any scenario: node scripts/qa-audit.js <scenario-id>
@@ -168,10 +169,10 @@ while ((fnMatch2 = fnRegex2.exec(appSrc)) !== null) {
     const inProps = new RegExp(`\\b${propName}\\b`).test(propsStr);
     if (inProps) continue;
     // Check if used as free variable in body (prop.something)
-    const usedAsFree = new RegExp(`\\b${propName}\\.`).test(body2);
+    const usedAsFree = new RegExp(`\\b${propName}[.]`).test(body2);
     // Check it's not a locally defined variable (const/let/var or map/forEach/filter callback param)
     const isLocalVar = new RegExp(`\\b(const|let|var)\\s+${propName}\\b`).test(body2);
-    const isCallbackParam = new RegExp(`\.(?:map|forEach|filter|find|reduce|some|every)\\s*\\(\\s*${propName}\\s*[=,)>]`).test(body2);
+    const isCallbackParam = new RegExp(`\.(?:map|forEach|filter|find|reduce|some|every)\\s*\\(\\s*${propName}\\s*[=,)>]`).test(body2); // eslint-disable-line no-useless-escape
     if (usedAsFree && !isLocalVar && !isCallbackParam) {
       p1(`Component "${fnName2}" uses "${propName}." as free variable — must be declared in props`);
       freeVarIssues++;
@@ -238,10 +239,6 @@ for (const [personaKey, tree] of Object.entries(scenario.trees)) {
 // Check: kb_url field format
 // Must use the correct KB URL pattern: /docs/<domain>/<entry-id>
 // Wrong patterns that have caused 404s: missing /docs/, wrong domain slug, wrong entry slug
-for (const [personaKey, tree] of Object.entries(scenario.trees)) {
-  // Only check the main scenario kb_url (not per-persona)
-  break;
-}
 if (scenario.kb_url) {
   const url = scenario.kb_url;
   const isValid = url.startsWith('https://b-gowland.github.io/ai-risk-kb/docs/') ||

@@ -285,9 +285,3 @@ export function SceneOfficeTyping() {
   );
 }
 
-export function getSceneComponent(panel) {
-  if (panel.id === 'p1') return SceneOfficeFocused;
-  if (panel.id === 'p2') return SceneOfficePdeciding;
-  if (panel.id === 'p3') return SceneOfficeTyping;
-  return SceneOfficeFocused;
-}

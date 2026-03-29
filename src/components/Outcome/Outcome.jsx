@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Outcome.module.css';
 
-export function Outcome({ outcome, scenario, persona, onRestart }) {
+export function Outcome({ outcome, scenario, onRestart }) {
   const controls = scenario.controls_summary || [];
 
   return (

@@ -1,9 +1,12 @@
 import React from 'react';
-import { getSceneComponent } from './PanelScenes.jsx';
+import { getSceneComponent } from './SceneRegistry.js';
 import styles from './Panel.module.css';
 
 export function Panel({ panel, persona, onNext, isLast, panelIndex, totalPanels }) {
-  const SceneComponent = getSceneComponent(panel);
+  // Call as a function rather than using as a JSX component to satisfy
+  // react-hooks/static-components — components created during render reset state each render.
+  // Since these scene SVGs are stateless, calling as a function is equivalent and correct.
+  const sceneElement = getSceneComponent(panel)();
   const narration = panel.narration?.[persona] || null;
 
   return (
@@ -17,7 +20,7 @@ export function Panel({ panel, persona, onNext, isLast, panelIndex, totalPanels 
 
       {/* Illustrated scene */}
       <div className={styles.scene}>
-        <SceneComponent/>
+        {sceneElement}
         {/* Caption bar */}
         <div className={styles.captionBar}>
           <p className={styles.caption}>{panel.caption}</p>

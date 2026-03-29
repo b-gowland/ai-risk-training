@@ -7,7 +7,7 @@ const QUALITY_CONFIG = {
   poor:    { icon: '◉', label: 'Missed the mark', color: 'poor' },
 };
 
-export function FeedbackModal({ choice, persona, scenario, feedbackText, loading, onContinue }) {
+export function FeedbackModal({ choice, feedbackText, loading, onContinue }) {
   const config = QUALITY_CONFIG[choice.quality] || QUALITY_CONFIG.poor;
   const ref = useRef(null);
 

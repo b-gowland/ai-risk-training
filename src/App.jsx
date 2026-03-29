@@ -21,7 +21,6 @@ import styles from './App.module.css';
 function getLocalFeedback(choice, personaKey, personaData) {
   const quality = choice.quality;
   const name = personaData.character;
-  const role = personaData.role;
 
   const openers = {
     good:    `Good call by ${name}. `,
@@ -91,7 +90,7 @@ function Premise({ scenario, persona, onStart }) {
 }
 
 // ── Scene SVG (simplified inline, expand per scene key later) ─────
-function ScenePanel({ node, persona }) {
+function ScenePanel({ node }) {
   const sceneKey = node.scene || 'desk-default';
   return (
     <div className={styles.scenePanel} data-scene={sceneKey}>
@@ -137,86 +136,98 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
 
 // ── Additional scene components for C4 / A1 / E1 ─────────────────
 
-// C4 — video call that looks real but isn't
+// C4 — video call that looks convincingly real
 function VideoCallScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      {/* Dark room, monitor glow */}
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
-      {/* Large monitor — video call */}
-      <rect x="120" y="60" width="320" height="200" rx="8" fill="#1a1916"/>
-      <rect x="128" y="68" width="304" height="184" rx="5" fill="#0d1117"/>
-      {/* Video call face — CFO silhouette, convincingly real */}
-      <rect x="132" y="72" width="296" height="176" rx="3" fill="#1a3a5c"/>
-      <circle cx="280" cy="140" r="34" fill="#2a5298"/>
-      <rect x="246" y="174" width="68" height="50" rx="20" fill="#2a5298"/>
-      {/* Name tag */}
-      <rect x="136" y="224" width="130" height="20" rx="3" fill="#1a1916" opacity=".8"/>
-      <text x="201" y="237" textAnchor="middle" fill="#faf9f7" fontSize="9" fontFamily="monospace">Dana Okafor — CFO</text>
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Video call from CFO — is it real?">
+      {/* Window background */}
+      <rect x={460} y={20} width={180} height={150} rx={4} fill="var(--panel-window)" opacity={0.3}/>
+      <line x1={550} y1={20} x2={550} y2={170} stroke="var(--panel-ink)" strokeWidth={1} opacity={0.2}/>
+      <line x1={460} y1={95} x2={640} y2={95} stroke="var(--panel-ink)" strokeWidth={1} opacity={0.2}/>
+      {/* Desk */}
+      <rect x={60} y={280} width={480} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
+      <rect x={60} y={292} width={480} height={50} fill="var(--panel-desk)" opacity={0.12}/>
+      {/* Monitor bezel */}
+      <rect x={120} y={80} width={280} height={190} rx={7} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      {/* Screen — video call */}
+      <rect x={128} y={88} width={264} height={174} rx={4} fill="var(--panel-screen)" opacity={0.5}/>
+      {/* Video face — CFO */}
+      <rect x={132} y={92} width={256} height={162} rx={3} fill="#1a3a5c"/>
+      <circle cx={260} cy={158} r={36} fill="#2a5298"/>
+      <rect x={224} y={194} width={72} height={44} rx={20} fill="#2a5298"/>
+      {/* Name badge */}
+      <rect x={136} y={228} width={140} height={22} rx={3} fill="var(--panel-ink)" opacity={0.85}/>
+      <text x={206} y={242} textAnchor="middle" fill="var(--panel-bg)" fontSize={9} fontFamily="var(--font-mono,monospace)">Dana Okafor — CFO</text>
       {/* LIVE badge */}
-      <rect x="258" y="76" width="34" height="14" rx="3" fill="#c0392b"/>
-      <text x="275" y="86" textAnchor="middle" fill="white" fontSize="8" fontFamily="monospace">LIVE</text>
-      {/* Subtle scan line — synthetic hint */}
-      <line x1="132" y1="148" x2="428" y2="148" stroke="#ffffff" strokeWidth=".4" opacity=".15"/>
-      <line x1="132" y1="112" x2="428" y2="112" stroke="#ffffff" strokeWidth=".4" opacity=".1"/>
+      <rect x={246} y={96} width={36} height={15} rx={3} fill="var(--panel-danger)"/>
+      <text x={264} y={107} textAnchor="middle" fill="white" fontSize={8} fontFamily="var(--font-mono,monospace)">LIVE</text>
+      {/* Subtle scan lines — synthetic hint */}
+      <line x1={132} y1={145} x2={388} y2={145} stroke="white" strokeWidth={0.4} opacity={0.12}/>
+      <line x1={132} y1={120} x2={388} y2={120} stroke="white" strokeWidth={0.4} opacity={0.08}/>
       {/* Monitor stand */}
-      <rect x="271" y="260" width="18" height="12" rx="2" fill="#c4a882" opacity=".4"/>
-      <rect x="254" y="270" width="52" height="6" rx="2" fill="#c4a882" opacity=".4"/>
-      {/* Person watching — concerned */}
-      <circle cx="560" cy="190" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <path d="M540 183 Q545 169 560 167 Q575 169 580 183" fill="#1a1916" opacity=".6"/>
-      <ellipse cx="554" cy="194" rx="4" ry="4.5" fill="#1a1916"/>
-      <ellipse cx="566" cy="194" rx="4" ry="4.5" fill="#1a1916"/>
-      <circle cx="556" cy="193" r="1.5" fill="white"/>
-      <circle cx="568" cy="193" r="1.5" fill="white"/>
-      {/* Raised eyebrow — uncertain */}
-      <path d="M549 182 Q554 179 559 181" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M562 180 Q567 177 572 180" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M552 202 Q560 198 568 202" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
-      <ellipse cx="560" cy="216" rx="26" ry="24" fill="#ddd8cc" stroke="#1a1916" strokeWidth="2"/>
-      {/* Account details on paper beside monitor */}
-      <rect x="455" y="200" width="90" height="60" rx="3" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.5" transform="rotate(2,500,230)"/>
-      <rect x="462" y="208" width="70" height="6" rx="1" fill="#1a1916" opacity=".15" transform="rotate(2,500,230)"/>
-      <rect x="462" y="218" width="60" height="6" rx="1" fill="#1a1916" opacity=".15" transform="rotate(2,500,230)"/>
-      <text x="500" y="246" textAnchor="middle" fontSize="7" fill="#c0392b" opacity=".8" fontWeight="600" transform="rotate(2,500,230)">$180,000</text>
+      <rect x={251} y={268} width={18} height={14} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      <rect x={234} y={280} width={52} height={6} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      {/* Person watching — uncertain */}
+      <ellipse cx={530} cy={266} rx={28} ry={26} fill="var(--panel-shirt)" stroke="var(--panel-ink)" strokeWidth={2}/>
+      <path d="M504 266 Q489 262 477 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <path d="M556 266 Q571 262 583 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <circle cx={530} cy={238} r={22} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <path d="M510 231 Q515 217 530 215 Q545 217 550 231" fill="var(--panel-ink)" opacity={0.6}/>
+      {/* Uncertain eyes — one brow raised */}
+      <path d="M519 225 Q523 221 527 224" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
+      <path d="M533 222 Q537 219 541 223" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
+      <ellipse cx={523} cy={229} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <ellipse cx={537} cy={229} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <circle cx={525} cy={228} r={1.5} fill="white"/>
+      <circle cx={539} cy={228} r={1.5} fill="white"/>
+      <path d="M524 238 Q530 241 536 238" fill="none" stroke="var(--panel-ink)" strokeWidth={1.2} strokeLinecap="round"/>
+      {/* Paper with account details */}
+      <rect x={390} y={248} width={80} height={54} rx={3} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={1.5} transform="rotate(3,430,275)"/>
+      <rect x={397} y={256} width={60} height={5} rx={1} fill="var(--panel-ink)" opacity={0.12} transform="rotate(3,430,275)"/>
+      <rect x={397} y={265} width={50} height={5} rx={1} fill="var(--panel-ink)" opacity={0.12} transform="rotate(3,430,275)"/>
+      <text x={430} y={286} textAnchor="middle" fontSize={8} fontWeight="600" fill="var(--panel-danger)" opacity={0.85} transform="rotate(3,430,275)">$180,000</text>
     </svg>
   );
 }
 
-// C4 — payment confirmation screen
+// C4 — payment screen with large amount
 function PaymentScreenScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
-      {/* Browser window */}
-      <rect x="100" y="40" width="480" height="240" rx="8" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
-      <rect x="100" y="40" width="480" height="36" rx="8" fill="#e8e0d5"/>
-      <rect x="100" y="64" width="480" height="12" fill="#e8e0d5"/>
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Payment confirmation screen showing $180,000 transfer">
+      {/* Desk */}
+      <rect x={60} y={280} width={480} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
+      {/* Monitor */}
+      <rect x={80} y={40} width={440} height={250} rx={7} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      {/* Browser chrome */}
+      <rect x={80} y={40} width={440} height={34} rx={7} fill="var(--panel-screen)" opacity={0.5}/>
+      <rect x={80} y={62} width={440} height={12} fill="var(--panel-screen)" opacity={0.5}/>
       {/* Browser dots */}
-      <circle cx="122" cy="58" r="5" fill="#c0392b" opacity=".6"/>
-      <circle cx="138" cy="58" r="5" fill="#e67e22" opacity=".6"/>
-      <circle cx="154" cy="58" r="5" fill="#27ae60" opacity=".6"/>
+      <circle cx={100} cy={57} r={5} fill="var(--panel-danger)" opacity={0.6}/>
+      <circle cx={116} cy={57} r={5} fill="#e67e22" opacity={0.6}/>
+      <circle cx={132} cy={57} r={5} fill="#27ae60" opacity={0.6}/>
       {/* URL bar */}
-      <rect x="170" y="50" width="340" height="16" rx="4" fill="#faf9f7"/>
-      <text x="340" y="61" textAnchor="middle" fontSize="8" fill="#1a1916" opacity=".5" fontFamily="monospace">secure-payments.internal/transfer</text>
+      <rect x={148} y={49} width={300} height={16} rx={4} fill="var(--panel-bg)"/>
+      <text x={298} y={60} textAnchor="middle" fontSize={8} fill="var(--panel-ink)" opacity={0.45} fontFamily="var(--font-mono,monospace)">secure-payments.internal/transfer</text>
       {/* Payment form */}
-      <text x="340" y="108" textAnchor="middle" fontSize="13" fontWeight="700" fill="#1a1916" fontFamily="serif">Confirm Transfer</text>
-      <rect x="130" y="118" width="420" height="1" fill="#1a1916" opacity=".1"/>
-      {/* Fields */}
-      <text x="145" y="138" fontSize="9" fill="#1a1916" opacity=".5">RECIPIENT</text>
-      <rect x="145" y="142" width="390" height="18" rx="3" fill="#f0ebe3"/>
-      <text x="153" y="154" fontSize="9" fill="#1a1916" opacity=".7" fontFamily="monospace">ACC: 8821-****-****-4203  |  BSB: 062-000</text>
-      <text x="145" y="176" fontSize="9" fill="#1a1916" opacity=".5">AMOUNT</text>
-      <rect x="145" y="180" width="390" height="28" rx="3" fill="#fff3cd" stroke="#e67e22" strokeWidth="1"/>
-      <text x="340" y="199" textAnchor="middle" fontSize="18" fontWeight="700" fill="#856404">$180,000.00</text>
-      {/* Warning */}
-      <rect x="145" y="216" width="390" height="18" rx="3" fill="#fdf2f2"/>
-      <text x="340" y="228" textAnchor="middle" fontSize="8" fill="#c0392b">⚠  This transaction cannot be reversed once submitted</text>
+      <text x={300} y={104} textAnchor="middle" fontSize={14} fontWeight="700" fill="var(--panel-ink)" fontFamily="var(--font-display,serif)">Confirm Transfer</text>
+      <rect x={100} y={112} width={360} height={1} fill="var(--panel-ink)" opacity={0.1}/>
+      {/* Recipient field */}
+      <text x={110} y={132} fontSize={9} fill="var(--panel-ink)" opacity={0.45}>RECIPIENT</text>
+      <rect x={110} y={136} width={360} height={18} rx={3} fill="var(--panel-surface,#f3f1ed)"/>
+      <text x={118} y={148} fontSize={9} fill="var(--panel-ink)" opacity={0.7} fontFamily="var(--font-mono,monospace)">ACC: 8821-****-****-4203  |  BSB: 062-000</text>
+      {/* Amount — prominent warning */}
+      <text x={110} y={172} fontSize={9} fill="var(--panel-ink)" opacity={0.45}>AMOUNT</text>
+      <rect x={110} y={176} width={360} height={30} rx={3} fill="#fff3cd" stroke="#e67e22" strokeWidth={1.5}/>
+      <text x={290} y={197} textAnchor="middle" fontSize={20} fontWeight="700" fill="#856404">$180,000.00</text>
+      {/* Warning strip */}
+      <rect x={110} y={212} width={360} height={18} rx={3} fill="#fdf2f2"/>
+      <text x={290} y={224} textAnchor="middle" fontSize={8} fill="var(--panel-danger)">⚠  This transaction cannot be reversed once submitted</text>
       {/* Confirm button */}
-      <rect x="220" y="242" width="240" height="28" rx="5" fill="#c0392b"/>
-      <text x="340" y="260" textAnchor="middle" fontSize="11" fontWeight="600" fill="white">Confirm Transfer →</text>
+      <rect x={170} y={236} width={260} height={30} rx={6} fill="var(--panel-danger)"/>
+      <text x={300} y={256} textAnchor="middle" fontSize={12} fontWeight="600" fill="white">Confirm Transfer →</text>
+      {/* Monitor stand */}
+      <rect x={291} y={288} width={18} height={12} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      <rect x={274} y={298} width={52} height={6} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
     </svg>
   );
 }
@@ -224,179 +235,179 @@ function PaymentScreenScene() {
 // A1 — document with fabricated citation highlighted
 function DocumentErrorScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
-      {/* Document on desk */}
-      <rect x="160" y="30" width="360" height="260" rx="4" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
-      {/* Document header */}
-      <text x="340" y="58" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1a1916" fontFamily="serif">Regulatory Briefing — Client Confidential</text>
-      <rect x="175" y="64" width="330" height="1" fill="#1a1916" opacity=".2"/>
-      {/* Text lines */}
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document with a fabricated regulatory citation highlighted in red">
+      {/* Desk */}
+      <rect x={40} y={295} width={600} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
+      {/* Document */}
+      <rect x={150} y={20} width={380} height={280} rx={4} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2}/>
+      {/* Header */}
+      <text x={340} y={48} textAnchor="middle" fontSize={12} fontWeight="700" fill="var(--panel-ink)" fontFamily="var(--font-display,serif)">Regulatory Briefing — Client Confidential</text>
+      <rect x={165} y={54} width={350} height={1} fill="var(--panel-ink)" opacity={0.2}/>
+      {/* Normal text lines */}
       {[0,1,2,3].map(i => (
-        <rect key={i} x="175" y={76+i*14} width={280+i%2*20} height="8" rx="2" fill="#1a1916" opacity=".1"/>
+        <rect key={i} x={165} y={62+i*14} width={280+i%2*20} height={8} rx={2} fill="var(--panel-ink)" opacity={0.1}/>
       ))}
-      {/* Fabricated citation — highlighted red */}
-      <rect x="175" y="136" width="330" height="24" rx="2" fill="#ffebee" stroke="#ef5350" strokeWidth="1.5"/>
-      <text x="185" y="149" fontSize="8" fill="#c0392b" fontFamily="monospace">¹ APRA Prudential Standard APS 330/AI-2024 cl.4.2(b),</text>
-      <text x="185" y="159" fontSize="8" fill="#c0392b" fontFamily="monospace">  issued March 2024 — [citation not verified]</text>
+      {/* Fabricated citation — red highlight */}
+      <rect x={165} y={122} width={350} height={28} rx={2} fill="#ffebee" stroke="#ef5350" strokeWidth={1.5}/>
+      <text x={174} y={136} fontSize={8} fill="var(--panel-danger)" fontFamily="var(--font-mono,monospace)">¹ APRA Prudential Standard APS 330/AI-2024 cl.4.2(b),</text>
+      <text x={174} y={146} fontSize={8} fill="var(--panel-danger)" fontFamily="var(--font-mono,monospace)">  issued March 2024 — [citation not verified]</text>
       {/* More text lines */}
       {[0,1,2,3,4].map(i => (
-        <rect key={i} x="175" y={168+i*14} width={260+i%3*15} height="8" rx="2" fill="#1a1916" opacity=".1"/>
+        <rect key={i} x={165} y={158+i*14} width={260+i%3*15} height={8} rx={2} fill="var(--panel-ink)" opacity={0.1}/>
       ))}
       {/* Red pen annotation */}
-      <path d="M460 136 Q490 120 500 108" fill="none" stroke="#c0392b" strokeWidth="2" strokeLinecap="round"/>
-      <text x="505" y="105" fontSize="9" fill="#c0392b" fontStyle="italic">Does not exist!</text>
+      <path d="M460 122 Q488 108 498 96" fill="none" stroke="var(--panel-danger)" strokeWidth={2} strokeLinecap="round"/>
+      <text x={502} y={93} fontSize={9} fill="var(--panel-danger)" fontStyle="italic">Does not exist!</text>
       {/* Sticky note */}
-      <rect x="420" y="190" width="90" height="70" rx="2" fill="#fff9c4" stroke="#f0c040" strokeWidth="1" transform="rotate(3,465,225)"/>
-      <text x="465" y="213" textAnchor="middle" fontSize="8" fill="#856404" transform="rotate(3,465,225)">Check ALL</text>
-      <text x="465" y="224" textAnchor="middle" fontSize="8" fill="#856404" transform="rotate(3,465,225)">citations</text>
-      <text x="465" y="235" textAnchor="middle" fontSize="8" fill="#c0392b" fontWeight="600" transform="rotate(3,465,225)">before sending!</text>
-      {/* Desk surface */}
-      <rect x="40" y="286" width="600" height="4" rx="2" fill="#c4a882" opacity=".3"/>
+      <rect x={418} y={196} width={92} height={72} rx={2} fill="#fffde7" stroke="#f0c040" strokeWidth={1} transform="rotate(3,464,232)"/>
+      <text x={464} y={220} textAnchor="middle" fontSize={8} fill="#856404" transform="rotate(3,464,232)">Check ALL</text>
+      <text x={464} y={232} textAnchor="middle" fontSize={8} fill="#856404" transform="rotate(3,464,232)">citations</text>
+      <text x={464} y={246} textAnchor="middle" fontSize={9} fontWeight="600" fill="var(--panel-danger)" transform="rotate(3,464,232)">before sending!</text>
     </svg>
   );
 }
 
-// E1 — declining diversity chart on screen
+// E1 — diversity index chart declining after AI tool launch
 function ChartDecliningScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chart showing shortlist diversity declining after AI tool launch">
+      {/* Desk */}
+      <rect x={40} y={295} width={600} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
       {/* Monitor */}
-      <rect x="80" y="50" width="400" height="220" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <rect x="88" y="58" width="384" height="204" rx="4" fill="#f8f4ef"/>
+      <rect x={70} y={30} width={420} height={242} rx={7} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <rect x={78} y={38} width={404} height={226} rx={4} fill="var(--panel-screen)" opacity={0.3}/>
       {/* Chart title */}
-      <text x="280" y="80" textAnchor="middle" fontSize="11" fontWeight="700" fill="#1a1916">Shortlist Diversity Index — Monthly</text>
-      <line x1="100" y1="86" x2="460" y2="86" stroke="#1a1916" strokeWidth=".5" opacity=".3"/>
-      {/* Y axis */}
-      <line x1="120" y1="96" x2="120" y2="215" stroke="#1a1916" strokeWidth="1" opacity=".4"/>
-      {/* X axis */}
-      <line x1="120" y1="215" x2="450" y2="215" stroke="#1a1916" strokeWidth="1" opacity=".4"/>
-      {/* Y axis labels */}
+      <text x={280} y={62} textAnchor="middle" fontSize={11} fontWeight="700" fill="var(--panel-ink)">Shortlist Diversity Index — Monthly</text>
+      <line x1={90} y1={68} x2={470} y2={68} stroke="var(--panel-ink)" strokeWidth={0.5} opacity={0.3}/>
+      {/* Axes */}
+      <line x1={110} y1={78} x2={110} y2={210} stroke="var(--panel-ink)" strokeWidth={1} opacity={0.4}/>
+      <line x1={110} y1={210} x2={460} y2={210} stroke="var(--panel-ink)" strokeWidth={1} opacity={0.4}/>
+      {/* Y labels */}
       {["100%","75%","50%","25%"].map((label, i) => (
-        <text key={i} x="115" y={99+i*29} textAnchor="end" fontSize="7" fill="#1a1916" opacity=".5">{label}</text>
+        <text key={i} x={106} y={82+i*32} textAnchor="end" fontSize={7} fill="var(--panel-ink)" opacity={0.5}>{label}</text>
       ))}
-      {/* Month labels */}
+      {/* X labels */}
       {["Oct","Nov","Dec","Jan","Feb","Mar"].map((m, i) => (
-        <text key={i} x={138+i*54} y="225" textAnchor="middle" fontSize="7" fill="#1a1916" opacity=".5">{m}</text>
+        <text key={i} x={126+i*60} y={222} textAnchor="middle" fontSize={7} fill="var(--panel-ink)" opacity={0.5}>{m}</text>
       ))}
-      {/* Tool launch marker */}
-      <line x1="246" y1="96" x2="246" y2="215" stroke="#e67e22" strokeWidth="1.5" strokeDasharray="4 3" opacity=".7"/>
-      <text x="248" y="104" fontSize="7" fill="#e67e22">AI tool</text>
-      <text x="248" y="113" fontSize="7" fill="#e67e22">launched</text>
-      {/* Line — healthy before launch, declining after */}
-      <polyline
-        points="138,108 192,105 246,103 300,125 354,148 408,172"
-        fill="none" stroke="#27ae60" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity=".4"/>
-      <polyline
-        points="246,103 300,125 354,148 408,172"
-        fill="none" stroke="#c0392b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* Data points */}
-      {[[138,108],[192,105],[246,103]].map(([x,y],i) => (
-        <circle key={i} cx={x} cy={y} r="4" fill="#27ae60" opacity=".6"/>
+      {/* AI tool launch line */}
+      <line x1={246} y1={78} x2={246} y2={210} stroke="#e67e22" strokeWidth={1.5} strokeDasharray="4 3" opacity={0.8}/>
+      <text x={250} y={87} fontSize={7} fill="#e67e22">AI tool</text>
+      <text x={250} y={97} fontSize={7} fill="#e67e22">launched</text>
+      {/* Healthy line (before launch) */}
+      <polyline points="126,96 186,92 246,90" fill="none" stroke="#27ae60" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" opacity={0.45}/>
+      {/* Declining line (after launch) — red */}
+      <polyline points="246,90 306,118 366,148 426,174" fill="none" stroke="var(--panel-danger)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"/>
+      {/* Data points — green (before) */}
+      {[[126,96],[186,92],[246,90]].map(([x,y],i) => (
+        <circle key={i} cx={x} cy={y} r={4} fill="#27ae60" opacity={0.6}/>
       ))}
-      {[[300,125],[354,148],[408,172]].map(([x,y],i) => (
-        <circle key={i} cx={x} cy={y} r="4" fill="#c0392b"/>
+      {/* Data points — red (after) */}
+      {[[306,118],[366,148],[426,174]].map(([x,y],i) => (
+        <circle key={i} cx={x} cy={y} r={4} fill="var(--panel-danger)"/>
       ))}
-      {/* Trend arrow down */}
-      <path d="M390 155 L420 180" stroke="#c0392b" strokeWidth="2" markerEnd="url(#arr)" opacity=".6"/>
-      <text x="425" y="185" fontSize="8" fill="#c0392b" fontStyle="italic">–28%</text>
+      {/* –28% label */}
+      <text x={434} y={180} fontSize={9} fill="var(--panel-danger)" fontStyle="italic" fontWeight="600">–28%</text>
       {/* Monitor stand */}
-      <rect x="271" y="268" width="18" height="12" rx="2" fill="#c4a882" opacity=".4"/>
-      <rect x="254" y="278" width="52" height="6" rx="2" fill="#c4a882" opacity=".4"/>
-      {/* Person viewing — worried */}
-      <circle cx="560" cy="190" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <path d="M540 183 Q545 169 560 167 Q575 169 580 183" fill="#1a1916" opacity=".6"/>
-      <ellipse cx="554" cy="194" rx="4" ry="4.5" fill="#1a1916"/>
-      <ellipse cx="566" cy="194" rx="4" ry="4.5" fill="#1a1916"/>
-      <path d="M553 202 Q560 205 567 202" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <ellipse cx="560" cy="215" rx="26" ry="24" fill="#ddd8cc" stroke="#1a1916" strokeWidth="2"/>
+      <rect x={271} y={270} width={18} height={12} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      <rect x={254} y={280} width={52} height={6} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      {/* Person — worried */}
+      <ellipse cx={560} cy={266} rx={26} ry={24} fill="var(--panel-shirt)" stroke="var(--panel-ink)" strokeWidth={2}/>
+      <path d="M536 266 Q521 262 509 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <path d="M584 266 Q599 262 611 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <circle cx={560} cy={240} r={22} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <path d="M540 233 Q545 219 560 217 Q575 219 580 233" fill="var(--panel-ink)" opacity={0.6}/>
+      <ellipse cx={554} cy={244} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <ellipse cx={566} cy={244} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <path d="M553 253 Q560 257 567 253" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
     </svg>
   );
 }
 
-// C4 / shared — phone verification call
+// C4 — phone verification, confirmed fraud stopped
 function PhoneVerifyScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
-      {/* Person at desk, phone to ear */}
-      <circle cx="200" cy="175" r="26" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <path d="M176 168 Q181 154 200 152 Q219 154 224 168" fill="#1a1916" opacity=".6"/>
-      <ellipse cx="194" cy="179" rx="4" ry="4.5" fill="#1a1916"/>
-      <ellipse cx="206" cy="179" rx="4" ry="4.5" fill="#1a1916"/>
-      <circle cx="196" cy="178" r="1.5" fill="white"/>
-      <circle cx="208" cy="178" r="1.5" fill="white"/>
-      {/* Relieved expression */}
-      <path d="M192 188 Q200 193 208 188" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <ellipse cx="200" cy="205" rx="28" ry="26" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
-      {/* Phone held to ear */}
-      <rect x="212" y="155" width="26" height="44" rx="8" fill="#1a1916"/>
-      <rect x="215" y="158" width="20" height="36" rx="5" fill="#2c3e50"/>
-      {/* Sound waves — call active */}
-      <path d="M242 166 Q252 172 242 178" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round" opacity=".4"/>
-      <path d="M245 161 Q260 172 245 183" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round" opacity=".3"/>
-      {/* Big green checkmark — verification successful */}
-      <circle cx="430" cy="160" r="60" fill="#d5f0dd" stroke="#27ae60" strokeWidth="2.5"/>
-      <path d="M400 160 L422 182 L462 138" fill="none" stroke="#27ae60" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* Label */}
-      <text x="430" y="238" textAnchor="middle" fontSize="12" fontWeight="600" fill="#27ae60">Verified.</text>
-      <text x="430" y="253" textAnchor="middle" fontSize="10" fill="#1a1916" opacity=".6">Out-of-band check confirmed.</text>
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Person on phone verifying the call was a fraud — large green checkmark">
       {/* Desk */}
-      <rect x="40" y="255" width="600" height="1" fill="#c4a882" opacity=".3"/>
+      <rect x={60} y={290} width={480} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
+      {/* Person — on phone */}
+      <ellipse cx={180} cy={272} rx={28} ry={26} fill="var(--panel-shirt)" stroke="var(--panel-ink)" strokeWidth={2}/>
+      <path d="M154 272 Q139 268 127 260" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <path d="M206 272 Q221 268 233 260" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <circle cx={180} cy={244} r={22} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <path d="M160 237 Q165 223 180 221 Q195 223 200 237" fill="var(--panel-ink)" opacity={0.6}/>
+      {/* Phone to ear */}
+      <rect x={193} y={226} width={24} height={42} rx={8} fill="var(--panel-ink)"/>
+      <rect x={196} y={229} width={18} height={34} rx={5} fill="var(--panel-screen)" opacity={0.8}/>
+      {/* Relieved expression */}
+      <ellipse cx={174} cy={248} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <ellipse cx={186} cy={248} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <circle cx={176} cy={247} r={1.5} fill="white"/>
+      <circle cx={188} cy={247} r={1.5} fill="white"/>
+      <path d="M172 258 Q180 263 188 258" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
+      {/* Big green verified checkmark */}
+      <circle cx={430} cy={160} r={70} fill="#e8f5e9" stroke="#27ae60" strokeWidth={2.5}/>
+      <path d="M394 160 L420 186 L466 128" fill="none" stroke="#27ae60" strokeWidth={8} strokeLinecap="round" strokeLinejoin="round"/>
+      <text x={430} y={248} textAnchor="middle" fontSize={13} fontWeight="700" fill="#2e7d32">Fraud confirmed.</text>
+      <text x={430} y={266} textAnchor="middle" fontSize={11} fill="var(--panel-ink)" opacity={0.5}>Out-of-band verification worked.</text>
     </svg>
   );
 }
 
-// E1 / general — security alert / analyst finding
+// E1 — analyst at monitors, statistical finding on screen
 function SecurityAlertScene() {
   return (
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
-      <rect width="680" height="340" fill="#f5f1eb"/>
-      <rect x="40" y="240" width="600" height="12" rx="3" fill="#c4a882" opacity=".5"/>
-      {/* Monitor with alert */}
-      <rect x="80" y="40" width="420" height="230" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <rect x="88" y="48" width="404" height="214" rx="4" fill="#f8f4ef"/>
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Analyst at desk with statistical anomaly alert on monitor">
+      {/* Desk */}
+      <rect x={40} y={290} width={600} height={12} rx={3} fill="var(--panel-desk)" opacity={0.5}/>
+      {/* Monitor */}
+      <rect x={60} y={28} width={440} height={244} rx={7} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <rect x={68} y={36} width={424} height={228} rx={4} fill="var(--panel-screen)" opacity={0.3}/>
       {/* Alert banner */}
-      <rect x="88" y="48" width="404" height="36" rx="4" fill="#c0392b"/>
-      <text x="290" y="71" textAnchor="middle" fontSize="12" fontWeight="700" fill="white">⚠  STATISTICAL ANOMALY DETECTED</text>
-      {/* Report content */}
-      <text x="105" y="104" fontSize="10" fontWeight="600" fill="#1a1916">Disaggregated Performance Report — AI Job Matching Tool</text>
-      <line x1="100" y1="110" x2="476" y2="110" stroke="#1a1916" strokeWidth=".5" opacity=".3"/>
+      <rect x={68} y={36} width={424} height={38} rx={4} fill="var(--panel-danger)"/>
+      <text x={280} y={59} textAnchor="middle" fontSize={12} fontWeight="700" fill="white">⚠  STATISTICAL ANOMALY DETECTED</text>
+      {/* Report title */}
+      <text x={80} y={92} fontSize={10} fontWeight="600" fill="var(--panel-ink)">Disaggregated Performance Report — AI Job Matching Tool</text>
+      <line x1={72} y1={98} x2={476} y2={98} stroke="var(--panel-ink)" strokeWidth={0.5} opacity={0.3}/>
       {/* Table header */}
-      <rect x="100" y="116" width="376" height="18" rx="1" fill="#e8e0d5"/>
-      <text x="160" y="128" textAnchor="middle" fontSize="8" fontWeight="600" fill="#1a1916">Group</text>
-      <text x="300" y="128" textAnchor="middle" fontSize="8" fontWeight="600" fill="#1a1916">Shortlist Rate</text>
-      <text x="420" y="128" textAnchor="middle" fontSize="8" fontWeight="600" fill="#1a1916">vs Baseline</text>
-      {/* Rows */}
+      <rect x={72} y={104} width={400} height={18} rx={1} fill="var(--panel-desk)" opacity={0.4}/>
+      <text x={152} y={116} textAnchor="middle" fontSize={8} fontWeight="600" fill="var(--panel-ink)">Group</text>
+      <text x={300} y={116} textAnchor="middle" fontSize={8} fontWeight="600" fill="var(--panel-ink)">Shortlist Rate</text>
+      <text x={432} y={116} textAnchor="middle" fontSize={8} fontWeight="600" fill="var(--panel-ink)">vs Baseline</text>
+      {/* Data rows */}
       {[
-        ["Overall",        "34%",  "—",    false],
-        ["Group A",        "41%",  "+7pp", false],
-        ["Group B",        "38%",  "+4pp", false],
-        ["Group C",        "19%",  "−15pp",true ],
-        ["Group D",        "17%",  "−17pp",true ],
+        ["Overall", "34%", "—",     false],
+        ["Group A", "41%", "+7pp",  false],
+        ["Group B", "38%", "+4pp",  false],
+        ["Group C", "19%", "−15pp", true ],
+        ["Group D", "17%", "−17pp", true ],
       ].map(([g, rate, diff, flag], i) => (
         <g key={i}>
-          <rect x="100" y={134+i*18} width="376" height="18" rx="1" fill={flag ? "#ffebee" : i%2===0 ? "#faf9f7" : "#f5f1eb"}/>
-          <text x="160" y={146+i*18} textAnchor="middle" fontSize="8" fill="#1a1916">{g}</text>
-          <text x="300" y={146+i*18} textAnchor="middle" fontSize="8" fill="#1a1916">{rate}</text>
-          <text x="420" y={146+i*18} textAnchor="middle" fontSize="8" fill={flag ? "#c0392b" : "#27ae60"} fontWeight={flag ? "700" : "400"}>{diff}</text>
+          <rect x={72} y={122+i*20} width={400} height={20} rx={1} fill={flag ? "#ffebee" : i%2===0 ? "var(--panel-bg)" : "var(--panel-screen)"} opacity={flag ? 1 : 0.5}/>
+          <text x={152} y={135+i*20} textAnchor="middle" fontSize={8} fill="var(--panel-ink)">{g}</text>
+          <text x={300} y={135+i*20} textAnchor="middle" fontSize={8} fill="var(--panel-ink)">{rate}</text>
+          <text x={432} y={135+i*20} textAnchor="middle" fontSize={8} fill={flag ? "var(--panel-danger)" : "#27ae60"} fontWeight={flag ? "700" : "400"}>{diff}</text>
         </g>
       ))}
       {/* p-value note */}
-      <text x="105" y="233" fontSize="8" fill="#c0392b" fontStyle="italic">p &lt; 0.001 — statistically significant disparity after controlling for qualifications</text>
-      {/* Analyst */}
-      <circle cx="580" cy="185" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
-      <path d="M560 178 Q565 164 580 162 Q595 164 600 178" fill="#1a1916" opacity=".6"/>
-      <ellipse cx="574" cy="189" rx="4" ry="4.5" fill="#1a1916"/>
-      <ellipse cx="586" cy="189" rx="4" ry="4.5" fill="#1a1916"/>
-      <path d="M573 178 Q577 175 580 177" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M580 176 Q584 174 587 177" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M573 198 Q580 194 587 198" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
-      <ellipse cx="580" cy="212" rx="26" ry="24" fill="#ddd8cc" stroke="#1a1916" strokeWidth="2"/>
+      <text x={76} y={230} fontSize={8} fill="var(--panel-danger)" fontStyle="italic">p &lt; 0.001 — statistically significant after controlling for qualifications</text>
+      {/* Monitor stand */}
+      <rect x={271} y={270} width={18} height={12} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      <rect x={254} y={280} width={52} height={6} rx={2} fill="var(--panel-desk)" opacity={0.4}/>
+      {/* Analyst — focused */}
+      <ellipse cx={590} cy={266} rx={26} ry={24} fill="var(--panel-shirt)" stroke="var(--panel-ink)" strokeWidth={2}/>
+      <path d="M566 266 Q551 262 539 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <path d="M614 266 Q629 262 641 254" fill="none" stroke="var(--panel-ink)" strokeWidth={2} strokeLinecap="round"/>
+      <circle cx={590} cy={240} r={22} fill="var(--panel-bg)" stroke="var(--panel-ink)" strokeWidth={2.5}/>
+      <path d="M570 233 Q575 219 590 217 Q605 219 610 233" fill="var(--panel-ink)" opacity={0.6}/>
+      {/* Raised eyebrows — alarmed */}
+      <path d="M579 226 Q583 222 587 225" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
+      <path d="M593 225 Q597 222 601 226" fill="none" stroke="var(--panel-ink)" strokeWidth={1.5} strokeLinecap="round"/>
+      <ellipse cx={583} cy={230} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <ellipse cx={597} cy={230} rx={4} ry={4.5} fill="var(--panel-ink)"/>
+      <circle cx={585} cy={229} r={1.5} fill="white"/>
+      <circle cx={599} cy={229} r={1.5} fill="white"/>
+      <path d="M583 242 Q590 239 597 242" fill="none" stroke="var(--panel-ink)" strokeWidth={1.2} strokeLinecap="round"/>
     </svg>
   );
 }
@@ -746,8 +757,7 @@ function Feedback({ choice, feedbackText, loading, onContinue }) {
 // ── Outcome ──────────────────────────────────────────────────────
 const TONE_CLASS = { good: styles.outcomeGood, warn: styles.outcomeWarn, bad: styles.outcomeBad };
 
-function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
-  const personaData = scenario.personas[persona];
+function OutcomeScreen({ outcome, scenario, onRestart }) {
   const toneClass = TONE_CLASS[outcome.tone] || TONE_CLASS.warn;
 
   return (
@@ -831,6 +841,9 @@ function ScenarioPlayer({ scenario }) {
     const text = getLocalFeedback(choice, state.persona, personaData);
     const timer = setTimeout(() => dispatch({ type: 'FEEDBACK_LOADED', payload: text }), 600);
     return () => clearTimeout(timer);
+  // Intentionally depends only on feedbackLoading — adding scenario/history/persona
+  // would cause double-firing (see QA_REVIEW.md RT-004). This is a known safe exception.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.feedbackLoading]);
 
   const currentNode = getCurrentNode(scenario, state.persona, state.currentNodeId);
@@ -881,7 +894,7 @@ function ScenarioPlayer({ scenario }) {
           </div>
         )}
         {state.state === STATES.OUTCOME && currentOutcome && (
-          <OutcomeScreen outcome={currentOutcome} scenario={scenario} persona={state.persona}
+          <OutcomeScreen outcome={currentOutcome} scenario={scenario}
             onRestart={mode => dispatch({
               type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
               payload: scenario,
