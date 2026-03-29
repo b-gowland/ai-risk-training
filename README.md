@@ -22,9 +22,9 @@ All scenario characters and organisations are fictional. Incidents referenced in
 | ID | Title | Domain | Personas | Status |
 |----|-------|--------|----------|--------|
 | F2 | The Shortcut — Shadow AI | HCI & Deployment | All 4 | Live |
-| C4 | The Fabricated Call — Deepfakes | Security & Adversarial | All 4 | In development |
-| A1 | Confident and Wrong — Hallucination | Technical | All 4 | In development |
-| E1 | The Score — Algorithmic Bias | Fairness & Social | All 4 | In development |
+| C4 | The Fabricated Call — Deepfakes | Security & Adversarial | All 4 | Live |
+| A1 | Confident and Wrong — Hallucination | Technical | All 4 | Live |
+| E1 | The Score — Algorithmic Bias | Fairness & Social | All 4 | Live |
 | +13 | Various | All domains | Exec / PM / Analyst | Planned |
 
 ## Stack
