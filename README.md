@@ -25,7 +25,7 @@ All scenario characters and organisations are fictional. Incidents referenced in
 | C4 | The Fabricated Call — Deepfakes | Security & Adversarial | All 4 | Live |
 | A1 | Confident and Wrong — Hallucination | Technical | All 4 | Live |
 | E1 | The Score — Algorithmic Bias | Fairness & Social | All 4 | Live |
-| +13 | Various | All domains | Exec / PM / Analyst | Planned |
+| +22 | Various | All domains | Exec / PM / Analyst | Planned |
 
 ## Stack
 
