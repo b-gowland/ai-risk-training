@@ -469,9 +469,25 @@ export const scenario = {
 
   },
   controls_summary: [
-    { id: 'c1', label: 'Pre-deployment bias testing (disaggregated metrics)', effort: 'Medium', owner: 'Technology / Risk', go_live: true },
-    { id: 'c2', label: 'Fairness metrics definition and thresholds', effort: 'Low', owner: 'Risk / Legal', go_live: true },
-    { id: 'c3', label: 'Ongoing fairness monitoring in production', effort: 'Medium', owner: 'Technology', go_live: false },
-    { id: 'c4', label: 'Independent fairness audit (high-stakes AI)', effort: 'High', owner: 'Compliance', go_live: false },
+    {
+      id: 'c1', label: 'Pre-deployment bias testing (disaggregated metrics)',
+      effort: 'Medium', owner: 'Technology / Risk', go_live: true,
+      context: 'The disparity across postcode groups was visible in the data — but no one looked for it before deployment. Disaggregated testing measures performance per demographic subgroup, not just overall accuracy.',
+    },
+    {
+      id: 'c2', label: 'Fairness metrics definition and thresholds',
+      effort: 'Low', owner: 'Risk / Legal', go_live: true,
+      context: 'Before testing can catch a problem, Risk and Legal must define what counts as unacceptable disparity. Without agreed thresholds, there is no line to trigger action — even when the data shows a pattern.',
+    },
+    {
+      id: 'c3', label: 'Ongoing fairness monitoring in production',
+      effort: 'Medium', owner: 'Technology', go_live: false,
+      context: 'The bias in the telematics model was not visible at launch — it emerged over months as usage patterns accumulated. Production monitoring would have surfaced the postcode disparity before it compounded.',
+    },
+    {
+      id: 'c4', label: 'Independent fairness audit (high-stakes AI)',
+      effort: 'High', owner: 'Compliance', go_live: false,
+      context: 'For an insurer making pricing decisions, an independent audit provides the external validation that internal testing cannot. It also creates a documented record of due diligence if a complaint reaches a regulator.',
+    },
   ],
 };

@@ -711,10 +711,30 @@ export const scenario = {
 
   // Controls summary for outcome screen
   controls_summary: [
-    { id: 'c1', label: 'Approved AI tools register', effort: 'Low', owner: 'IT / Risk', go_live: true },
-    { id: 'c2', label: 'Acceptable use policy for AI', effort: 'Low', owner: 'Legal / Risk', go_live: true },
-    { id: 'c3', label: 'Endpoint DLP for personal browser sessions', effort: 'High', owner: 'InfoSec', go_live: false },
-    { id: 'c4', label: 'Enterprise AI tool provisioning', effort: 'Medium', owner: 'IT', go_live: false },
-    { id: 'c5', label: 'Staff awareness training', effort: 'Low', owner: 'HR / Risk', go_live: true },
+    {
+      id: 'c1', label: 'Approved AI tools register',
+      effort: 'Low', owner: 'IT / Risk', go_live: true,
+      context: 'Jamie had no way to know what was approved because no list existed. An accessible register — not buried in governance docs — gives staff a real basis for making the right call.',
+    },
+    {
+      id: 'c2', label: 'Acceptable use policy for AI',
+      effort: 'Low', owner: 'Legal / Risk', go_live: true,
+      context: 'The policy existed — buried under "Governance 2022." For it to work, it must be communicated, acknowledged, and kept current. A policy staff cannot find is not a control.',
+    },
+    {
+      id: 'c3', label: 'Endpoint DLP for personal browser sessions',
+      effort: 'High', owner: 'InfoSec', go_live: false,
+      context: 'IT had the logs. DLP would have flagged the submission at the time — or blocked it — rather than surfacing it weeks later in an audit sweep.',
+    },
+    {
+      id: 'c4', label: 'Enterprise AI tool provisioning',
+      effort: 'Medium', owner: 'IT', go_live: false,
+      context: 'Jamie used a public tool because no approved alternative was available. Providing a sanctioned enterprise tool removes the incentive that drives shadow AI in the first place.',
+    },
+    {
+      id: 'c5', label: 'Staff awareness training',
+      effort: 'Low', owner: 'HR / Risk', go_live: true,
+      context: 'Jamie did not know public AI tools may retain submitted data. Colleagues were guessing. Awareness training means staff understand the risk — not just that a policy exists.',
+    },
   ],
 };

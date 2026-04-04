@@ -480,9 +480,25 @@ export const scenario = {
 
   },
   controls_summary: [
-    { id: 'c1', label: 'Out-of-band verification for high-value transactions', effort: 'Low', owner: 'Finance / Operations', go_live: true },
-    { id: 'c2', label: 'Code word / challenge-response protocol', effort: 'Low', owner: 'Finance / Executive', go_live: false },
-    { id: 'c3', label: 'Staff awareness training on deepfakes', effort: 'Low', owner: 'HR / Security', go_live: false },
-    { id: 'c4', label: 'Deepfake detection tooling on video platforms', effort: 'High', owner: 'IT Security', go_live: false },
+    {
+      id: 'c1', label: 'Out-of-band verification for high-value transactions',
+      effort: 'Low', owner: 'Finance / Operations', go_live: true,
+      context: 'The control that was missing. A single call to a pre-registered number — not a number from the instruction — would have stopped the transfer before it started.',
+    },
+    {
+      id: 'c2', label: 'Code word / challenge-response protocol',
+      effort: 'Low', owner: 'Finance / Executive', go_live: false,
+      context: 'A pre-agreed phrase between Alex and the CFO that the deepfake cannot supply. No technology required — and it defeats even a highly convincing impersonation.',
+    },
+    {
+      id: 'c3', label: 'Staff awareness training on deepfakes',
+      effort: 'Low', owner: 'HR / Security', go_live: false,
+      context: 'Alex had no framework for recognising that urgency and secrecy are the attack\'s main tools, or that video is no longer a reliable verification channel. Training addresses both.',
+    },
+    {
+      id: 'c4', label: 'Deepfake detection tooling on video platforms',
+      effort: 'High', owner: 'IT Security', go_live: false,
+      context: 'A supplementary detective control — useful, but not a substitute for the process controls above. Even imperfect detection creates friction that can trigger human review.',
+    },
   ],
 };

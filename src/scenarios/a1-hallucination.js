@@ -447,9 +447,25 @@ export const scenario = {
 
   },
   controls_summary: [
-    { id: 'c1', label: 'Output verification requirement for high-stakes content', effort: 'Low', owner: 'Risk', go_live: true },
-    { id: 'c2', label: 'Retrieval-Augmented Generation (RAG) implementation', effort: 'High', owner: 'Technology', go_live: true },
-    { id: 'c3', label: 'Staff training on LLM hallucination risk', effort: 'Low', owner: 'HR', go_live: true },
-    { id: 'c4', label: 'Hallucination rate monitoring on evaluation set', effort: 'Medium', owner: 'Technology', go_live: false },
+    {
+      id: 'c1', label: 'Output verification requirement for high-stakes content',
+      effort: 'Low', owner: 'Risk', go_live: true,
+      context: 'The AI wrote confident, well-formatted citations for documents that do not exist. Mandatory verification against primary sources before sending would have caught every fabricated reference before it reached the client.',
+    },
+    {
+      id: 'c2', label: 'Retrieval-Augmented Generation (RAG) implementation',
+      effort: 'High', owner: 'Technology', go_live: true,
+      context: 'The model was generating regulatory content from training data rather than verified sources. RAG grounds outputs in a curated knowledge base and surfaces citations — making fabrication structurally harder.',
+    },
+    {
+      id: 'c3', label: 'Staff training on LLM hallucination risk',
+      effort: 'Low', owner: 'HR', go_live: true,
+      context: 'No one on the team had a framework for understanding that confident, well-formatted AI output can be entirely fabricated. Training means staff know that verification is not optional — especially for regulatory citations.',
+    },
+    {
+      id: 'c4', label: 'Hallucination rate monitoring on evaluation set',
+      effort: 'Medium', owner: 'Technology', go_live: false,
+      context: 'Ongoing monitoring tracks how often the model fabricates on a test set of known questions — giving early warning before a fabrication reaches a client.',
+    },
   ],
 };

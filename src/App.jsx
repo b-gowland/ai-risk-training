@@ -106,11 +106,11 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
     'desk-casual':      <DeskCasualScene />,
     'desk-typing':      <DeskTypingScene />,
     'desk-colleague':   <DeskColleagueScene />,
-    'desk-intranet':    <DeskColleagueScene />,
-    'desk-focused':     <DeskCasualScene />,
+    'desk-intranet':    <DeskIntranetScene />,
+    'desk-focused':     <DeskFocusedScene />,
     'office-meeting':   <OfficeMeetingScene />,
     'office-busted':    <OfficeBustedScene />,
-    'office-bright':    <OfficeMeetingScene />,
+    'office-bright':    <OfficeReviewScene />,
     'boardroom':        <BoardroomScene />,
     'analyst-desk':     <AnalystDeskScene />,
     'video-call':        <VideoCallScene />,
@@ -605,6 +605,169 @@ function OfficeBustedScene() {
   );
 }
 
+// desk-intranet: Jamie reading policy on intranet — monitor shows policy page, no colleague
+function DeskIntranetScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Window light */}
+      <rect x="500" y="20" width="150" height="130" rx="4" fill="#b8d4f0" opacity=".18"/>
+      <line x1="575" y1="20" x2="575" y2="150" stroke="#1a1916" strokeWidth="1" opacity=".1"/>
+      {/* Desk */}
+      <rect x="40" y="240" width="580" height="12" rx="3" fill="#c4a882" opacity=".5"/>
+      <rect x="40" y="252" width="580" height="50" fill="#c4a882" opacity=".12"/>
+      {/* Monitor — showing intranet policy page */}
+      <rect x="200" y="100" width="280" height="190" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <rect x="208" y="108" width="264" height="174" rx="4" fill="#f4f6f9"/>
+      {/* Browser chrome */}
+      <rect x="208" y="108" width="264" height="20" rx="4" fill="#e8ecf0"/>
+      <rect x="218" y="113" width="180" height="10" rx="3" fill="#faf9f7" stroke="#1a1916" strokeWidth=".5"/>
+      <text x="308" y="121" textAnchor="middle" fontSize="7" fill="#5a6a7a" fontFamily="monospace">intranet/governance/ai-policy</text>
+      {/* Policy document content */}
+      <rect x="218" y="136" width="140" height="9" rx="2" fill="#1a1916" opacity=".55"/>
+      <text x="288" y="144" textAnchor="middle" fontSize="7.5" fontWeight="700" fill="#faf9f7">AI Acceptable Use Policy</text>
+      <rect x="218" y="150" width="40" height="5" rx="1" fill="#5a7abf" opacity=".6"/>
+      <text x="238" y="155" textAnchor="middle" fontSize="6" fill="#faf9f7">v2.1 — 2024</text>
+      {[0,9,18,27,36,45,54].map((o,i) =>
+        <rect key={i} x="218" y={162+o} width={i===2||i===5?120:i===4?90:200} height="5" rx="1" fill="#1a1916" opacity={i===3?.08:.13}/>
+      )}
+      {/* Highlighted "do not submit" line */}
+      <rect x="218" y="218" width="244" height="14" rx="2" fill="#fff3cd" stroke="#e6a817" strokeWidth=".8"/>
+      <text x="340" y="228" textAnchor="middle" fontSize="7.5" fontWeight="600" fill="#856404">Do not submit confidential data to external AI tools.</text>
+      {[0,9].map((o,i) =>
+        <rect key={i} x="218" y={236+o} width={i===1?160:220} height="5" rx="1" fill="#1a1916" opacity=".1"/>
+      )}
+      {/* Monitor stand */}
+      <rect x="330" y="288" width="20" height="14" rx="2" fill="#c4a882" opacity=".5"/>
+      <rect x="316" y="300" width="48" height="5" rx="2" fill="#c4a882" opacity=".4"/>
+      {/* Person reading — leaning forward, focused */}
+      <circle cx="130" cy="182" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M110 175 Q115 161 130 159 Q145 161 150 175" fill="#1a1916" opacity=".7"/>
+      {/* Focused eyes — both looking slightly down toward screen */}
+      <path d="M119 179 Q123 176 127 178" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M133 178 Q137 176 141 179" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <ellipse cx="123" cy="182" rx="3.5" ry="3.5" fill="#1a1916"/>
+      <ellipse cx="137" cy="182" rx="3.5" ry="3.5" fill="#1a1916"/>
+      <circle cx="124" cy="181" r="1.2" fill="white"/>
+      <circle cx="138" cy="181" r="1.2" fill="white"/>
+      <path d="M124 191 Q130 188 136 191" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="130" cy="208" rx="24" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      {/* Arm reaching toward mouse */}
+      <path d="M150 210 Q175 218 192 226" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".25"/>
+      <circle cx="196" cy="228" r="5" fill="#1a1916" opacity=".2"/>
+    </svg>
+  );
+}
+
+// desk-focused: solo focused work — head down, no distractions, writing on paper
+function DeskFocusedScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Evening light — warm, low angle */}
+      <rect x="480" y="0" width="200" height="200" rx="0" fill="#f5e6c8" opacity=".2"/>
+      {/* Desk lamp */}
+      <line x1="540" y1="238" x2="540" y2="160" stroke="#1a1916" strokeWidth="3" strokeLinecap="round" opacity=".5"/>
+      <line x1="540" y1="160" x2="490" y2="180" stroke="#1a1916" strokeWidth="2.5" strokeLinecap="round" opacity=".5"/>
+      <ellipse cx="480" cy="184" rx="22" ry="10" fill="#f5e6c8" opacity=".7" stroke="#1a1916" strokeWidth="1" />
+      {/* Warm lamp glow pool on desk */}
+      <ellipse cx="380" cy="248" rx="140" ry="20" fill="#f5e6c8" opacity=".2"/>
+      {/* Desk */}
+      <rect x="40" y="238" width="580" height="12" rx="3" fill="#c4a882" opacity=".5"/>
+      <rect x="40" y="250" width="580" height="50" fill="#c4a882" opacity=".12"/>
+      {/* Notepad — being written on */}
+      <rect x="200" y="190" width="130" height="100" rx="4" fill="#fffef5" stroke="#c4a882" strokeWidth="1.5"/>
+      <line x1="200" y1="204" x2="330" y2="204" stroke="#c4a882" strokeWidth="1" opacity=".5"/>
+      {[0,12,24,36,48,60].map((o,i) =>
+        <line key={i} x1="210" x2={i===5?250:310} y1={214+o} y2={214+o} stroke="#1a1916" strokeWidth="1" opacity={i===5?.3:.18}/>
+      )}
+      {/* Pen in hand */}
+      <line x1="305" y1="262" x2="328" y2="238" stroke="#1a1916" strokeWidth="2" strokeLinecap="round" opacity=".6"/>
+      {/* Monitor off / closed laptop in background */}
+      <rect x="380" y="170" width="110" height="75" rx="5" fill="#333" stroke="#1a1916" strokeWidth="1.5" opacity=".3"/>
+      <rect x="370" y="243" width="130" height="5" rx="2" fill="#555" opacity=".25"/>
+      {/* Coffee cup */}
+      <rect x="448" y="215" width="28" height="24" rx="4" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.2"/>
+      <path d="M476 220 Q486 220 486 228 Q486 236 476 236" fill="none" stroke="#1a1916" strokeWidth="1" opacity=".5"/>
+      <path d="M452 212 Q456 206 460 212" fill="none" stroke="#1a1916" strokeWidth="1" opacity=".3" strokeLinecap="round"/>
+      {/* Person — head down, writing, alone */}
+      <circle cx="148" cy="188" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M128 181 Q133 167 148 165 Q163 167 168 181" fill="#1a1916" opacity=".65"/>
+      {/* Eyes looking down at notepad */}
+      <path d="M137 186 Q141 184 145 186" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M151 186 Q155 184 159 186" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M140 194 Q148 198 156 194" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="148" cy="212" rx="24" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      {/* Arms on desk */}
+      <path d="M130 218 Q160 235 200 240" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".22"/>
+      <path d="M166 218 Q185 232 200 238" fill="none" stroke="#1a1916" strokeWidth="7" strokeLinecap="round" opacity=".18"/>
+    </svg>
+  );
+}
+
+// office-bright: post-incident governance review — whiteboard with action items, small group
+function OfficeReviewScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Room walls */}
+      <rect x="0" y="0" width="680" height="340" fill="#f7f5f2"/>
+      {/* Whiteboard */}
+      <rect x="60" y="40" width="300" height="200" rx="4" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
+      <rect x="65" y="45" width="290" height="190" rx="2" fill="white"/>
+      {/* Whiteboard frame rail */}
+      <rect x="60" y="236" width="300" height="8" rx="2" fill="#c4a882" opacity=".5"/>
+      {/* Whiteboard content — action plan */}
+      <text x="210" y="70" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1a1916" opacity=".7">Action Plan</text>
+      <line x1="75" y1="76" x2="345" y2="76" stroke="#1a1916" strokeWidth="1" opacity=".2"/>
+      {/* Action items */}
+      {[
+        { y: 92,  check: true,  text: '1. Suspend AI tool pending audit' },
+        { y: 112, check: false, text: '2. Notify affected parties' },
+        { y: 132, check: false, text: '3. Independent bias review' },
+        { y: 152, check: false, text: '4. Controls implementation' },
+        { y: 172, check: false, text: '5. Board briefing — 2 weeks' },
+      ].map((item, i) => (
+        <g key={i}>
+          <rect x="75" y={item.y - 9} width="10" height="10" rx="2"
+            fill={item.check ? '#27ae60' : 'none'}
+            stroke={item.check ? '#27ae60' : '#1a1916'}
+            strokeWidth="1.2" opacity=".7"/>
+          {item.check && <text x="80" y={item.y} textAnchor="middle" fontSize="8" fill="white">✓</text>}
+          <text x="92" y={item.y} fontSize="9" fill="#1a1916" opacity=".7">{item.text}</text>
+        </g>
+      ))}
+      {/* Red underline on item 2 — being discussed */}
+      <line x1="92" y1="115" x2="230" y2="115" stroke="#c0392b" strokeWidth="1.5" opacity=".5" strokeDasharray="3 2"/>
+      {/* Round table — smaller, review setting */}
+      <ellipse cx="500" cy="270" rx="140" ry="45" fill="#c4a882" stroke="#1a1916" strokeWidth="1.5" opacity=".35"/>
+      {/* Laptops / documents on table */}
+      <rect x="450" y="240" width="55" height="38" rx="3" fill="#444" stroke="#1a1916" strokeWidth="1" opacity=".4"/>
+      <rect x="453" y="243" width="49" height="28" rx="2" fill="#1a1916" opacity=".5"/>
+      <rect x="440" y="278" width="75" height="4" rx="2" fill="#555" opacity=".3"/>
+      <rect x="530" y="245" width="60" height="44" rx="3" fill="#fffef5" stroke="#c4a882" strokeWidth="1" transform="rotate(5,560,267)"/>
+      {/* Three people around table */}
+      <circle cx="440" cy="208" r="20" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M422 202 Q427 190 440 188 Q453 190 458 202" fill="#1a1916" opacity=".6"/>
+      <ellipse cx="435" cy="212" rx="3.5" ry="4" fill="#1a1916"/>
+      <ellipse cx="445" cy="212" rx="3.5" ry="4" fill="#1a1916"/>
+      <path d="M435 220 Q440 217 446 220" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="440" cy="234" rx="24" ry="20" fill="#e8e0d5" stroke="#1a1916" strokeWidth="1.5"/>
+      <circle cx="560" cy="208" r="20" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M542 202 Q547 190 560 188 Q573 190 578 202" fill="#1a1916" opacity=".5"/>
+      <ellipse cx="555" cy="212" rx="3.5" ry="4" fill="#1a1916"/>
+      <ellipse cx="565" cy="212" rx="3.5" ry="4" fill="#1a1916"/>
+      <path d="M555 220 Q561 222 566 220" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="560" cy="234" rx="24" ry="20" fill="#ddd8cc" stroke="#1a1916" strokeWidth="1.5"/>
+      <circle cx="500" cy="196" r="20" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M482 190 Q487 178 500 176 Q513 178 518 190" fill="#1a1916" opacity=".55"/>
+      <ellipse cx="495" cy="200" rx="3.5" ry="4" fill="#1a1916"/>
+      <ellipse cx="505" cy="200" rx="3.5" ry="4" fill="#1a1916"/>
+      <path d="M496 208 Q501 211 507 208" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="500" cy="222" rx="24" ry="20" fill="#ccc8be" stroke="#1a1916" strokeWidth="1.5"/>
+      {/* Person at whiteboard — presenting */}
+      <text x="370" y="110" fontSize="9" fill="#1a1916" opacity=".4" fontStyle="italic">Risk</text>
+    </svg>
+  );
+}
+
 function BoardroomScene() {
   return (
     <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
@@ -777,12 +940,15 @@ function OutcomeScreen({ outcome, scenario, onRestart }) {
         <div className={styles.controlsList}>
           {scenario.controls_summary.map(c => (
             <div key={c.id} className={styles.controlItem}>
-              <span className={styles.controlLabel}>{c.label}</span>
-              <div className={styles.controlTags}>
-                <span className={styles.tag}>{c.owner}</span>
-                <span className={styles.tag}>{c.effort} effort</span>
-                {c.go_live && <span className={`${styles.tag} ${styles.tagAccent}`}>Go-live</span>}
+              <div className={styles.controlHeader}>
+                <span className={styles.controlLabel}>{c.label}</span>
+                <div className={styles.controlTags}>
+                  <span className={styles.tag}>{c.owner}</span>
+                  <span className={styles.tag}>{c.effort} effort</span>
+                  {c.go_live && <span className={`${styles.tag} ${styles.tagAccent}`}>Go-live</span>}
+                </div>
               </div>
+              {c.context && <p className={styles.controlContext}>{c.context}</p>}
             </div>
           ))}
         </div>
