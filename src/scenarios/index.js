@@ -4,6 +4,9 @@ import { scenario as a1 } from './a1-hallucination.js';
 import { scenario as e1 } from './e1-bias.js';
 import { scenario as b2 } from './b2-compliance.js';
 import { scenario as d2 } from './d2-privacy.js';
+import { scenario as b1 } from './b1-accountability.js';
+import { scenario as b3 } from './b3-lifecycle.js';
+import { scenario as b4 } from './b4-supply-chain.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -19,10 +22,10 @@ export const scenarios = [
   stub('a2-model-drift',     'A2', 'The Slow Decay',            'A — Technical',              'Intermediate'),
   stub('a3-robustness',      'A3', 'Edge of the Map',           'A — Technical',              'Intermediate'),
   stub('a4-explainability',  'A4', 'The Black Box Decision',    'A — Technical',              'Advanced'),
-  stub('b1-accountability',  'B1', "Nobody's Problem",          'B — Governance',             'Intermediate'),
+  b1,
   b2,
-  stub('b3-lifecycle',       'B3', 'Still Running',             'B — Governance',             'Intermediate'),
-  stub('b4-supply-chain',    'B4', 'Inside the Vendor',         'B — Governance',             'Advanced'),
+  b3,
+  b4,
   stub('c1-data-poisoning',  'C1', 'Poisoned at the Source',    'C — Security & Adversarial', 'Advanced'),
   stub('c2-prompt-injection','C2', 'The Hidden Instruction',    'C — Security & Adversarial', 'Advanced'),
   stub('c3-model-theft',     'C3', 'The Extraction',            'C — Security & Adversarial', 'Advanced'),
