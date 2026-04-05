@@ -158,7 +158,7 @@ export const scenario = {
         },
 
         n2_breach: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'Breach notice drafted. The system is still running on the untested model.',
           sub_caption: 'A customer complaint arrives about an incorrect response received this morning.',
           decision: null,
@@ -194,7 +194,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The vendor changed the model. The contract clause was never triggered. The team flag sat in your tracker.',
           sub_caption: 'You own both failures.',
           decision: {
@@ -282,7 +282,7 @@ export const scenario = {
         },
 
         n2_testset: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'Confirmed: the test set was built 18 months ago for the original model. The new model passes it easily — it\'s just different enough that the tests don\'t catch the behavioural shift.',
           sub_caption: 'The COO asks: how do you fix this and how long will it take?',
           decision: {

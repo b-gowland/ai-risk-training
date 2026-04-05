@@ -159,7 +159,7 @@ export const scenario = {
         },
 
         n2_board_first: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'Board briefed. Product still running. Another batch of client documents processed while the briefing was being prepared.',
           sub_caption: 'The data mapping scope just widened.',
           decision: null,
@@ -195,7 +195,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene:       'desk-casual',
+          scene:       'desk-review',
           caption:     'The DDQ you ran didn\'t include AI-specific questions. That\'s why the sub-processor gap wasn\'t found at procurement.',
           sub_caption: 'The CRO wants to understand what due diligence was done and what it missed.',
           decision: {
@@ -299,7 +299,7 @@ export const scenario = {
         },
 
         n2_quick: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The CRO asks for volume and document types. You don\'t have them. She asks you to get them before the next decision is made.',
           sub_caption: 'Twenty minutes later you have the numbers. The briefing continues.',
           decision: null,

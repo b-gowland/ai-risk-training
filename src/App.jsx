@@ -108,8 +108,11 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
     'desk-colleague':   <DeskColleagueScene />,
     'desk-intranet':    <DeskIntranetScene />,
     'desk-focused':     <DeskFocusedScene />,
+    'desk-review':      <DeskReviewScene />,
+    'desk-working':     <DeskWorkingScene />,
     'office-meeting':   <OfficeMeetingScene />,
     'office-busted':    <OfficeBustedScene />,
+    'office-briefing':  <OfficeBriefingScene />,
     'office-bright':    <OfficeReviewScene />,
     'boardroom':        <BoardroomScene />,
     'analyst-desk':     <AnalystDeskScene />,
@@ -851,6 +854,148 @@ function AnalystDeskScene() {
       {/* Coffee mug */}
       <rect x="586" y="230" width="26" height="22" rx="4" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.2"/>
       <path d="M612 236 Q622 236 622 242 Q622 248 612 248" fill="none" stroke="#1a1916" strokeWidth="1" opacity=".5"/>
+    </svg>
+  );
+}
+
+// ── Neutral governance / working scenes (shared across B/C/D/E domains) ──
+
+// desk-review: person reviewing a register or form on screen — no domain-specific text
+function DeskReviewScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Window — daylight */}
+      <rect x="460" y="20" width="180" height="150" rx="4" fill="#b8d4f0" opacity=".18"/>
+      <line x1="550" y1="20" x2="550" y2="170" stroke="#1a1916" strokeWidth="1" opacity=".1"/>
+      <line x1="460" y1="95" x2="640" y2="95" stroke="#1a1916" strokeWidth="1" opacity=".1"/>
+      {/* Desk */}
+      <rect x="40" y="240" width="580" height="12" rx="3" fill="#c4a882" opacity=".5"/>
+      <rect x="40" y="252" width="580" height="50" fill="#c4a882" opacity=".12"/>
+      {/* Monitor */}
+      <rect x="80" y="110" width="260" height="140" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <rect x="90" y="120" width="240" height="122" rx="4" fill="#eef2f7"/>
+      {/* Register / form on screen */}
+      <rect x="96" y="126" width="228" height="14" rx="2" fill="#1a1916" opacity=".07"/>
+      <text x="210" y="136" textAnchor="middle" fontSize="8" fontWeight="700" fill="#1a1916" opacity=".5" fontFamily="monospace">AI System Register</text>
+      {/* Form rows — label + blank field */}
+      {[
+        { label: 'System ID',        y: 152 },
+        { label: 'Accountable Person', y: 172 },
+        { label: 'Risk Rating',       y: 192 },
+        { label: 'Last Review',       y: 212 },
+        { label: 'Status',            y: 232 },
+      ].map((row, i) => (
+        <g key={i}>
+          <text x="100" y={row.y} fontSize="7" fill="#1a1916" opacity=".45">{row.label}</text>
+          <rect x="170" y={row.y - 9} width="148" height="11" rx="2" fill="white" stroke="#c4a882" strokeWidth="1" opacity=".8"/>
+        </g>
+      ))}
+      {/* Monitor stand */}
+      <rect x="200" y="250" width="8" height="14" rx="2" fill="#c4a882" opacity=".4"/>
+      <rect x="186" y="262" width="36" height="5" rx="2" fill="#c4a882" opacity=".4"/>
+      {/* Coffee — solo working context */}
+      <rect x="370" y="215" width="28" height="24" rx="4" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.2"/>
+      <path d="M398 220 Q408 220 408 228 Q408 236 398 236" fill="none" stroke="#1a1916" strokeWidth="1" opacity=".5"/>
+      <path d="M374 212 Q378 206 382 212" fill="none" stroke="#1a1916" strokeWidth="1" opacity=".3" strokeLinecap="round"/>
+      {/* Person — reading, calm */}
+      <circle cx="530" cy="185" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M510 178 Q515 164 530 162 Q545 164 550 178" fill="#1a1916" opacity=".65"/>
+      <path d="M519 187 Q523 184 527 186" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M533 186 Q537 184 541 187" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M522 195 Q530 199 538 195" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="530" cy="210" rx="24" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M512 216 Q530 232 560 238" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".2"/>
+    </svg>
+  );
+}
+
+// desk-working: person typing at desk — clean document on screen, no domain-specific text
+function DeskWorkingScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Desk */}
+      <rect x="40" y="240" width="580" height="12" rx="3" fill="#c4a882" opacity=".5"/>
+      <rect x="40" y="252" width="580" height="50" fill="#c4a882" opacity=".12"/>
+      {/* Monitor */}
+      <rect x="200" y="100" width="280" height="150" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <rect x="210" y="110" width="260" height="132" rx="4" fill="#f0f4ff"/>
+      {/* Generic document — title + body lines */}
+      <rect x="220" y="118" width="240" height="10" rx="2" fill="#1a1916" opacity=".12"/>
+      <text x="340" y="126" textAnchor="middle" fontSize="7.5" fontWeight="700" fill="#1a1916" opacity=".4">Internal Review Document</text>
+      <line x1="220" y1="132" x2="460" y2="132" stroke="#c4a882" strokeWidth="1" opacity=".5"/>
+      {[0,10,20,30,40,50,60,70,80].map((o,i) => (
+        <rect key={i} x="222" y={138+o} width={i%3===2 ? 140 : i%3===0 ? 220 : 180} height="6" rx="2" fill="#1a1916" opacity=".08"/>
+      ))}
+      {/* Cursor blink indicator */}
+      <rect x="222" y="228" width="2" height="9" rx="1" fill="#4a90d9" opacity=".7"/>
+      {/* Monitor stand */}
+      <rect x="333" y="250" width="8" height="14" rx="2" fill="#c4a882" opacity=".4"/>
+      <rect x="319" y="262" width="36" height="5" rx="2" fill="#c4a882" opacity=".4"/>
+      {/* Keyboard */}
+      <rect x="240" y="268" width="200" height="14" rx="4" fill="#e8e0d5" opacity=".6" stroke="#1a1916" strokeWidth=".5"/>
+      {[0,1,2,3,4,5,6,7].map(i => (
+        <rect key={i} x={248+i*22} y={271} width="16" height="8" rx="2" fill="#faf9f7" opacity=".8"/>
+      ))}
+      {/* Person typing — focused */}
+      <circle cx="120" cy="180" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M100 173 Q105 159 120 157 Q135 159 140 173" fill="#1a1916" opacity=".65"/>
+      <path d="M109 182 Q113 179 117 181" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M123 181 Q127 179 131 182" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M112 190 Q120 193 128 190" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="120" cy="205" rx="24" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      {/* Arms reaching to keyboard */}
+      <path d="M102 210 Q155 238 240 270" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".18"/>
+      <path d="M138 210 Q180 232 240 270" fill="none" stroke="#1a1916" strokeWidth="7" strokeLinecap="round" opacity=".15"/>
+    </svg>
+  );
+}
+
+// office-briefing: person at desk reviewing an alert/notification — professional, no shadow-AI text
+function OfficeBriefingScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      {/* Office walls */}
+      <rect x="0" y="0" width="680" height="340" fill="#f5f4f0" opacity=".4"/>
+      <line x1="0" y1="270" x2="680" y2="270" stroke="#c4a882" strokeWidth="1" opacity=".3"/>
+      {/* Desk */}
+      <rect x="40" y="240" width="600" height="14" rx="3" fill="#c4a882" opacity=".5"/>
+      <rect x="40" y="254" width="600" height="50" fill="#c4a882" opacity=".12"/>
+      {/* Monitor — showing a notification/alert panel */}
+      <rect x="180" y="95" width="300" height="160" rx="7" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <rect x="190" y="105" width="280" height="142" rx="4" fill="#1a1916" opacity=".04"/>
+      {/* Alert header bar */}
+      <rect x="190" y="105" width="280" height="22" rx="4" fill="#2c5282" opacity=".85"/>
+      <text x="330" y="120" textAnchor="middle" fontSize="9" fontWeight="700" fill="white">Notification — Action Required</text>
+      {/* Alert body rows */}
+      {[
+        { label: 'Reference:', value: 'REV-2024-0847',   y: 142 },
+        { label: 'Priority:',  value: 'High',             y: 162, highlight: true },
+        { label: 'Assigned:',  value: 'Pending review',  y: 182 },
+        { label: 'Due:',       value: 'End of business', y: 202 },
+      ].map((row, i) => (
+        <g key={i}>
+          <text x="200" y={row.y} fontSize="8" fill="#1a1916" opacity=".45">{row.label}</text>
+          <text x="270" y={row.y} fontSize="8" fontWeight={row.highlight ? '700' : '400'} fill={row.highlight ? '#c0392b' : '#1a1916'} opacity=".8">{row.value}</text>
+        </g>
+      ))}
+      {/* Action button */}
+      <rect x="370" y="220" width="88" height="20" rx="4" fill="#2c5282" opacity=".85"/>
+      <text x="414" y="234" textAnchor="middle" fontSize="8" fontWeight="600" fill="white">Review →</text>
+      {/* Monitor stand */}
+      <rect x="325" y="255" width="8" height="14" rx="2" fill="#c4a882" opacity=".4"/>
+      <rect x="311" y="267" width="36" height="5" rx="2" fill="#c4a882" opacity=".4"/>
+      {/* Stack of papers on desk */}
+      <rect x="510" y="215" width="80" height="6" rx="1" fill="#faf9f7" stroke="#c4a882" strokeWidth="1" opacity=".9"/>
+      <rect x="508" y="221" width="80" height="6" rx="1" fill="#faf9f7" stroke="#c4a882" strokeWidth="1" opacity=".7"/>
+      <rect x="512" y="227" width="80" height="6" rx="1" fill="#faf9f7" stroke="#c4a882" strokeWidth="1" opacity=".5"/>
+      {/* Person — looking at screen, attentive */}
+      <circle cx="100" cy="178" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M80 171 Q85 157 100 155 Q115 157 120 171" fill="#1a1916" opacity=".65"/>
+      <path d="M89 181 Q93 178 97 180" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M103 180 Q107 178 111 181" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M91 190 Q100 194 109 190" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="100" cy="205" rx="24" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M82 212 Q100 228 140 238" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".2"/>
     </svg>
   );
 }

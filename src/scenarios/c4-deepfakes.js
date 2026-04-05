@@ -88,7 +88,7 @@ export const scenario = {
         },
 
         n2_calendar: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'No response after twenty minutes. End of business is approaching. The calendar invite came from an address you don\'t recognise.',
           sub_caption: 'You assumed it was Dana\'s mobile calendar. It wasn\'t.',
           decision: {
@@ -343,7 +343,7 @@ export const scenario = {
         },
 
         n3_detection_only: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Detection integrated. Six months later, a voice-only call — no video — attempts the same attack.',
           sub_caption: 'The detection tool only covers video. The process gap was never fixed.',
           decision: null,
@@ -414,7 +414,7 @@ export const scenario = {
         },
 
         n2_delayed: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'Eighteen hours in, a second payment request is flagged — different staff member, same anomaly pattern.',
           sub_caption: 'The attacker tried again. You were still building your case.',
           decision: {
@@ -430,7 +430,7 @@ export const scenario = {
         },
 
         n2_wrong_order: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Alex tells you everything. Including the fact that they\'ve mentioned the call to three colleagues over lunch.',
           sub_caption: 'The CISO calls you. They heard about the incident from the Head of Finance. Not from you.',
           decision: {

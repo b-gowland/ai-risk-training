@@ -157,7 +157,7 @@ export const scenario = {
         },
 
         n2_vendor: {
-          scene:       'desk-casual',
+          scene:       'desk-review',
           caption:     'The vendor provides a generic compliance statement. The auditor confirms it does not constitute a sign-off.',
           sub_caption: 'You are now in the same position, but having spent an hour on a dead end.',
           decision: null,
@@ -193,7 +193,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The auditor wants to see the go-live checklist. The compliance sign-off line is marked complete.',
           sub_caption: 'There is no document behind that checkmark.',
           decision: {
@@ -297,7 +297,7 @@ export const scenario = {
         },
 
         n2_recheck: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The second run confirms the finding. Forty minutes have passed.',
           sub_caption: 'Your manager asks why you took so long to escalate.',
           decision: null,

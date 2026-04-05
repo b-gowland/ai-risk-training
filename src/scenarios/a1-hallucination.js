@@ -103,7 +103,7 @@ export const scenario = {
         },
 
         n2_defended: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'Four hours later, you still can\'t find the regulatory document anywhere. The client has sent a follow-up: their compliance team has searched all official sources. It doesn\'t exist.',
           sub_caption: 'You spent four hours implying the source was real. It wasn\'t.',
           decision: {
@@ -221,7 +221,7 @@ export const scenario = {
         },
 
         n3_false_assurance: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Two days later, a second client flags a citation error in a different document.',
           sub_caption: 'The first client has heard. "You told me this was isolated."',
           decision: null,
@@ -285,7 +285,7 @@ export const scenario = {
         },
 
         n2_blame_individual: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: '"Was it a required step or a suggestion?" A suggestion. "Then how is this the individual\'s failure?"',
           sub_caption: 'The partner is looking at you.',
           decision: {
@@ -317,7 +317,7 @@ export const scenario = {
         },
 
         n3_training_only: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Three months later. Different staff member. Different client. Same problem: AI-generated citation, unverified, sent out.',
           sub_caption: 'The post-incident review asks why the workflow didn\'t include a mandatory verification step.',
           decision: null,
@@ -372,7 +372,7 @@ export const scenario = {
         },
 
         n2_full_audit: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'Twelve client-facing documents. Six AI-assisted. Four hours of citation checking.',
           sub_caption: 'Results: two documents with fabricated citations, one with a real-but-misquoted reference, three clean.',
           decision: {

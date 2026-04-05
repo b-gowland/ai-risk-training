@@ -157,7 +157,7 @@ export const scenario = {
         },
 
         n2_competitor: {
-          scene:       'desk-casual',
+          scene:       'desk-review',
           caption:     'You cannot determine in 30 minutes whether the competitor document is AI-related. The client is calling.',
           sub_caption: 'You go into the call without knowing what your team submitted.',
           decision: null,
@@ -232,7 +232,7 @@ export const scenario = {
         },
 
         n2_policy: {
-          scene:       'desk-casual',
+          scene:       'desk-review',
           caption:     'The General Counsel asks whether the IT AUP specifically addresses AI tools and data classification. It does not.',
           sub_caption: 'The gap is now confirmed. And you deflected before acknowledging it.',
           decision: null,
@@ -307,7 +307,7 @@ export const scenario = {
         },
 
         n2_inference: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The General Counsel asks you to separate what the logs show from what the paralegal confirmed. The two are different evidence sources.',
           sub_caption: 'You revise your briefing. The delay is noted.',
           decision: null,

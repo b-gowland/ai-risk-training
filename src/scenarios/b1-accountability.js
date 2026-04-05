@@ -54,7 +54,7 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
-          scene:       'desk-casual',
+          scene:       'desk-review',
           caption:     'The reviewer\'s question hangs in the air. Nobody in the room answered.',
           sub_caption: 'She makes a note and moves on. You know this isn\'t over.',
           decision: {
@@ -228,7 +228,7 @@ export const scenario = {
         },
 
         n2_process: {
-          scene:       'desk-typing',
+          scene:       'desk-working',
           caption:     'The CRO notes that the template is your responsibility. The process gap doesn\'t explain why it wasn\'t fixed.',
           sub_caption: 'She asks you to come back with a root cause and a fix.',
           decision: null,

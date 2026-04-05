@@ -88,7 +88,7 @@ export const scenario = {
         },
 
         n2_investigate_more: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'Twenty shortlists. The pattern holds — consistently narrow candidate profiles. But you don\'t have demographic data to confirm bias.',
           sub_caption: 'Three months have passed. The tool is still running.',
           decision: {
@@ -104,7 +104,7 @@ export const scenario = {
         },
 
         n2_ignored: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Three months later. A candidate who wasn\'t shortlisted — despite strong qualifications — makes a formal complaint.',
           sub_caption: 'The investigation requests records of the tool\'s shortlisting decisions. Your name is on several of them.',
           decision: {
@@ -316,7 +316,7 @@ export const scenario = {
         },
 
         n2_scope: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: '"The project brief you led resulted in a tool that appears to be discriminating against candidates. The scope boundary argument is not available to you in this room."',
           sub_caption: 'The CPO is waiting.',
           decision: {
@@ -332,7 +332,7 @@ export const scenario = {
         },
 
         n3_vendor_only: {
-          scene: 'office-busted',
+          scene: 'office-briefing',
           caption: 'Vendor provides a remediated model. It\'s redeployed. Three months later, a lawyer writes on behalf of candidates not shortlisted during the bias period.',
           sub_caption: '"What was done for the people who weren\'t shortlisted during those three months?"',
           decision: null,
@@ -403,7 +403,7 @@ export const scenario = {
         },
 
         n2_delayed: {
-          scene: 'desk-typing',
+          scene: 'desk-working',
           caption: 'Five working days of additional analysis. During that time, the tool processed candidates for four more open roles.',
           sub_caption: 'The HR Technology lead asks: "When did you first see the disparity?"',
           decision: {
