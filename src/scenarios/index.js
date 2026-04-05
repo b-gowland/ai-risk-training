@@ -7,6 +7,8 @@ import { scenario as d2 } from './d2-privacy.js';
 import { scenario as b1 } from './b1-accountability.js';
 import { scenario as b3 } from './b3-lifecycle.js';
 import { scenario as b4 } from './b4-supply-chain.js';
+import { scenario as d1 } from './d1-data-quality.js';
+import { scenario as d3 } from './d3-ip.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -31,9 +33,9 @@ export const scenarios = [
   stub('c3-model-theft',     'C3', 'The Extraction',            'C — Security & Adversarial', 'Advanced'),
   c4,
   stub('c5-cyber',           'C5', 'Precision Strike',          'C — Security & Adversarial', 'Intermediate'),
-  stub('d1-data-quality',    'D1', 'Garbage In',                'D — Data',                   'Intermediate'),
+  d1,
   d2,
-  stub('d3-ip',              'D3', "Who Owns This?",            'D — Data',                   'Intermediate'),
+  d3,
   e1,
   stub('e2-harmful-content', 'E2', 'The Guardrail Gap',         'E — Fairness & Social',      'Advanced'),
   stub('e3-misinfo',         'E3', 'The Fabricated Story',      'E — Fairness & Social',      'Foundational'),
