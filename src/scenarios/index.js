@@ -1,4 +1,7 @@
 import { scenario as f2 } from './f2-shadow-ai.js';
+import { scenario as c1 } from './c1-data-poisoning.js';
+import { scenario as c2 } from './c2-prompt-injection.js';
+import { scenario as c3 } from './c3-model-theft.js';
 import { scenario as c4 } from './c4-deepfakes.js';
 import { scenario as a1 } from './a1-hallucination.js';
 import { scenario as e1 } from './e1-bias.js';
@@ -28,9 +31,9 @@ export const scenarios = [
   b2,
   b3,
   b4,
-  stub('c1-data-poisoning',  'C1', 'Poisoned at the Source',    'C — Security & Adversarial', 'Advanced'),
-  stub('c2-prompt-injection','C2', 'The Hidden Instruction',    'C — Security & Adversarial', 'Advanced'),
-  stub('c3-model-theft',     'C3', 'The Extraction',            'C — Security & Adversarial', 'Advanced'),
+  c1,
+  c2,
+  c3,
   c4,
   stub('c5-cyber',           'C5', 'Precision Strike',          'C — Security & Adversarial', 'Intermediate'),
   d1,
