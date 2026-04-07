@@ -45,7 +45,7 @@ function PersonaSelect({ scenario, onSelect }) {
       <p className={styles.scenarioSub}>{scenario.subtitle}</p>
       <div className={styles.personaPrompt}>Who are you in this story?</div>
       <div className={styles.personaGrid}>
-        {PERSONA_ORDER.map(key => {
+        {PERSONA_ORDER.filter(key => scenario.personas[key]).map(key => {
           const p = scenario.personas[key];
           return (
             <button key={key} className={styles.personaCard} onClick={() => onSelect(key)}>
