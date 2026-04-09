@@ -13,6 +13,9 @@ import { scenario as b4 } from './b4-supply-chain.js';
 import { scenario as d1 } from './d1-data-quality.js';
 import { scenario as d3 } from './d3-ip.js';
 import { scenario as c5 } from './c5-ai-cyber-attacks.js';
+import { scenario as f1 } from './f1-automation-bias.js';
+import { scenario as f3 } from './f3-scope-creep.js';
+import { scenario as g4 } from './g4-ai-safety.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -44,12 +47,12 @@ export const scenarios = [
   stub('e2-harmful-content', 'E2', 'The Guardrail Gap',         'E — Fairness & Social',      'Advanced'),
   stub('e3-misinfo',         'E3', 'The Fabricated Story',      'E — Fairness & Social',      'Foundational'),
   f2,
-  stub('f1-automation-bias', 'F1', 'Trust the Machine',         'F — HCI & Deployment',       'Foundational'),
-  stub('f3-scope-creep',     'F3', 'Just One More Thing',       'F — HCI & Deployment',       'Intermediate'),
+  f1,
+  f3,
   stub('g1-concentration',   'G1', 'Single Point',              'G — Systemic & Macro',       'Advanced'),
   stub('g2-environment',     'G2', 'The Hidden Cost',           'G — Systemic & Macro',       'Intermediate'),
   stub('g3-workforce',       'G3', 'The Transition',            'G — Systemic & Macro',       'Intermediate'),
-  stub('g4-safety',          'G4', 'Out of Scope',              'G — Systemic & Macro',       'Advanced'),
+  g4,
 ];
 
 export const getScenario = (id) => scenarios.find(s => s.id === id);

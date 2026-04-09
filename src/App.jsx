@@ -122,6 +122,7 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
     'chart-declining':   <ChartDecliningScene />,
     'phone-verify':      <PhoneVerifyScene />,
     'security-alert':    <SecurityAlertScene />,
+    'xray-ai':           <XrayAiScene />,
   };
   return (
     <div className={styles.sceneWrapper}>
@@ -411,6 +412,111 @@ function SecurityAlertScene() {
       <circle cx={585} cy={229} r={1.5} fill="white"/>
       <circle cx={599} cy={229} r={1.5} fill="white"/>
       <path d="M583 242 Q590 239 597 242" fill="none" stroke="var(--panel-ink)" strokeWidth={1.2} strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// F1 — chest X-ray on medical display with AI confidence overlay: "Normal — 91%"
+// Subtle highlight on lower right lobe — the finding the AI missed
+function XrayAiScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Medical monitor showing chest X-ray with AI diagnostic overlay reading Normal 91% confidence">
+      {/* Dark clinical room background */}
+      <rect x="0" y="0" width="680" height="340" fill="#1a1916" opacity=".06"/>
+      {/* Desk / lightbox surface */}
+      <rect x="40" y="285" width="600" height="10" rx="3" fill="#c4a882" opacity=".4"/>
+      {/* Medical monitor — large, landscape, dark screen */}
+      <rect x="80" y="28" width="400" height="268" rx="8" fill="#0d0d0d" stroke="#2a2a2a" strokeWidth="3"/>
+      <rect x="88" y="36" width="384" height="252" rx="4" fill="#111"/>
+      {/* Monitor stand */}
+      <rect x="271" y="296" width="18" height="14" rx="2" fill="#c4a882" opacity=".35"/>
+      <rect x="254" y="308" width="52" height="5" rx="2" fill="#c4a882" opacity=".35"/>
+      {/* ── X-ray image on screen ── */}
+      {/* Chest cavity outline — rib cage silhouette */}
+      <ellipse cx="280" cy="162" rx="148" ry="108" fill="#1e2020"/>
+      {/* Spine — central white line */}
+      <rect x="276" y="68" width="8" height="188" rx="3" fill="#4a4a4a" opacity=".7"/>
+      {/* Ribs — left side (patient right) */}
+      {[0,1,2,3,4,5,6].map(i => (
+        <path key={`rl${i}`}
+          d={`M276 ${88+i*22} Q${210-i*4} ${88+i*22} ${185-i*3} ${102+i*22}`}
+          fill="none" stroke="#3a3a3a" strokeWidth="3.5" strokeLinecap="round" opacity=".8"/>
+      ))}
+      {/* Ribs — right side */}
+      {[0,1,2,3,4,5,6].map(i => (
+        <path key={`rr${i}`}
+          d={`M284 ${88+i*22} Q${350+i*4} ${88+i*22} ${373+i*3} ${102+i*22}`}
+          fill="none" stroke="#3a3a3a" strokeWidth="3.5" strokeLinecap="round" opacity=".8"/>
+      ))}
+      {/* Left lung field (patient right) — lighter grey */}
+      <ellipse cx="232" cy="158" rx="68" ry="88" fill="#2a2e2e" opacity=".9"/>
+      {/* Right lung field (patient left) — lighter grey */}
+      <ellipse cx="328" cy="155" rx="65" ry="86" fill="#2a2e2e" opacity=".9"/>
+      {/* Trachea */}
+      <rect x="275" y="54" width="10" height="38" rx="4" fill="#3a3a3a" opacity=".6"/>
+      {/* Carina split */}
+      <path d="M275 90 Q260 105 240 112" fill="none" stroke="#3a3a3a" strokeWidth="3" opacity=".6"/>
+      <path d="M285 90 Q298 105 316 112" fill="none" stroke="#3a3a3a" strokeWidth="3" opacity=".6"/>
+      {/* Heart shadow — central, slightly left */}
+      <ellipse cx="265" cy="175" rx="42" ry="52" fill="#1a1e1e" opacity=".7"/>
+      {/* Diaphragm */}
+      <path d="M140 240 Q210 220 280 218 Q350 220 420 240" fill="none" stroke="#3a3a3a" strokeWidth="3" opacity=".5"/>
+      {/* ── Subtle finding — lower right lobe ── */}
+      {/* Small density — the thing the AI missed. Faint, radiologically plausible */}
+      <ellipse cx="366" cy="214" rx="11" ry="9" fill="#3d4242" opacity=".85"/>
+      <ellipse cx="366" cy="214" rx="7" ry="6" fill="#464c4c" opacity=".7"/>
+      {/* Dotted highlight ring — very faint, just enough to catch the eye on close look */}
+      <ellipse cx="366" cy="214" rx="16" ry="13" fill="none"
+        stroke="#7ab8d4" strokeWidth="1.2" strokeDasharray="3 3" opacity=".35"/>
+      {/* ── AI overlay panel — top right of screen ── */}
+      <rect x="440" y="44" width="168" height="98" rx="5" fill="#0d1a2a" opacity=".97" stroke="#1e3a5a" strokeWidth="1.5"/>
+      {/* Panel header */}
+      <rect x="440" y="44" width="168" height="22" rx="5" fill="#1a3a5a"/>
+      <rect x="440" y="55" width="168" height="11" fill="#1a3a5a"/>
+      <text x="524" y="59" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#7ab8d4" fontFamily="monospace">AI DIAGNOSTIC AID</text>
+      {/* Finding */}
+      <text x="452" y="82" fontSize="8" fill="#b0b8b8" fontFamily="monospace">FINDING</text>
+      <text x="452" y="96" fontSize="13" fontWeight="700" fill="#4cdd8a" fontFamily="monospace">NORMAL</text>
+      {/* Confidence bar */}
+      <text x="452" y="112" fontSize="7.5" fill="#b0b8b8" fontFamily="monospace">CONFIDENCE</text>
+      <rect x="452" y="116" width="140" height="7" rx="3" fill="#1e2a2a"/>
+      <rect x="452" y="116" width="127" height="7" rx="3" fill="#4cdd8a" opacity=".8"/>
+      <text x="598" y="123" textAnchor="end" fontSize="7" fill="#4cdd8a" fontFamily="monospace">91%</text>
+      {/* Timestamp */}
+      <text x="452" y="136" fontSize="6.5" fill="#5a6868" fontFamily="monospace">16:04:12  SCAN 75 / 80</text>
+      {/* ── Second smaller panel: region analysis ── */}
+      <rect x="440" y="152" width="168" height="64" rx="5" fill="#0d1a2a" opacity=".97" stroke="#1e3a5a" strokeWidth="1.5"/>
+      <text x="452" y="168" fontSize="7.5" fill="#b0b8b8" fontFamily="monospace">REGION ANALYSIS</text>
+      {[
+        { label: "Upper zones",  val: "Clear",  col: "#4cdd8a" },
+        { label: "Mid zones",    val: "Clear",  col: "#4cdd8a" },
+        { label: "Lower zones",  val: "Clear",  col: "#4cdd8a" },
+      ].map((r, i) => (
+        <g key={i}>
+          <text x="452" y={182+i*14} fontSize="7" fill="#7a8888" fontFamily="monospace">{r.label}</text>
+          <text x="600" y={182+i*14} textAnchor="end" fontSize="7" fontWeight="600" fill={r.col} fontFamily="monospace">{r.val}</text>
+        </g>
+      ))}
+      {/* ── Radiologist — right of monitor, leaning in, scrutinising ── */}
+      {/* Body */}
+      <ellipse cx="590" cy="255" rx="28" ry="24" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      {/* White coat suggestion */}
+      <ellipse cx="590" cy="255" rx="28" ry="24" fill="white" opacity=".5" stroke="#1a1916" strokeWidth="1.5"/>
+      {/* Head — leaning slightly forward toward screen */}
+      <circle cx="590" cy="228" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M570 221 Q575 207 590 205 Q605 207 610 221" fill="#1a1916" opacity=".6"/>
+      {/* Eyes — focused, slightly narrowed */}
+      <path d="M579 222 Q583 219 587 222" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M593 222 Q597 219 601 222" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <ellipse cx="583" cy="225" rx="3.5" ry="4" fill="#1a1916"/>
+      <ellipse cx="597" cy="225" rx="3.5" ry="4" fill="#1a1916"/>
+      <circle cx="584.5" cy="224" r="1.2" fill="white"/>
+      <circle cx="598.5" cy="224" r="1.2" fill="white"/>
+      {/* Neutral/thoughtful expression */}
+      <path d="M584 236 Q590 237 596 236" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      {/* Arm — hand raised to chin, thinking posture */}
+      <path d="M568 248 Q560 242 558 234" fill="none" stroke="#1a1916" strokeWidth="7" strokeLinecap="round" opacity=".2"/>
+      <circle cx="558" cy="232" r="6" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.5" opacity=".8"/>
     </svg>
   );
 }
