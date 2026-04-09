@@ -12,6 +12,7 @@ import { scenario as b3 } from './b3-lifecycle.js';
 import { scenario as b4 } from './b4-supply-chain.js';
 import { scenario as d1 } from './d1-data-quality.js';
 import { scenario as d3 } from './d3-ip.js';
+import { scenario as c5 } from './c5-ai-cyber-attacks.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -35,7 +36,7 @@ export const scenarios = [
   c2,
   c3,
   c4,
-  stub('c5-cyber',           'C5', 'Precision Strike',          'C — Security & Adversarial', 'Intermediate'),
+  c5,
   d1,
   d2,
   d3,
