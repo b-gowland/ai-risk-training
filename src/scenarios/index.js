@@ -16,6 +16,9 @@ import { scenario as c5 } from './c5-ai-cyber-attacks.js';
 import { scenario as f1 } from './f1-automation-bias.js';
 import { scenario as f3 } from './f3-scope-creep.js';
 import { scenario as g4 } from './g4-ai-safety.js';
+import { scenario as g3 } from './g3-workforce-displacement.js';
+import { scenario as a2 } from './a2-model-drift.js';
+import { scenario as g1 } from './g1-concentration-risk.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -28,7 +31,7 @@ const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) =
 // Business User available for F2, C4, A1, E1 only
 export const scenarios = [
   a1,
-  stub('a2-model-drift',     'A2', 'The Slow Decay',            'A — Technical',              'Intermediate'),
+  a2,
   stub('a3-robustness',      'A3', 'Edge of the Map',           'A — Technical',              'Intermediate'),
   stub('a4-explainability',  'A4', 'The Black Box Decision',    'A — Technical',              'Advanced'),
   b1,
@@ -49,9 +52,9 @@ export const scenarios = [
   f2,
   f1,
   f3,
-  stub('g1-concentration',   'G1', 'Single Point',              'G — Systemic & Macro',       'Advanced'),
+  g1,
   stub('g2-environment',     'G2', 'The Hidden Cost',           'G — Systemic & Macro',       'Intermediate'),
-  stub('g3-workforce',       'G3', 'The Transition',            'G — Systemic & Macro',       'Intermediate'),
+  g3,
   g4,
 ];
 

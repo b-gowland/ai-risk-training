@@ -123,6 +123,9 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
     'phone-verify':      <PhoneVerifyScene />,
     'security-alert':    <SecurityAlertScene />,
     'xray-ai':           <XrayAiScene />,
+    'news-leak':         <NewsLeakScene />,
+    'drift-dashboard':   <DriftDashboardScene />,
+    'api-outage':        <ApiOutageScene />,
   };
   return (
     <div className={styles.sceneWrapper}>
@@ -517,6 +520,226 @@ function XrayAiScene() {
       {/* Arm — hand raised to chin, thinking posture */}
       <path d="M568 248 Q560 242 558 234" fill="none" stroke="#1a1916" strokeWidth="7" strokeLinecap="round" opacity=".2"/>
       <circle cx="558" cy="232" r="6" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.5" opacity=".8"/>
+    </svg>
+  );
+}
+
+// G3 — employee reads redundancy news on phone/screen before any internal communication
+// Phone notification showing a news article; colleagues visible in background reacting
+function NewsLeakScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Employee reads news article about redundancies on their phone while colleagues react in background">
+      {/* Open-plan office background */}
+      <rect x="0" y="0" width="680" height="340" fill="#f5f4f0" opacity=".5"/>
+      <line x1="0" y1="280" x2="680" y2="280" stroke="#c4a882" strokeWidth="1" opacity=".25"/>
+      {/* Desk surface */}
+      <rect x="40" y="258" width="320" height="10" rx="3" fill="#c4a882" opacity=".4"/>
+      {/* Monitor on desk — ignored, dark */}
+      <rect x="60" y="138" width="180" height="118" rx="6" fill="#1a1916" stroke="#2a2a2a" strokeWidth="2" opacity=".6"/>
+      <rect x="66" y="144" width="168" height="106" rx="3" fill="#111" opacity=".8"/>
+      <rect x="133" y="256" width="14" height="12" rx="2" fill="#c4a882" opacity=".3"/>
+      <rect x="120" y="266" width="40" height="4" rx="2" fill="#c4a882" opacity=".3"/>
+      {/* ── Phone — held in hands, centre of attention ── */}
+      <rect x="248" y="148" width="78" height="130" rx="10" fill="#1a1916" stroke="#3a3a3a" strokeWidth="2"/>
+      <rect x="253" y="154" width="68" height="118" rx="7" fill="#faf9f7"/>
+      {/* News article on phone screen */}
+      {/* Publication header */}
+      <rect x="255" y="156" width="64" height="12" rx="3" fill="#1a1916" opacity=".85"/>
+      <text x="287" y="165" textAnchor="middle" fontSize="6.5" fontWeight="700" fill="white" fontFamily="sans-serif">Financial Review</text>
+      {/* Article headline — the news */}
+      <text x="258" y="178" fontSize="6" fontWeight="700" fill="#1a1916" fontFamily="sans-serif">Lenders deploy AI to</text>
+      <text x="258" y="187" fontSize="6" fontWeight="700" fill="#1a1916" fontFamily="sans-serif">slash processing</text>
+      <text x="258" y="196" fontSize="6" fontWeight="700" fill="#1a1916" fontFamily="sans-serif">headcount</text>
+      {/* Firm name highlighted */}
+      <rect x="256" y="200" width="64" height="11" rx="2" fill="#fff3cd"/>
+      <text x="258" y="208" fontSize="5.5" fill="#856404" fontWeight="600" fontFamily="sans-serif">Meridian Bank — 25 roles</text>
+      {/* Article body lines */}
+      {[0,1,2,3].map(i => (
+        <rect key={i} x="256" y={216+i*9} width={i===3 ? 32 : 62} height="5" rx="2" fill="#1a1916" opacity=".1"/>
+      ))}
+      {/* Notification dot */}
+      <circle cx="311" cy="157" r="5" fill="#e74c3c"/>
+      <text x="311" y="160" textAnchor="middle" fontSize="5.5" fontWeight="700" fill="white">!</text>
+      {/* ── Primary character — holding phone, stunned expression ── */}
+      <ellipse cx="180" cy="290" rx="30" ry="22" fill="#e8e0d5" stroke="#1a1916" strokeWidth="1.8"/>
+      <circle cx="180" cy="264" r="24" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M158 257 Q163 242 180 240 Q197 242 202 257" fill="#1a1916" opacity=".6"/>
+      {/* Raised eyebrows — shocked */}
+      <path d="M168 250 Q172 245 176 249" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M184 249 Q188 245 192 250" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      {/* Wide eyes */}
+      <ellipse cx="172" cy="254" rx="4.5" ry="5" fill="#1a1916"/>
+      <ellipse cx="188" cy="254" rx="4.5" ry="5" fill="#1a1916"/>
+      <circle cx="173.5" cy="252.5" r="1.5" fill="white"/>
+      <circle cx="189.5" cy="252.5" r="1.5" fill="white"/>
+      {/* Open mouth — shock */}
+      <ellipse cx="180" cy="265" rx="5" ry="3.5" fill="#1a1916" opacity=".6"/>
+      {/* Arms — holding phone up */}
+      <path d="M156 278 Q200 265 248 192" fill="none" stroke="#1a1916" strokeWidth="9" strokeLinecap="round" opacity=".18"/>
+      <path d="M204 278 Q220 268 248 210" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".15"/>
+      {/* ── Background colleagues reacting ── */}
+      {/* Colleague 1 — leaning over to look at same phone */}
+      <circle cx="490" cy="210" r="18" fill="#faf9f7" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M474 203 Q478 192 490 190 Q502 192 506 203" fill="#1a1916" opacity=".55"/>
+      <path d="M483 208 Q487 205 491 208" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <ellipse cx="487" cy="206" rx="2.5" ry="3" fill="#1a1916"/>
+      <ellipse cx="493" cy="206" rx="2.5" ry="3" fill="#1a1916"/>
+      <path d="M484 215 Q490 218 496 215" fill="none" stroke="#1a1916" strokeWidth="1" strokeLinecap="round"/>
+      <ellipse cx="490" cy="232" rx="20" ry="18" fill="#e8e0d5" stroke="#1a1916" strokeWidth="1.5"/>
+      {/* Colleague 2 — on phone, separate conversation */}
+      <circle cx="590" cy="195" r="16" fill="#faf9f7" stroke="#1a1916" strokeWidth="1.8"/>
+      <path d="M576 189 Q580 179 590 177 Q600 179 604 189" fill="#1a1916" opacity=".5"/>
+      <path d="M584 194 Q587 192 590 194" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="587" cy="193" rx="2" ry="2.5" fill="#1a1916"/>
+      <ellipse cx="593" cy="193" rx="2" ry="2.5" fill="#1a1916"/>
+      {/* Phone held to ear */}
+      <rect x="573" y="186" width="10" height="17" rx="3" fill="#2a2a2a" opacity=".7"/>
+      <ellipse cx="590" cy="215" rx="18" ry="16" fill="#e8e0d5" stroke="#1a1916" strokeWidth="1.5"/>
+      {/* Slack/chat notification bubble */}
+      <rect x="390" y="120" width="160" height="48" rx="8" fill="white" stroke="#c4a882" strokeWidth="1.5" opacity=".95"/>
+      <rect x="390" y="120" width="160" height="16" rx="8" fill="#4a3728" opacity=".9"/>
+      <rect x="390" y="128" width="160" height="8" fill="#4a3728" opacity=".9"/>
+      <text x="470" y="131" textAnchor="middle" fontSize="7" fontWeight="600" fill="white" fontFamily="sans-serif">Team Channel</text>
+      <text x="398" y="148" fontSize="6.5" fill="#1a1916" fontFamily="sans-serif">Did anyone see the FR article?</text>
+      <text x="398" y="159" fontSize="6.5" fill="#1a1916" fontFamily="sans-serif">Is this about our team?? 😰</text>
+    </svg>
+  );
+}
+
+// A2 / G1 — monitoring dashboard showing healthy aggregate metric
+// but a hidden segment breakdown showing severe failure, or API outage state
+function DriftDashboardScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Model monitoring dashboard showing healthy aggregate accuracy metric with segment breakdown revealing hidden failure">
+      {/* Dark dashboard background */}
+      <rect x="0" y="0" width="680" height="340" fill="#0f1117" opacity=".06"/>
+      {/* Main monitor */}
+      <rect x="50" y="20" width="580" height="300" rx="8" fill="#0d1117" stroke="#1e2530" strokeWidth="2"/>
+      <rect x="58" y="28" width="564" height="284" rx="5" fill="#0d1117"/>
+      {/* Dashboard header bar */}
+      <rect x="58" y="28" width="564" height="28" rx="5" fill="#161b22"/>
+      <rect x="58" y="46" width="564" height="10" fill="#161b22"/>
+      <text x="72" y="46" fontSize="9" fontWeight="700" fill="#7ab8d4" fontFamily="monospace">FRAUD DETECTION MODEL — PRODUCTION MONITORING</text>
+      <text x="580" y="46" textAnchor="end" fontSize="7.5" fill="#5a6878" fontFamily="monospace">Last updated: 09:14:22</text>
+      {/* ── Top KPI cards ── */}
+      {/* Card 1 — Aggregate accuracy — GREEN, looks healthy */}
+      <rect x="68" y="66" width="160" height="72" rx="5" fill="#161b22" stroke="#21d474" strokeWidth="1.5"/>
+      <text x="78" y="82" fontSize="7" fill="#7a8898" fontFamily="monospace">AGGREGATE ACCURACY</text>
+      <text x="78" y="108" fontSize="26" fontWeight="700" fill="#21d474" fontFamily="monospace">96.2%</text>
+      <text x="78" y="124" fontSize="6.5" fill="#21d474" fontFamily="monospace">▲ +0.1pp vs last month</text>
+      {/* Card 2 — False positive rate aggregate — also green */}
+      <rect x="242" y="66" width="160" height="72" rx="5" fill="#161b22" stroke="#21d474" strokeWidth="1.5"/>
+      <text x="252" y="82" fontSize="7" fill="#7a8898" fontFamily="monospace">FALSE POSITIVE RATE</text>
+      <text x="252" y="108" fontSize="26" fontWeight="700" fill="#21d474" fontFamily="monospace">3.8%</text>
+      <text x="252" y="124" fontSize="6.5" fill="#21d474" fontFamily="monospace">Within normal range</text>
+      {/* Card 3 — Complaints — RED, the signal */}
+      <rect x="416" y="66" width="190" height="72" rx="5" fill="#161b22" stroke="#e74c3c" strokeWidth="2"/>
+      <text x="426" y="82" fontSize="7" fill="#7a8898" fontFamily="monospace">CUSTOMER COMPLAINTS</text>
+      <text x="426" y="108" fontSize="26" fontWeight="700" fill="#e74c3c" fontFamily="monospace">+340%</text>
+      <text x="426" y="124" fontSize="6.5" fill="#e74c3c" fontFamily="monospace">▲ 6-week trend — REVIEW</text>
+      {/* ── Segment breakdown table ── the hidden story ── */}
+      <rect x="68" y="152" width="538" height="148" rx="5" fill="#161b22" stroke="#1e2530" strokeWidth="1"/>
+      <text x="78" y="168" fontSize="8" fontWeight="600" fill="#7ab8d4" fontFamily="monospace">ACCURACY BY CUSTOMER SEGMENT — current vs validation baseline</text>
+      <line x1="68" y1="172" x2="606" y2="172" stroke="#1e2530" strokeWidth="1"/>
+      {/* Table header */}
+      <rect x="68" y="172" width="538" height="18" fill="#0f1419"/>
+      {["SEGMENT", "BASELINE", "CURRENT", "CHANGE", "FALSE POS RATE"].map((h, i) => (
+        <text key={i} x={[82, 230, 330, 420, 490][i]} y={184} fontSize="7" fontWeight="600" fill="#5a6878" fontFamily="monospace">{h}</text>
+      ))}
+      {/* Data rows */}
+      {[
+        ["All customers",                "96.1%", "94.1%", "−2.0pp", "3.8%",  false],
+        ["Traditional banking",          "96.3%", "95.8%", "−0.5pp", "2.1%",  false],
+        ["Online banking (pre-2022)",     "95.9%", "95.1%", "−0.8pp", "3.2%",  false],
+        ["Digital onboarding (2022–23)", "96.0%", "88.4%", "−7.6pp", "11.6%", true ],
+        ["Digital onboarding (2024+)",   "—",     "66.2%", "n/a",    "34.0%", true ],
+      ].map(([seg, base, cur, chg, fp, flag], i) => (
+        <g key={i}>
+          <rect x="68" y={191+i*21} width="538" height="21" fill={flag ? "#2a0f0f" : i%2===0 ? "#0d1117" : "#111620"} opacity={flag ? 1 : 0.8}/>
+          {flag && <rect x="68" y={191+i*21} width="3" height="21" fill="#e74c3c"/>}
+          <text x="82" y={205+i*21} fontSize="7.5" fill={flag ? "#ffaaaa" : "#8a9aaa"} fontFamily="monospace">{seg}</text>
+          <text x="230" y={205+i*21} fontSize="7.5" fill={flag ? "#ff6666" : "#5a6878"} fontFamily="monospace">{base}</text>
+          <text x="330" y={205+i*21} fontSize="7.5" fontWeight={flag ? "700" : "400"} fill={flag ? "#ff4444" : "#8a9aaa"} fontFamily="monospace">{cur}</text>
+          <text x="420" y={205+i*21} fontSize="7.5" fill={flag ? "#ff4444" : "#5a7858"} fontFamily="monospace">{chg}</text>
+          <text x="490" y={205+i*21} fontSize="7.5" fontWeight={flag ? "700" : "400"} fill={flag ? "#ff2222" : "#5a7858"} fontFamily="monospace">{fp}</text>
+        </g>
+      ))}
+      {/* Warning annotation */}
+      <rect x="370" y="277" width="226" height="16" rx="3" fill="#2a0f0f" stroke="#e74c3c" strokeWidth="1"/>
+      <text x="378" y="288" fontSize="6.5" fill="#e74c3c" fontFamily="monospace">⚠  Segment not in original validation set</text>
+    </svg>
+  );
+}
+
+// G1 — API outage state: error screen on monitor, service unavailable
+function ApiOutageScene() {
+  return (
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Monitor showing API service outage error with status page visible">
+      {/* Office environment */}
+      <rect x="0" y="0" width="680" height="340" fill="#f5f4f0" opacity=".4"/>
+      <line x1="0" y1="280" x2="680" y2="280" stroke="#c4a882" strokeWidth="1" opacity=".25"/>
+      {/* Desk */}
+      <rect x="40" y="258" width="580" height="10" rx="3" fill="#c4a882" opacity=".4"/>
+      <rect x="40" y="268" width="580" height="40" fill="#c4a882" opacity=".1"/>
+      {/* Monitor */}
+      <rect x="140" y="48" width="400" height="220" rx="8" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <rect x="148" y="56" width="384" height="204" rx="5" fill="#fff"/>
+      {/* Monitor stand */}
+      <rect x="331" y="268" width="18" height="14" rx="2" fill="#c4a882" opacity=".35"/>
+      <rect x="314" y="280" width="52" height="5" rx="2" fill="#c4a882" opacity=".35"/>
+      {/* ── Error screen content ── */}
+      {/* Red error banner */}
+      <rect x="148" y="56" width="384" height="52" rx="5" fill="#c0392b"/>
+      <rect x="148" y="90" width="384" height="18" fill="#c0392b"/>
+      {/* Error icon */}
+      <circle cx="178" cy="82" r="14" fill="white" opacity=".2"/>
+      <text x="178" y="88" textAnchor="middle" fontSize="16" fill="white">✕</text>
+      {/* Error heading */}
+      <text x="340" y="76" textAnchor="middle" fontSize="12" fontWeight="700" fill="white" fontFamily="sans-serif">Service Unavailable</text>
+      <text x="340" y="94" textAnchor="middle" fontSize="8" fill="#ffcccc" fontFamily="sans-serif">AI Assistant — Connection Failed</text>
+      {/* Error detail */}
+      <text x="168" y="126" fontSize="8.5" fontWeight="600" fill="#1a1916" fontFamily="sans-serif">Unable to connect to AI provider</text>
+      <rect x="160" y="132" width="360" height="36" rx="4" fill="#f8f0f0" stroke="#e0b0b0" strokeWidth="1"/>
+      <text x="168" y="145" fontSize="7" fill="#888" fontFamily="monospace">Error: upstream_provider_unavailable</text>
+      <text x="168" y="157" fontSize="7" fill="#888" fontFamily="monospace">Provider status: MAJOR OUTAGE (all regions)</text>
+      {/* Provider status panel */}
+      <rect x="160" y="178" width="360" height="66" rx="4" fill="#f5f5f5" stroke="#ddd" strokeWidth="1"/>
+      <rect x="160" y="178" width="360" height="18" rx="4" fill="#eee"/>
+      <rect x="160" y="188" width="360" height="8" fill="#eee"/>
+      <text x="168" y="190" fontSize="7.5" fontWeight="600" fill="#555" fontFamily="sans-serif">Provider Status Page — api-provider.com/status</text>
+      {/* Status items */}
+      {[
+        ["AI Assistant API",        "Major Outage",   true ],
+        ["Authentication Service",  "Major Outage",   true ],
+        ["Dashboard",               "Operational",    false],
+      ].map(([svc, status, fail], i) => (
+        <g key={i}>
+          <text x="168" y={207+i*13} fontSize="7" fill="#555" fontFamily="sans-serif">{svc}</text>
+          <rect x="440" y={198+i*13} width={fail ? 74 : 62} height="11" rx="3" fill={fail ? "#fde8e8" : "#e8fde8"}/>
+          <text x="477" y={207+i*13} textAnchor="middle" fontSize="6.5" fontWeight="600" fill={fail ? "#c0392b" : "#27ae60"} fontFamily="sans-serif">{status}</text>
+        </g>
+      ))}
+      {/* Estimated resolution */}
+      <text x="168" y="254" fontSize="7.5" fill="#c0392b" fontWeight="600" fontFamily="sans-serif">Estimated resolution: 2–4 hours  •  Incident started 09:05</text>
+      {/* ── Customer queue indicator — right side ── */}
+      <rect x="560" y="80" width="90" height="160" rx="6" fill="#fff3cd" stroke="#f0ad4e" strokeWidth="1.5"/>
+      <text x="605" y="96" textAnchor="middle" fontSize="7" fontWeight="700" fill="#856404" fontFamily="sans-serif">QUEUE</text>
+      <text x="605" y="148" textAnchor="middle" fontSize="34" fontWeight="700" fill="#c0392b" fontFamily="sans-serif">47</text>
+      <text x="605" y="164" textAnchor="middle" fontSize="6.5" fill="#856404" fontFamily="sans-serif">customers</text>
+      <text x="605" y="176" textAnchor="middle" fontSize="6.5" fill="#856404" fontFamily="sans-serif">waiting</text>
+      <text x="605" y="194" textAnchor="middle" fontSize="6" fill="#856404" fontFamily="sans-serif">↑ building</text>
+      {/* Person at desk — stressed */}
+      <circle cx="90" cy="200" r="22" fill="#faf9f7" stroke="#1a1916" strokeWidth="2.5"/>
+      <path d="M70 193 Q75 179 90 177 Q105 179 110 193" fill="#1a1916" opacity=".6"/>
+      <path d="M79 196 Q83 200 87 197" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M93 197 Q97 200 101 196" fill="none" stroke="#1a1916" strokeWidth="1.8" strokeLinecap="round"/>
+      {/* Furrowed brow */}
+      <path d="M78 191 Q83 188 87 191" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M93 191 Q97 188 102 191" fill="none" stroke="#1a1916" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Stressed mouth */}
+      <path d="M83 208 Q90 205 97 208" fill="none" stroke="#1a1916" strokeWidth="1.2" strokeLinecap="round"/>
+      <ellipse cx="90" cy="222" rx="24" ry="20" fill="#e8e0d5" stroke="#1a1916" strokeWidth="2"/>
+      <path d="M70 220 Q105 238 148 258" fill="none" stroke="#1a1916" strokeWidth="8" strokeLinecap="round" opacity=".18"/>
     </svg>
   );
 }
