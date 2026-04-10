@@ -19,13 +19,38 @@ All scenario characters and organisations are fictional. Incidents referenced in
 
 ## Scenarios
 
-| ID | Title | Domain | Personas | Status |
-|----|-------|--------|----------|--------|
-| F2 | The Shortcut — Shadow AI | HCI & Deployment | All 4 | Live |
-| C4 | The Fabricated Call — Deepfakes | Security & Adversarial | All 4 | Live |
-| A1 | Confident and Wrong — Hallucination | Technical | All 4 | Live |
-| E1 | The Score — Algorithmic Bias | Fairness & Social | All 4 | Live |
-| +22 | Various | All domains | Exec / PM / Analyst | Planned |
+All 26 scenarios are live — one for every risk entry in the companion knowledge base.
+
+| Domain | ID | Title |
+|--------|----|-------|
+| A — Technical | A1 | Confident and Wrong — Hallucination |
+| | A2 | The Silent Drift — Model Drift |
+| | A3 | Edge of the Map — Robustness & ODD |
+| | A4 | The Black Box Decision — Explainability |
+| B — Governance | B1 | Nobody's Problem — Accountability Gaps |
+| | B2 | The Deadline Creep — Regulatory Non-Compliance |
+| | B3 | Still Running — Lifecycle Governance |
+| | B4 | Inside the Vendor — Supply Chain Risk |
+| C — Security | C1 | Poisoned at the Source — Data Poisoning (3 personas) |
+| | C2 | The Hidden Instruction — Prompt Injection (3 personas) |
+| | C3 | The Extraction — Model Theft (3 personas) |
+| | C4 | The Fabricated Call — Deepfakes |
+| | C5 | The Convincing Email — AI-Enabled BEC Fraud |
+| D — Data | D1 | The Blind Spot — Training Data Quality |
+| | D2 | The Accidental Disclosure — Privacy |
+| | D3 | Who Owns This? — IP & Copyright |
+| E — Fairness | E1 | The Score — Algorithmic Bias |
+| | E2 | The Guardrail Gap — Harmful Content |
+| | E3 | The Fabricated Story — Synthetic Content |
+| F — Deployment | F1 | Trust the Machine — Automation Bias |
+| | F2 | The Shortcut — Shadow AI |
+| | F3 | The Expanding Tool — Scope Creep |
+| G — Systemic | G1 | Single Point — Concentration Risk |
+| | G2 | The Hidden Cost — Environmental Impact |
+| | G3 | The Redundancy Leak — Workforce Displacement |
+| | G4 | No One Said Stop — Agentic AI Safety |
+
+Four personas per scenario (Business User, Executive, Project Manager, Analyst) — except C1, C2, C3 which have three personas (Executive, PM, Analyst). Total: over 5 hours of interactive training content.
 
 ## Stack
 
