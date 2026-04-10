@@ -19,6 +19,11 @@ import { scenario as g4 } from './g4-ai-safety.js';
 import { scenario as g3 } from './g3-workforce-displacement.js';
 import { scenario as a2 } from './a2-model-drift.js';
 import { scenario as g1 } from './g1-concentration-risk.js';
+import { scenario as g2 } from './g2-environmental-impact.js';
+import { scenario as a3 } from './a3-robustness.js';
+import { scenario as a4 } from './a4-explainability.js';
+import { scenario as e2 } from './e2-harmful-content.js';
+import { scenario as e3 } from './e3-misinformation.js';
 
 const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
   id, risk_ref: riskRef, title, domain, difficulty,
@@ -32,8 +37,8 @@ const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) =
 export const scenarios = [
   a1,
   a2,
-  stub('a3-robustness',      'A3', 'Edge of the Map',           'A — Technical',              'Intermediate'),
-  stub('a4-explainability',  'A4', 'The Black Box Decision',    'A — Technical',              'Advanced'),
+  a3,
+  a4,
   b1,
   b2,
   b3,
@@ -47,13 +52,13 @@ export const scenarios = [
   d2,
   d3,
   e1,
-  stub('e2-harmful-content', 'E2', 'The Guardrail Gap',         'E — Fairness & Social',      'Advanced'),
-  stub('e3-misinfo',         'E3', 'The Fabricated Story',      'E — Fairness & Social',      'Foundational'),
+  e2,
+  e3,
   f2,
   f1,
   f3,
   g1,
-  stub('g2-environment',     'G2', 'The Hidden Cost',           'G — Systemic & Macro',       'Intermediate'),
+  g2,
   g3,
   g4,
 ];
