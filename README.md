@@ -19,44 +19,22 @@ All scenario characters and organisations are fictional. Incidents referenced in
 
 ## Scenarios
 
-All 26 scenarios are live — one for every risk entry in the companion knowledge base.
+All 26 scenarios are live across 7 risk domains. Play them at [b-gowland.github.io/ai-risk-training](https://b-gowland.github.io/ai-risk-training/).
 
-| Domain | ID | Title |
-|--------|----|-------|
-| A — Technical | A1 | Confident and Wrong — Hallucination |
-| | A2 | The Silent Drift — Model Drift |
-| | A3 | Edge of the Map — Robustness & ODD |
-| | A4 | The Black Box Decision — Explainability |
-| B — Governance | B1 | Nobody's Problem — Accountability Gaps |
-| | B2 | The Deadline Creep — Regulatory Non-Compliance |
-| | B3 | Still Running — Lifecycle Governance |
-| | B4 | Inside the Vendor — Supply Chain Risk |
-| C — Security | C1 | Poisoned at the Source — Data Poisoning (3 personas) |
-| | C2 | The Hidden Instruction — Prompt Injection (3 personas) |
-| | C3 | The Extraction — Model Theft (3 personas) |
-| | C4 | The Fabricated Call — Deepfakes |
-| | C5 | The Convincing Email — AI-Enabled BEC Fraud |
-| D — Data | D1 | The Blind Spot — Training Data Quality |
-| | D2 | The Accidental Disclosure — Privacy |
-| | D3 | Who Owns This? — IP & Copyright |
-| E — Fairness | E1 | The Score — Algorithmic Bias |
-| | E2 | The Guardrail Gap — Harmful Content |
-| | E3 | The Fabricated Story — Synthetic Content |
-| F — Deployment | F1 | Trust the Machine — Automation Bias |
-| | F2 | The Shortcut — Shadow AI |
-| | F3 | The Expanding Tool — Scope Creep |
-| G — Systemic | G1 | Single Point — Concentration Risk |
-| | G2 | The Hidden Cost — Environmental Impact |
-| | G3 | The Redundancy Leak — Workforce Displacement |
-| | G4 | No One Said Stop — Agentic AI Safety |
-
-Four personas per scenario (Business User, Executive, Project Manager, Analyst) — except C1, C2, C3 which have three personas (Executive, PM, Analyst). Total: over 5 hours of interactive training content.
+| Domain | Scenarios |
+|--------|-----------|
+| A — Technical | A1 Hallucination · A2 Model Drift · A3 Robustness · A4 Explainability |
+| B — Governance | B1 Accountability · B2 Compliance · B3 Lifecycle · B4 Supply Chain |
+| C — Security | C1 Data Poisoning · C2 Prompt Injection · C3 Model Theft · C4 Deepfakes · C5 AI Cyber Attacks |
+| D — Data | D1 Data Quality · D2 Privacy · D3 IP & Copyright |
+| E — Fairness | E1 Algorithmic Bias · E2 Harmful Content · E3 Misinformation |
+| F — Deployment | F1 Automation Bias · F2 Shadow AI · F3 Scope Creep |
+| G — Systemic | G1 Concentration Risk · G2 Environmental Impact · G3 Workforce Displacement · G4 AI Safety |
 
 ## Stack
 
 - React 19 + Vite, deployed to GitHub Pages
 - Zero backend — all scenario logic runs client-side
-- SVG illustration — no external image dependencies, no AI-generated images
 - Feedback is scenario-authored (see `note` field in scenario data)
 
 > **On the feedback feature:** Scenario feedback uses authored text from the scenario data file rather than a live API call. This keeps the API key server-side (where it belongs) and ensures feedback always works regardless of API availability. A self-hosted deployment guide for live Claude feedback via a serverless proxy is in the works.
@@ -74,21 +52,16 @@ No API key required to run the full scenario experience locally.
 
 ## Contributing
 
-Contributions welcome — especially new scenario content. See the existing `f2-shadow-ai.js` for the scenario schema. Each scenario needs:
-
-- Four persona tracks (Business User, Executive, PM, Analyst) or three (exec/PM/analyst)
-- 4–5 decision nodes per track with branching branches
-- Good / partial / poor quality choices with specific consequences
-- An outcome for each quality level
-
-Open an issue before starting work on a new scenario to avoid duplication.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details. Open an issue before starting work on a new scenario to avoid duplication.
 
 ## Licence
 
-Code: Apache 2.0  
+Code: Apache 2.0
 Content: CC BY 4.0
 
 See [LICENSE](./LICENSE) for full terms and attribution requirements.
+
+A commercial product layer may be developed above this open-source core in future — see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Attribution
 
