@@ -16,10 +16,6 @@ Thanks for your interest. This training app is open source and free to use forev
 
 Code in this repository is licensed under [Apache License 2.0](./LICENSE). Scenario content is licensed under [CC BY 4.0](./LICENSE). See the LICENSE file for full terms.
 
-## Commercial use notice
-
-A commercial product layer may be developed above this open-source core in future. Contributors should be aware of this before submitting. No contributor licence agreement (CLA) is required at this stage. If that changes, existing contributors will be notified directly before any CLA is introduced.
-
 ## Standards
 
 - All scenario string values must use template literals (backticks) — apostrophes in single-quoted strings cause parse errors
