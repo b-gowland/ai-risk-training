@@ -72,7 +72,7 @@ export const scenario = {
         },
 
         n2_concern_raised: {
-          scene: 'office-meeting',
+          scene: 'desk-colleague',
           caption: 'Your manager looks at the shortlists with you and agrees it warrants investigation.',
           sub_caption: 'She asks: "Should we pause the tool while we look into this?"',
           decision: {
@@ -174,7 +174,7 @@ export const scenario = {
         },
 
         n2_suspended: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: 'Tool suspended. Independent audit commissioned. Legal asks whether you have an obligation to notify the regulator proactively.',
           sub_caption: 'The audit will take two weeks. The board meeting is also in two weeks.',
           decision: {
@@ -190,7 +190,7 @@ export const scenario = {
         },
 
         n2_internal_review: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: 'Internal review takes two weeks. During that time, the tool continues processing candidates for eleven open roles.',
           sub_caption: 'The review confirms bias. The board meeting is tomorrow.',
           decision: {
@@ -300,7 +300,7 @@ export const scenario = {
         },
 
         n2_vendor: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: '"Was fairness testing in the project requirements you gave the vendor?" You check. It wasn\'t.',
           sub_caption: '"So the vendor didn\'t provide something you didn\'t ask for?"',
           decision: {
@@ -387,7 +387,7 @@ export const scenario = {
         },
 
         n2_escalated: {
-          scene: 'office-meeting',
+          scene: 'office-briefing',
           caption: 'The HR Technology lead and CPO are briefed. The tool is suspended pending review. You\'re asked to prepare a report for the board.',
           sub_caption: 'What does the report need to include?',
           decision: {

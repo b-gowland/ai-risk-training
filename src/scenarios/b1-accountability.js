@@ -85,7 +85,7 @@ export const scenario = {
         },
 
         n2_clear: {
-          scene:       `office-meeting`,
+          scene:       `office-briefing`,
           caption:     `Your manager thanks you. She confirms the gap has been escalated to the CRO.`,
           sub_caption: `The reviewer has requested a formal response within five business days.`,
           decision: {
@@ -221,7 +221,7 @@ export const scenario = {
         },
 
         n2_review: {
-          scene:       `office-meeting`,
+          scene:       `desk-focused`,
           caption:     `Three days into the review. Two candidates identified. No decision yet.`,
           sub_caption: `Two days until APRA's deadline.`,
           decision: {
@@ -349,7 +349,7 @@ export const scenario = {
         },
 
         n3_it_pushback: {
-          scene:       `office-meeting`,
+          scene:       `boardroom`,
           caption:     `You propose the blocking field change to the technology change advisory board.`,
           sub_caption: `IT pushes back: "This will block urgent deployments. We can't have that in incident scenarios."`,
           decision: {

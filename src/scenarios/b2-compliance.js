@@ -85,7 +85,7 @@ export const scenario = {
         },
 
         n2_honest: {
-          scene:       `office-meeting`,
+          scene:       `desk-colleague`,
           caption:     `The auditor thanks you and makes a note. Your manager is called in.`,
           sub_caption: `Your prior concern is now part of the audit record.`,
           decision: {
@@ -197,7 +197,7 @@ export const scenario = {
         },
 
         n2_legal: {
-          scene:       `office-meeting`,
+          scene:       `boardroom`,
           caption:     `Legal confirms: no sign-off exists. They advise full disclosure to the auditor.`,
           sub_caption: `The question is now how you remediate, not whether the gap exists.`,
           decision: {
@@ -341,7 +341,7 @@ export const scenario = {
         },
 
         n3_cab_pushback: {
-          scene:       `office-meeting`,
+          scene:       `boardroom`,
           caption:     `You present the remediated checklist to the IT Change Advisory Board.`,
           sub_caption: `The CAB chair raises a concern: "This blocks go-live if Legal hasn't signed off. What happens in an emergency deployment?"`,
           decision: {

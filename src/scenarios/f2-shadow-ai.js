@@ -281,7 +281,7 @@ export const scenario = {
         },
 
         n2_delayed: {
-          scene: 'boardroom',
+          scene: 'desk-review',
           caption: 'The holding response buys 48 hours. Legal returns from a site visit and is not pleased.',
           sub_caption: '"You received a legal hold and didn\'t call me immediately?" That\'s a direct quote.',
           decision: {
@@ -297,7 +297,7 @@ export const scenario = {
         },
 
         n2_tuscany: {
-          scene: 'boardroom',
+          scene: 'desk-colleague',
           caption: 'Day four. Your GC returns from Tuscany to find a legal hold, four missed escalation emails, and a board chair who has heard about it from external counsel directly.',
           sub_caption: 'The chair\'s email to you is eleven words long. None of them are positive.',
           decision: {
@@ -345,7 +345,7 @@ export const scenario = {
         },
 
         n3_ciso_gone: {
-          scene: 'boardroom',
+          scene: 'office-bright',
           caption: 'The CISO resigned in the meeting. HR is now involved. Legal is now involved. The board chair has questions.',
           sub_caption: 'The incident is no longer about AI data governance. It\'s about leadership.',
           decision: {
@@ -361,7 +361,7 @@ export const scenario = {
         },
 
         n3_legal_chaos: {
-          scene: 'boardroom',
+          scene: 'office-briefing',
           caption: 'Legal needs facts. IT needs direction. The board needs a briefing. Nobody is talking to each other.',
           sub_caption: 'External counsel sends a follow-up letter noting the organisation has not responded within the specified timeframe.',
           decision: null,
@@ -423,7 +423,7 @@ export const scenario = {
         },
 
         n2_honest: {
-          scene: 'office-meeting',
+          scene: 'desk-colleague',
           caption: 'Your manager and an HR rep are in the room. The tone is serious but not hostile.',
           sub_caption: 'They want to know: what exactly was in the document, and did you know it was a problem?',
           decision: {
@@ -439,7 +439,7 @@ export const scenario = {
         },
 
         n2_vague: {
-          scene: 'office-meeting',
+          scene: 'desk-focused',
           caption: '"Can we talk" led to a meeting. Your manager and HR are both here. The vague reply is now in the record.',
           sub_caption: 'They\'re giving you a chance to explain. The logs are already pulled.',
           decision: {
@@ -455,7 +455,7 @@ export const scenario = {
         },
 
         n2_lied: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: 'Your manager has the IT log and your Slack reply open side by side.',
           sub_caption: 'The log shows an unapproved AI tool. Your message says "only approved tools." This is a problem.',
           decision: {
@@ -489,7 +489,7 @@ export const scenario = {
         },
 
         n3_minimised: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: 'HR pulls up the data classification. M&A targets. Projected offer prices. Executive redundancy list.',
           sub_caption: '"Nothing really sensitive" turns out to be the most sensitive category of data the company holds.',
           decision: {
@@ -505,7 +505,7 @@ export const scenario = {
         },
 
         n3_caught: {
-          scene: 'office-meeting',
+          scene: 'desk-focused',
           caption: 'You corrected the record. Late, but you corrected it.',
           sub_caption: 'The written note reflects the correction. The initial response — vague or false — is also in the record.',
           decision: null,
@@ -617,7 +617,7 @@ export const scenario = {
         },
 
         n3_escalated: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: 'Legal is involved. They want to understand what controls InfoSec had and why DLP didn\'t catch this.',
           sub_caption: '"The personal browser session bypasses our corporate DLP entirely. That\'s the gap."',
           decision: {
@@ -633,7 +633,7 @@ export const scenario = {
         },
 
         n3_delayed_escalation: {
-          scene: 'office-meeting',
+          scene: 'office-briefing',
           caption: 'You escalated a week late. Legal has the original log timestamp and your incident report timestamp.',
           sub_caption: 'The gap is seven days. Legal notes it. Your documented recommendation to escalate sooner helps.',
           decision: {
@@ -649,7 +649,7 @@ export const scenario = {
         },
 
         n3_too_late: {
-          scene: 'office-meeting',
+          scene: 'desk-focused',
           caption: 'External counsel arrived before your incident report. Legal is doing the investigation now, not InfoSec.',
           sub_caption: 'Your manager is being asked why they advised waiting. They are not mentioning that conversation.',
           decision: {

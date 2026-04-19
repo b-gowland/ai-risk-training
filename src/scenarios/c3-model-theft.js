@@ -66,7 +66,7 @@ export const scenario = {
         },
 
         n2_legal: {
-          scene:       'office-meeting',
+          scene:       'boardroom',
           caption:     'Key revoked. Logs preserved. Legal is now in the room.',
           sub_caption: 'Legal asks: what do you want the outcome to be — remediation, or enforcement?',
           decision: {
@@ -134,7 +134,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene:       'office-meeting',
+          scene:       'desk-review',
           caption:     'The rate limit is in the contract. It was never configured in the API gateway.',
           sub_caption: 'You are the partnerships lead who onboarded this partner three months ago.',
           decision: {
@@ -168,7 +168,7 @@ export const scenario = {
         },
 
         n2_deflect: {
-          scene:       'office-meeting',
+          scene:       'office-briefing',
           caption:     'The CRO asks engineering. Engineering confirms the configuration was never requested during onboarding.',
           sub_caption: 'The onboarding process your team owns had no technical verification step.',
           decision: {
@@ -246,7 +246,7 @@ export const scenario = {
         },
 
         n2_escalated: {
-          scene:       'office-meeting',
+          scene:       'boardroom',
           caption:     'The CISO is on a call with you by 7:40am. She asks for your technical assessment of extraction completeness.',
           sub_caption: 'The CRO and Legal are joining in ten minutes.',
           decision: {
@@ -262,7 +262,7 @@ export const scenario = {
         },
 
         n2_ciso_brief: {
-          scene:       'office-meeting',
+          scene:       'analyst-desk',
           caption:     'The CISO accepts your assessment. She asks you to prepare a technical evidence package for Legal.',
           sub_caption: 'Legal needs: query log timeline, input variation pattern, and your assessment of what the attacker can reconstruct.',
           decision: {

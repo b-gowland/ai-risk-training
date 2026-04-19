@@ -224,7 +224,7 @@ export const scenario = {
         },
 
         n2_blame: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: 'Legal has reviewed the HR process. Alex was deceived by an attack your organisation had no controls to detect.',
           sub_caption: 'There was no documented requirement for out-of-band verification. The process that should have prevented this did not exist.',
           decision: {
@@ -240,7 +240,7 @@ export const scenario = {
         },
 
         n3_training_only: {
-          scene: 'office-meeting',
+          scene: 'office-briefing',
           caption: 'Training rolled out. Six months later, a similar attack targets the procurement team.',
           sub_caption: 'The staff member completed the training. Under real time pressure, they complied anyway.',
           decision: null,
@@ -295,7 +295,7 @@ export const scenario = {
         },
 
         n2_remediation: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: 'The CEO accepts the acknowledgement and wants a remediation plan within a week.',
           sub_caption: 'What does the plan include?',
           decision: {
@@ -311,7 +311,7 @@ export const scenario = {
         },
 
         n2_vendor: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: 'The CEO asks: was deepfake detection in the project requirements you gave the vendor?',
           sub_caption: 'You check. It wasn\'t.',
           decision: {
@@ -327,7 +327,7 @@ export const scenario = {
         },
 
         n2_scope: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: '"The project brief you led resulted in a tool used to steal $180,000. The scope boundary argument is not available to you in this room."',
           sub_caption: 'The CEO is waiting.',
           decision: {
@@ -380,7 +380,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene: 'security-alert',
+          scene: 'analyst-desk',
           caption: 'Three anomalies: foreign IP, wrong codec, audio artefacts consistent with AI synthesis.',
           sub_caption: 'You\'re reasonably confident this was a deepfake. Not 100%. Deepfake detection is probabilistic.',
           decision: {
@@ -398,7 +398,7 @@ export const scenario = {
         },
 
         n2_ciso_briefed: {
-          scene: 'office-meeting',
+          scene: 'desk-focused',
           caption: 'The CISO accepts the assessment and declares an incident. You\'re asked to lead the technical investigation.',
           sub_caption: 'Two tasks need owners: forensic analysis of the call, and a controls gap assessment for the platform.',
           decision: {

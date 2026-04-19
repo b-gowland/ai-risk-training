@@ -87,7 +87,7 @@ export const scenario = {
         },
 
         n2_audit_first: {
-          scene: 'document-error',
+          scene: 'desk-working',
           caption: 'You audit the document. Two of three citations are fabricated.',
           sub_caption: 'The client has now sent a follow-up email, copying their compliance director. Their tone has shifted.',
           decision: {
@@ -155,7 +155,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene: 'document-error',
+          scene: 'desk-review',
           caption: 'A client briefing went out with fabricated regulatory citations. The client has shared it with their board.',
           sub_caption: 'The AI writing tool was deployed last month. No verification step was ever required.',
           decision: {
@@ -173,7 +173,7 @@ export const scenario = {
         },
 
         n2_client_call: {
-          scene: 'office-meeting',
+          scene: 'desk-colleague',
           caption: 'The compliance director is professional but direct: "Is this an isolated error, or could other content from your firm have the same issue?"',
           sub_caption: 'You don\'t know yet. The tool has been in use for three weeks.',
           decision: {
@@ -189,7 +189,7 @@ export const scenario = {
         },
 
         n2_internal_first: {
-          scene: 'office-meeting',
+          scene: 'desk-focused',
           caption: 'Internal review finds twelve client-facing documents from the last three weeks. Three are flagged as potentially containing unverified citations.',
           sub_caption: 'The client is still waiting for a response.',
           decision: {
@@ -205,7 +205,7 @@ export const scenario = {
         },
 
         n2_suspension: {
-          scene: 'office-meeting',
+          scene: 'office-briefing',
           caption: 'The tool is suspended. Your partner asks: "Have you called the client yet?"',
           sub_caption: 'The internal policy is in place. The client is still waiting.',
           decision: null,
@@ -251,7 +251,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene: 'office-meeting',
+          scene: 'boardroom',
           caption: 'The Managing Partner asks what went wrong in the rollout. The training covered hallucination risk. Verification was mentioned. It was not required.',
           sub_caption: '"Was there a documented verification requirement in the workflow?" There was not.',
           decision: {
@@ -301,7 +301,7 @@ export const scenario = {
         },
 
         n2_blame_tool: {
-          scene: 'office-meeting',
+          scene: 'desk-review',
           caption: '"Hallucination is documented as a known risk of language models. Was this in your risk assessment for the rollout?"',
           sub_caption: 'You check. Hallucination is listed as a risk. The mitigating control is listed as: "user training."',
           decision: {
@@ -354,7 +354,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene: 'document-error',
+          scene: 'desk-focused',
           caption: 'The Managing Partner wants to know: is the fabricated citation isolated, or is there more?',
           sub_caption: 'The AI tool has been in use for three weeks. Multiple client-facing documents have gone out.',
           decision: {
