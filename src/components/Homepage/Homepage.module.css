@@ -56,6 +56,8 @@
   font-size:30px; font-weight:700; color:var(--c-ink); line-height:1;
 }
 .statLabel { font-size:11px; color:var(--c-text-tertiary); margin-top:4px; }
+.statLink { text-decoration:none; display:flex; flex-direction:column; }
+.statLink:hover .statNum { text-decoration:underline; }
 .statDivider { display:none; }
 
 /* ── Filters ── */

@@ -103,7 +103,7 @@ export function Homepage() {
         <div className={styles.heroInner}>
           <div className={styles.heroBadge}>Open source · Free · No login</div>
           <h1 className={styles.heroTitle}>
-            AI risk training that<br/>doesn't make you want to leave.
+            Pick a scenario. Make the call.<br/>Find out what happens next.
           </h1>
           <p className={styles.heroSub}>
             Choose-your-own-adventure scenarios drawn from real AI incidents.
@@ -116,8 +116,10 @@ export function Homepage() {
             </div>
             <div className={styles.statDivider}/>
             <div className={styles.stat}>
-              <span className={styles.statNum}>{scenarios.length}</span>
-              <span className={styles.statLabel}>total planned</span>
+              <a href="https://b-gowland.github.io/ai-risk-kb/" target="_blank" rel="noopener noreferrer" className={styles.statLink}>
+                <span className={styles.statNum}>26</span>
+                <span className={styles.statLabel}>KB entries ↗</span>
+              </a>
             </div>
             <div className={styles.statDivider}/>
             <div className={styles.stat}>
