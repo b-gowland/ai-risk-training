@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getScenario } from './scenarios/index.js';
 import {
@@ -99,9 +99,28 @@ function ScenePanel({ node }) {
   );
 }
 
-// Inline SVG scene renderer — maps scene keys to illustrations
-function SceneSVG({ sceneKey, caption, subCaption }) {
-  // We use the same rich SVG approach from the preview, keyed by scene
+// Scene keys that have watercolour PNG images ready
+const IMAGE_SCENES = new Set([
+  'analyst-desk',
+  'desk-working',
+  'office-meeting',
+  'boardroom',
+  'desk-focused',
+  'office-bright',
+]);
+
+// Accessibility alt text for image-backed scenes
+const IMAGE_ALT = {
+  'analyst-desk':   `Analyst desk with dual monitors showing a security operations dashboard`,
+  'desk-working':   `Corporate office workstation with monitor and keyboard`,
+  'office-meeting': `Modern corporate meeting room with conference table and whiteboard`,
+  'boardroom':      `Formal boardroom with long rectangular table and presentation screen`,
+  'desk-focused':   `Office desk in evening light with desk lamp and single monitor`,
+  'office-bright':  `Bright meeting room with whiteboard covered in diagrams and sticky notes`,
+};
+
+// SVG scene lookup — used directly for non-image scenes and as fallback
+function getSVGScene(sceneKey) {
   const scenes = {
     'desk-casual':      <DeskCasualScene />,
     'desk-typing':      <DeskTypingScene />,
@@ -116,21 +135,55 @@ function SceneSVG({ sceneKey, caption, subCaption }) {
     'office-bright':    <OfficeReviewScene />,
     'boardroom':        <BoardroomScene />,
     'analyst-desk':     <AnalystDeskScene />,
-    'video-call':        <VideoCallScene />,
-    'payment-screen':    <PaymentScreenScene />,
-    'document-error':    <DocumentErrorScene />,
-    'chart-declining':   <ChartDecliningScene />,
-    'phone-verify':      <PhoneVerifyScene />,
-    'security-alert':    <SecurityAlertScene />,
-    'xray-ai':           <XrayAiScene />,
-    'news-leak':         <NewsLeakScene />,
-    'drift-dashboard':   <DriftDashboardScene />,
-    'api-outage':        <ApiOutageScene />,
+    'video-call':       <VideoCallScene />,
+    'payment-screen':   <PaymentScreenScene />,
+    'document-error':   <DocumentErrorScene />,
+    'chart-declining':  <ChartDecliningScene />,
+    'phone-verify':     <PhoneVerifyScene />,
+    'security-alert':   <SecurityAlertScene />,
+    'xray-ai':          <XrayAiScene />,
+    'news-leak':        <NewsLeakScene />,
+    'drift-dashboard':  <DriftDashboardScene />,
+    'api-outage':       <ApiOutageScene />,
   };
+  return scenes[sceneKey] || scenes['desk-casual'];
+}
+
+// Image-backed scene: shows SVG placeholder while loading, falls back to SVG on error
+function ImageScene({ sceneKey }) {
+  const [status, setStatus] = useState('loading'); // 'loading' | 'loaded' | 'error'
+  const alt = IMAGE_ALT[sceneKey] || `Scene illustration`;
+  return (
+    <div className={styles.imageSceneWrap}>
+      {status === 'loading' && (
+        <div className={styles.imageScenePlaceholder} aria-hidden="true">
+          {getSVGScene(sceneKey)}
+        </div>
+      )}
+      {status !== 'error' && (
+        <img
+          src={`/scenes/${sceneKey}.png`}
+          alt={alt}
+          className={styles.sceneImg}
+          style={{ display: status === 'loaded' ? 'block' : 'none' }}
+          onLoad={() => setStatus('loaded')}
+          onError={() => setStatus('error')}
+        />
+      )}
+      {status === 'error' && getSVGScene(sceneKey)}
+    </div>
+  );
+}
+
+// Scene renderer — routes image-ready keys to PNG, everything else to SVG
+function SceneSVG({ sceneKey, caption, subCaption }) {
   return (
     <div className={styles.sceneWrapper}>
       <div className={styles.svgWrap}>
-        {scenes[sceneKey] || scenes['desk-casual']}
+        {IMAGE_SCENES.has(sceneKey)
+          ? <ImageScene sceneKey={sceneKey} />
+          : getSVGScene(sceneKey)
+        }
       </div>
       <div className={styles.captionBar}>
         <p className={styles.captionMain}>{caption}</p>

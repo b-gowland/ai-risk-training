@@ -158,6 +158,10 @@
   overflow:hidden; background:var(--c-surface);
 }
 .svgWrap { display:block; }
+/* Watercolour image scenes */
+.imageSceneWrap { position:relative; width:100%; line-height:0; }
+.sceneImg { display:block; width:100%; height:auto; object-fit:cover; }
+.imageScenePlaceholder { position:absolute; inset:0; overflow:hidden; opacity:0.6; }
 .captionBar { background:var(--c-ink); padding:14px 20px 16px; }
 .captionMain {
   font-size:15px; font-weight:400; color:#f0ece4;
