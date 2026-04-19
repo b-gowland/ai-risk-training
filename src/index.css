@@ -1,49 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital@0;1&family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --c-bg:             #faf9f7;
-  --c-surface:        #f3f1ed;
-  --c-ink:            #1a1916;
-  --c-text-secondary: #5a5855;
-  --c-border:         #d6d3cd;
-  --c-accent:         #8b4513;
-  --c-shadow:         rgba(0,0,0,0.08);
+  --c-bg:             #faf7f2;
+  --c-surface:        #f4f0e8;
+  --c-surface-2:      #ffffff;
+  --c-ink:            #1a1714;
+  --c-ink-mid:        #2e2b27;
+  --c-text-secondary: #6b6763;
+  --c-text-tertiary:  #a09d98;
+  --c-border:         #e4dfd6;
+  --c-border-mid:     #ccc8c0;
+  --c-accent:         #c4712a;
+  --c-accent-soft:    #f5ede4;
+  --c-shadow:         rgba(26,23,20,0.08);
 
-  --panel-bg:      #faf9f7;
-  --panel-ink:     #1a1916;
-  --panel-screen:  #e8ecf0;
+  --c-good:           #2d6a4f;
+  --c-good-bg:        #eaf4ee;
+  --c-good-border:    #a8d5b8;
+  --c-warn:           #92520a;
+  --c-warn-bg:        #fdf3e3;
+  --c-warn-border:    #f0c070;
+  --c-bad:            #8b2020;
+  --c-bad-bg:         #fdecea;
+  --c-bad-border:     #e8a8a8;
+
+  --panel-bg:      #faf7f2;
+  --panel-ink:     #1a1714;
+  --panel-screen:  #dde4ec;
   --panel-desk:    #c4a882;
   --panel-skin:    #f5cba7;
   --panel-shirt:   #e8e0d5;
   --panel-window:  #b8d4f0;
-  --panel-danger:  #c0392b;
+  --panel-danger:  #b83232;
 
   --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Lora', Georgia, serif;
   --font-sans:    'IBM Plex Sans', system-ui, sans-serif;
-  --font-serif:   'IBM Plex Serif', Georgia, serif;
   --font-mono:    'IBM Plex Mono', monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --c-bg:             #161513;
-    --c-surface:        #1e1c1a;
-    --c-ink:            #f0ede8;
-    --c-text-secondary: #a09d98;
-    --c-border:         #333129;
-    --c-accent:         #d4845a;
-    --c-shadow:         rgba(0,0,0,0.3);
-    --panel-bg:      #1e1c1a;
-    --panel-ink:     #f0ede8;
-    --panel-screen:  #2a3040;
-    --panel-desk:    #6b5a42;
-    --panel-skin:    #c49a6c;
-    --panel-shirt:   #3a3530;
-    --panel-window:  #1a2a3a;
-    --panel-danger:  #e74c3c;
-  }
 }
 
 html { font-size: 16px; }
