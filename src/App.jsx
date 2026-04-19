@@ -99,7 +99,7 @@ function ScenePanel({ node }) {
   );
 }
 
-// Scene keys that have watercolour PNG images ready
+// Scene keys that have watercolour PNG images ready — all 23 complete
 const IMAGE_SCENES = new Set([
   'analyst-desk',
   'desk-working',
@@ -107,6 +107,23 @@ const IMAGE_SCENES = new Set([
   'boardroom',
   'desk-focused',
   'office-bright',
+  'desk-review',
+  'office-briefing',
+  'desk-colleague',
+  'desk-intranet',
+  'desk-casual',
+  'desk-typing',
+  'office-busted',
+  'video-call',
+  'payment-screen',
+  'document-error',
+  'chart-declining',
+  'phone-verify',
+  'security-alert',
+  'xray-ai',
+  'news-leak',
+  'drift-dashboard',
+  'api-outage',
 ]);
 
 // Accessibility alt text for image-backed scenes
@@ -117,6 +134,23 @@ const IMAGE_ALT = {
   'boardroom':      `Formal boardroom with long rectangular table and presentation screen`,
   'desk-focused':   `Office desk in evening light with desk lamp and single monitor`,
   'office-bright':  `Bright meeting room with whiteboard covered in diagrams and sticky notes`,
+  'desk-review':    `Corporate desk with a structured register displayed on screen`,
+  'office-briefing':`Meeting area with a notification or alert dashboard on screen`,
+  'desk-colleague': `Two adjacent corporate desks with shared documents between them`,
+  'desk-intranet':  `Corporate desk with an intranet policy page on screen`,
+  'desk-casual':    `Casual hot-desk setup with laptop and coffee in an open-plan office`,
+  'desk-typing':    `Corporate desk with a chat or prompt interface open on laptop`,
+  'office-busted':  `Corporate desk with a warning or incident report screen showing red alerts`,
+  'video-call':     `Corporate desk with a video call interface showing participant grid`,
+  'payment-screen': `Corporate desk with a financial transfer confirmation screen`,
+  'document-error': `Corporate desk with a document showing highlighted error markers`,
+  'chart-declining':`Corporate desk with a data dashboard showing a declining line chart`,
+  'phone-verify':   `Corporate desk with a smartphone showing an active call screen`,
+  'security-alert': `Corporate desk with a security monitoring dashboard showing an anomaly alert`,
+  'xray-ai':        `Clinical medical workstation with a chest X-ray and AI diagnostic overlay`,
+  'news-leak':      `Corporate desk with a news article or internal announcement on screen`,
+  'drift-dashboard':`Corporate desk with an analytics dashboard showing a hidden segment diverging`,
+  'api-outage':     `Corporate desk with a system status page showing red error indicators`,
 };
 
 // SVG scene lookup — used directly for non-image scenes and as fallback
