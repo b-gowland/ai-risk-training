@@ -162,7 +162,7 @@ function ImageScene({ sceneKey }) {
       )}
       {status !== 'error' && (
         <img
-          src={`/scenes/${sceneKey}.png`}
+          src={`${import.meta.env.BASE_URL}scenes/${sceneKey}.png`}
           alt={alt}
           className={styles.sceneImg}
           style={{ display: status === 'loaded' ? 'block' : 'none' }}
