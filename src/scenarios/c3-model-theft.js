@@ -48,7 +48,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       'boardroom',
+          scene:       'boardroom-crisis',
           caption:     '50,000 systematic API queries in 24 hours. The pattern is consistent with model extraction.',
           sub_caption: 'The key belongs to a commercial partner. The integration contract is three months old.',
           decision: {
@@ -66,7 +66,7 @@ export const scenario = {
         },
 
         n2_legal: {
-          scene:       'boardroom',
+          scene:       'boardroom-crisis',
           caption:     'Key revoked. Logs preserved. Legal is now in the room.',
           sub_caption: 'Legal asks: what do you want the outcome to be — remediation, or enforcement?',
           decision: {
@@ -98,7 +98,7 @@ export const scenario = {
         },
 
         n2_wait: {
-          scene:       'desk-focused',
+          scene:       'desk-working-night',
           caption:     'Technical analysis confirms the pattern is extraction. The model decision surface is likely fully mapped.',
           sub_caption: 'Four hours have passed. The partner is unreachable.',
           decision: null,
@@ -246,7 +246,7 @@ export const scenario = {
         },
 
         n2_escalated: {
-          scene:       'boardroom',
+          scene:       'boardroom-crisis',
           caption:     'The CISO is on a call with you by 7:40am. She asks for your technical assessment of extraction completeness.',
           sub_caption: 'The CRO and Legal are joining in ten minutes.',
           decision: {

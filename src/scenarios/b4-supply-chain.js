@@ -88,7 +88,7 @@ export const scenario = {
         },
 
         n2_full: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `Your submission logs give the incident team a clear picture of the data types and volume.`,
           sub_caption: `Your manager asks: did anything about the tool make you think your documents might leave the vendor's systems?`,
           decision: {
@@ -138,7 +138,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-bright`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The vendor product is suspended. An acceptable use policy for AI tools is being drafted.`,
           sub_caption: `The draft policy requires staff to confirm they understand "where their data goes" before using any AI tool. You are asked to review it from an operational perspective.`,
           decision: {
@@ -232,7 +232,7 @@ export const scenario = {
         },
 
         n3_vendor_negotiation: {
-          scene:       `desk-review`,
+          scene:       `desk-evidence`,
           caption:     `The vendor's legal team responds to your suspension notice. They make an unexpected offer: upgrade your contract to enterprise tier retroactively, amend the DPA to cover the sub-processor, and provide a written assurance that submitted data was not used for training.`,
           sub_caption: `In exchange, they ask you not to notify the OAIC or clients — on the basis that the retroactive amendment means there was no breach under the amended terms.`,
           decision: {
@@ -250,7 +250,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-meeting`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. Notification made to the OAIC. Two client responses received — one routine acknowledgment, one requesting a detailed account of what data was involved.`,
           sub_caption: `The CRO must now decide how to handle the detailed client request while the vendor's retroactive DPA amendment is still being finalised.`,
           decision: {
@@ -369,7 +369,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The new DDQ is approved. The two standard-tier vendors have been renegotiated to enterprise tiers. The non-disclosing vendor has provided a partial AI-BOM — it names the model but not the API tier.`,
           sub_caption: `The vendor is pushing back on providing tier confirmation in writing, citing commercial confidentiality.`,
           decision: {
@@ -431,7 +431,7 @@ export const scenario = {
         },
 
         n2_scope: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-aftermath`,
           caption:     `Preliminary scope: 847 document submissions over six months. Financial statements, contracts, two board papers. You brief the CRO.`,
           sub_caption: `She asks: what is your confidence level on whether the data entered the training pipeline?`,
           decision: {
@@ -481,7 +481,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `drift-dashboard`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The OAIC notification is submitted. The vendor has agreed to an enterprise tier upgrade and a revised DPA naming all sub-processors.`,
           sub_caption: `The CRO asks you to design ongoing monitoring for the AI vendor portfolio to prevent a similar gap going undetected.`,
           decision: {

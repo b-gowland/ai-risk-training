@@ -307,7 +307,7 @@ export const scenario = {
         },
 
         n2_wait: {
-          scene:       `desk-focused`,
+          scene:       `desk-waiting`,
           caption:     `The vendor module launches in 11 weeks. During that period, two more recruitment rounds are affected by AI-generated and fabricated applications. Both require significant post-shortlist remediation.`,
           sub_caption: `The integration advantage didn\'t outweigh the 11-week gap.`,
           decision: {

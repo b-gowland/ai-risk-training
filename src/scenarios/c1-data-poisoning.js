@@ -48,7 +48,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       'boardroom',
+          scene:       'boardroom-crisis',
           caption:     'Model precision at a two-year high. Confirmed fraud losses up 40%. The training label pipeline has twelve people with write access.',
           sub_caption: 'The model did not get better. It was taught that fraud is legitimate.',
           decision: {
@@ -90,7 +90,7 @@ export const scenario = {
         },
 
         n2_wait: {
-          scene:       'desk-focused',
+          scene:       'desk-waiting',
           caption:     'The technical briefing takes two days. In that time, the model makes 1,400 automated decisions.',
           sub_caption: 'Investigation confirms the manipulation targets high-value transactions specifically.',
           decision: null,
@@ -176,7 +176,7 @@ export const scenario = {
         },
 
         n2_normal: {
-          scene:       'office-briefing',
+          scene:       'office-briefing-urgent',
           caption:     'The CRO pulls the design specification. Three accounts — that was the design intent. Twelve was the gap.',
           sub_caption: '"This was not a conservative recommendation. The design called for three. Why did you have twelve?"',
           decision: null,

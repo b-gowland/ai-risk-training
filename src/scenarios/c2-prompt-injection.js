@@ -98,7 +98,7 @@ export const scenario = {
         },
 
         n2_conduct: {
-          scene:       'office-briefing',
+          scene:       'office-briefing-urgent',
           caption:     'Legal reviews the RM\'s position. The assistant produced the draft. The go-live checklist shows output review was marked as post-launch.',
           sub_caption: 'Legal advises the conduct route is not defensible — the system had no output gate. The RM used it as designed.',
           decision: null,

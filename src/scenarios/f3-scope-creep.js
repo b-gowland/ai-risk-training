@@ -187,7 +187,7 @@ export const scenario = {
         },
 
         n2_halted: {
-          scene:       `office-briefing`,
+          scene:       `desk-report`,
           caption:     `NZ deployment halted. Materiality assessment underway. The analyst has identified four months of decisions — 847 NZ credit applications. The question is whether any customers received decisions they wouldn\'t have received under a correctly validated model.`,
           sub_caption: `The answer determines whether regulatory notification is required.`,
           decision: {
@@ -289,7 +289,7 @@ export const scenario = {
         },
 
         n2_communication: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-aftermath`,
           caption:     `You survey credit operations. Of 14 staff who regularly use AI-assisted tools, three know that scope expansions require a change request. Eleven don\'t.`,
           sub_caption: `The governance framework is real. The awareness of it is not.`,
           decision: {

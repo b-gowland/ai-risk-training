@@ -119,7 +119,7 @@ export const scenario = {
         },
 
         n2_paid: {
-          scene:       `office-briefing`,
+          scene:       `office-briefing-urgent`,
           caption:     `The transfer goes through. Dana posts in the all-staff channel that afternoon: "Flagging a potential phishing campaign using my name. If you\'ve received any unusual payment requests, contact security immediately."`,
           sub_caption: `She had no idea there was a real contract reference in the emails. Neither did you.`,
           decision: {
@@ -325,7 +325,7 @@ export const scenario = {
         },
 
         n2_deflect: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `Finance escalates to the CFO. The CFO pulls you into the review anyway. The question is now on record: did your team contribute to this exposure?`,
           sub_caption: `Your project update page is still publicly visible.`,
           decision: {
@@ -443,7 +443,7 @@ export const scenario = {
         },
 
         n2_user_blame: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `Your draft report includes a finding about the employee\'s behaviour. Your manager reads it and asks: "If we\'d checked the SPF record, would this email have reached any inbox at all?"`,
           sub_caption: `No. It wouldn\'t have.`,
           decision: {
@@ -459,7 +459,7 @@ export const scenario = {
         },
 
         n3_recommend: {
-          scene:       `office-bright`,
+          scene:       `desk-thirty-days`,
           caption:     `Your report is clear: the gateway needs reconfiguring. You\'ve identified the specific signals to weight up and the content heuristics to deprioritise. Now you need to decide how to present the finding.`,
           sub_caption: `Security leadership will need to approve the change. Finance will want to know the risk is contained.`,
           decision: {

@@ -361,7 +361,7 @@ export const scenario = {
         },
 
         n3_legal_chaos: {
-          scene: 'office-briefing',
+          scene: 'office-briefing-urgent',
           caption: 'Legal needs facts. IT needs direction. The board needs a briefing. Nobody is talking to each other.',
           sub_caption: 'External counsel sends a follow-up letter noting the organisation has not responded within the specified timeframe.',
           decision: null,
@@ -455,7 +455,7 @@ export const scenario = {
         },
 
         n2_lied: {
-          scene: 'desk-review',
+          scene: 'desk-evidence',
           caption: 'Your manager has the IT log and your Slack reply open side by side.',
           sub_caption: 'The log shows an unapproved AI tool. Your message says "only approved tools." This is a problem.',
           decision: {
@@ -489,7 +489,7 @@ export const scenario = {
         },
 
         n3_minimised: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: 'HR pulls up the data classification. M&A targets. Projected offer prices. Executive redundancy list.',
           sub_caption: '"Nothing really sensitive" turns out to be the most sensitive category of data the company holds.',
           decision: {
@@ -513,7 +513,7 @@ export const scenario = {
         },
 
         n4_volunteer: {
-          scene: 'office-bright',
+          scene: 'desk-thirty-days',
           caption: 'The governance review recommends both a policy and an approved tools rollout.',
           sub_caption: 'Someone needs to help implement the acceptable use training for the PM community.',
           decision: {
@@ -583,7 +583,7 @@ export const scenario = {
         },
 
         n2_investigated: {
-          scene: 'analyst-desk',
+          scene: 'analyst-desk-privacy',
           caption: 'Device registered to: Priya Sharma, Senior PM. Data volume consistent with a full slide deck.',
           sub_caption: 'You search the Q3 calendar. Board prep. Strategy deck. The timing matches exactly.',
           decision: {
@@ -601,7 +601,7 @@ export const scenario = {
         },
 
         n2_flagged_low: {
-          scene: 'analyst-desk',
+          scene: 'analyst-desk-privacy',
           caption: 'Three weeks later, a legal hold notice arrives referencing "AI tool usage during Q3 board preparation."',
           sub_caption: 'Your low-priority flag on ticket #4471 is now exhibit A in why the organisation didn\'t catch this earlier.',
           decision: {
@@ -617,7 +617,7 @@ export const scenario = {
         },
 
         n3_escalated: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: 'Legal is involved. They want to understand what controls InfoSec had and why DLP didn\'t catch this.',
           sub_caption: '"The personal browser session bypasses our corporate DLP entirely. That\'s the gap."',
           decision: {
@@ -665,7 +665,7 @@ export const scenario = {
         },
 
         n4_gap_analysis: {
-          scene: 'analyst-desk',
+          scene: 'analyst-desk-privacy',
           caption: 'The CISO wants a gap analysis: what DLP covers, what it doesn\'t, and what closing the gap costs.',
           sub_caption: 'This is your wheelhouse. This is actually your job.',
           decision: {

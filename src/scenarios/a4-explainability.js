@@ -89,7 +89,7 @@ export const scenario = {
         },
 
         n2_escalates: {
-          scene:       `office-briefing`,
+          scene:       `desk-call`,
           caption:     `Compliance is now involved. They\'re asking whether the system has ever been able to produce reason codes. You know the answer: no — it's always just been score and threshold.`,
           sub_caption: `This wasn\'t the first decline. It was just the first complaint.`,
           decision: {
@@ -291,7 +291,7 @@ export const scenario = {
         },
 
         n2_requirements: {
-          scene:       `boardroom`,
+          scene:       `office-meeting-hearing`,
           caption:     `Compliance notes that ASIC RG 271 adverse action notice requirements are a published regulatory standard available on the ASIC website. They\'ve been in place since 2014. The credit decisioning system should have been designed to meet them.`,
           sub_caption: `The requirements were available. They weren\'t applied.`,
           decision: {
@@ -359,7 +359,7 @@ export const scenario = {
         },
 
         n2_compliance_scope: {
-          scene:       `desk-focused`,
+          scene:       `desk-report`,
           caption:     `Adverse action notice compliance review: 14 months × average 340 declines/month = approximately 4,760 non-compliant notices. All lacked the specific reason codes required under ASIC RG 271. Every declined applicant is entitled to request a compliant explanation.`,
           sub_caption: `Now the proxy question.`,
           decision: {

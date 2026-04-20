@@ -103,7 +103,7 @@ export const scenario = {
         },
 
         n2_defended: {
-          scene: 'desk-working',
+          scene: 'desk-working-night',
           caption: 'Four hours later, you still can\'t find the regulatory document anywhere. The client has sent a follow-up: their compliance team has searched all official sources. It doesn\'t exist.',
           sub_caption: 'You spent four hours implying the source was real. It wasn\'t.',
           decision: {
@@ -221,7 +221,7 @@ export const scenario = {
         },
 
         n3_false_assurance: {
-          scene: 'office-briefing',
+          scene: 'office-briefing-urgent',
           caption: 'Two days later, a second client flags a citation error in a different document.',
           sub_caption: 'The first client has heard. "You told me this was isolated."',
           decision: null,
@@ -251,7 +251,7 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
-          scene: 'boardroom',
+          scene: 'boardroom-agm',
           caption: 'The Managing Partner asks what went wrong in the rollout. The training covered hallucination risk. Verification was mentioned. It was not required.',
           sub_caption: '"Was there a documented verification requirement in the workflow?" There was not.',
           decision: {
@@ -317,7 +317,7 @@ export const scenario = {
         },
 
         n3_training_only: {
-          scene: 'office-briefing',
+          scene: 'office-briefing-urgent',
           caption: 'Three months later. Different staff member. Different client. Same problem: AI-generated citation, unverified, sent out.',
           sub_caption: 'The post-incident review asks why the workflow didn\'t include a mandatory verification step.',
           decision: null,

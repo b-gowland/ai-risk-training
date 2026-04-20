@@ -115,7 +115,7 @@ export const scenario = {
         },
 
         n2_wording: {
-          scene:       `desk-intranet`,
+          scene:       `desk-reading`,
           caption:     `The commitment wording: "We commit to a 42% reduction in Scope 1, 2, and 3 emissions by 2030 from our 2023 baseline." AI cloud inference is Scope 3. This is in scope.`,
           sub_caption: `There is no drafting escape. The commitment covers it.`,
           decision: {
@@ -167,7 +167,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `An institutional investor. 4.2% of shares. Microphone in hand. "Is the AI compute investment included in your net-zero pathway modelling?" You and the CDO exchange a look.`,
           sub_caption: `Ten seconds to decide how to answer.`,
           decision: {
@@ -201,7 +201,7 @@ export const scenario = {
         },
 
         n2_deflected: {
-          scene:       `desk-focused`,
+          scene:       `boardroom-agm`,
           caption:     `Post-AGM. The investor advisory firm has posted: "Management confirmed AI infrastructure is within the net-zero framework — we will seek quantitative confirmation." Your sustainability team has just told you the AI investment was not in the model.`,
           sub_caption: `The answer you gave at the AGM was inaccurate. The investor will know this when the numbers arrive.`,
           decision: {
@@ -217,7 +217,7 @@ export const scenario = {
         },
 
         n2_deferred: {
-          scene:       `office-meeting`,
+          scene:       `boardroom-agm`,
           caption:     `The CDO gives a technical answer about GPU efficiency and cloud provider sustainability commitments. The investor follows up: "But is the total energy consumption in your emissions model?" The CDO doesn't know.`,
           sub_caption: `Both of you are now visibly without the answer.`,
           decision: {
@@ -287,7 +287,7 @@ export const scenario = {
         },
 
         n2_full_data: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-aftermath`,
           caption:     `Data sent. The sustainability team comes back within the hour: the AI investment represents a 12% step increase in energy consumption. The net-zero pathway needs updating.`,
           sub_caption: `Your numbers are accurate. The gap is real.`,
           decision: {

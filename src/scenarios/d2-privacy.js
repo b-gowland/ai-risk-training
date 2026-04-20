@@ -268,7 +268,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       'analyst-desk',
+          scene:       'analyst-desk-privacy',
           caption:     'The logs confirm it. Consumer AI endpoint. Two paralegal devices. Three sessions over two weeks.',
           sub_caption: 'You cannot recover what data was submitted — only that the connection was made.',
           decision: {
@@ -289,7 +289,7 @@ export const scenario = {
         },
 
         n2_precise: {
-          scene:       'office-meeting',
+          scene:       'office-meeting-aftermath',
           caption:     'The General Counsel asks what controls should have prevented this from a technical perspective.',
           sub_caption: 'Your recommendations will inform the remediation plan.',
           decision: {

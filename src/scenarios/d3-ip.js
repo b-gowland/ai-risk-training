@@ -116,7 +116,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       'boardroom',
+          scene:       'desk-reading',
           caption:     'GPL contamination confirmed in production. The scope of the risk depends on how extensively AI code generation was used.',
           decision: {
             prompt: 'Legal asks whether you want to scope the full codebase for AI-generated code before deciding on a response, or act immediately on the confirmed finding only. What do you decide?',
@@ -268,7 +268,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       'analyst-desk',
+          scene:       'analyst-desk-privacy',
           caption:     'One confirmed GPL finding. Your job is to scope the full exposure across six months of AI-generated code.',
           decision: {
             prompt: 'To scope the codebase you need to identify which code was AI-generated. Commit records don\'t flag AI assistance. What\'s your approach?',

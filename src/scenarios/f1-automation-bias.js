@@ -170,7 +170,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `The review board wants to know: was this individual error, system failure, or both? The AI said normal. The radiologist signed off. No protocol was broken.`,
           sub_caption: `The system worked as designed. That may be the problem.`,
           decision: {

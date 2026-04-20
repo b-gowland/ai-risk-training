@@ -184,7 +184,7 @@ export const scenario = {
         },
 
         n2_suspended: {
-          scene:       `office-briefing`,
+          scene:       `desk-call`,
           caption:     `Chatbot suspended. Now: ASIC and AFCA notification assessment, and the question of whether affected customers need to be contacted.`,
           sub_caption: `23 confirmed. The full scope is unknown until the log analysis is complete.`,
           decision: {
@@ -370,7 +370,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `14,000 conversations. 23 confirmed harmful outputs. You need to find the rest — and identify the prompt patterns that elicited them.`,
           sub_caption: `Manual review found 23 in six weeks. The question is whether the full population is larger.`,
           decision: {

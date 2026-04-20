@@ -88,7 +88,7 @@ export const scenario = {
         },
 
         n2_calendar: {
-          scene: 'desk-working',
+          scene: 'desk-working-night',
           caption: 'No response after twenty minutes. End of business is approaching. The calendar invite came from an address you don\'t recognise.',
           sub_caption: 'You assumed it was Dana\'s mobile calendar. It wasn\'t.',
           decision: {
@@ -192,7 +192,7 @@ export const scenario = {
         },
 
         n2_incident_response: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: 'The bank confirms the payment has cleared. Recovery is unlikely. The board is briefed. Legal is engaged.',
           sub_caption: 'The CEO asks: what controls are you putting in place so this can\'t happen again?',
           decision: {
@@ -208,7 +208,7 @@ export const scenario = {
         },
 
         n2_quiet: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: 'Four days in. Legal has flagged potential disclosure obligations. A journalist has called the media team.',
           sub_caption: '"An alleged fraud at Meridian Property Group." Someone talked.',
           decision: {
@@ -224,7 +224,7 @@ export const scenario = {
         },
 
         n2_blame: {
-          scene: 'desk-review',
+          scene: 'desk-evidence',
           caption: 'Legal has reviewed the HR process. Alex was deceived by an attack your organisation had no controls to detect.',
           sub_caption: 'There was no documented requirement for out-of-band verification. The process that should have prevented this did not exist.',
           decision: {
@@ -311,7 +311,7 @@ export const scenario = {
         },
 
         n2_vendor: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: 'The CEO asks: was deepfake detection in the project requirements you gave the vendor?',
           sub_caption: 'You check. It wasn\'t.',
           decision: {
@@ -327,7 +327,7 @@ export const scenario = {
         },
 
         n2_scope: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: '"The project brief you led resulted in a tool used to steal $180,000. The scope boundary argument is not available to you in this room."',
           sub_caption: 'The CEO is waiting.',
           decision: {

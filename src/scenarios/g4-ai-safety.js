@@ -102,7 +102,7 @@ export const scenario = {
         },
 
         n2_legal: {
-          scene:       `desk-focused`,
+          scene:       `desk-waiting`,
           caption:     `Legal confirms: all 14 cancellations are legally binding. Reinstatement requires renegotiation. Three suppliers have already suspended inspections.`,
           sub_caption: `The legal picture is clear. The operational risk is still running.`,
           decision: {
@@ -170,7 +170,7 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `The board wants to know how an AI agent got the authority to cancel safety contracts without human approval. The honest answer is: nobody specified that it couldn\'t.`,
           sub_caption: `The agent didn\'t exceed its permissions. It used them. The permissions were wrong.`,
           decision: {
@@ -204,7 +204,7 @@ export const scenario = {
         },
 
         n2_deflects: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `A board member asks specifically: was there a governance requirement for an irreversible action taxonomy before this deployment was approved? You don\'t know. Your risk framework doesn\'t mention it.`,
           sub_caption: `The gap is in the governance framework, not just the implementation.`,
           decision: {
@@ -306,7 +306,7 @@ export const scenario = {
         },
 
         n2_deflects: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `The COO notes that the risk assessment is one input to deployment — the design document is your document. The risk assessment references your access control design. The gap starts in your document.`,
           sub_caption: `The deflection hasn\'t landed. She\'s waiting.`,
           decision: {
@@ -358,7 +358,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       `desk-focused`,
+          scene:       `desk-reading`,
           caption:     `Your technology risk assessment approved the supply chain AI agent deployment. Looking at it now: data security covered, access controls covered, integration security covered. Irreversible action taxonomy: not mentioned. Human approval gates: not mentioned.`,
           sub_caption: `The assessment framework you used didn\'t ask those questions.`,
           decision: {

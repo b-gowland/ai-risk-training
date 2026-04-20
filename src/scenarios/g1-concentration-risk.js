@@ -83,7 +83,7 @@ export const scenario = {
         },
 
         n2_escalates: {
-          scene:       `office-briefing`,
+          scene:       `desk-call`,
           caption:     `Your team lead confirms there is no documented manual process. They\'re escalating to operations. The queue is now 68 customers.`,
           sub_caption: `The gap isn\'t the outage. The gap is that nobody planned for it.`,
           decision: {
@@ -115,7 +115,7 @@ export const scenario = {
         },
 
         n2_waits: {
-          scene:       `desk-focused`,
+          scene:       `desk-waiting`,
           caption:     `Two hours pass. The queue grows to 134 customers. Some have called the main line and been told to call back. Three have lodged complaints via the website.`,
           sub_caption: `The outage is the same. The customer experience didn\'t have to be this bad.`,
           decision: {
@@ -199,7 +199,7 @@ export const scenario = {
         },
 
         n2_waits_for_provider: {
-          scene:       `desk-focused`,
+          scene:       `desk-working-night`,
           caption:     `The provider updates their status page: estimated resolution extended to 4–6 hours. The customer queue is now 89 people. No manual process has been activated.`,
           sub_caption: `Waiting for the provider\'s ETA has cost 40 minutes of queue build.`,
           decision: {

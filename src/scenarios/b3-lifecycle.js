@@ -85,7 +85,7 @@ export const scenario = {
         },
 
         n2_documented: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `Your log entries become the timeline for the incident investigation.`,
           sub_caption: `The COO asks: what should have happened when your team first flagged this?`,
           decision: {
@@ -135,7 +135,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The routing protocol is live. Your team has used it twice — once for a genuine issue, once for a query that turned out to be a new product feature, not a model error.`,
           sub_caption: `The product owner asks your team to filter more carefully before routing. "We're getting noise in the channel."`,
           decision: {
@@ -213,7 +213,7 @@ export const scenario = {
         },
 
         n2_breach: {
-          scene:       `desk-working`,
+          scene:       `desk-call`,
           caption:     `Breach notice drafted. The system is still running on the untested model.`,
           sub_caption: `A customer complaint arrives about an incorrect response received this morning.`,
           decision: {
@@ -247,7 +247,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-meeting`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. Regression testing is complete. The new model is cleared for use. The vendor has agreed to a revised notification clause.`,
           sub_caption: `The AI product owner proposes the system go back live immediately. The board wants to know your position.`,
           decision: {
@@ -359,7 +359,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days after go-live. The alert has fired once — a low-sensitivity flag on a product feature update that was expected.`,
           sub_caption: `The product owner reviewed it and cleared it in 20 minutes. No false negative.`,
           decision: {
@@ -453,7 +453,7 @@ export const scenario = {
         },
 
         n3_baseline_question: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-aftermath`,
           caption:     `The product owner is reviewing your test set rebuild proposal.`,
           sub_caption: `She raises a question you were not expecting: "If we rebuild the test set from current production outputs, and the current outputs are from the new model, how do we know what the old model should have produced?"`,
           decision: {
@@ -471,7 +471,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `drift-dashboard`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The rebuilt test set is live. The monitoring dashboard now shows two tracks: new-model accuracy against the rebuilt benchmark, and a comparison view against the archived old-model baseline.`,
           sub_caption: `The product owner asks you to set the go-forward review cadence for the test set.`,
           decision: {

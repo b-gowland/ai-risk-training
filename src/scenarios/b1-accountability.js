@@ -143,7 +143,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-bright`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days after the APRA review. A named Accountable Person has been appointed. The AI Register has been updated.`,
           sub_caption: `Your team has a new weekly standing item: "Credit AI — incidents, decisions, questions."`,
           decision: {
@@ -237,7 +237,7 @@ export const scenario = {
         },
 
         n3_chair_scrutiny: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `Board meeting. The Chair has read your response to APRA and raises a question privately afterward.`,
           sub_caption: `"Blake, did you name yourself because it was the right appointment — or because it was the fastest response?"`,
           decision: {
@@ -255,7 +255,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-meeting`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The appointment framework review is complete. The recommendation: the Chief Credit Officer should be the permanent Accountable Person for the credit AI, not you.`,
           sub_caption: `The review is credible. You disagree with it.`,
           decision: {
@@ -367,7 +367,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days after the change. The blocking field is live. Six new AI systems have registered — all with named owners.`,
           sub_caption: `The emergency override has been used once. It worked as designed.`,
           decision: {
@@ -411,7 +411,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       `analyst-desk`,
+          scene:       `desk-reading`,
           caption:     `Your finding from six months ago is in the APRA review file. It was closed without resolution.`,
           sub_caption: `The reviewer has asked to speak with you directly.`,
           decision: {
@@ -479,7 +479,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. Evidence-based closure is now required for findings. A re-raise protocol is live.`,
           sub_caption: `You have a new finding on a different model — no Accountable Person, same pattern as six months ago.`,
           decision: {

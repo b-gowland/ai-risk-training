@@ -67,7 +67,7 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `The shortlists have looked the same for weeks. The auditor is asking questions you cannot answer.`,
           sub_caption: `You flagged this a month ago. Nothing happened.`,
           decision: {
@@ -135,7 +135,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-bright`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days after the audit. The tool has been suspended. A new acceptable-use policy for AI hiring tools is in draft.`,
           sub_caption: `HR is asking for input from coordinators who use the tools daily before the policy is finalised.`,
           decision: {
@@ -229,7 +229,7 @@ export const scenario = {
         },
 
         n3_board_scrutiny: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `Board meeting. The Chair has read the audit summary.`,
           sub_caption: `She asks privately: "Morgan — did you know an employment AI system would be classified high-risk under the EU AI Act before this went live?"`,
           decision: {
@@ -247,7 +247,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-meeting`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The tool is suspended, the compliance assessment is underway, and a new AI procurement gate has been drafted.`,
           sub_caption: `The gate requires Compliance sign-off before any AI system goes live. The Operations team is pushing back: "This will delay every deployment by four weeks."`,
           decision: {
@@ -359,7 +359,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `desk-review`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days after the change. The blocking checklist is live. Four new AI system deployments have gone through it.`,
           sub_caption: `The CPO asks you to review whether the sign-off standard is actually working — not just whether the box is being ticked.`,
           decision: {
@@ -403,7 +403,7 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Six months of shortlisting data. The auditor wants a disaggregated analysis by demographic group.`,
           sub_caption: `You have never been asked to run this analysis before.`,
           decision: {
@@ -471,7 +471,7 @@ export const scenario = {
         },
 
         n4_thirty_days: {
-          scene:       `office-bright`,
+          scene:       `desk-thirty-days`,
           caption:     `Thirty days on. The tool is suspended. A new bias testing requirement is being drafted for all AI hiring tools.`,
           sub_caption: `The draft requires "statistical testing for demographic disparities prior to deployment." Your manager asks you to review it.`,
           decision: {

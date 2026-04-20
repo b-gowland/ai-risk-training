@@ -201,7 +201,7 @@ export const scenario = {
         },
 
         n2_email: {
-          scene:       `office-briefing`,
+          scene:       `office-briefing-urgent`,
           caption:     `HR sends the email at 9:15am. By 9:30am, three union reps have called. Two employment lawyers have been contacted by staff. The Fair Work question is now on the table.`,
           sub_caption: `The email acknowledged the article. It didn\'t say anything that materially helped anyone.`,
           decision: {
@@ -217,7 +217,7 @@ export const scenario = {
         },
 
         n2_leak_hunt: {
-          scene:       `boardroom`,
+          scene:       `boardroom-crisis`,
           caption:     `Legal is investigating. The leak almost certainly came from the board paper distribution. That investigation will take days. Meanwhile, the mortgage processing team has now been in uncertainty for 90 minutes.`,
           sub_caption: `You\'ve spent 90 minutes on the wrong problem.`,
           decision: {
@@ -319,7 +319,7 @@ export const scenario = {
         },
 
         n2_justifies: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `The COO says: "The business case doesn\'t override the Fair Work Act." Legal has confirmed a potential consultation obligation breach. The question is now the organisation\'s legal exposure, not the programme delivery timeline.`,
           sub_caption: `The programme\'s commercial success is no longer the relevant measure.`,
           decision: {
@@ -389,7 +389,7 @@ export const scenario = {
         },
 
         n2_clear_finding: {
-          scene:       `office-briefing`,
+          scene:       `desk-report`,
           caption:     `Legal confirms the exposure is real. They\'re now asking what a remediation path looks like — can the consultation obligation be partially met through a genuine process starting today?`,
           sub_caption: `The damage is done. The question is whether it can be limited.`,
           decision: {
@@ -405,7 +405,7 @@ export const scenario = {
         },
 
         n2_cautious: {
-          scene:       `desk-working`,
+          scene:       `desk-report`,
           caption:     `Legal asks for your assessment document. They read it. "This says consultation should have started six weeks before go-live. The system has been live for four weeks." They look at you.`,
           sub_caption: `The document says what it says.`,
           decision: {

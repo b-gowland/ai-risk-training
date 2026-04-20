@@ -206,7 +206,7 @@ export const scenario = {
         },
 
         n2_board_without_plan: {
-          scene: 'boardroom',
+          scene: 'boardroom-crisis',
           caption: '"Has the tool been suspended?" No. "Is there an investigation underway?" No. "Do we have a legal opinion on disclosure?" No.',
           sub_caption: 'The board is not pleased.',
           decision: {
@@ -222,7 +222,7 @@ export const scenario = {
         },
 
         n3_audit_before_disclosure: {
-          scene: 'office-bright',
+          scene: 'desk-report',
           caption: 'The audit confirms bias. Legal reviews the disclosure question.',
           sub_caption: 'Legal advises that waiting for the audit was within obligations — just.',
           decision: null,

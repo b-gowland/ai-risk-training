@@ -291,7 +291,7 @@ export const scenario = {
         },
 
         n2_systemic: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `The CMO asks: "Was the specific Millbrook checklist your document?" It was. "Did you complete item 7?" You did. "Did you know that software compatibility and AI performance validation were different checks?" You weren\'t sure.`,
           sub_caption: `The systemic framing has partially deflected but the specific accountability is still yours.`,
           decision: {

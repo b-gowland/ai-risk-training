@@ -101,7 +101,7 @@ export const scenario = {
         },
 
         n2_waits: {
-          scene:       `desk-focused`,
+          scene:       `desk-waiting`,
           caption:     `Two more weeks pass. The calls are still coming. You now have five weeks of personal notes. A senior manager from risk arrives in your team area asking about complaint patterns.`,
           sub_caption: `The investigation has started without your input. They\'re now asking the questions you could have answered two weeks ago.`,
           decision: {
@@ -219,7 +219,7 @@ export const scenario = {
         },
 
         n2_complaint_data: {
-          scene:       `office-meeting`,
+          scene:       `office-meeting-hearing`,
           caption:     `The complaint data is verified accurate. The investigation team confirms: 340% increase is real, concentrated in a specific customer segment, and has been building for six weeks.`,
           sub_caption: `The complaint data was right. The model performance reporting was the problem.`,
           decision: {

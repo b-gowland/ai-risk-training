@@ -82,7 +82,7 @@ export const scenario = {
           branches: { a: 'n3_outcome', b: 'n3_outcome', c: 'outcome_rationalise' },
         },
         n3_outcome: {
-          scene:       'office-meeting',
+          scene:       'office-meeting-aftermath',
           caption:     'Your observations match the statistical finding. The fairness team includes your testimony in the audit report.',
           decision: null,
           branches: { auto: 'outcome_great' },
@@ -211,7 +211,7 @@ export const scenario = {
           branches: { a: 'n2_scope', b: 'outcome_obstruct', c: 'n2_scope' },
         },
         n2_scope: {
-          scene:       'office-meeting',
+          scene:       'office-meeting-hearing',
           caption:     'The audit team now understands what the assessment covered. The root cause is a gap in methodology, not data integrity.',
           decision: {
             prompt: 'The remediation lead asks you to design a revised data quality assessment process for all future AI models. What does it include?',
