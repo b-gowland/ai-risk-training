@@ -567,6 +567,7 @@
 }
 
 .footer a:hover { color: var(--ev-text-2); }
+<<<<<<< HEAD
 
 /* ── Episode UI ───────────────────────────────────────────────── */
 .playAllBtn {
@@ -700,3 +701,5 @@
 }
 
 .playerBack:hover { color: var(--ev-text-2); }
+=======
+>>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
