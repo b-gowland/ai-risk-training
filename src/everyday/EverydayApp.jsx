@@ -68,12 +68,12 @@ function Landing({ onPlay, onPlayAll }) {
   return (
     <div className={styles.page}>
       <div className={styles.landingHero}>
-        <p className={styles.landingEyebrow}>Free · No login · Takes 4 minutes</p>
+        <p className={styles.landingEyebrow}>Free · No login · Takes 5 minutes</p>
         <h1 className={styles.landingTitle}>
-          How would YOU handle it?
+          Fork
         </h1>
         <p className={styles.landingSub}>
-          Three real AI risks. Pick one — or play all three as an episode.
+          Three real AI risks. You're in the scenario. What do you do?
         </p>
       </div>
 
