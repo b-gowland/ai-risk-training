@@ -4,10 +4,6 @@
 // Swipe-left/right choice mechanic. No score bar. Lean outcome screen.
 
 import { useReducer, useEffect, useRef, useState } from 'react';
-<<<<<<< HEAD
-=======
-import { Link } from 'react-router-dom';
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 import {
   STATES, createInitialState, reducer,
   resolveNext, getCurrentNode, getOutcome,
@@ -24,7 +20,6 @@ const QUALITY_LABEL = { good: 'Good call', partial: 'Partially right', poor: 'Mi
 const QUALITY_CLASS  = { good: styles.qualityGood, partial: styles.qualityPartial, poor: styles.qualityPoor };
 const TONE_CLASS     = { good: styles.toneGood, warn: styles.toneWarn, bad: styles.toneBad };
 
-<<<<<<< HEAD
 // Plain-English KB link labels — no risk codes shown to public users
 const KB_LABELS = {
   'everyday-p1-deepfake-voice':        'deepfake voice scams',
@@ -32,8 +27,6 @@ const KB_LABELS = {
   'everyday-p3-employment-screening':  'AI in hiring decisions',
 };
 
-=======
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 function getLocalFeedback(choice) {
   return choice.note;
 }
@@ -49,15 +42,9 @@ function EverydayScene({ node }) {
 
 // ── Swipe node ───────────────────────────────────────────────────
 function SwipeNode({ node, onSelect }) {
-<<<<<<< HEAD
   const [swipeDir, setSwipeDir] = useState(null);
   const touchStartX = useRef(null);
   const choices = node.decision.choices;
-=======
-  const [swipeDir, setSwipeDir] = useState(null); // null | 'left' | 'right'
-  const touchStartX = useRef(null);
-  const choices = node.decision.choices; // always exactly 2
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 
   function handleTouchStart(e) {
     touchStartX.current = e.touches[0].clientX;
@@ -133,14 +120,9 @@ function EverydayFeedback({ choice, feedbackText, loading, onContinue }) {
 }
 
 // ── Outcome ──────────────────────────────────────────────────────
-<<<<<<< HEAD
 function EverydayOutcome({ outcome, scenario, onReplay, onBack, isLastInEpisode, onNextScenario }) {
   const toneClass = TONE_CLASS[outcome.tone] || styles.toneWarn;
   const kbLabel = KB_LABELS[scenario.id] || scenario.subtitle;
-=======
-function EverydayOutcome({ outcome, scenario, onReplay, onBack }) {
-  const toneClass = TONE_CLASS[outcome.tone] || styles.toneWarn;
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 
   return (
     <div className={styles.outcomeWrap}>
@@ -161,7 +143,6 @@ function EverydayOutcome({ outcome, scenario, onReplay, onBack }) {
         <button className={styles.replayBtn} onClick={onReplay}>
           ↩ Try a different choice
         </button>
-<<<<<<< HEAD
         <a
           href={scenario.kb_url}
           target="_blank"
@@ -179,42 +160,23 @@ function EverydayOutcome({ outcome, scenario, onReplay, onBack }) {
             Next scenario →
           </button>
         )}
-=======
-        <a href={scenario.kb_url} target="_blank" rel="noopener noreferrer" className={styles.allScenariosLink}>
-          Learn more about {scenario.risk_ref} ↗
-        </a>
-        <button className={styles.replayBtn} onClick={onBack} style={{ fontSize: 13 }}>
-          ← All scenarios
-        </button>
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
       </div>
     </div>
   );
 }
 
 // ── Player ───────────────────────────────────────────────────────
-<<<<<<< HEAD
 export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenario }) {
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
 
   // FIX: depend on state.state so this re-fires after RESTART resets to PERSONA_SELECT
-=======
-export function EverydayPlayer({ scenario, onBack }) {
-  const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
-
-  // Auto-select the single 'player' persona on mount — skip persona screen
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
   useEffect(() => {
     if (state.state === STATES.PERSONA_SELECT) {
       dispatch({ type: 'SELECT_PERSONA', payload: 'player' });
       trackScenarioStarted(scenario.id, scenario.title);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-<<<<<<< HEAD
   }, [state.state]);
-=======
-  }, []);
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 
   // Auto-advance nodes with no decision
   useEffect(() => {
@@ -250,10 +212,6 @@ export function EverydayPlayer({ scenario, onBack }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
-<<<<<<< HEAD
-=======
-  // Track decision made
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
   function handleChoice(choice, nextId) {
     const node = getCurrentNode(scenario, state.persona, state.currentNodeId);
     if (node) trackDecisionMade(scenario.id, state.currentNodeId, choice.quality);
@@ -263,11 +221,7 @@ export function EverydayPlayer({ scenario, onBack }) {
   const currentNode    = getCurrentNode(scenario, state.persona, state.currentNodeId);
   const currentOutcome = getOutcome(scenario, state.persona, state.outcomeId);
 
-<<<<<<< HEAD
   // Advancing past persona select — render nothing briefly
-=======
-  // Still on persona select (auto-advancing) — show nothing
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
   if (state.state === STATES.PERSONA_SELECT) return null;
 
   return (
@@ -327,11 +281,8 @@ export function EverydayPlayer({ scenario, onBack }) {
               dispatch({ type: 'RESTART', payload: scenario });
             }}
             onBack={onBack}
-<<<<<<< HEAD
             isLastInEpisode={isLastInEpisode}
             onNextScenario={onNextScenario}
-=======
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
           />
         )}
 

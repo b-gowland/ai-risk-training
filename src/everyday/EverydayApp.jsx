@@ -1,13 +1,7 @@
 // EverydayApp.jsx
-<<<<<<< HEAD
 // Root component for the everyday bundle at /#/everyday
 // Handles landing (scenario selection) and episode mode (play all three in sequence).
 // No practitioner vocabulary in any user-facing string.
-=======
-// Root component for the everyday bundle at /#/everyday/
-// Handles landing (scenario selection) and in-scenario routing internally.
-// No practitioner vocabulary used in any user-facing string.
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,7 +19,6 @@ const DOMAIN_TAGS = {
   'everyday-p3-employment-screening':  'Your rights',
 };
 
-<<<<<<< HEAD
 // Episode progress indicator shown between scenarios
 function EpisodeProgress({ current, total, onContinue, scenarioTitle }) {
   const completed = current; // number completed so far
@@ -51,8 +44,6 @@ function EpisodeProgress({ current, total, onContinue, scenarioTitle }) {
   );
 }
 
-=======
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
 function ScenarioTile({ scenario, onPlay }) {
   return (
     <button
@@ -73,11 +64,7 @@ function ScenarioTile({ scenario, onPlay }) {
   );
 }
 
-<<<<<<< HEAD
 function Landing({ onPlay, onPlayAll }) {
-=======
-function Landing({ onPlay }) {
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
   return (
     <div className={styles.page}>
       <div className={styles.landingHero}>
@@ -86,7 +73,6 @@ function Landing({ onPlay }) {
           How would YOU handle it?
         </h1>
         <p className={styles.landingSub}>
-<<<<<<< HEAD
           Three real AI risks. Pick one — or play all three as an episode.
         </p>
       </div>
@@ -100,25 +86,16 @@ function Landing({ onPlay }) {
         <span>or pick one</span>
       </div>
 
-=======
-          Pick a scenario. Swipe left or right. Find out what happens.
-        </p>
-      </div>
-
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
       <div className={styles.scenarioStack}>
         {EVERYDAY_SCENARIOS.map(s => (
           <ScenarioTile key={s.id} scenario={s} onPlay={onPlay} />
         ))}
       </div>
 
-<<<<<<< HEAD
       <p className={styles.auNote}>
         🇦🇺 This version uses Australian examples and law. A global edition is coming.
       </p>
 
-=======
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
       <footer className={styles.footer}>
         <span>No personal data collected</span>
         <span>·</span>
@@ -129,7 +106,6 @@ function Landing({ onPlay }) {
 }
 
 export function EverydayApp() {
-<<<<<<< HEAD
   // null = landing, number = index into EVERYDAY_SCENARIOS
   const [episodeIndex, setEpisodeIndex] = useState(null);
   const [showingProgress, setShowingProgress] = useState(false);
@@ -188,19 +164,6 @@ export function EverydayApp() {
           total={EVERYDAY_SCENARIOS.length}
           scenarioTitle={nextScenario.title}
           onContinue={handleProgressContinue}
-=======
-  const [activeScenario, setActiveScenario] = useState(null);
-
-  if (activeScenario) {
-    return (
-      <div className={`${styles.root} ${styles.page}`}>
-        <Link to="/everyday" className={styles.playerBack} onClick={() => setActiveScenario(null)}>
-          ← All scenarios
-        </Link>
-        <EverydayPlayer
-          scenario={activeScenario}
-          onBack={() => setActiveScenario(null)}
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
         />
         <footer className={styles.footer}>
           <span>No personal data collected</span>
@@ -211,7 +174,6 @@ export function EverydayApp() {
     );
   }
 
-<<<<<<< HEAD
   // Playing a scenario
   return (
     <div className={`${styles.root} ${styles.page}`}>
@@ -239,11 +201,6 @@ export function EverydayApp() {
         <span>·</span>
         <Link to="/privacy">Privacy →</Link>
       </footer>
-=======
-  return (
-    <div className={styles.root}>
-      <Landing onPlay={setActiveScenario} />
->>>>>>> 55e30b2962a1d77d26a805759b1803c30f3b1e9d
     </div>
   );
 }
