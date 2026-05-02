@@ -172,7 +172,7 @@ export const scenario = {
         },
 
         n3_stayed_silent: {
-          scene: `phone-call`,
+          scene: `phone-incoming`,
           caption: `Three weeks later. Your sister calls you — she just sent $600 to "Mum."`,
           sub_caption: `Same script. Same cloned voice. Different target.`,
           decision: {

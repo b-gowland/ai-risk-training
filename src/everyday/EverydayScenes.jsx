@@ -277,6 +277,219 @@ export function EmailSentScene() {
   );
 }
 
+export function PhoneVerifyScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phone showing bank fraud line call in progress with transfer flagged">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="135" rx="180" ry="100" fill="#f59e0b" opacity="0.05"/>
+      {/* Phone */}
+      <rect x="145" y="15" width="190" height="240" rx="20" fill="#1a1035" stroke="#3d2080" strokeWidth="2"/>
+      <rect x="153" y="25" width="174" height="220" rx="14" fill="#0d0820"/>
+      <rect x="205" y="23" width="70" height="10" rx="5" fill="#1a1035"/>
+      {/* Bank call header */}
+      <rect x="153" y="25" width="174" height="32" rx="0" fill="#1a1208"/>
+      <rect x="153" y="42" width="174" height="15" fill="#1a1208"/>
+      <text x="240" y="40" textAnchor="middle" fontSize="9" fill="#f59e0b" fontFamily="system-ui" fontWeight="600">FRAUD LINE — ACTIVE CALL</text>
+      {/* Bank logo */}
+      <circle cx="240" cy="90" r="28" fill="#1a1208" stroke="#f59e0b" strokeWidth="1.5"/>
+      <text x="240" y="96" textAnchor="middle" fontSize="20" fill="#f59e0b">🏦</text>
+      {/* Transfer status */}
+      <rect x="162" y="128" width="156" height="38" rx="6" fill="#1a1208" stroke="#f59e0b" strokeWidth="1"/>
+      <text x="240" y="144" textAnchor="middle" fontSize="9" fill="#f59e0b" fontFamily="system-ui" fontWeight="600">Transfer: FLAGGED</text>
+      <text x="240" y="158" textAnchor="middle" fontSize="8" fill="#9d8ec7" fontFamily="system-ui">$800.00 · Under review</text>
+      {/* Call timer */}
+      <text x="240" y="182" textAnchor="middle" fontSize="11" fill="#9d8ec7" fontFamily="system-ui">02:14</text>
+      {/* Call action buttons */}
+      <circle cx="200" cy="215" r="18" fill="#3d0808"/>
+      <text x="200" y="221" textAnchor="middle" fontSize="16" fill="#ef4444">✕</text>
+      <circle cx="240" cy="215" r="14" fill="#251555"/>
+      <text x="240" y="221" textAnchor="middle" fontSize="12" fill="#9d8ec7">🔇</text>
+      <circle cx="280" cy="215" r="14" fill="#251555"/>
+      <text x="280" y="221" textAnchor="middle" fontSize="12" fill="#9d8ec7">📢</text>
+    </svg>
+  );
+}
+
+export function DeskReviewScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Person at desk reviewing bad news on laptop screen">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="200" rx="200" ry="60" fill="#1a1035" opacity="0.8"/>
+      {/* Desk surface */}
+      <rect x="0" y="195" width="480" height="75" rx="0" fill="#150d30"/>
+      <rect x="0" y="192" width="480" height="6" rx="0" fill="#1e1245"/>
+      {/* Laptop base */}
+      <rect x="120" y="165" width="240" height="10" rx="4" fill="#1e1245" stroke="#3d2080" strokeWidth="1"/>
+      {/* Laptop screen */}
+      <rect x="130" y="55" width="220" height="140" rx="8" fill="#1a1035" stroke="#3d2080" strokeWidth="2"/>
+      <rect x="138" y="63" width="204" height="124" rx="4" fill="#0d0820"/>
+      {/* Screen content — rejection/bad news */}
+      <rect x="146" y="72" width="188" height="20" rx="3" fill="#1e0808"/>
+      <text x="240" y="86" textAnchor="middle" fontSize="9" fill="#ef4444" fontFamily="system-ui" fontWeight="600">Transfer complete. Funds cleared.</text>
+      {/* Email lines */}
+      {[0,1,2,3].map(i => (
+        <rect key={i} x="146" y={98+i*14} width={i===1?120:i===3?100:170} height="7" rx="2" fill="#5a4e8a" opacity="0.4"/>
+      ))}
+      {/* Mug */}
+      <rect x="370" y="168" width="28" height="26" rx="4" fill="#251555" stroke="#3d2080" strokeWidth="1"/>
+      <path d="M398 176 Q410 176 410 182 Q410 188 398 188" fill="none" stroke="#3d2080" strokeWidth="1.5"/>
+      {/* Person silhouette — head */}
+      <ellipse cx="240" cy="225" rx="22" ry="14" fill="#1e1245"/>
+      <circle cx="240" cy="210" r="12" fill="#251555" stroke="#3d2080" strokeWidth="1"/>
+    </svg>
+  );
+}
+
+export function DeskColleagueScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two people in conversation at a table, one explaining something to the other">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="230" rx="220" ry="50" fill="#1a1035" opacity="0.9"/>
+      {/* Table */}
+      <rect x="80" y="185" width="320" height="8" rx="4" fill="#1e1245" stroke="#3d2080" strokeWidth="1"/>
+      <rect x="100" y="193" width="8" height="40" rx="2" fill="#1a1035"/>
+      <rect x="372" y="193" width="8" height="40" rx="2" fill="#1a1035"/>
+      {/* Left person */}
+      <circle cx="155" cy="148" r="22" fill="#251555" stroke="#3d2080" strokeWidth="1.5"/>
+      <text x="155" y="155" textAnchor="middle" fontSize="18" fill="#f0ebff">👤</text>
+      <rect x="120" y="170" width="70" height="18" rx="4" fill="#1a1035" stroke="#3d2080" strokeWidth="1"/>
+      {/* Right person */}
+      <circle cx="325" cy="148" r="22" fill="#052e1e" stroke="#10b981" strokeWidth="1.5"/>
+      <text x="325" y="155" textAnchor="middle" fontSize="18" fill="#f0ebff">👤</text>
+      <rect x="290" y="170" width="70" height="18" rx="4" fill="#1a1035" stroke="#3d2080" strokeWidth="1"/>
+      {/* Speech bubble from right */}
+      <rect x="195" y="110" width="100" height="30" rx="8" fill="#052e1e" stroke="#10b981" strokeWidth="1"/>
+      <path d="M280 132 L295 143 L270 138" fill="#052e1e" stroke="#10b981" strokeWidth="1"/>
+      <text x="245" y="128" textAnchor="middle" fontSize="8" fill="#10b981" fontFamily="system-ui">Got it. I'll check</text>
+      <text x="245" y="138" textAnchor="middle" fontSize="8" fill="#10b981" fontFamily="system-ui">my PDS directly.</text>
+      {/* Connection line */}
+      <line x1="178" y1="160" x2="302" y2="160" stroke="#3d2080" strokeWidth="1" strokeDasharray="4 3" opacity="0.5"/>
+    </svg>
+  );
+}
+
+export function DeskCasualScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Person alone at desk in reflective moment, no urgent activity">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      {/* Ambient warm glow — quieter moment */}
+      <ellipse cx="240" cy="180" rx="160" ry="80" fill="#7c3aed" opacity="0.04"/>
+      {/* Desk */}
+      <rect x="0" y="195" width="480" height="75" fill="#150d30"/>
+      <rect x="0" y="192" width="480" height="5" fill="#1e1245"/>
+      {/* Closed laptop */}
+      <rect x="140" y="178" width="200" height="16" rx="4" fill="#1e1245" stroke="#3d2080" strokeWidth="1.5"/>
+      <rect x="148" y="162" width="184" height="18" rx="6" fill="#1a1035" stroke="#3d2080" strokeWidth="1"/>
+      {/* Notebook + pen */}
+      <rect x="355" y="168" width="45" height="30" rx="3" fill="#1e1245" stroke="#3d2080" strokeWidth="1"/>
+      {[0,1,2].map(i => (
+        <line key={i} x1="360" y1={175+i*7} x2="394" y2={175+i*7} stroke="#3d2080" strokeWidth="0.5" opacity="0.6"/>
+      ))}
+      <rect x="390" y="163" width="3" height="20" rx="1" fill="#7c3aed" opacity="0.7" transform="rotate(15 391 173)"/>
+      {/* Coffee mug */}
+      <rect x="78" y="172" width="30" height="25" rx="5" fill="#251555" stroke="#3d2080" strokeWidth="1"/>
+      <path d="M108 180 Q118 180 118 186 Q118 192 108 192" fill="none" stroke="#3d2080" strokeWidth="1.5"/>
+      {/* Steam lines */}
+      <path d="M88 168 Q90 162 88 156" fill="none" stroke="#5a4e8a" strokeWidth="1" opacity="0.5"/>
+      <path d="M96 165 Q98 159 96 153" fill="none" stroke="#5a4e8a" strokeWidth="1" opacity="0.4"/>
+      {/* Person silhouette */}
+      <ellipse cx="240" cy="228" rx="28" ry="14" fill="#1e1245"/>
+      <circle cx="240" cy="212" r="14" fill="#251555" stroke="#3d2080" strokeWidth="1"/>
+      {/* Thought bubble — reflective */}
+      <circle cx="265" cy="188" r="4" fill="#251555" stroke="#3d2080" strokeWidth="1" opacity="0.6"/>
+      <circle cx="275" cy="178" r="6" fill="#251555" stroke="#3d2080" strokeWidth="1" opacity="0.7"/>
+      <circle cx="288" cy="165" r="10" fill="#1e1245" stroke="#3d2080" strokeWidth="1"/>
+      <text x="288" y="169" textAnchor="middle" fontSize="10" fill="#9d8ec7">?</text>
+    </svg>
+  );
+}
+
+export function PaymentScreenScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Payment receipt screen showing out of pocket repair cost paid">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="135" rx="180" ry="100" fill="#f59e0b" opacity="0.04"/>
+      {/* Phone */}
+      <rect x="145" y="15" width="190" height="240" rx="20" fill="#1a1035" stroke="#3d2080" strokeWidth="2"/>
+      <rect x="153" y="25" width="174" height="220" rx="14" fill="#0d0820"/>
+      <rect x="205" y="23" width="70" height="10" rx="5" fill="#1a1035"/>
+      {/* Header */}
+      <rect x="153" y="25" width="174" height="32" rx="0" fill="#1a1208"/>
+      <rect x="153" y="42" width="174" height="15" fill="#1a1208"/>
+      <text x="240" y="40" textAnchor="middle" fontSize="9" fill="#f59e0b" fontFamily="system-ui" fontWeight="600">PAYMENT COMPLETE</text>
+      {/* Receipt icon */}
+      <circle cx="240" cy="95" r="28" fill="#1a1208" stroke="#f59e0b" strokeWidth="1.5"/>
+      <text x="240" y="103" textAnchor="middle" fontSize="22" fill="#f59e0b">🧾</text>
+      {/* Amount */}
+      <text x="240" y="142" textAnchor="middle" fontSize="22" fontWeight="700" fill="#f59e0b" fontFamily="system-ui">$480.00</text>
+      <text x="240" y="158" textAnchor="middle" fontSize="9" fill="#9d8ec7" fontFamily="system-ui">Vehicle repair — out of pocket</text>
+      {/* Note */}
+      <rect x="162" y="170" width="156" height="34" rx="6" fill="#1a1208" stroke="#f59e0b" strokeWidth="0.5" opacity="0.8"/>
+      <text x="240" y="184" textAnchor="middle" fontSize="8" fill="#9d8ec7" fontFamily="system-ui">AI said you were covered.</text>
+      <text x="240" y="196" textAnchor="middle" fontSize="8" fill="#9d8ec7" fontFamily="system-ui">PDS said otherwise.</text>
+      {/* Lesson forming */}
+      <text x="240" y="222" textAnchor="middle" fontSize="8" fill="#5a4e8a" fontFamily="system-ui" fontStyle="italic">Check the actual document next time.</text>
+    </svg>
+  );
+}
+
+export function OfficeBriefingScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Office meeting with hiring manager explaining the screening tool error">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="220" rx="200" ry="50" fill="#1a1035" opacity="0.9"/>
+      {/* Conference table */}
+      <ellipse cx="240" cy="195" rx="160" ry="22" fill="#1e1245" stroke="#3d2080" strokeWidth="1.5"/>
+      {/* Hiring manager — left */}
+      <circle cx="145" cy="148" r="24" fill="#251555" stroke="#7c3aed" strokeWidth="1.5"/>
+      <text x="145" y="156" textAnchor="middle" fontSize="20" fill="#f0ebff">👔</text>
+      <text x="145" y="180" textAnchor="middle" fontSize="8" fill="#9d8ec7" fontFamily="system-ui">Hiring Manager</text>
+      {/* You — right */}
+      <circle cx="335" cy="148" r="24" fill="#052e1e" stroke="#10b981" strokeWidth="1.5"/>
+      <text x="335" y="156" textAnchor="middle" fontSize="20" fill="#f0ebff">👤</text>
+      <text x="335" y="180" textAnchor="middle" fontSize="8" fill="#10b981" fontFamily="system-ui">You</text>
+      {/* Speech bubble from manager */}
+      <rect x="165" y="95" width="136" height="42" rx="8" fill="#251555" stroke="#7c3aed" strokeWidth="1"/>
+      <path d="M165 118 L148 132 L172 124" fill="#251555" stroke="#7c3aed" strokeWidth="1"/>
+      <text x="233" y="111" textAnchor="middle" fontSize="8" fill="#f0ebff" fontFamily="system-ui">I wasn't aware the</text>
+      <text x="233" y="123" textAnchor="middle" fontSize="8" fill="#f0ebff" fontFamily="system-ui">tool used undisclosed</text>
+      <text x="233" y="135" textAnchor="middle" fontSize="8" fill="#f0ebff" fontFamily="system-ui">criteria. I'm sorry.</text>
+      {/* Documents on table */}
+      <rect x="195" y="188" width="50" height="14" rx="2" fill="#1a1035" stroke="#3d2080" strokeWidth="1" transform="rotate(-5 220 195)"/>
+      <rect x="230" y="186" width="50" height="14" rx="2" fill="#1a1035" stroke="#3d2080" strokeWidth="1" transform="rotate(3 255 193)"/>
+    </svg>
+  );
+}
+
+export function PhoneIncomingScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Incoming call from sister on a phone screen, distressed">
+      <rect width="480" height="270" fill="#0f0a1e"/>
+      <ellipse cx="240" cy="135" rx="180" ry="100" fill="#ef4444" opacity="0.05"/>
+      {/* Phone frame */}
+      <rect x="155" y="20" width="170" height="230" rx="20" fill="#1a1035" stroke="#3d2080" strokeWidth="2"/>
+      <rect x="163" y="30" width="154" height="210" rx="14" fill="#0d0820"/>
+      <rect x="210" y="28" width="60" height="10" rx="5" fill="#1a1035"/>
+      {/* Incoming call UI */}
+      <text x="240" y="75" textAnchor="middle" fontSize="11" fill="#9d8ec7" fontFamily="system-ui">incoming call</text>
+      {/* Contact avatar */}
+      <circle cx="240" cy="118" r="34" fill="#2d0808" stroke="#ef4444" strokeWidth="1.5"/>
+      <text x="240" y="125" textAnchor="middle" fontSize="28" fill="#f0ebff">👩</text>
+      {/* Name */}
+      <text x="240" y="170" textAnchor="middle" fontSize="16" fontWeight="600" fill="#f0ebff" fontFamily="system-ui">Sister</text>
+      <text x="240" y="188" textAnchor="middle" fontSize="11" fill="#ef4444" fontFamily="system-ui">She sounds distressed</text>
+      {/* Call buttons */}
+      <circle cx="200" cy="218" r="18" fill="#ef4444" opacity="0.9"/>
+      <text x="200" y="224" textAnchor="middle" fontSize="16" fill="white">✕</text>
+      <circle cx="280" cy="218" r="18" fill="#10b981" opacity="0.9"/>
+      <text x="280" y="224" textAnchor="middle" fontSize="16" fill="white">✓</text>
+      {/* Warning pulse rings */}
+      <circle cx="240" cy="118" r="44" fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.25"/>
+      <circle cx="240" cy="118" r="54" fill="none" stroke="#ef4444" strokeWidth="0.5" opacity="0.1"/>
+    </svg>
+  );
+}
+
 export function getEverydayScene(sceneKey) {
   const scenes = {
     'phone-call':       <PhoneCallScene />,
@@ -287,6 +500,13 @@ export function getEverydayScene(sceneKey) {
     'pds-open':         <PdsOpenScene />,
     'rejection-email':  <RejectionEmailScene />,
     'email-sent':       <EmailSentScene />,
+    'phone-incoming':   <PhoneIncomingScene />,
+    'phone-verify':     <PhoneVerifyScene />,
+    'desk-review':      <DeskReviewScene />,
+    'desk-colleague':   <DeskColleagueScene />,
+    'desk-casual':      <DeskCasualScene />,
+    'payment-screen':   <PaymentScreenScene />,
+    'office-briefing':  <OfficeBriefingScene />,
   };
-  return scenes[sceneKey] || scenes['phone-call'];
+  return scenes[sceneKey] ?? <PhoneCallScene />;
 }
