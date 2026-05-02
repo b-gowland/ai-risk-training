@@ -474,47 +474,97 @@
 }
 
 /* Share card preview */
-.sharePreview {
-  background: var(--ev-surface);
-  border: 1px solid var(--ev-border);
-  border-radius: 12px;
-  padding: 16px;
+/* Share card section */
+.shareSection {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
+  width: 100%;
 }
 
-.sharePreviewText {
-  font-size: 13px;
-  color: var(--ev-text-2);
-  line-height: 1.5;
-}
-
-.sharePreviewText strong {
+/* Canvas displayed as a visual — scales to fit */
+.shareCardCanvas {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--ev-border);
   display: block;
-  color: var(--ev-text);
-  margin-bottom: 2px;
-  font-size: 14px;
+}
+
+/* Primary share buttons — side by side */
+.shareActions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 340px;
 }
 
 .shareBtn {
-  background: var(--ev-accent-2);
+  flex: 1;
   border: none;
   border-radius: 8px;
-  color: #fff;
   font-family: var(--ev-font-body);
   font-size: 13px;
   font-weight: 600;
-  padding: 10px 16px;
+  padding: 11px 12px;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s, transform 0.1s;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
-.shareBtn:hover { background: #be185d; }
 .shareBtn:active { transform: scale(0.97); }
+
+.shareBtnCopy {
+  background: var(--ev-surface);
+  color: var(--ev-text);
+  border: 1px solid var(--ev-border);
+}
+
+.shareBtnCopy:hover { background: var(--ev-border); }
+
+.shareBtnCopied {
+  background: #052e1e;
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.shareBtnLinkedIn {
+  background: #0a66c2;
+  color: #fff;
+}
+
+.shareBtnLinkedIn:hover { background: #0959ad; }
+
+/* Tertiary download */
+.shareDownloadBtn {
+  background: none;
+  border: none;
+  color: var(--ev-text-3);
+  font-family: var(--ev-font-body);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+
+.shareDownloadBtn:hover { color: var(--ev-text-2); }
+
+/* Share hint text */
+.shareHint {
+  font-size: 11px;
+  color: var(--ev-text-3);
+  text-align: center;
+  margin: 0;
+  max-width: 300px;
+  line-height: 1.5;
+}
 
 /* Outcome actions */
 .outcomeActions {

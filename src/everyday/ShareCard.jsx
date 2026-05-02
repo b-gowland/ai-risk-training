@@ -1,11 +1,15 @@
 // ShareCard.jsx
-// Generates a 1080×1080 share card as PNG using HTML Canvas.
-// Renders offscreen, exports via Web Share API (mobile) or download link.
-// Updated May 2026: challenge hook CTA, brand name "Callout", URL on card.
+// Renders share card canvas as a visual display.
+// Three sharing actions: Copy caption (clipboard), Share to LinkedIn, Download image.
+// Web Share API with files removed — too unreliable across iOS/desktop contexts.
+// OG meta tags on index.html provide LinkedIn link preview from fork-og.png.
+// Updated May 2, 2026.
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styles from './EverydayBundle.module.css';
 import { trackForkCardShared } from '../utils/analytics.js';
+
+const FORK_URL = 'https://b-gowland.github.io/ai-risk-training/#/everyday';
 
 const PALETTE = {
   bg:      '#0f0a1e',
@@ -168,33 +172,46 @@ function renderCard(canvas, scenario, outcome) {
 
 export function ShareCard({ scenario, outcome }) {
   const canvasRef = useRef(null);
+  const [copied, setCopied] = useState(false);
 
-  async function handleShare() {
+  // Render canvas on mount — shown as visual preview
+  function handleCanvasRef(el) {
+    canvasRef.current = el;
+    if (el && !el.dataset.rendered) {
+      renderCard(el, scenario, outcome);
+      el.dataset.rendered = 'true';
+    }
+  }
+
+  // 1. Copy pre-written caption — works everywhere, no API dependencies
+  async function handleCopy() {
+    const label = outcome.outcome_label || outcome.heading;
+    const caption = `I got "${label}" on Fork — could you do better?\n\nPlay free: ${FORK_URL}`;
+    try {
+      await navigator.clipboard.writeText(caption);
+      trackForkCardShared(scenario.id, outcome.tone, 'copy');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Clipboard API blocked — show prompt as fallback
+      window.prompt('Copy this caption:', caption);
+    }
+  }
+
+  // 2. LinkedIn share — opens share dialog, LinkedIn fetches OG preview from FORK_URL
+  function handleLinkedIn() {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(FORK_URL)}`;
+    trackForkCardShared(scenario.id, outcome.tone, 'linkedin');
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  // 3. Download card PNG — tertiary, for manual attachment to posts
+  function handleDownload() {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    renderCard(canvas, scenario, outcome);
-
-    const shareMethod = navigator.share ? 'native' : 'download';
-    trackForkCardShared(scenario.id, outcome.tone, shareMethod);
-
-    canvas.toBlob(async (blob) => {
+    canvas.toBlob((blob) => {
       if (!blob) return;
-      const file = new File([blob], 'fork-result.png', { type: 'image/png' });
-
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            title: `${scenario.title} — ${outcome.outcome_label || outcome.heading}`,
-            text: `I got "${outcome.outcome_label || outcome.heading}" on Fork. What would you do? Play free →`,
-            files: [file],
-          });
-          return;
-        } catch {
-          // User cancelled or share failed — fall through to download
-        }
-      }
-
-      // Fallback: download
+      trackForkCardShared(scenario.id, outcome.tone, 'download');
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -205,18 +222,41 @@ export function ShareCard({ scenario, outcome }) {
   }
 
   return (
-    <>
-      {/* Hidden canvas — rendered offscreen */}
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
-      <div className={styles.sharePreview}>
-        <div className={styles.sharePreviewText}>
-          <strong>Challenge a friend</strong>
-          Saves as an image — share to WhatsApp, LinkedIn, or anywhere.
-        </div>
-        <button className={styles.shareBtn} onClick={handleShare}>
-          Challenge a friend ↗
+    <div className={styles.shareSection}>
+      {/* Card — displayed as visual, not the sharing mechanism */}
+      <canvas
+        ref={handleCanvasRef}
+        className={styles.shareCardCanvas}
+        aria-label={`Fork result: ${outcome.outcome_label || outcome.heading}`}
+      />
+
+      {/* Primary actions — side by side */}
+      <div className={styles.shareActions}>
+        <button
+          className={`${styles.shareBtn} ${styles.shareBtnCopy} ${copied ? styles.shareBtnCopied : ''}`}
+          onClick={handleCopy}
+        >
+          {copied ? '✓ Copied!' : '📋 Copy caption'}
+        </button>
+        <button
+          className={`${styles.shareBtn} ${styles.shareBtnLinkedIn}`}
+          onClick={handleLinkedIn}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 6, verticalAlign: 'middle', flexShrink: 0 }}>
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          Share to LinkedIn
         </button>
       </div>
-    </>
+
+      {/* Tertiary — download for manual post attachment */}
+      <button className={styles.shareDownloadBtn} onClick={handleDownload}>
+        ↓ Download image to attach manually
+      </button>
+
+      <p className={styles.shareHint}>
+        Copy the caption then paste into any post — WhatsApp, LinkedIn, iMessage, anywhere.
+      </p>
+    </div>
   );
 }
