@@ -135,6 +135,45 @@ export function Homepage() {
         </div>
       </div>
 
+      {/* ── Fork hero — everyday/personal track ── */}
+      <div className={styles.forkBanner}>
+        <div className={styles.forkBannerInner}>
+          <div className={styles.forkLeft}>
+            <div className={styles.forkEyebrow}>Free · No login · 5 minutes</div>
+            <div className={styles.forkTitle}>Fork</div>
+            <div className={styles.forkTagline}>Your choices. Your consequences.</div>
+            <p className={styles.forkDesc}>
+              Three real AI risks — deepfake voice scams, AI hallucination, algorithmic hiring.
+              You're in the scenario. What do you do?
+            </p>
+          </div>
+          <div className={styles.forkRight}>
+            <div className={styles.forkScenarios}>
+              <div className={styles.forkScenarioItem}>
+                <span className={styles.forkScenarioIcon}>📞</span>
+                <span>Is that really Mum?</span>
+              </div>
+              <div className={styles.forkScenarioItem}>
+                <span className={styles.forkScenarioIcon}>🔍</span>
+                <span>The answer that wasn't</span>
+              </div>
+              <div className={styles.forkScenarioItem}>
+                <span className={styles.forkScenarioIcon}>📋</span>
+                <span>The algorithm said no</span>
+              </div>
+            </div>
+            <Link to="/everyday" className={styles.forkCta}>
+              Play Fork → free
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Professional track divider ── */}
+      <div className={styles.proTrackDivider}>
+        <span className={styles.proTrackLabel}>Professional training library</span>
+      </div>
+
       <div className={styles.filters}>
         <div className={styles.filterGroup}>
           <button

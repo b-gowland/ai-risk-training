@@ -12,8 +12,8 @@ import { getEverydayScene } from './EverydayScenes.jsx';
 import { ShareCard } from './ShareCard.jsx';
 import styles from './EverydayBundle.module.css';
 import {
-  trackScenarioStarted, trackDecisionMade,
-  trackScenarioCompleted, trackReplayChosen,
+  trackForkStarted, trackForkDecision,
+  trackForkCompleted, trackForkReplayed, trackForkCardShared,
 } from '../utils/analytics.js';
 
 const QUALITY_LABEL = { good: 'Good call', partial: 'Partially right', poor: 'Missed this one' };
@@ -173,7 +173,7 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
   useEffect(() => {
     if (state.state === STATES.PERSONA_SELECT) {
       dispatch({ type: 'SELECT_PERSONA', payload: 'player' });
-      trackScenarioStarted(scenario.id, scenario.title);
+      trackForkStarted(scenario.id);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state]);
@@ -203,18 +203,18 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.feedbackLoading]);
 
-  // Track outcome reached
+  // Track outcome reached — includes score for Fork dashboard
   useEffect(() => {
     if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
     const outcome = getOutcome(scenario, state.persona, state.outcomeId);
     if (!outcome) return;
-    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, 'player');
+    trackForkCompleted(scenario.id, state.outcomeId, outcome.tone, outcome.score);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
   function handleChoice(choice, nextId) {
     const node = getCurrentNode(scenario, state.persona, state.currentNodeId);
-    if (node) trackDecisionMade(scenario.id, state.currentNodeId, choice.quality);
+    if (node) trackForkDecision(scenario.id, state.currentNodeId, choice.quality);
     dispatch({ type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId } });
   }
 
@@ -277,7 +277,7 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
             outcome={currentOutcome}
             scenario={scenario}
             onReplay={() => {
-              trackReplayChosen(scenario.id);
+              trackForkReplayed(scenario.id);
               dispatch({ type: 'RESTART', payload: scenario });
             }}
             onBack={onBack}

@@ -5,7 +5,7 @@
 
 import { useRef } from 'react';
 import styles from './EverydayBundle.module.css';
-import { trackCardShared } from '../utils/analytics.js';
+import { trackForkCardShared } from '../utils/analytics.js';
 
 const PALETTE = {
   bg:      '#0f0a1e',
@@ -175,7 +175,7 @@ export function ShareCard({ scenario, outcome }) {
     renderCard(canvas, scenario, outcome);
 
     const shareMethod = navigator.share ? 'native' : 'download';
-    trackCardShared(scenario.id, outcome.tone, shareMethod);
+    trackForkCardShared(scenario.id, outcome.tone, shareMethod);
 
     canvas.toBlob(async (blob) => {
       if (!blob) return;
