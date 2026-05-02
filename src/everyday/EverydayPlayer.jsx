@@ -169,6 +169,11 @@ function EverydayOutcome({ outcome, scenario, onReplay, onBack, isLastInEpisode,
 export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenario }) {
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
 
+  // Tracks elapsed time from "Start →" click to outcome screen.
+  // Records clock time, not engaged time — sessions left open will skew long.
+  // Useful for: confirming median play time, detecting abandoned mid-play sessions.
+  const startTimeRef = useRef(null);
+
   // FIX: depend on state.state so this re-fires after RESTART resets to PERSONA_SELECT
   useEffect(() => {
     if (state.state === STATES.PERSONA_SELECT) {
@@ -203,12 +208,15 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.feedbackLoading]);
 
-  // Track outcome reached — includes score for Fork dashboard
+  // Track outcome reached — includes score and elapsed duration
   useEffect(() => {
     if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
     const outcome = getOutcome(scenario, state.persona, state.outcomeId);
     if (!outcome) return;
-    trackForkCompleted(scenario.id, state.outcomeId, outcome.tone, outcome.score);
+    const duration = startTimeRef.current
+      ? Math.round((Date.now() - startTimeRef.current) / 1000)
+      : null;
+    trackForkCompleted(scenario.id, state.outcomeId, outcome.tone, outcome.score, duration);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
@@ -236,7 +244,10 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
             <div className={styles.premiseCard}>
               <p>{scenario.personas.player.premise}</p>
             </div>
-            <button className={styles.startBtn} onClick={() => dispatch({ type: 'START_SCENARIO' })}>
+            <button className={styles.startBtn} onClick={() => {
+              startTimeRef.current = Date.now();
+              dispatch({ type: 'START_SCENARIO' });
+            }}>
               Start →
             </button>
           </div>
@@ -278,6 +289,7 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
             scenario={scenario}
             onReplay={() => {
               trackForkReplayed(scenario.id);
+              startTimeRef.current = null;
               dispatch({ type: 'RESTART', payload: scenario });
             }}
             onBack={onBack}

@@ -142,6 +142,7 @@ export function Homepage() {
             <div className={styles.forkEyebrow}>Free · No login · 5 minutes</div>
             <div className={styles.forkTitle}>Fork</div>
             <div className={styles.forkTagline}>Your choices. Your consequences.</div>
+            <div className={styles.forkAudience}>Built for everyday life — not the office.</div>
             <p className={styles.forkDesc}>
               Three real AI risks — deepfake voice scams, AI hallucination, algorithmic hiring.
               You're in the scenario. What do you do?
@@ -171,7 +172,7 @@ export function Homepage() {
 
       {/* ── Professional track divider ── */}
       <div className={styles.proTrackDivider}>
-        <span className={styles.proTrackLabel}>Professional training library</span>
+        <span className={styles.proTrackLabel}>Workplace scenarios</span>
       </div>
 
       <div className={styles.filters}>

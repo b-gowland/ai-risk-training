@@ -76,13 +76,14 @@ export const trackForkDecision = (scenarioId, nodeId, choiceQuality) =>
     },
   }));
 
-export const trackForkCompleted = (scenarioId, outcomeId, outcomeTone, score) =>
+export const trackForkCompleted = (scenarioId, outcomeId, outcomeTone, score, durationSeconds) =>
   safe(() => trackEvent('Fork Completed', {
     props: {
-      scenario:     forkScenarioKey(scenarioId),
-      outcome:      outcomeId,
-      outcome_tone: outcomeTone,
-      score:        String(score ?? ''),
+      scenario:         forkScenarioKey(scenarioId),
+      outcome:          outcomeId,
+      outcome_tone:     outcomeTone,
+      score:            String(score ?? ''),
+      duration_seconds: String(durationSeconds ?? ''),
     },
   }));
 

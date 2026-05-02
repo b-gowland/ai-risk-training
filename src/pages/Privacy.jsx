@@ -61,25 +61,21 @@ export function Privacy() {
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Scenario interaction data</h2>
-      <p style={s.p}>When you play a scenario, we also track anonymous, aggregate information about how scenarios are used.</p>
+      <p style={s.p}>When you play a scenario on either the practitioner track or the Fork everyday track, we track anonymous, aggregate information about how scenarios are used.</p>
       <p style={s.p}><strong style={s.strong}>What we track:</strong></p>
-      <ul style={s.ul}>
-        {[
-          'That a scenario was started (scenario title only)',
-          'That a choice was made at a decision point, and its quality rating (good / partial / poor — a label from the scenario schema, not your words)',
-          'That a scenario was completed, and the outcome category reached (good / warn / bad)',
-          'Whether you used the share or replay features on an outcome screen',
-        ].map(item => <li style={s.li} key={item}>{item}</li>)}
-      </ul>
+      <ul style={s.ul}>{[
+        'That a scenario was started (scenario identifier only — not your name or any personal detail)',
+        'That a choice was made at a decision point, and its quality rating (good / partial / poor — a label from the scenario schema, not your words)',
+        'That a scenario was completed, and the outcome category reached (good / warn / bad) and score',
+        'Whether you used the share or replay features on an outcome screen',
+      ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
       <p style={s.p}><strong style={s.strong}>What we do not track:</strong></p>
-      <ul style={s.ul}>
-        {[
-          'Any text you type or say',
-          'Which specific option label you selected (only whether it was rated good, partial, or poor)',
-          'Any sequence linking your decisions across multiple plays or sessions',
-          'Anything that could identify you as an individual',
-        ].map(item => <li style={s.li} key={item}>{item}</li>)}
-      </ul>
+      <ul style={s.ul}>{[
+        'Any text you type or say',
+        'Which specific option label you selected (only whether it was rated good, partial, or poor)',
+        'Any sequence linking your decisions across multiple plays or sessions',
+        'Anything that could identify you as an individual',
+      ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
       <p style={s.p}>All interaction data is aggregate and anonymous by design. There is no way to reconstruct any individual player's path through a scenario.</p>
 
       <hr style={s.divider}/>
