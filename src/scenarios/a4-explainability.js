@@ -25,7 +25,7 @@ export const scenario = {
   subtitle:          `AI Explainability & Adverse Action Notice Failure`,
   domain:            `A — Technical`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a4-explainability`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-a-technical/a4-explainability`,
   estimated_minutes: 13,
   has_business_user: true,
 

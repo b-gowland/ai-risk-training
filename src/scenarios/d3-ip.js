@@ -11,7 +11,7 @@ export const scenario = {
   subtitle:          'AI-Generated Code & Licence Contamination',
   domain:            'D — Data',
   difficulty:        'Foundational',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-d-data/d3-intellectual-property',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-d-data/d3-intellectual-property',
   estimated_minutes: 11,
   has_business_user: true,
 

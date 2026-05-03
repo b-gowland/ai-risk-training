@@ -21,7 +21,7 @@ export const scenario = {
   subtitle:          `Automation Bias & Overreliance`,
   domain:            `F — Deployment & Operations`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f1-automation-bias`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-f-deployment/f1-automation-bias`,
   estimated_minutes: 13,
   has_business_user: true,
 

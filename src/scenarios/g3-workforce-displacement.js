@@ -20,7 +20,7 @@ export const scenario = {
   subtitle:          `AI-Driven Workforce Displacement`,
   domain:            `G — Systemic & Societal`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-g-systemic/g3-workforce-displacement`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-g-systemic/g3-workforce-displacement`,
   estimated_minutes: 12,
   has_business_user: true,
 

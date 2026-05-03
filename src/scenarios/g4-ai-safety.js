@@ -23,7 +23,7 @@ export const scenario = {
   subtitle:          `Agentic AI Safety & Autonomous Action Risk`,
   domain:            `G — Systemic & Societal`,
   difficulty:        `Advanced`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-g-systemic/g4-ai-safety`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-g-systemic/g4-ai-safety`,
   estimated_minutes: 16,
   has_business_user: true,
 

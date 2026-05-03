@@ -16,7 +16,7 @@ export const scenario = {
   subtitle:          `AI Lifecycle Governance Failure`,
   domain:            `B — Governance`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-b-governance/b3-lifecycle-governance`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-b-governance/b3-lifecycle-governance`,
   estimated_minutes: 16,
   has_business_user: true,
 

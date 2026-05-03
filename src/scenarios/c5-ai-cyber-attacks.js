@@ -24,7 +24,7 @@ export const scenario = {
   subtitle:          `AI-Enabled Business Email Compromise`,
   domain:            `C — Security & Adversarial`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c5-ai-cyber-attacks`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-c-security/c5-ai-cyber-attacks`,
   estimated_minutes: 14,
   has_business_user: true,
 

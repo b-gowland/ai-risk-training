@@ -16,7 +16,7 @@ export const scenario = {
   subtitle:          `AI Regulatory Non-Compliance`,
   domain:            `B — Governance`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-b-governance/b2-regulatory-compliance`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-b-governance/b2-regulatory-compliance`,
   estimated_minutes: 16,
   has_business_user: true,
 

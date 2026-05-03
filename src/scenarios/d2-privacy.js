@@ -10,7 +10,7 @@ export const scenario = {
   subtitle:          'Privacy & AI Data Exposure',
   domain:            'D — Data',
   difficulty:        'Foundational',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-d-data/d2-privacy',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-d-data/d2-privacy',
   estimated_minutes: 10,
   has_business_user: true,
 

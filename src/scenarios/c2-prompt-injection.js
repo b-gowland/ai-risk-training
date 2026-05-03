@@ -12,7 +12,7 @@ export const scenario = {
   subtitle:          'Prompt Injection & AI System Manipulation',
   domain:            'C — Security & Adversarial',
   difficulty:        'Intermediate',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c2-prompt-injection',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-c-security/c2-prompt-injection',
   estimated_minutes: 13,
   has_business_user: false,
 

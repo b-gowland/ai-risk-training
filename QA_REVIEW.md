@@ -205,7 +205,7 @@ This is the correct React pattern for this situation. Any component that needs b
 **Found by:** Manual browser testing (outcome screen)  
 **Symptom:** Clicking "Knowledge base ↗" on the outcome screen returned a 404 Page Not Found.  
 **Root cause:** The `kb_url` field in `f2-shadow-ai.js` used an incorrect path pattern (`/domain-f-hci-deployment/shadow-ai`) that did not match the actual Docusaurus URL structure (`/docs/domain-f-deployment/f2-shadow-ai`). Two errors: missing `/docs/` prefix, wrong domain slug, wrong entry slug.  
-**Fix:** Corrected to `https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f2-shadow-ai`.  
+**Fix:** Corrected to `https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai`.  
 **Rule added:** Every scenario's `kb_url` must match the pattern `/docs/<domain-slug>/<entry-id>` where domain slug is one of: `domain-a-technical`, `domain-b-governance`, `domain-c-security`, `domain-d-data`, `domain-e-fairness`, `domain-f-deployment`, `domain-g-systemic`.  
 **Added to audit script:** Layer 1 now validates `kb_url` format and checks the domain slug matches the scenario's risk_ref letter.  
 **Added to checklist:** "Verify kb_url loads in browser before push" is now a mandatory browser test step.

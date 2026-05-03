@@ -20,7 +20,7 @@ export const scenario = {
   subtitle:          `AI Environmental Impact & Sustainability Governance`,
   domain:            `G — Systemic & Societal`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-g-systemic/g2-environmental-impact`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-g-systemic/g2-environmental-impact`,
   estimated_minutes: 11,
   has_business_user: true,
 

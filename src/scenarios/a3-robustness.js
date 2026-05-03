@@ -23,7 +23,7 @@ export const scenario = {
   subtitle:          `AI Robustness & Operational Design Domain Failure`,
   domain:            `A — Technical`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a3-robustness`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-a-technical/a3-robustness`,
   estimated_minutes: 13,
   has_business_user: true,
 

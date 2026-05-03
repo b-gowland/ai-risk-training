@@ -8,7 +8,7 @@ export const scenario = {
   subtitle: 'Hallucination & Confabulation',
   domain: 'A — Technical',
   difficulty: 'Foundational',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a1-hallucination',
+  kb_url: 'https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination',
   estimated_minutes: 10,
   has_business_user: true,
 

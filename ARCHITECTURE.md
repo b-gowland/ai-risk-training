@@ -59,7 +59,7 @@ export const scenario = {
   subtitle:          'Shadow AI & Data Exposure',
   domain:            'F — HCI & Deployment',  // full domain label
   difficulty:        'Foundational',          // 'Foundational' | 'Intermediate' | 'Advanced'
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f2-shadow-ai',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai',
   estimated_minutes: 10,
   has_business_user: true,                    // false for scenarios without BU persona
   personas:          { ... },                 // see Personas below
@@ -290,7 +290,7 @@ This is why `App` and `ScenarioPlayer` are separate components.
 
 **The correct pattern:**
 ```
-https://b-gowland.github.io/ai-risk-kb/docs/<domain-slug>/<entry-id>
+https://library.airiskpractice.org/docs/<domain-slug>/<entry-id>
 ```
 
 **Domain slug reference:**

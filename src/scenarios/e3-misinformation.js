@@ -23,7 +23,7 @@ export const scenario = {
   subtitle:          `AI-Generated Synthetic Content & Credential Integrity`,
   domain:            `E — Fairness & Social`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e3-misinformation`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-e-fairness/e3-misinformation`,
   estimated_minutes: 12,
   has_business_user: true,
 

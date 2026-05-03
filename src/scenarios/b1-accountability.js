@@ -16,7 +16,7 @@ export const scenario = {
   subtitle:          `AI Accountability Gaps`,
   domain:            `B — Governance`,
   difficulty:        `Intermediate`,
-  kb_url:             `https://b-gowland.github.io/ai-risk-kb/docs/domain-b-governance/b1-accountability`,
+  kb_url:             `https://library.airiskpractice.org/docs/domain-b-governance/b1-accountability`,
   estimated_minutes: 16,
   has_business_user: true,
 

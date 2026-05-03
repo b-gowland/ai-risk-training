@@ -9,7 +9,7 @@ export const scenario = {
   subtitle: 'Shadow AI & Data Exposure',
   domain: 'F — HCI & Deployment',
   difficulty: 'Foundational',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f2-shadow-ai',
+  kb_url: 'https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai',
   estimated_minutes: 10,
   has_business_user: true,
 

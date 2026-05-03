@@ -12,7 +12,7 @@ export const scenario = {
   subtitle:          'Training Data Quality & Representativeness',
   domain:            'D — Data',
   difficulty:        'Intermediate',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-d-data/d1-training-data-quality',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-d-data/d1-training-data-quality',
   estimated_minutes: 13,
   has_business_user: true,
 

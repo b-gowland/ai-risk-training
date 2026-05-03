@@ -1626,7 +1626,7 @@ function ScenarioPlayer({ scenario }) {
           {state.persona && state.state !== STATES.PERSONA_SELECT && (
             <span className={styles.headerTag}>{scenario.risk_ref} — {scenario.title}</span>
           )}
-          <a href="https://b-gowland.github.io/ai-risk-kb/" target="_blank" rel="noopener noreferrer"
+          <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer"
             className={styles.headerLink}>Knowledge base ↗</a>
         </div>
       </header>
@@ -1672,7 +1672,7 @@ function ScenarioPlayer({ scenario }) {
       <footer className={styles.footer}>
         <span>ai-risk-training · open source</span>
         <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a href="https://b-gowland.github.io/ai-risk-kb/" target="_blank" rel="noopener noreferrer">Knowledge base ↗</a>
+        <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Knowledge base ↗</a>
         <span className={styles.footerDisclaimer}>
           Scenarios are fictional. No personal data collected.{' '}
           <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">Privacy ↗</a>

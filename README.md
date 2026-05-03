@@ -2,7 +2,8 @@
 
 Interactive scenario-based AI risk training — a companion to [ai-risk-kb](https://github.com/b-gowland/ai-risk-kb).
 
-**Live:** https://b-gowland.github.io/ai-risk-training/
+**Live:** https://app.airiskpractice.org/
+**Everyday track (Fork):** https://app.airiskpractice.org/#/everyday
 
 ---
 
@@ -13,13 +14,13 @@ Choose-your-own-adventure scenarios that teach AI risk through consequence rathe
 - **Four personas per scenario** — Business User, Executive, Project Manager, Security Analyst
 - **4–5 branching decisions** per scenario — your first choice shapes what happens next
 - **Real consequences** — including the ones that are darkly funny
-- **Links to the knowledge base** — every outcome points to the full risk reference
+- **Links to the knowledge base** — every outcome points to the full risk reference at [library.airiskpractice.org](https://library.airiskpractice.org/)
 
 All scenario characters and organisations are fictional. Incidents referenced in the knowledge base are real and cited.
 
 ## Scenarios
 
-All 26 scenarios are live across 7 risk domains. Play them at [b-gowland.github.io/ai-risk-training](https://b-gowland.github.io/ai-risk-training/).
+All 26 practitioner scenarios are live across 7 risk domains, plus 3 everyday public-facing scenarios.
 
 | Domain | Scenarios |
 |--------|-----------|
@@ -31,13 +32,13 @@ All 26 scenarios are live across 7 risk domains. Play them at [b-gowland.github.
 | F — Deployment | F1 Automation Bias · F2 Shadow AI · F3 Scope Creep |
 | G — Systemic | G1 Concentration Risk · G2 Environmental Impact · G3 Workforce Displacement · G4 AI Safety |
 
+**Fork — everyday track:** Three public-facing scenarios on deepfake voice scams, AI hallucination, and algorithmic hiring. Designed for anyone, not just practitioners. Takes 4–5 minutes each.
+
 ## Stack
 
-- React 19 + Vite, deployed to GitHub Pages
+- React 19 + Vite, deployed to GitHub Pages with custom domain
 - Zero backend — all scenario logic runs client-side
-- Feedback is scenario-authored (see `note` field in scenario data)
-
-> **On the feedback feature:** Scenario feedback uses authored text from the scenario data file rather than a live API call. This keeps the API key server-side (where it belongs) and ensures feedback always works regardless of API availability. A self-hosted deployment guide for live Claude feedback via a serverless proxy is in the works.
+- Privacy-friendly analytics via Plausible (no cookies, no personal data)
 
 ## Setup
 
@@ -61,8 +62,6 @@ Content: CC BY 4.0
 
 See [LICENSE](./LICENSE) for full terms and attribution requirements.
 
-A commercial product layer may be developed above this open-source core in future — see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
 ## Attribution
 
 Built on:
@@ -74,5 +73,6 @@ Built on:
 
 ## Related
 
-- **Knowledge base:** https://github.com/b-gowland/ai-risk-kb
-- **Live KB:** https://b-gowland.github.io/ai-risk-kb/
+- **Knowledge base (GitHub):** https://github.com/b-gowland/ai-risk-kb
+- **Knowledge base (live):** https://library.airiskpractice.org/
+- **AI Risk Practice:** https://airiskpractice.org/

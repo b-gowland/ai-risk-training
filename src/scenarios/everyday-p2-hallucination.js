@@ -12,7 +12,7 @@ export const scenario = {
   difficulty: `Everyday`,
   estimated_minutes: 5,
   has_business_user: false,
-  kb_url: `https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a1-hallucination`,
+  kb_url: `https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination`,
 
   personas: {
     player: {

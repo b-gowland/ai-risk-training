@@ -19,7 +19,7 @@ export const scenario = {
   subtitle:          `Third-Party AI Supply Chain Risk`,
   domain:            `B — Governance`,
   difficulty:        `Advanced`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-b-governance/b4-supply-chain`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-b-governance/b4-supply-chain`,
   estimated_minutes: 17,
   has_business_user: true,
 

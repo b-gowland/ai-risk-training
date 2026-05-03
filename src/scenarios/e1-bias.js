@@ -9,7 +9,7 @@ export const scenario = {
   subtitle: 'Algorithmic Bias & Discrimination',
   domain: 'E — Fairness & Social',
   difficulty: 'Intermediate',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e1-algorithmic-bias',
+  kb_url: 'https://library.airiskpractice.org/docs/domain-e-fairness/e1-algorithmic-bias',
   estimated_minutes: 12,
   has_business_user: true,
 

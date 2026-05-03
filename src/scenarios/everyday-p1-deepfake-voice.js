@@ -12,7 +12,7 @@ export const scenario = {
   difficulty: `Everyday`,
   estimated_minutes: 5,
   has_business_user: false,
-  kb_url: `https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c4-deepfakes`,
+  kb_url: `https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes`,
 
   personas: {
     player: {

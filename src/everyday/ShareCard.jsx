@@ -9,7 +9,7 @@ import { useRef, useState } from 'react';
 import styles from './EverydayBundle.module.css';
 import { trackForkCardShared } from '../utils/analytics.js';
 
-const FORK_URL = 'https://airiskpractice.org/#/everyday';
+const FORK_URL = 'https://app.airiskpractice.org/#/everyday';
 
 const PALETTE = {
   bg:      '#0D0D0D',
@@ -163,7 +163,7 @@ function renderCard(canvas, scenario, outcome) {
   ctx.font = '400 26px system-ui, sans-serif';
   ctx.fillStyle = PALETTE.text3;
   ctx.textAlign = 'center';
-  ctx.fillText('airiskpractice.org/#/everyday', SIZE / 2, SIZE - 32);
+  ctx.fillText('app.airiskpractice.org/#/everyday', SIZE / 2, SIZE - 32);
 
   // Bottom border
   ctx.fillStyle = tc;

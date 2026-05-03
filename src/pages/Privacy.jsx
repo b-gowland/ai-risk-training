@@ -34,7 +34,7 @@ export function Privacy() {
     <div style={s.page}>
       <Link to="/" style={s.back}>← Back</Link>
       <h1 style={s.h1}>Privacy notice</h1>
-      <p style={s.p}>This notice covers both sites: the AI Risk Knowledge Base and the AI Risk Training app.</p>
+      <p style={s.p}>This notice covers both sites: the AI Risk Practice Library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>) and the AI Risk Training app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>).</p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>What this site collects — and what it doesn't</h2>

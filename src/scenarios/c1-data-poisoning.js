@@ -12,7 +12,7 @@ export const scenario = {
   subtitle:          'Training Data Poisoning & Model Integrity',
   domain:            'C — Security & Adversarial',
   difficulty:        'Advanced',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c1-data-poisoning',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-c-security/c1-data-poisoning',
   estimated_minutes: 15,
   has_business_user: false,
 

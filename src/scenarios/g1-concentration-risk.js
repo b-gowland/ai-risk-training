@@ -20,7 +20,7 @@ export const scenario = {
   subtitle:          `AI Concentration Risk & Provider Dependency`,
   domain:            `G — Systemic & Societal`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-g-systemic/g1-concentration-risk`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-g-systemic/g1-concentration-risk`,
   estimated_minutes: 11,
   has_business_user: true,
 

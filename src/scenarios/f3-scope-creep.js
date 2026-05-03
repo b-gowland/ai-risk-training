@@ -22,7 +22,7 @@ export const scenario = {
   subtitle:          `AI Scope Creep & Unauthorised Use Case Expansion`,
   domain:            `F — Deployment & Operations`,
   difficulty:        `Foundational`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-f-deployment/f3-scope-creep`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-f-deployment/f3-scope-creep`,
   estimated_minutes: 11,
   has_business_user: true,
 

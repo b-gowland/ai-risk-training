@@ -12,7 +12,7 @@ export const scenario = {
   subtitle:          'Model Theft & Intellectual Property Extraction',
   domain:            'C — Security & Adversarial',
   difficulty:        'Intermediate',
-  kb_url:            'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c3-model-theft',
+  kb_url:            'https://library.airiskpractice.org/docs/domain-c-security/c3-model-theft',
   estimated_minutes: 12,
   has_business_user: false,
 

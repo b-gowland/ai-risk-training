@@ -22,7 +22,7 @@ export const scenario = {
   subtitle:          `Model Drift & Performance Degradation`,
   domain:            `A — Technical`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-a-technical/a2-model-drift`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-a-technical/a2-model-drift`,
   estimated_minutes: 13,
   has_business_user: true,
 

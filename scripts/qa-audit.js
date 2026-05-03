@@ -241,8 +241,8 @@ for (const [personaKey, tree] of Object.entries(scenario.trees)) {
 // Wrong patterns that have caused 404s: missing /docs/, wrong domain slug, wrong entry slug
 if (scenario.kb_url) {
   const url = scenario.kb_url;
-  const isValid = url.startsWith('https://b-gowland.github.io/ai-risk-kb/docs/') ||
-                  url.startsWith('https://b-gowland.github.io/ai-risk-kb/');
+  const isValid = url.startsWith('https://library.airiskpractice.org/docs/') ||
+                  url.startsWith('https://library.airiskpractice.org/');
   if (!isValid) {
     p1(`kb_url does not match expected KB URL pattern: "${url}"`);
   } else if (!url.includes('/docs/')) {

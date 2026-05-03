@@ -12,7 +12,7 @@ export const scenario = {
   difficulty: `Everyday`,
   estimated_minutes: 5,
   has_business_user: false,
-  kb_url: `https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e1-algorithmic-bias`,
+  kb_url: `https://library.airiskpractice.org/docs/domain-e-fairness/e1-algorithmic-bias`,
 
   personas: {
     player: {

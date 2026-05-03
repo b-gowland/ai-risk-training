@@ -9,7 +9,7 @@ export const scenario = {
   subtitle: 'Deepfakes & Synthetic Media Fraud',
   domain: 'C — Security & Adversarial',
   difficulty: 'Foundational',
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/domain-c-security/c4-deepfakes',
+  kb_url: 'https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes',
   estimated_minutes: 10,
   has_business_user: true,
 

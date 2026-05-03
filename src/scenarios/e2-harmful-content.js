@@ -19,7 +19,7 @@ export const scenario = {
   subtitle:          `AI Harmful Content & Guardrail Failure`,
   domain:            `E — Fairness & Social`,
   difficulty:        `Intermediate`,
-  kb_url:            `https://b-gowland.github.io/ai-risk-kb/docs/domain-e-fairness/e2-harmful-content`,
+  kb_url:            `https://library.airiskpractice.org/docs/domain-e-fairness/e2-harmful-content`,
   estimated_minutes: 13,
   has_business_user: true,
 
