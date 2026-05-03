@@ -44,7 +44,7 @@ export const scenario = {
                 id: `b`,
                 label: `Hang up and call Mum back on the number you have saved.`,
                 quality: `good`,
-                note: `Out-of-band verification. Takes 30 seconds. Completely defeats voice cloning — the attacker cannot answer Mum's actual phone.`,
+                note: `This is the one move that always works. AI can clone a voice, but it can't answer Mum's actual phone. The call back takes 30 seconds and ends the scam.`,
               },
             ],
           },
@@ -268,7 +268,7 @@ export const scenario = {
   controls_summary: [
     {
       id: `ev-c1`,
-      label: `Out-of-band verification`,
+      label: `Call back on a number you already have`,
       owner: `Anyone`,
       effort: `low`,
       go_live: true,
@@ -276,7 +276,7 @@ export const scenario = {
     },
     {
       id: `ev-c2`,
-      label: `Public audio hygiene`,
+      label: `Limit public audio of family members`,
       owner: `Anyone`,
       effort: `low`,
       go_live: true,
