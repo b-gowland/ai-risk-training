@@ -9,20 +9,20 @@ import { useRef, useState } from 'react';
 import styles from './EverydayBundle.module.css';
 import { trackForkCardShared } from '../utils/analytics.js';
 
-const FORK_URL = 'https://b-gowland.github.io/ai-risk-training/#/everyday';
+const FORK_URL = 'https://airiskpractice.org/#/everyday';
 
 const PALETTE = {
-  bg:      '#0f0a1e',
-  surface: '#1a1035',
-  border:  '#3d2080',
-  text:    '#f0ebff',
-  text2:   '#9d8ec7',
-  text3:   '#5a4e8a',
-  good:    '#10b981',
-  warn:    '#f59e0b',
-  bad:     '#ef4444',
-  accent:  '#7c3aed',
-  accent2: '#db2777',
+  bg:      '#0D0D0D',
+  surface: '#141414',
+  border:  '#1E1E1E',
+  text:    '#E8E8E8',
+  text2:   '#AAAAAA',
+  text3:   '#666666',
+  good:    '#4ade80',
+  warn:    '#D97706',
+  bad:     '#f87171',
+  accent:  '#D97706',
+  accent2: '#D97706',
 };
 
 function toneColour(tone) {
@@ -74,12 +74,12 @@ function renderCard(canvas, scenario, outcome) {
   ctx.font = '700 28px system-ui, sans-serif';
   ctx.fillStyle = PALETTE.text3;
   ctx.textAlign = 'left';
-  ctx.fillText('FORK', 80, 82);
+  ctx.fillText('FORK_', 80, 82);
 
   // Separator dot
   ctx.fillStyle = PALETTE.text3;
   ctx.font = '400 28px system-ui, sans-serif';
-  ctx.fillText(' · AI scenarios', 148, 82);
+  ctx.fillText(' · AI Risk Practice', 168, 82);
 
   // Challenge hook — the primary pull for the viewer
   const hook = `What would you do?`;
@@ -89,7 +89,7 @@ function renderCard(canvas, scenario, outcome) {
   ctx.fillText(hook, 80, 180);
 
   // Scenario title — slightly smaller, below hook
-  ctx.font = 'bold 44px "Press Start 2P", monospace';
+  ctx.font = "bold 40px 'Space Mono', monospace";
   ctx.fillStyle = PALETTE.text;
   ctx.textAlign = 'left';
   const titleLines = [];
@@ -124,7 +124,7 @@ function renderCard(canvas, scenario, outcome) {
   ctx.fillText('I got:', 80, afterTitle + 28);
 
   // Outcome label — large, coloured
-  ctx.font = 'bold 64px "Press Start 2P", monospace';
+  ctx.font = "bold 52px 'Space Mono', monospace";
   ctx.fillStyle = tc;
   ctx.textAlign = 'right';
   ctx.fillText(outcome.outcome_label || outcome.heading, SIZE - 80, afterTitle + 70);
@@ -163,7 +163,7 @@ function renderCard(canvas, scenario, outcome) {
   ctx.font = '400 26px system-ui, sans-serif';
   ctx.fillStyle = PALETTE.text3;
   ctx.textAlign = 'center';
-  ctx.fillText('b-gowland.github.io/ai-risk-training/#/everyday', SIZE / 2, SIZE - 32);
+  ctx.fillText('airiskpractice.org/#/everyday', SIZE / 2, SIZE - 32);
 
   // Bottom border
   ctx.fillStyle = tc;

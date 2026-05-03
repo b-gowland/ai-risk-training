@@ -2,6 +2,7 @@
 // Root component for the everyday bundle at /#/everyday
 // Handles landing (scenario selection) and episode mode (play all three in sequence).
 // No practitioner vocabulary in any user-facing string.
+// Redesigned May 3, 2026 — AI Risk Practice rebrand.
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -19,9 +20,28 @@ const DOMAIN_TAGS = {
   'everyday-p3-employment-screening':  'Your rights',
 };
 
-// Episode progress indicator shown between scenarios
+function Header() {
+  return (
+    <div className={styles.header}>
+      <div className={styles.headerBrand}>
+        <div className={styles.headerMark}>FORK_</div>
+        <div className={styles.headerBy}>by <span>AI Risk Practice</span></div>
+      </div>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <span className={styles.footerBrand}>FORK_ by <span>AI Risk Practice</span></span>
+      <Link to="/privacy">Privacy</Link>
+    </footer>
+  );
+}
+
 function EpisodeProgress({ current, total, onContinue, scenarioTitle }) {
-  const completed = current; // number completed so far
+  const completed = current;
   return (
     <div className={styles.episodeProgress}>
       <div className={styles.episodeProgressDots}>
@@ -67,17 +87,17 @@ function ScenarioTile({ scenario, onPlay }) {
 function Landing({ onPlay, onPlayAll }) {
   return (
     <div className={styles.page}>
+      <Header />
       <div className={styles.landingHero}>
         <p className={styles.landingEyebrow}>Free · No login · Takes 5 minutes</p>
         <h1 className={styles.landingTitle}>
-          Fork
+          Your choices.{'\n'}Your consequences.
         </h1>
         <p className={styles.landingSub}>
           Three real AI risks. You're in the scenario. What do you do?
         </p>
       </div>
 
-      {/* Play all CTA */}
       <button className={styles.playAllBtn} onClick={onPlayAll}>
         ▶ Play all three (~10 min)
       </button>
@@ -96,20 +116,15 @@ function Landing({ onPlay, onPlayAll }) {
         🇦🇺 This version uses Australian examples and law. A global edition is coming.
       </p>
 
-      <footer className={styles.footer}>
-        <span>No personal data collected</span>
-        <span>·</span>
-        <Link to="/privacy">Privacy →</Link>
-      </footer>
+      <Footer />
     </div>
   );
 }
 
 export function EverydayApp() {
-  // null = landing, number = index into EVERYDAY_SCENARIOS
   const [episodeIndex, setEpisodeIndex] = useState(null);
   const [showingProgress, setShowingProgress] = useState(false);
-  const [episodeMode, setEpisodeMode]   = useState(false);
+  const [episodeMode, setEpisodeMode] = useState(false);
 
   function handlePlayAll() {
     setEpisodeMode(true);
@@ -131,7 +146,6 @@ export function EverydayApp() {
   }
 
   function handleNextScenario() {
-    // Called from outcome screen when not last in episode
     setShowingProgress(true);
   }
 
@@ -143,9 +157,8 @@ export function EverydayApp() {
   const activeScenario = episodeIndex !== null ? EVERYDAY_SCENARIOS[episodeIndex] : null;
   const isLastInEpisode = episodeMode
     ? episodeIndex === EVERYDAY_SCENARIOS.length - 1
-    : true; // single-play always shows back, never next
+    : true;
 
-  // Landing
   if (episodeIndex === null) {
     return (
       <div className={styles.root}>
@@ -154,29 +167,25 @@ export function EverydayApp() {
     );
   }
 
-  // Episode progress screen between scenarios
   if (showingProgress && episodeMode) {
     const nextScenario = EVERYDAY_SCENARIOS[episodeIndex + 1];
     return (
       <div className={`${styles.root} ${styles.page}`}>
+        <Header />
         <EpisodeProgress
           current={episodeIndex + 1}
           total={EVERYDAY_SCENARIOS.length}
           scenarioTitle={nextScenario.title}
           onContinue={handleProgressContinue}
         />
-        <footer className={styles.footer}>
-          <span>No personal data collected</span>
-          <span>·</span>
-          <Link to="/privacy">Privacy →</Link>
-        </footer>
+        <Footer />
       </div>
     );
   }
 
-  // Playing a scenario
   return (
     <div className={`${styles.root} ${styles.page}`}>
+      <Header />
       <button className={styles.playerBack} onClick={handleBack}>
         ← All scenarios
       </button>
@@ -196,11 +205,7 @@ export function EverydayApp() {
         isLastInEpisode={isLastInEpisode}
         onNextScenario={handleNextScenario}
       />
-      <footer className={styles.footer}>
-        <span>No personal data collected</span>
-        <span>·</span>
-        <Link to="/privacy">Privacy →</Link>
-      </footer>
+      <Footer />
     </div>
   );
 }

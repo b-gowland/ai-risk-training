@@ -161,6 +161,12 @@ function EverydayOutcome({ outcome, scenario, onReplay, onBack, isLastInEpisode,
           </button>
         )}
       </div>
+
+      <div className={styles.disclaimer}>
+        <p className={styles.disclaimerText}>
+          <strong>Educational only.</strong> These scenarios are simplified for learning purposes and do not constitute legal, financial, or professional advice. Real situations are more complex — always seek qualified guidance for decisions that matter.
+        </p>
+      </div>
     </div>
   );
 }
