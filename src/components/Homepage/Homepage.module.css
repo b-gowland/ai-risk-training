@@ -191,8 +191,8 @@
 
 /* ── Fork banner ── */
 .forkBanner {
-  background: linear-gradient(135deg, #1a1510 0%, #2a1f0e 50%, #1a1510 100%);
-  border-top: 3px solid #c4873a;
+  background: #0D0D0D;
+  border-top: 3px solid #D97706;
   border-bottom: 1px solid rgba(196,135,58,.25);
   padding: 48px 40px;
 }
@@ -209,7 +209,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .16em;
-  color: #c4873a;
+  color: #D97706;
   margin-bottom: 10px;
 }
 .forkTitle {
@@ -223,7 +223,7 @@
 .forkTagline {
   font-size: 15px;
   font-weight: 500;
-  color: #c4873a;
+  color: #D97706;
   margin-bottom: 10px;
   font-style: italic;
 }
@@ -265,8 +265,8 @@
 .forkScenarioIcon { font-size: 16px; }
 .forkCta {
   display: inline-block;
-  background: #c4873a;
-  color: #1a1510;
+  background: #D97706;
+  color: #0D0D0D;
   font-size: 15px;
   font-weight: 700;
   padding: 12px 28px;
@@ -277,7 +277,7 @@
   white-space: nowrap;
 }
 .forkCta:hover {
-  background: #d49a4a;
+  background: #E88A1A;
   transform: translateY(-1px);
 }
 
