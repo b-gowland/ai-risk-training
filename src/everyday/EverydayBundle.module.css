@@ -392,8 +392,7 @@
   transition: border-color 0.1s;
 }
 
-.nodeCard.swipingLeft  { border-color: var(--ev-accent); }
-.nodeCard.swipingRight { border-color: var(--ev-accent); }
+/* swipingLeft / swipingRight removed — tap mechanic, no swipe visual feedback */
 
 .roleBadge {
   display: inline-block;
@@ -426,17 +425,17 @@
   margin-bottom: 0;
 }
 
-.swipeChoices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.tapChoices {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.swipeBtn {
+.tapBtn {
   background: var(--ev-bg);
   border: 1px solid var(--ev-border);
   border-radius: 2px;
-  padding: 12px 10px;
+  padding: 12px 14px;
   cursor: pointer;
   color: var(--ev-text-2);
   font-family: var(--ev-font-body);
@@ -445,27 +444,29 @@
   text-align: left;
   transition: border-color 0.12s, color 0.12s;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
 }
 
-.swipeBtnLeft  { border-top: 2px solid var(--ev-accent); }
-.swipeBtnRight { border-top: 2px solid var(--ev-accent); }
-
-.swipeDir {
+.tapArrow {
   font-family: var(--ev-font-mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 11px;
   color: var(--ev-accent);
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-.swipeBtn:hover {
+.tapLabel {
+  flex: 1;
+}
+
+.tapBtn:hover {
   border-color: var(--ev-accent);
   color: var(--ev-text);
 }
 
-.swipeBtn:active { opacity: 0.85; }
+.tapBtn:active { opacity: 0.85; }
 
 /* ── Feedback ─────────────────────────────────────────────────── */
 .feedbackWrap {

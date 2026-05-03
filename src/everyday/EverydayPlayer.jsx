@@ -40,9 +40,10 @@ function EverydayScene({ node }) {
   );
 }
 
-// ── Swipe node ───────────────────────────────────────────────────
+// ── Choice node ──────────────────────────────────────────────────
+// Tap choices stacked vertically. Touch swipe gesture retained as
+// an alternative input method but not labelled — users tap by default.
 function SwipeNode({ node, onSelect }) {
-  const [swipeDir, setSwipeDir] = useState(null);
   const touchStartX = useRef(null);
   const choices = node.decision.choices;
 
@@ -50,51 +51,39 @@ function SwipeNode({ node, onSelect }) {
     touchStartX.current = e.touches[0].clientX;
   }
 
-  function handleTouchMove(e) {
+  function handleTouchEnd(e) {
     if (touchStartX.current === null) return;
-    const dx = e.touches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 20) {
-      setSwipeDir(dx < 0 ? 'left' : 'right');
-    }
-  }
-
-  function handleTouchEnd() {
-    if (swipeDir === 'left')  commitChoice(0);
-    else if (swipeDir === 'right') commitChoice(1);
-    else setSwipeDir(null);
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
     touchStartX.current = null;
+    if (Math.abs(dx) > 40) {
+      commitChoice(dx < 0 ? 0 : 1);
+    }
   }
 
   function commitChoice(idx) {
     const choice = choices[idx];
     const nextId  = resolveNext(node, choice.id);
-    setSwipeDir(null);
     onSelect(choice, nextId);
   }
 
-  const cardClass = [
-    styles.nodeCard,
-    swipeDir === 'left'  ? styles.swipingLeft  : '',
-    swipeDir === 'right' ? styles.swipingRight : '',
-  ].filter(Boolean).join(' ');
-
   return (
     <div
-      className={cardClass}
+      className={styles.nodeCard}
       onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       <p className={styles.nodePrompt}>{node.decision.prompt}</p>
-      <div className={styles.swipeChoices}>
-        <button className={`${styles.swipeBtn} ${styles.swipeBtnLeft}`} onClick={() => commitChoice(0)}>
-          <span className={styles.swipeDir}>← Swipe left</span>
-          {choices[0].label}
-        </button>
-        <button className={`${styles.swipeBtn} ${styles.swipeBtnRight}`} onClick={() => commitChoice(1)}>
-          <span className={styles.swipeDir}>Swipe right →</span>
-          {choices[1].label}
-        </button>
+      <div className={styles.tapChoices}>
+        {choices.map((choice, idx) => (
+          <button
+            key={choice.id}
+            className={styles.tapBtn}
+            onClick={() => commitChoice(idx)}
+          >
+            <span className={styles.tapArrow}>→</span>
+            <span className={styles.tapLabel}>{choice.label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );
