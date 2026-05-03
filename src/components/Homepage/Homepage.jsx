@@ -90,12 +90,12 @@ export function Homepage() {
       <header className={styles.header}>
         <div className={styles.logo}>
           <span className={styles.logoMark}>◈</span>
-          AI Risk Training
+          AI Risk Practice
         </div>
-        <a href="https://b-gowland.github.io/ai-risk-kb/"
+        <a href="https://library.airiskpractice.org/"
           target="_blank" rel="noopener noreferrer"
           className={styles.kbLink}>
-          Knowledge base ↗
+          Library ↗
         </a>
       </header>
 
@@ -116,7 +116,7 @@ export function Homepage() {
             </div>
             <div className={styles.statDivider}/>
             <div className={styles.stat}>
-              <a href="https://b-gowland.github.io/ai-risk-kb/" target="_blank" rel="noopener noreferrer" className={styles.statLink}>
+              <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer" className={styles.statLink}>
                 <span className={styles.statNum}>26</span>
                 <span className={styles.statLabel}>KB entries ↗</span>
               </a>
@@ -221,15 +221,14 @@ export function Homepage() {
       </div>
 
       <footer className={styles.footer}>
-        <span>ai-risk-training · open source</span>
+        <span>AI Risk Practice · airiskpractice.org · open source</span>
         <a href="https://github.com/b-gowland/ai-risk-training"
           target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a href="https://b-gowland.github.io/ai-risk-kb/"
-          target="_blank" rel="noopener noreferrer">Knowledge base ↗</a>
+        <a href="https://library.airiskpractice.org/"
+          target="_blank" rel="noopener noreferrer">Library ↗</a>
         <span className={styles.footerMid}>
           Scenarios are fictional · No personal data collected ·{' '}
-          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
-            target="_blank" rel="noopener noreferrer">Privacy ↗</a>
+          <a href="/privacy">Privacy</a>
         </span>
         <span className={styles.footerRight}>
           Taxonomy: MIT AI Risk Repository (CC BY 4.0) · NIST AI RMF · OWASP LLM Top 10

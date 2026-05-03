@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --c-bg:             #faf7f2;
-  --c-surface:        #f4f0e8;
-  --c-surface-2:      #ffffff;
-  --c-ink:            #1a1714;
-  --c-ink-mid:        #2e2b27;
-  --c-text-secondary: #6b6763;
-  --c-text-tertiary:  #a09d98;
-  --c-border:         #e4dfd6;
-  --c-border-mid:     #ccc8c0;
-  --c-accent:         #c4712a;
-  --c-accent-soft:    #f5ede4;
+  --c-bg:             #FFFFFF;
+  --c-surface:        #FAFAFA;
+  --c-surface-2:      #FFFFFF;
+  --c-ink:            #0F0F0F;
+  --c-ink-mid:        #2A2A2A;
+  --c-text-secondary: #555555;
+  --c-text-tertiary:  #999999;
+  --c-border:         #EBEBEB;
+  --c-border-mid:     #CCCCCC;
+  --c-accent:         #D97706;
+  --c-accent-soft:    #FEF3C7;
   --c-shadow:         rgba(26,23,20,0.08);
 
   --c-good:           #2d6a4f;
@@ -36,9 +36,9 @@
   --panel-danger:  #b83232;
 
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'Lora', Georgia, serif;
-  --font-sans:    'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono:    'IBM Plex Mono', monospace;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'Space Mono', monospace;
 }
 
 html { font-size: 16px; }
