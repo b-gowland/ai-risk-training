@@ -36,6 +36,7 @@ function Footer() {
     <footer className={styles.footer}>
       <span className={styles.footerBrand}>FORK_ by <span>AI Risk Practice</span></span>
       <Link to="/privacy">Privacy</Link>
+      <a href="mailto:hello@airiskpractice.org">Contact</a>
     </footer>
   );
 }

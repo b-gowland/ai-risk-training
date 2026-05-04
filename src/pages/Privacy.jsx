@@ -103,11 +103,7 @@ export function Privacy() {
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Contact</h2>
-      <p style={s.p}>Questions about this privacy notice: raise an issue on the relevant GitHub repository.</p>
-      <ul style={s.ul}>
-        <li style={s.li}><a style={s.a} href="https://github.com/b-gowland/ai-risk-kb" target="_blank" rel="noopener noreferrer">github.com/b-gowland/ai-risk-kb</a></li>
-        <li style={s.li}><a style={s.a} href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noopener noreferrer">github.com/b-gowland/ai-risk-training</a></li>
-      </ul>
+      <p style={s.p}>Questions about this privacy notice or the data practices described here: <a style={s.a} href="mailto:hello@airiskpractice.org">hello@airiskpractice.org</a></p>
     </div>
   );
 }
