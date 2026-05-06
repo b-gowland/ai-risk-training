@@ -177,7 +177,7 @@ export const scenario = {
           heading: `Payment processed, reporting delayed`,
           tone:    `bad`,
           result:  `The $47,500 is gone. The delay in reporting closed the only window for bank intervention. The post-incident review found three things: the sending domain had been registered six days earlier; your email security passed it on content quality alone; the payment sat exactly $2,500 below your dual-authorisation threshold. None of these are your fault individually — but together they describe a set of controls that failed.`,
-          learning: `AI-generated phishing is indistinguishable from real email on content. The controls that actually stop it operate at the infrastructure level — email metadata checks, payment policy design, out-of-band verification. Individual vigilance matters, but it can\'t be the last line of defence.`,
+          learning: `AI-generated phishing is now significantly harder to detect than traditional phishing — content alone is no longer a reliable signal. The controls that actually stop it operate at the infrastructure level — email metadata checks, payment policy design, out-of-band verification. Individual vigilance matters, but it can\'t be the last line of defence.`,
           score:   10,
         },
       },
