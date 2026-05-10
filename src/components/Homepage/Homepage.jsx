@@ -117,7 +117,7 @@ export function Homepage() {
             <div className={styles.statDivider}/>
             <div className={styles.stat}>
               <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer" className={styles.statLink}>
-                <span className={styles.statNum}>26</span>
+                <span className={styles.statNum}>32</span>
                 <span className={styles.statLabel}>KB entries ↗</span>
               </a>
             </div>
