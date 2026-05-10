@@ -1,3 +1,9 @@
+import { scenario as g5 } from './g5-excessive-agency.js';
+import { scenario as f4 } from './f4-irreversibility.js';
+import { scenario as b5 } from './b5-agentic-logging.js';
+import { scenario as c6 } from './c6-mcp-attack.js';
+import { scenario as c7 } from './c7-multi-agent-trust.js';
+import { scenario as c8 } from './c8-computer-use-hijacking.js';
 import { scenario as f2 } from './f2-shadow-ai.js';
 import { scenario as c1 } from './c1-data-poisoning.js';
 import { scenario as c2 } from './c2-prompt-injection.js';
@@ -61,6 +67,12 @@ export const scenarios = [
   g2,
   g3,
   g4,
+  g5,
+  f4,
+  b5,
+  c6,
+  c7,
+  c8,
 ];
 
 export const getScenario = (id) => scenarios.find(s => s.id === id);

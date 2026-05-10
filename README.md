@@ -20,7 +20,7 @@ All scenario characters and organisations are fictional. Incidents referenced in
 
 ## Scenarios
 
-All 26 practitioner scenarios are live across 7 risk domains, plus 3 everyday public-facing scenarios.
+All 32 practitioner scenarios are live across 7 risk domains, plus 3 everyday public-facing scenarios.
 
 | Domain | Scenarios |
 |--------|-----------|
