@@ -7,6 +7,13 @@ import {
   PERSONA_ORDER,
 } from './engine/narrativeEngine.js';
 import styles from './App.module.css';
+import {
+  trackScenarioStarted,
+  trackDecisionMade,
+  trackScenarioCompleted,
+  trackCardShared,
+  trackReplayChosen,
+} from './utils/analytics.js';
 
 // ── Feedback generation ──────────────────────────────────────────
 // Uses the scenario's authored 'note' field for each choice.
@@ -1613,6 +1620,15 @@ function ScenarioPlayer({ scenario }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.feedbackLoading]);
 
+  // Track scenario completion — fires once when outcome is reached
+  useEffect(() => {
+    if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
+    const outcome = getOutcome(scenario, state.persona, state.outcomeId);
+    if (!outcome) return;
+    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.state, state.outcomeId]);
+
   const currentNode = getCurrentNode(scenario, state.persona, state.currentNodeId);
   const currentOutcome = getOutcome(scenario, state.persona, state.outcomeId);
 
@@ -1638,15 +1654,20 @@ function ScenarioPlayer({ scenario }) {
         )}
         {state.state === STATES.PREMISE && (
           <Premise scenario={scenario} persona={state.persona}
-            onStart={() => dispatch({ type: 'START_SCENARIO' })} />
+            onStart={() => {
+            trackScenarioStarted(scenario.id, scenario.title);
+            dispatch({ type: 'START_SCENARIO' });
+          }} />
         )}
         {state.state === STATES.NODE && currentNode && (
           <div className={styles.nodeWrap}>
             <ScenePanel node={currentNode} persona={state.persona} />
             {currentNode.decision && (
               <ChoicePoint node={currentNode} persona={state.persona} scenario={scenario}
-                onSelect={(choice, nextId) =>
-                  dispatch({ type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId } })} />
+                onSelect={(choice, nextId) => {
+                  trackDecisionMade(scenario.id, state.currentNodeId, choice.quality);
+                  dispatch({ type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId } });
+                }} />
             )}
           </div>
         )}
@@ -1662,10 +1683,13 @@ function ScenarioPlayer({ scenario }) {
         )}
         {state.state === STATES.OUTCOME && currentOutcome && (
           <OutcomeScreen outcome={currentOutcome} scenario={scenario}
-            onRestart={mode => dispatch({
-              type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
-              payload: scenario,
-            })} />
+            onRestart={mode => {
+              trackReplayChosen(scenario.id);
+              dispatch({
+                type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
+                payload: scenario,
+              });
+            }} />
         )}
       </main>
 
@@ -1673,6 +1697,7 @@ function ScenarioPlayer({ scenario }) {
         <span>ai-risk-training · open source</span>
         <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Knowledge base ↗</a>
+        <a href="https://baseline.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Governance Baseline ↗</a>
         <span className={styles.footerDisclaimer}>
           Scenarios are fictional. No personal data collected.{' '}
           <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">Privacy ↗</a>

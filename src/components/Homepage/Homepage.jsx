@@ -97,6 +97,11 @@ export function Homepage() {
           className={styles.kbLink}>
           Library ↗
         </a>
+        <a href="https://baseline.airiskpractice.org/"
+          target="_blank" rel="noopener noreferrer"
+          className={styles.kbLink}>
+          Governance Baseline ↗
+        </a>
       </header>
 
       <div className={styles.hero}>
@@ -226,6 +231,8 @@ export function Homepage() {
           target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://library.airiskpractice.org/"
           target="_blank" rel="noopener noreferrer">Library ↗</a>
+        <a href="https://baseline.airiskpractice.org/"
+          target="_blank" rel="noopener noreferrer">Governance Baseline ↗</a>
         <span className={styles.footerMid}>
           Scenarios are fictional · No personal data collected ·{' '}
           <a href="/privacy">Privacy</a>
