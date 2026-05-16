@@ -32,10 +32,10 @@ function getLocalFeedback(choice) {
 }
 
 // ── Scene ────────────────────────────────────────────────────────
-function EverydayScene({ node }) {
+function EverydayScene({ node, scenarioId }) {
   return (
     <div className={styles.sceneWrap}>
-      {getEverydayScene(node.scene || 'phone-call')}
+      {getEverydayScene(scenarioId, node.id)}
     </div>
   );
 }
@@ -251,7 +251,7 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
         {/* Node */}
         {state.state === STATES.NODE && currentNode && (
           <>
-            <EverydayScene node={currentNode} />
+            <EverydayScene node={currentNode} scenarioId={scenario.id} />
             {currentNode.caption && (
               <p className={styles.sceneCaption}>{currentNode.caption}</p>
             )}
@@ -267,7 +267,7 @@ export function EverydayPlayer({ scenario, onBack, isLastInEpisode, onNextScenar
         {/* Feedback */}
         {state.state === STATES.FEEDBACK && state.selectedChoice && (
           <>
-            {currentNode && <EverydayScene node={currentNode} />}
+            {currentNode && <EverydayScene node={currentNode} scenarioId={scenario.id} />}
             <EverydayFeedback
               choice={state.selectedChoice}
               feedbackText={state.feedbackText}
