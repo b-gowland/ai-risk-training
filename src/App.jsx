@@ -11,7 +11,6 @@ import {
   trackScenarioStarted,
   trackDecisionMade,
   trackScenarioCompleted,
-  trackCardShared,
   trackReplayChosen,
 } from './utils/analytics.js';
 
