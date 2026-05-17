@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useState } from 'react';
+import { useReducer, useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getScenario } from './scenarios/index.js';
 import {
@@ -13,6 +13,7 @@ import {
   trackScenarioCompleted,
   trackReplayChosen,
 } from './utils/analytics.js';
+import { Certificate } from './components/Certificate/Certificate.jsx';
 
 // ── Feedback generation ──────────────────────────────────────────
 // Uses the scenario's authored 'note' field for each choice.
@@ -1524,14 +1525,28 @@ function Feedback({ choice, feedbackText, loading, onContinue }) {
   );
 }
 
+// Foundation Bundle — scenarios that together address EU AI Act Article 4 AI literacy
+const FOUNDATION_BUNDLE = new Set(['f2-shadow-ai', 'c5-ai-cyber-attacks', 'a1-hallucination']);
+
 // ── Outcome ──────────────────────────────────────────────────────
 const TONE_CLASS = { good: styles.outcomeGood, warn: styles.outcomeWarn, bad: styles.outcomeBad };
 
-function OutcomeScreen({ outcome, scenario, onRestart }) {
+function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
   const toneClass = TONE_CLASS[outcome.tone] || TONE_CLASS.warn;
+  const [showCert, setShowCert] = useState(false);
+  const isBundle = FOUNDATION_BUNDLE.has(scenario.id);
 
   return (
     <div className={styles.outcomeWrap}>
+      {showCert && (
+        <Certificate
+          scenario={scenario}
+          outcome={outcome}
+          persona={persona}
+          onDismiss={() => setShowCert(false)}
+        />
+      )}
+
       <div className={`${styles.outcomeCard} ${toneClass}`}>
         <div className={styles.outcomeHeading}>{outcome.heading}</div>
         <p className={styles.outcomeResult}>{outcome.result}</p>
@@ -1571,6 +1586,24 @@ function OutcomeScreen({ outcome, scenario, onRestart }) {
           Knowledge base ↗
         </a>
       </div>
+
+      {isBundle && (
+        <div className={styles.bundleCta}>
+          <div className={styles.bundleCtaInner}>
+            <div>
+              <div className={styles.bundleCtaTitle}>Foundation Bundle — EU AI Act Article 4</div>
+              <p className={styles.bundleCtaText}>
+                This scenario is part of the Foundation Bundle (F2 · C5 · A1), which together
+                addresses the AI literacy requirements of EU AI Act Article 4. Print a completion
+                certificate for your records.
+              </p>
+            </div>
+            <button className={styles.certBtn} onClick={() => setShowCert(true)}>
+              Get Certificate →
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className={styles.outcomeActions}>
         <button className={styles.secondaryBtn} onClick={() => onRestart('persona')}>Try another role</button>
@@ -1624,7 +1657,7 @@ function ScenarioPlayer({ scenario }) {
     if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
     const outcome = getOutcome(scenario, state.persona, state.outcomeId);
     if (!outcome) return;
-    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona);
+    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona, outcome.score);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
@@ -1681,7 +1714,7 @@ function ScenarioPlayer({ scenario }) {
           </div>
         )}
         {state.state === STATES.OUTCOME && currentOutcome && (
-          <OutcomeScreen outcome={currentOutcome} scenario={scenario}
+          <OutcomeScreen outcome={currentOutcome} scenario={scenario} persona={state.persona}
             onRestart={mode => {
               trackReplayChosen(scenario.id);
               dispatch({

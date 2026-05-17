@@ -30,9 +30,20 @@ export const trackDecisionMade = (scenarioId, nodeId, choiceQuality) =>
     props: { scenario_id: scenarioId, node_id: nodeId, choice_quality: choiceQuality },
   }));
 
-export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona) =>
+export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona, score) =>
   safe(() => trackEvent('Scenario Completed', {
-    props: { scenario_id: scenarioId, outcome_id: outcomeId, outcome_tone: outcomeTone, persona },
+    props: {
+      scenario_id:  scenarioId,
+      outcome_id:   outcomeId,
+      outcome_tone: outcomeTone,
+      persona,
+      score:        String(score ?? ''),
+    },
+  }));
+
+export const trackCertificateGenerated = (scenarioId, scoreBand) =>
+  safe(() => trackEvent('Certificate Generated', {
+    props: { scenario_id: scenarioId, score_band: scoreBand },
   }));
 
 export const trackCardShared = (scenarioId, outcomeTone, shareMethod) =>

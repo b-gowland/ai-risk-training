@@ -125,7 +125,8 @@ export function buildFeedbackPrompt(scenario, persona, node, choice) {
   const personaData  = scenario.personas[persona];
   const qualityLabel = choice.quality === 'good' ? 'correct'
                      : choice.quality === 'partial' ? 'partially correct' : 'incorrect';
-  return `You are a sharp AI risk training facilitator. Role: "${personaData.role}". Scenario: Shadow AI (F2). Choice: "${choice.label}" — ${qualityLabel}. Note: ${choice.note}. Write 2 direct sentences of feedback, max 50 words, no bullet points.`;
+  const scenarioRef  = `${scenario.risk_ref} — ${scenario.title}`;
+  return `You are a sharp AI risk training facilitator. Role: "${personaData.role}". Scenario: ${scenarioRef}. Choice: "${choice.label}" — ${qualityLabel}. Note: ${choice.note}. Write 2 direct sentences of feedback, max 50 words, no bullet points.`;
 }
 
 export const PERSONA_ORDER = ['business_user', 'executive', 'pm', 'analyst'];

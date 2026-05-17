@@ -361,3 +361,49 @@
 }
 .secondaryBtn:hover { border-color:var(--c-ink); color:var(--c-ink); }
 .nav { display:flex; justify-content:flex-end; }
+
+/* ── Foundation Bundle CTA ── */
+.bundleCta {
+  margin: 28px 0;
+  border: 1.5px solid #c8d4f0;
+  border-radius: 6px;
+  background: #f0f4ff;
+  padding: 20px 24px;
+}
+.bundleCtaInner {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.bundleCtaTitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #2c3e8c;
+  margin-bottom: 6px;
+}
+.bundleCtaText {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 480px;
+}
+.certBtn {
+  flex-shrink: 0;
+  background: #1a1916;
+  color: #faf9f7;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  white-space: nowrap;
+  transition: opacity 0.15s;
+  margin-top: 4px;
+}
+.certBtn:hover { opacity: 0.82; }
