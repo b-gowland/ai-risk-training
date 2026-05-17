@@ -36,15 +36,13 @@
 }
 .heroTitle {
   font-family:var(--font-display);
-  font-size:clamp(30px,4.5vw,52px);
-  font-weight:700; line-height:1.08; letter-spacing:-.025em;
+  font-size:clamp(26px,3.6vw,44px);
+  font-weight:700; line-height:1.1; letter-spacing:-.02em;
   color:var(--c-ink); margin-bottom:18px;
 }
-.heroTitle em { font-style:italic; }
 .heroSub {
-  font-size:17px; color:var(--c-text-secondary);
-  font-family:var(--font-body);
-  line-height:1.7; margin-bottom:36px; max-width:580px;
+  font-size:16px; color:var(--c-text-secondary);
+  line-height:1.65; margin-bottom:36px; max-width:560px;
 }
 .heroStats {
   display:flex; align-items:stretch;
@@ -61,6 +59,141 @@
 .statLink { text-decoration:none; display:flex; flex-direction:column; }
 .statLink:hover .statNum { text-decoration:underline; }
 .statDivider { display:none; }
+
+/* ── Two equal tracks ── */
+.tracks {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--c-border);
+}
+.track {
+  padding:32px 40px;
+  display:flex; flex-direction:column;
+}
+.track:first-child {
+  border-right:1px solid var(--c-border);
+}
+.trackTag {
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em;
+  color:var(--c-text-tertiary); margin-bottom:8px;
+}
+.trackName {
+  font-size:20px; font-weight:700;
+  color:var(--c-ink); margin-bottom:10px;
+  font-family:var(--font-display); letter-spacing:-.01em;
+}
+.trackDesc {
+  font-size:13px; color:var(--c-text-secondary);
+  line-height:1.65; margin:0 0 10px;
+}
+.trackMeta {
+  font-size:11px; color:var(--c-text-tertiary);
+  margin-bottom:14px;
+}
+.trackPills {
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin-bottom:20px;
+}
+.trackPill {
+  font-size:10px; color:var(--c-text-secondary);
+  border:1px solid var(--c-border);
+  border-radius:3px; padding:2px 8px;
+  background:var(--c-surface);
+}
+.trackCta {
+  display:inline-block; align-self:flex-start;
+  font-size:12px; font-weight:600; color:var(--c-ink);
+  border:1px solid var(--c-border-mid);
+  border-radius:4px; padding:8px 16px;
+  text-decoration:none; background:var(--c-surface-2);
+  transition:border-color .15s, background .15s;
+  margin-top:auto;
+}
+.trackCta:hover { border-color:var(--c-ink); background:var(--c-surface); }
+.trackCtaFork {
+  display:inline-block; align-self:flex-start;
+  font-size:13px; font-weight:700;
+  background:#1a1916; color:#faf9f7;
+  border:1px solid #1a1916;
+  border-radius:4px; padding:9px 20px;
+  text-decoration:none;
+  transition:opacity .15s; margin-top:auto;
+}
+.trackCtaFork:hover { opacity:.85; }
+.trackFork { background:var(--c-surface); }
+
+/* ── Foundation Bundle ── */
+.bundleSection {
+  padding:24px 40px;
+  background:#f0f4ff;
+  border-bottom:1px solid #c8d4f0;
+}
+.bundleInner {
+  display:flex; gap:32px; align-items:flex-start;
+  flex-wrap:wrap; max-width:1000px;
+}
+.bundleLeft { flex:1; min-width:280px; }
+.bundleEyebrow {
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em;
+  color:#2c3e8c; margin-bottom:6px;
+}
+.bundleTitle {
+  font-size:15px; font-weight:700;
+  color:#1a1f4a; margin-bottom:8px; line-height:1.35;
+}
+.bundleDesc {
+  font-size:12px; color:#3a4060;
+  line-height:1.65; margin:0 0 12px;
+}
+.bundleScenarios {
+  display:flex; gap:6px; flex-wrap:wrap; align-items:center;
+}
+.bundleScen {
+  font-size:10px; font-weight:700;
+  color:#2c3e8c; background:#dce7ff;
+  border-radius:3px; padding:3px 8px;
+}
+.bundleDot { font-size:11px; color:#9aaad0; }
+.bundleRight {
+  display:flex; flex-direction:column;
+  align-items:flex-end; gap:4px; flex-shrink:0;
+  padding-top:4px;
+}
+.bundleRegRef {
+  font-size:11px; font-weight:700;
+  color:#2c3e8c; background:#dce7ff;
+  border-radius:3px; padding:4px 10px;
+}
+.bundleDeadline {
+  font-size:10px; color:#6a7aaa;
+  font-family:var(--font-mono, monospace);
+}
+
+/* Bundle badge on scenario cards */
+.bundleBadge {
+  font-size:9px; font-weight:700;
+  color:#2c3e8c; background:#dce7ff;
+  border-radius:2px; padding:1px 6px;
+  display:inline-block; margin-bottom:5px;
+  letter-spacing:.04em;
+}
+
+/* ── Professional track divider ── */
+.proTrackDivider {
+  display:flex; align-items:center;
+  padding:0 40px; margin-top:40px; gap:16px;
+}
+.proTrackDivider::before,
+.proTrackDivider::after {
+  content:''; flex:1; height:1px; background:var(--c-border);
+}
+.proTrackLabel {
+  font-size:11px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.14em;
+  color:var(--c-text-tertiary); white-space:nowrap;
+}
 
 /* ── Filters ── */
 .filters {
@@ -80,9 +213,7 @@
   white-space:nowrap;
 }
 .filterBtn:hover { border-color:var(--c-ink); color:var(--c-ink); }
-.filterActive {
-  background:var(--c-ink); color:#f0ece4; border-color:var(--c-ink);
-}
+.filterActive { background:var(--c-ink); color:#f0ece4; border-color:var(--c-ink); }
 .filterActive:hover { background:var(--c-ink); color:#f0ece4; }
 
 /* ── Grid ── */
@@ -101,7 +232,6 @@
   font-size:10px; font-weight:700; color:#f0ece4;
   background:var(--c-ink); border-radius:3px;
   padding:2px 8px; letter-spacing:.06em;
-  font-family:var(--font-sans);
 }
 .domainLabel { font-size:14px; font-weight:600; color:var(--c-ink); }
 .domainCount { font-size:11px; color:var(--c-text-tertiary); margin-left:auto; }
@@ -118,39 +248,29 @@
   padding:16px 16px 14px;
   background:var(--c-surface-2);
   transition:border-color .15s, box-shadow .15s, transform .15s;
-  position:relative; overflow:hidden;
+  position:relative;
 }
-.card::after {
-  content:''; position:absolute; bottom:0; left:0; right:0;
-  height:3px; background:transparent;
-  transition:background .2s;
-}
-.cardLive { border-color:var(--c-border); }
 .cardLive:hover {
   border-color:var(--c-border-mid);
   box-shadow:0 4px 16px var(--c-shadow);
   transform:translateY(-2px);
 }
 .cardStub { opacity:.5; }
-
 .cardHeader {
   display:flex; justify-content:space-between;
-  align-items:center; margin-bottom:10px;
+  align-items:center; margin-bottom:6px;
 }
 .riskRef {
   font-size:11px; font-weight:700;
   color:var(--c-ink); letter-spacing:.06em;
-  font-family:var(--font-sans);
 }
 .diffPill {
   font-size:9px; font-weight:600; text-transform:uppercase;
   letter-spacing:.08em; padding:2px 8px; border-radius:20px;
-  font-family:var(--font-sans);
 }
 .diffFoundational { background:var(--c-good-bg);  color:var(--c-good); }
 .diffIntermediate  { background:var(--c-warn-bg);  color:var(--c-warn); }
 .diffAdvanced      { background:var(--c-bad-bg);   color:var(--c-bad); }
-
 .cardTitle {
   font-size:14px; font-weight:600; color:var(--c-ink);
   line-height:1.25; margin-bottom:4px;
@@ -158,18 +278,15 @@
 .cardSubtitle {
   font-size:11px; color:var(--c-text-tertiary);
   line-height:1.45; margin-bottom:14px;
-  font-style:italic; font-family:var(--font-body);
+  font-style:italic;
 }
-
-/* Persona pips */
 .personaRow {
   display:flex; gap:6px; margin-bottom:14px;
   flex:1; align-items:flex-end;
 }
-.personaPip { font-size:14px; line-height:1; transition:opacity .15s; }
+.personaPip { font-size:14px; line-height:1; }
 .pipAvailable   { opacity:1;   color:var(--c-ink); }
 .pipUnavailable { opacity:.18; color:var(--c-ink); }
-
 .cardFooter {
   display:flex; justify-content:space-between; align-items:center;
   padding-top:10px; border-top:1px solid var(--c-border);
@@ -177,133 +294,13 @@
 .playBtn {
   font-size:12px; font-weight:600; color:var(--c-ink);
   text-decoration:none; transition:color .15s;
-  font-family:var(--font-sans);
 }
 .playBtn:hover { color:var(--c-accent); }
-.comingSoon {
-  font-size:11px; color:var(--c-text-tertiary); font-style:italic;
-}
+.comingSoon { font-size:11px; color:var(--c-text-tertiary); font-style:italic; }
 .kbRef {
-  font-size:11px; color:var(--c-accent); text-decoration:none;
-  opacity:.6; font-family:var(--font-sans);
+  font-size:11px; color:var(--c-accent); text-decoration:none; opacity:.6;
 }
 .kbRef:hover { opacity:1; }
-
-/* ── Fork banner ── */
-.forkBanner {
-  background: #0D0D0D;
-  border-top: 3px solid #D97706;
-  border-bottom: 1px solid rgba(196,135,58,.25);
-  padding: 48px 40px;
-}
-.forkBannerInner {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 48px;
-}
-.forkLeft { flex: 1; min-width: 0; }
-.forkEyebrow {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .16em;
-  color: #D97706;
-  margin-bottom: 10px;
-}
-.forkTitle {
-  font-family: var(--font-display, 'Press Start 2P', monospace);
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 700;
-  color: #f0ece4;
-  letter-spacing: -.01em;
-  margin-bottom: 4px;
-}
-.forkTagline {
-  font-size: 15px;
-  font-weight: 500;
-  color: #D97706;
-  margin-bottom: 10px;
-  font-style: italic;
-}
-.forkAudience {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: rgba(240,236,228,.45);
-  margin-bottom: 16px;
-}
-.forkDesc {
-  font-size: 15px;
-  line-height: 1.65;
-  color: rgba(240,236,228,.65);
-  margin: 0;
-  max-width: 420px;
-}
-.forkRight {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  min-width: 240px;
-}
-.forkScenarios {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.forkScenarioItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: rgba(240,236,228,.8);
-}
-.forkScenarioIcon { font-size: 16px; }
-.forkCta {
-  display: inline-block;
-  background: #D97706;
-  color: #0D0D0D;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 28px;
-  border-radius: 6px;
-  text-decoration: none;
-  letter-spacing: .01em;
-  transition: background .15s, transform .1s;
-  white-space: nowrap;
-}
-.forkCta:hover {
-  background: #E88A1A;
-  transform: translateY(-1px);
-}
-
-/* ── Professional track divider ── */
-.proTrackDivider {
-  display: flex;
-  align-items: center;
-  padding: 0 40px;
-  margin-top: 40px;
-  gap: 16px;
-}
-.proTrackDivider::before,
-.proTrackDivider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--c-border);
-}
-.proTrackLabel {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  color: var(--c-text-tertiary);
-  white-space: nowrap;
-}
 
 /* ── Footer ── */
 .footer {
@@ -319,87 +316,18 @@
 .footerMid a { color:var(--c-text-tertiary); text-decoration:none; }
 .footerMid a:hover { color:var(--c-ink); }
 
-@media(max-width:600px){
+/* ── Mobile ── */
+@media(max-width:700px){
   .hero, .filters, .grid, .header, .footer { padding-left:20px; padding-right:20px; }
-  .heroTitle { font-size:28px; }
+  .heroTitle { font-size:26px; }
+  .tracks { grid-template-columns:1fr; }
+  .track:first-child { border-right:none; border-bottom:1px solid var(--c-border); }
+  .track { padding:28px 20px; }
+  .bundleSection { padding:20px; }
   .domainCards { grid-template-columns:1fr 1fr; }
   .footerRight { display:none; }
   .heroStats { gap:16px; }
   .stat { padding-right:0; margin-right:0; border-right:none; }
-  .forkBanner { padding:36px 20px; }
-  .forkBannerInner { flex-direction:column; gap:32px; }
-  .forkRight { width:100%; }
-  .forkCta { width:100%; text-align:center; }
   .proTrackDivider { padding:0 20px; }
-}
-
-/* ── Foundation Bundle banner ── */
-.bundleBanner {
-  margin: 8px 0 0;
-  border: 1.5px solid #c8d4f0;
-  border-radius: 6px;
-  background: #f0f4ff;
-  padding: 18px 24px;
-}
-.bundleBannerInner {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-.bundleBannerLeft {
-  flex: 1;
-  min-width: 240px;
-}
-.bundleBannerTitle {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #2c3e8c;
-  margin-bottom: 6px;
-}
-.bundleBannerText {
-  font-size: 13px;
-  color: #333;
-  line-height: 1.55;
-  margin: 0 0 10px;
-}
-.bundleTags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.bundleTag {
-  font-size: 11px;
-  font-weight: 600;
-  color: #2c3e8c;
-  background: #dce7ff;
-  border-radius: 3px;
-  padding: 2px 7px;
-}
-.bundleTagDot {
-  font-size: 11px;
-  color: #aaa;
-}
-.bundleBannerMeta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  flex-shrink: 0;
-}
-.bundleRegRef {
-  font-size: 12px;
-  font-weight: 700;
-  color: #2c3e8c;
-  background: #dce7ff;
-  border-radius: 3px;
-  padding: 3px 8px;
-}
-.bundleDeadline {
-  font-size: 10px;
-  color: #888;
-  font-family: var(--font-mono, monospace);
+  .trackCtaFork { width:100%; text-align:center; }
 }

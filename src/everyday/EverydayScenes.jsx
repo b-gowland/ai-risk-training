@@ -187,13 +187,13 @@ export function PhoneIncomingScene() {
 
 export function PhoneSearchScene() {
   return (
-    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phone showing search results for a medical query">
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phone showing search results for a travel insurance query">
       <rect width="480" height="270" fill="#0D0D0D"/>
       <rect x="155" y="20" width="170" height="230" rx="16" fill="#141414" stroke="#2A2A2A" strokeWidth="1.5"/>
       <rect x="163" y="30" width="154" height="210" rx="10" fill="#0D0D0D"/>
       <rect x="210" y="28" width="60" height="8" rx="4" fill="#1A1A1A"/>
       <rect x="173" y="46" width="134" height="20" rx="10" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="0.5"/>
-      <text x="192" y="60" fontSize="9" fill="#666666" fontFamily="system-ui">drug interaction search</text>
+      <text x="192" y="60" fontSize="9" fill="#666666" fontFamily="system-ui">travel insurance query</text>
       <text x="294" y="61" fontSize="13" fill="#D97706" fontFamily="system-ui">&#x2315;</text>
       <rect x="173" y="74" width="134" height="1" fill="#1E1E1E"/>
       <rect x="173" y="82" width="134" height="38" rx="2" fill="#141414" stroke="#1E1E1E" strokeWidth="0.5"/>
