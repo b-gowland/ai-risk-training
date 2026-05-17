@@ -92,25 +92,25 @@ export function HiringScene() {
         <text x="80" y="100" fontSize="11" fill="#AAAAAA" fontFamily="system-ui">Jordan M.</text>
         <rect x="180" y="88" width="280" height="14" rx="1" fill="#D97706" opacity="0.2"/>
         <rect x="180" y="88" width="112" height="14" rx="1" fill="#D97706" opacity="0.6"/>
-        <text x="488" y="100" textAnchor="end" fontSize="11" fill="#D97706" fontFamily="'Space Mono', monospace" fontWeight="700">94</text>
+        <text x="396" y="100" textAnchor="end" fontSize="11" fill="#D97706" fontFamily="'Space Mono', monospace" fontWeight="700">94</text>
       </g>
       <g>
         <text x="80" y="136" fontSize="11" fill="#AAAAAA" fontFamily="system-ui">Alex T.</text>
-        <rect x="180" y="124" width="268" height="14" rx="1" fill="#D97706" opacity="0.2"/>
-        <rect x="180" y="124" width="107" height="14" rx="1" fill="#D97706" opacity="0.6"/>
-        <text x="488" y="136" textAnchor="end" fontSize="11" fill="#D97706" fontFamily="'Space Mono', monospace" fontWeight="700">91</text>
+        <rect x="180" y="124" width="204" height="14" rx="1" fill="#D97706" opacity="0.2"/>
+        <rect x="180" y="124" width="81" height="14" rx="1" fill="#D97706" opacity="0.6"/>
+        <text x="396" y="136" textAnchor="end" fontSize="11" fill="#D97706" fontFamily="'Space Mono', monospace" fontWeight="700">91</text>
       </g>
       <g>
         <text x="80" y="172" fontSize="11" fill="#AAAAAA" fontFamily="system-ui">Sam K.</text>
-        <rect x="180" y="160" width="128" height="14" rx="1" fill="#444444" opacity="0.2"/>
-        <rect x="180" y="160" width="51" height="14" rx="1" fill="#444444" opacity="0.6"/>
-        <text x="488" y="172" textAnchor="end" fontSize="11" fill="#444444" fontFamily="'Space Mono', monospace" fontWeight="700">43</text>
+        <rect x="180" y="160" width="100" height="14" rx="1" fill="#444444" opacity="0.2"/>
+        <rect x="180" y="160" width="40" height="14" rx="1" fill="#444444" opacity="0.6"/>
+        <text x="396" y="172" textAnchor="end" fontSize="11" fill="#444444" fontFamily="'Space Mono', monospace" fontWeight="700">43</text>
       </g>
       <g>
         <text x="80" y="208" fontSize="11" fill="#AAAAAA" fontFamily="system-ui">Riley P.</text>
-        <rect x="180" y="196" width="112" height="14" rx="1" fill="#444444" opacity="0.2"/>
-        <rect x="180" y="196" width="45" height="14" rx="1" fill="#444444" opacity="0.6"/>
-        <text x="488" y="208" textAnchor="end" fontSize="11" fill="#444444" fontFamily="'Space Mono', monospace" fontWeight="700">38</text>
+        <rect x="180" y="196" width="88" height="14" rx="1" fill="#444444" opacity="0.2"/>
+        <rect x="180" y="196" width="35" height="14" rx="1" fill="#444444" opacity="0.6"/>
+        <text x="396" y="208" textAnchor="end" fontSize="11" fill="#444444" fontFamily="'Space Mono', monospace" fontWeight="700">38</text>
       </g>
       <rect x="80" y="228" width="320" height="1" fill="#1E1E1E"/>
       <text x="80" y="246" fontSize="9" fill="#444444" fontFamily="'Space Mono', monospace">AI_SCREEN v2.1 · 847 applicants processed</text>
@@ -402,45 +402,70 @@ export function OfficeBriefingScene() {
   );
 }
 
-// ── Scene key dispatcher ─────────────────────────────────────────
-// Dispatches by scenarioId + nodeId.
-// EverydayPlayer passes (scenario.id, node.id) — both are strings.
-// Fallback: PhoneCallScene for p1, ChatScene for p2, HiringScene for p3.
 
-export function getEverydayScene(scenarioId, nodeId) {
-  if (scenarioId === 'everyday-p1-deepfake-voice') {
-    const map = {
-      start:            <PhoneCallScene />,
-      n2_transferred:   <PaymentSentScene />,
-      n3_bank_called:   <PhoneCallScene />,
-      n3_bank_waited:   <DeskReviewScene />,
-      n2_called_back:   <CallSafeScene />,
-      n3_told_mum:      <DeskReviewScene />,
-      n3_stayed_silent: <PhoneIncomingScene />,
-    };
-    return map[nodeId] || <PhoneCallScene />;
-  }
-  if (scenarioId === 'everyday-p2-hallucination') {
-    const map = {
-      start:                  <PhoneSearchScene />,
-      n2_booked:              <BorderCrossingScene />,
-      n3_argued:              <DeskReviewScene />,
-      n3_accepted:            <TransferScene />,
-      n2_checked:             <PdsOpenScene />,
-      n3_checked_fixed:       <DeskReviewScene />,
-      n3_checked_overcorrected:<DeskCasualScene />,
-    };
-    return map[nodeId] || <ChatScene />;
-  }
-  if (scenarioId === 'everyday-p3-employment-screening') {
-    const map = {
-      start:       <RejectionEmailScene />,
-      n2_accepted: <DeskCasualScene />,
-      n2_asked:    <EmailSentScene />,
-      n3_escalated:<OfficeBriefingScene />,
-      n3_dropped:  <DeskReviewScene />,
-    };
-    return map[nodeId] || <HiringScene />;
-  }
-  return <PhoneCallScene />;
+export function DeskColleagueScene() {
+  return (
+    <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two people talking at a desk — sharing what happened">
+      <rect width="480" height="270" fill="#0D0D0D"/>
+      <rect x="20" y="190" width="440" height="80" fill="#111111"/>
+      {/* Left monitor */}
+      <rect x="40" y="50" width="180" height="130" rx="4" fill="#141414" stroke="#1E1E1E" strokeWidth="1"/>
+      <rect x="48" y="58" width="164" height="114" rx="2" fill="#0D0D0D"/>
+      <rect x="56" y="66" width="100" height="8" rx="1" fill="#2A2A2A"/>
+      <rect x="56" y="80" width="148" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="56" y="90" width="120" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="56" y="104" width="100" height="8" rx="1" fill="#2A2A2A"/>
+      <rect x="56" y="118" width="140" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="56" y="128" width="110" height="5" rx="1" fill="#1E1E1E"/>
+      {/* Right monitor */}
+      <rect x="260" y="50" width="180" height="130" rx="4" fill="#141414" stroke="#1E1E1E" strokeWidth="1"/>
+      <rect x="268" y="58" width="164" height="114" rx="2" fill="#0D0D0D"/>
+      <rect x="276" y="66" width="100" height="8" rx="1" fill="#1A1200"/>
+      <rect x="276" y="80" width="148" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="276" y="90" width="130" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="276" y="104" width="80" height="8" rx="1" fill="#D97706" opacity="0.25"/>
+      <rect x="276" y="118" width="148" height="5" rx="1" fill="#1E1E1E"/>
+      <rect x="276" y="128" width="100" height="5" rx="1" fill="#1E1E1E"/>
+      {/* Speech bubble — conversation indicator */}
+      <ellipse cx="240" cy="60" rx="28" ry="16" fill="#1A1200" stroke="#3A2800" strokeWidth="1"/>
+      <text x="240" y="65" textAnchor="middle" fontSize="16" fill="#D97706">&#x1F4AC;</text>
+      {/* Desk surface */}
+      <rect x="20" y="190" width="440" height="6" fill="#1A1A1A"/>
+    </svg>
+  );
+}
+
+// ── Scene key dispatcher ─────────────────────────────────────────
+// Dispatches by node.scene key — the string set on each scenario node.
+// EverydayPlayer passes (scenarioId, sceneKey) where sceneKey = node.scene.
+// Fallback per scenario if scene key is missing or unrecognised.
+
+const SCENE_MAP = {
+  'phone-call':      <PhoneCallScene />,
+  'phone-incoming':  <PhoneIncomingScene />,
+  'phone-verify':    <PhoneCallScene />,
+  'phone-search':    <PhoneSearchScene />,
+  'call-safe':       <CallSafeScene />,
+  'payment-sent':    <PaymentSentScene />,
+  'payment-screen':  <TransferScene />,
+  'transfer':        <TransferScene />,
+  'border-crossing': <BorderCrossingScene />,
+  'pds-open':        <PdsOpenScene />,
+  'desk-review':     <DeskReviewScene />,
+  'desk-casual':     <DeskCasualScene />,
+  'desk-colleague':  <DeskColleagueScene />,
+  'rejection-email': <RejectionEmailScene />,
+  'email-sent':      <EmailSentScene />,
+  'office-briefing': <OfficeBriefingScene />,
+  'hiring':          <HiringScene />,
+};
+
+const FALLBACK = {
+  'everyday-p1-deepfake-voice':        <PhoneCallScene />,
+  'everyday-p2-hallucination':         <PhoneSearchScene />,
+  'everyday-p3-employment-screening':  <RejectionEmailScene />,
+};
+
+export function getEverydayScene(scenarioId, sceneKey) {
+  return SCENE_MAP[sceneKey] || FALLBACK[scenarioId] || <PhoneCallScene />;
 }

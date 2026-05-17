@@ -35,7 +35,7 @@ function getLocalFeedback(choice) {
 function EverydayScene({ node, scenarioId }) {
   return (
     <div className={styles.sceneWrap}>
-      {getEverydayScene(scenarioId, node.id)}
+      {getEverydayScene(scenarioId, node.scene)}
     </div>
   );
 }

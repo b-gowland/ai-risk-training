@@ -175,6 +175,30 @@ export function Homepage() {
         </div>
       </div>
 
+      {/* ── Foundation Bundle ── */}
+      <div className={styles.bundleBanner}>
+        <div className={styles.bundleBannerInner}>
+          <div className={styles.bundleBannerLeft}>
+            <div className={styles.bundleBannerTitle}>Foundation Bundle</div>
+            <p className={styles.bundleBannerText}>
+              Three scenarios that together address EU AI Act Article 4 — AI literacy for staff
+              working with AI systems. Complete F2, C5, and A1 to earn a printable certificate.
+            </p>
+            <div className={styles.bundleTags}>
+              <span className={styles.bundleTag}>F2 Shadow AI</span>
+              <span className={styles.bundleTagDot}>·</span>
+              <span className={styles.bundleTag}>C5 The Convincing Email</span>
+              <span className={styles.bundleTagDot}>·</span>
+              <span className={styles.bundleTag}>A1 Confident and Wrong</span>
+            </div>
+          </div>
+          <div className={styles.bundleBannerMeta}>
+            <div className={styles.bundleRegRef}>EU AI Act Art. 4</div>
+            <div className={styles.bundleDeadline}>Enforcement: Aug 2, 2026</div>
+          </div>
+        </div>
+      </div>
+
       {/* ── Professional track divider ── */}
       <div className={styles.proTrackDivider}>
         <span className={styles.proTrackLabel}>Workplace scenarios</span>

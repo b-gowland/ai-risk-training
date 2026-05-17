@@ -332,3 +332,74 @@
   .forkCta { width:100%; text-align:center; }
   .proTrackDivider { padding:0 20px; }
 }
+
+/* ── Foundation Bundle banner ── */
+.bundleBanner {
+  margin: 8px 0 0;
+  border: 1.5px solid #c8d4f0;
+  border-radius: 6px;
+  background: #f0f4ff;
+  padding: 18px 24px;
+}
+.bundleBannerInner {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.bundleBannerLeft {
+  flex: 1;
+  min-width: 240px;
+}
+.bundleBannerTitle {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2c3e8c;
+  margin-bottom: 6px;
+}
+.bundleBannerText {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.55;
+  margin: 0 0 10px;
+}
+.bundleTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.bundleTag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2c3e8c;
+  background: #dce7ff;
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+.bundleTagDot {
+  font-size: 11px;
+  color: #aaa;
+}
+.bundleBannerMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.bundleRegRef {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2c3e8c;
+  background: #dce7ff;
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+.bundleDeadline {
+  font-size: 10px;
+  color: #888;
+  font-family: var(--font-mono, monospace);
+}
