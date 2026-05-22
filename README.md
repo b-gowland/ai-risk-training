@@ -25,12 +25,12 @@ All 32 practitioner scenarios are live across 7 risk domains, plus 3 everyday pu
 | Domain | Scenarios |
 |--------|-----------|
 | A — Technical | A1 Hallucination · A2 Model Drift · A3 Robustness · A4 Explainability |
-| B — Governance | B1 Accountability · B2 Compliance · B3 Lifecycle · B4 Supply Chain |
-| C — Security | C1 Data Poisoning · C2 Prompt Injection · C3 Model Theft · C4 Deepfakes · C5 AI Cyber Attacks |
+| B — Governance | B1 Accountability · B2 Compliance · B3 Lifecycle · B4 Supply Chain · B5 Agentic Logging |
+| C — Security | C1 Data Poisoning · C2 Prompt Injection · C3 Model Theft · C4 Deepfakes · C5 AI Cyber Attacks · C6 MCP Attack Surface · C7 Multi-Agent Trust · C8 Computer-Use Hijacking |
 | D — Data | D1 Data Quality · D2 Privacy · D3 IP & Copyright |
 | E — Fairness | E1 Algorithmic Bias · E2 Harmful Content · E3 Misinformation |
-| F — Deployment | F1 Automation Bias · F2 Shadow AI · F3 Scope Creep |
-| G — Systemic | G1 Concentration Risk · G2 Environmental Impact · G3 Workforce Displacement · G4 AI Safety |
+| F — Deployment | F1 Automation Bias · F2 Shadow AI · F3 Scope Creep · F4 Irreversibility |
+| G — Systemic | G1 Concentration Risk · G2 Environmental Impact · G3 Workforce Displacement · G4 AI Safety · G5 Excessive Agency |
 
 **Fork — everyday track:** Three public-facing scenarios on deepfake voice scams, AI hallucination, and algorithmic hiring. Designed for anyone, not just practitioners. Takes 4–5 minutes each.
 
