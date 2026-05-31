@@ -1628,7 +1628,7 @@ function ScenarioPlayer({ scenario }) {
     if (!node || node.decision) return;
     const nextId = node.branches.auto;
     if (!nextId) return;
-    dispatch({ type: 'AUTO_ADVANCE', payload: { nextNodeId: nextId } });
+    dispatch({ type: 'AUTO_ADVANCE', payload: { nextNodeId: nextId, node } });
   }, [state.state, state.currentNodeId, state.persona, scenario]);
 
   // Generate feedback — fires once when feedbackLoading becomes true
@@ -1698,7 +1698,7 @@ function ScenarioPlayer({ scenario }) {
               <ChoicePoint node={currentNode} persona={state.persona} scenario={scenario}
                 onSelect={(choice, nextId) => {
                   trackDecisionMade(scenario.id, state.currentNodeId, choice.quality);
-                  dispatch({ type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId } });
+                  dispatch({ type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId, node: currentNode } });
                 }} />
             )}
           </div>

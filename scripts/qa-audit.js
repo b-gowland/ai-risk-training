@@ -407,9 +407,167 @@ try {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// LAYER 3 — Content quality
+// LAYER 2c — State schema validation
+// Catches authoring errors in state_schema / state_changes at build time.
+// The runtime ignores unknown keys (crash-safe); this layer is loud.
+// Skipped silently when scenario has no state_schema (all existing scenarios).
 // ═══════════════════════════════════════════════════════════════════
-console.log('\n══ Layer 3: Content quality ══');
+console.log('\n══ Layer 2c: State schema validation ══');
+
+if (!scenario.state_schema) {
+  pass('No state_schema — skipping (all existing scenarios expected)');
+  // Simulation assertion: stateVars must remain null on every path.
+  for (const personaKey of Object.keys(scenario.personas)) {
+    if (!scenario.trees[personaKey]) continue;
+    for (const strategy of ['first', 'last']) {
+      let st = createInitialState(scenario);
+      st = reducer(st, { type: 'SELECT_PERSONA', payload: personaKey });
+      st = reducer(st, { type: 'START_SCENARIO' });
+      let steps = 0;
+      while (st.state !== STATES.OUTCOME && steps < 30) {
+        steps++;
+        if (st.state === STATES.NODE) {
+          const node = getCurrentNode(scenario, st.persona, st.currentNodeId);
+          if (!node) break;
+          if (!node.decision) {
+            const nextId = node.branches.auto;
+            if (!nextId) break;
+            st = reducer(st, { type: 'AUTO_ADVANCE', payload: { nextNodeId: nextId, node } });
+          } else {
+            const choices = node.decision.choices;
+            const choice  = strategy === 'first' ? choices[0] : choices[choices.length - 1];
+            const nextId  = resolveNext(node, choice.id);
+            st = reducer(st, { type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId, node } });
+            st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+            st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+          }
+        } else if (st.state === STATES.FEEDBACK) {
+          st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+          st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+        }
+      }
+      if (st.stateVars !== null) {
+        p1(`[${personaKey}] ${strategy}-path: stateVars became non-null on a scenario with no state_schema`);
+      }
+    }
+  }
+  pass('Backward compat: stateVars stays null on all paths (no state_schema)');
+} else {
+  // Scenario has state_schema — validate it and all state_changes references.
+  const schema = scenario.state_schema;
+  const schemaKeys = new Set(Object.keys(schema));
+
+  // Check 1: schema field types
+  for (const [varName, def] of Object.entries(schema)) {
+    if (typeof def.initial !== 'number') {
+      p1(`state_schema["${varName}"].initial must be a number, got ${typeof def.initial}`);
+    }
+    if (def.min !== undefined && typeof def.min !== 'number') {
+      p1(`state_schema["${varName}"].min must be a number, got ${typeof def.min}`);
+    }
+    if (def.max !== undefined && typeof def.max !== 'number') {
+      p1(`state_schema["${varName}"].max must be a number, got ${typeof def.max}`);
+    }
+    if (def.min !== undefined && def.max !== undefined && def.min > def.max) {
+      p1(`state_schema["${varName}"]: min (${def.min}) > max (${def.max})`);
+    }
+    if (def.initial !== undefined && def.min !== undefined && def.initial < def.min) {
+      p1(`state_schema["${varName}"]: initial (${def.initial}) < min (${def.min})`);
+    }
+    if (def.initial !== undefined && def.max !== undefined && def.initial > def.max) {
+      p1(`state_schema["${varName}"]: initial (${def.initial}) > max (${def.max})`);
+    }
+    if (!['bar', 'number', 'hidden'].includes(def.display)) {
+      p1(`state_schema["${varName}"].display must be 'bar'|'number'|'hidden', got "${def.display}"`);
+    }
+  }
+  pass('state_schema field types valid');
+
+  // Check 2: state_changes on every node references valid choice ids and schema keys
+  let stateChangesIssues = 0;
+  for (const personaKey of Object.keys(scenario.trees)) {
+    const nodes = scenario.trees[personaKey]?.nodes || {};
+    for (const [nodeId, node] of Object.entries(nodes)) {
+      if (!node.state_changes) continue;
+      const validChoiceIds = new Set(
+        node.decision?.choices.map(c => c.id) || []
+      );
+      // 'auto' is valid for bridge nodes
+      if (node.branches?.auto) validChoiceIds.add('auto');
+      for (const [choiceKey, deltas] of Object.entries(node.state_changes)) {
+        if (!validChoiceIds.has(choiceKey)) {
+          p1(`[${personaKey}] node "${nodeId}" state_changes key "${choiceKey}" is not a valid choice id`);
+          stateChangesIssues++;
+        }
+        for (const varName of Object.keys(deltas)) {
+          if (!schemaKeys.has(varName)) {
+            p1(`[${personaKey}] node "${nodeId}" state_changes["${choiceKey}"]["${varName}"] — "${varName}" not in state_schema`);
+            stateChangesIssues++;
+          }
+          if (typeof deltas[varName] !== 'number') {
+            p1(`[${personaKey}] node "${nodeId}" state_changes["${choiceKey}"]["${varName}"] must be a number delta`);
+            stateChangesIssues++;
+          }
+        }
+      }
+    }
+  }
+  if (stateChangesIssues === 0) pass('state_changes keys and variable names are valid');
+
+  // Check 3: simulation — no NaN/undefined, clamping holds on all paths
+  for (const personaKey of Object.keys(scenario.personas)) {
+    if (!scenario.trees[personaKey]) continue;
+    for (const strategy of ['first', 'last']) {
+      let st = createInitialState(scenario);
+      st = reducer(st, { type: 'SELECT_PERSONA', payload: personaKey });
+      st = reducer(st, { type: 'START_SCENARIO' });
+      let steps = 0;
+      let simOk = true;
+      while (st.state !== STATES.OUTCOME && steps < 30) {
+        steps++;
+        if (st.stateVars) {
+          for (const [varName, val] of Object.entries(st.stateVars)) {
+            if (typeof val !== 'number' || isNaN(val)) {
+              p1(`[${personaKey}] ${strategy}-path step ${steps}: stateVars["${varName}"] = ${val} — not a valid number`);
+              simOk = false;
+            }
+            const def = schema[varName];
+            if (def?.min !== undefined && val < def.min) {
+              p1(`[${personaKey}] ${strategy}-path step ${steps}: stateVars["${varName}"] = ${val} below min (${def.min}) — clamping failed`);
+              simOk = false;
+            }
+            if (def?.max !== undefined && val > def.max) {
+              p1(`[${personaKey}] ${strategy}-path step ${steps}: stateVars["${varName}"] = ${val} above max (${def.max}) — clamping failed`);
+              simOk = false;
+            }
+          }
+        }
+        if (st.state === STATES.NODE) {
+          const node = getCurrentNode(scenario, st.persona, st.currentNodeId);
+          if (!node) break;
+          if (!node.decision) {
+            const nextId = node.branches.auto;
+            if (!nextId) break;
+            st = reducer(st, { type: 'AUTO_ADVANCE', payload: { nextNodeId: nextId, node } });
+          } else {
+            const choices = node.decision.choices;
+            const choice  = strategy === 'first' ? choices[0] : choices[choices.length - 1];
+            const nextId  = resolveNext(node, choice.id);
+            st = reducer(st, { type: 'SELECT_CHOICE', payload: { choice, nextNodeId: nextId, node } });
+            st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+            st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+          }
+        } else if (st.state === STATES.FEEDBACK) {
+          st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+          st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+        }
+      }
+      if (simOk) pass(`[${personaKey}] ${strategy}-path: stateVars valid and clamped throughout`);
+    }
+  }
+}
+
+
 
 const DANGLING = [
   { re: /it mostly does\b/i,          label: 'DANGLING: "it mostly does" — unclear referent' },

@@ -6,7 +6,22 @@ export const STATES = {
   OUTCOME:        'outcome',
 };
 
+// Internal helper — clamps a numeric value to schema min/max when declared.
+// If min/max absent, returns value unchanged. Never called for null stateVars.
+function clampToSchema(value, schemaDef) {
+  if (!schemaDef) return value;
+  let v = value;
+  if (schemaDef.min !== undefined && v < schemaDef.min) v = schemaDef.min;
+  if (schemaDef.max !== undefined && v > schemaDef.max) v = schemaDef.max;
+  return v;
+}
+
 export function createInitialState(scenario) {
+  // Build stateVars from state_schema initial values when present.
+  const schema = scenario.state_schema || null;
+  const stateVars = schema
+    ? Object.fromEntries(Object.entries(schema).map(([k, def]) => [k, def.initial]))
+    : null;
   return {
     scenarioId:      scenario.id,
     state:           STATES.PERSONA_SELECT,
@@ -18,7 +33,26 @@ export function createInitialState(scenario) {
     feedbackLoading: false,
     outcomeId:       null,
     nextNodeId:      null,   // ← always initialised, never undefined
+    stateVars,               // null when scenario has no state_schema
+    stateSchema:     schema, // null when scenario has no state_schema
   };
+}
+
+// Pure export — applies state_changes deltas for a given choiceId.
+// Returns stateVars unchanged when stateVars or stateSchema is null,
+// or when the node carries no state_changes for this choice.
+// Values are clamped to schema min/max when declared.
+export function applyStateChanges(stateVars, stateSchema, stateChanges, choiceId) {
+  if (!stateVars || !stateSchema || !stateChanges) return stateVars;
+  const deltas = stateChanges[choiceId];
+  if (!deltas) return stateVars;
+  const next = { ...stateVars };
+  for (const [key, delta] of Object.entries(deltas)) {
+    if (key in next) {
+      next[key] = clampToSchema(next[key] + delta, stateSchema[key]);
+    }
+  }
+  return next;
 }
 
 export function reducer(state, action) {
@@ -42,12 +76,19 @@ export function reducer(state, action) {
       return { ...state, state: STATES.NODE, currentNodeId: 'start' };
 
     case 'SELECT_CHOICE': {
-      const { choice, nextNodeId } = action.payload;
+      const { choice, nextNodeId, node } = action.payload;
       if (!nextNodeId) {
         console.error('SELECT_CHOICE received undefined nextNodeId — ignoring');
         return state;
       }
       const isOutcome = nextNodeId.startsWith('outcome_');
+      // Apply state_changes for this choice when the scenario tracks state.
+      const updatedStateVars = applyStateChanges(
+        state.stateVars,
+        state.stateSchema,
+        node?.state_changes,
+        choice.id,
+      );
       return {
         ...state,
         selectedChoice:  choice,
@@ -57,17 +98,25 @@ export function reducer(state, action) {
         feedbackText:    null,
         outcomeId:       isOutcome ? nextNodeId : null,
         nextNodeId,
+        stateVars:       updatedStateVars,
       };
     }
 
     case 'AUTO_ADVANCE': {
-      const { nextNodeId } = action.payload;
+      const { nextNodeId, node } = action.payload;
       if (!nextNodeId) return state;
+      // Apply state_changes for 'auto' key on bridge nodes when the scenario tracks state.
+      const updatedStateVars = applyStateChanges(
+        state.stateVars,
+        state.stateSchema,
+        node?.state_changes,
+        'auto',
+      );
       const isOutcome = nextNodeId.startsWith('outcome_');
       if (isOutcome) {
-        return { ...state, state: STATES.OUTCOME, outcomeId: nextNodeId };
+        return { ...state, state: STATES.OUTCOME, outcomeId: nextNodeId, stateVars: updatedStateVars };
       }
-      return { ...state, state: STATES.NODE, currentNodeId: nextNodeId };
+      return { ...state, state: STATES.NODE, currentNodeId: nextNodeId, stateVars: updatedStateVars };
     }
 
     case 'FEEDBACK_LOADED':
