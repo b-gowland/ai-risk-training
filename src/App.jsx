@@ -12,6 +12,7 @@ import {
   trackDecisionMade,
   trackScenarioCompleted,
   trackReplayChosen,
+  trackKbLinkClicked,
 } from './utils/analytics.js';
 import { Certificate } from './components/Certificate/Certificate.jsx';
 
@@ -1582,7 +1583,8 @@ function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
           <div className={styles.kbCtaLabel}>Go deeper</div>
           <p>Full {scenario.risk_ref} reference — controls, frameworks, technical implementation.</p>
         </div>
-        <a href={scenario.kb_url} target="_blank" rel="noopener noreferrer" className={styles.kbBtn}>
+        <a href={scenario.kb_url} target="_blank" rel="noopener noreferrer" className={styles.kbBtn}
+          onClick={() => trackKbLinkClicked(scenario.id, scenario.risk_ref)}>
           Knowledge base ↗
         </a>
       </div>

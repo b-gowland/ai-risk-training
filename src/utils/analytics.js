@@ -4,7 +4,7 @@
 //
 // PLAUSIBLE GOAL SETUP (one-time, in Plausible dashboard):
 // Goals → Add goal → Custom event for each of:
-//   Practitioner track: 'Scenario Started', 'Decision Made', 'Scenario Completed', 'Card Shared', 'Replay Chosen'
+//   Practitioner track: 'Scenario Started', 'Decision Made', 'Scenario Completed', 'Card Shared', 'Replay Chosen', 'KB Link Clicked'
 //   Fork (everyday) track: 'Fork Started', 'Fork Decision', 'Fork Completed', 'Fork Card Shared', 'Fork Replayed'
 //
 // Fork events include: scenario (which of 3), node (which decision point), choice_quality, outcome, score.
@@ -54,6 +54,11 @@ export const trackCardShared = (scenarioId, outcomeTone, shareMethod) =>
 export const trackReplayChosen = (scenarioId) =>
   safe(() => trackEvent('Replay Chosen', {
     props: { scenario_id: scenarioId },
+  }));
+
+export const trackKbLinkClicked = (scenarioId, riskRef) =>
+  safe(() => trackEvent('KB Link Clicked', {
+    props: { scenario_id: scenarioId, risk_ref: riskRef },
   }));
 
 // ── Fork (everyday) track ────────────────────────────────────────
