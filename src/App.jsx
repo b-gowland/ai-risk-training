@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useState, useCallback } from 'react';
+import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getScenario } from './scenarios/index.js';
 import {
@@ -1623,6 +1623,10 @@ function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
 function ScenarioPlayer({ scenario }) {
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
 
+  // Layer-1 telemetry: track play number within this browser session.
+  // Increments on every restart so Plausible can show score-over-replays.
+  const playCount = useRef(1);
+
   // Auto-advance nodes with no decision (e.g. n3_manager_saved_it)
   useEffect(() => {
     if (state.state !== STATES.NODE) return;
@@ -1659,7 +1663,7 @@ function ScenarioPlayer({ scenario }) {
     if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
     const outcome = getOutcome(scenario, state.persona, state.outcomeId);
     if (!outcome) return;
-    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona, outcome.score);
+    trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona, outcome.score, playCount.current);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
@@ -1719,6 +1723,7 @@ function ScenarioPlayer({ scenario }) {
           <OutcomeScreen outcome={currentOutcome} scenario={scenario} persona={state.persona}
             onRestart={mode => {
               trackReplayChosen(scenario.id);
+              playCount.current += 1;
               dispatch({
                 type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
                 payload: scenario,

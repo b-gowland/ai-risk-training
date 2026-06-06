@@ -30,7 +30,7 @@ export const trackDecisionMade = (scenarioId, nodeId, choiceQuality) =>
     props: { scenario_id: scenarioId, node_id: nodeId, choice_quality: choiceQuality },
   }));
 
-export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona, score) =>
+export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona, score, playNumber) =>
   safe(() => trackEvent('Scenario Completed', {
     props: {
       scenario_id:  scenarioId,
@@ -38,6 +38,7 @@ export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, perso
       outcome_tone: outcomeTone,
       persona,
       score:        String(score ?? ''),
+      play_number:  String(playNumber ?? 1),
     },
   }));
 
