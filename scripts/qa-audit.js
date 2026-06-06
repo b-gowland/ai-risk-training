@@ -36,7 +36,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const scenarioId = process.argv[2] || 'f2-shadow-ai';
+const runAll = process.argv.includes('--all');
+const scenarioId = process.argv.find(a => !a.startsWith('--') && !a.includes('qa-audit') && !a.includes('node')) || 'f2-shadow-ai';
 
 let scenario, STATES, createInitialState, reducer, resolveNext, getCurrentNode, getOutcome;
 
@@ -567,6 +568,119 @@ if (!scenario.state_schema) {
   }
 }
 
+
+
+// ═══════════════════════════════════════════════════════════════════
+// LAYER 2d — Minimum decision depth
+// Every reachable outcome must require at least 3 decisions to reach.
+// Uses BFS to find the shortest path to each outcome for each persona.
+// Run for the current scenario, or all 32 with --all flag.
+// P1 (fail): any outcome reachable in < 3 decisions.
+// WARN:      any outcome reachable in exactly 3 decisions (borderline).
+// ═══════════════════════════════════════════════════════════════════
+console.log('\n══ Layer 2d: Minimum decision depth ══');
+
+// BFS: returns the minimum number of decisions needed to reach each outcome
+function minDecisionsToOutcomes(tree) {
+  // State: { nodeId, decisionCount }
+  const queue = [{ nodeId: 'start', decisionCount: 0 }];
+  const visited = new Map(); // nodeId → min decisions seen
+  const outcomeDepths = {}; // outcomeId → min decisions
+
+  while (queue.length > 0) {
+    const { nodeId, decisionCount } = queue.shift();
+
+    // Skip if we've already visited this node with fewer or equal decisions
+    if (visited.has(nodeId) && visited.get(nodeId) <= decisionCount) continue;
+    visited.set(nodeId, decisionCount);
+
+    const node = tree.nodes[nodeId];
+    if (!node) continue;
+
+    const branches = node.branches || {};
+
+    if (node.decision) {
+      // Decision node: each choice costs 1 decision
+      for (const target of Object.values(branches)) {
+        if (target.startsWith('outcome_')) {
+          const prev = outcomeDepths[target];
+          if (prev === undefined || decisionCount + 1 < prev) {
+            outcomeDepths[target] = decisionCount + 1;
+          }
+        } else {
+          queue.push({ nodeId: target, decisionCount: decisionCount + 1 });
+        }
+      }
+    } else {
+      // Auto-advance node: free (no decision cost)
+      const target = branches.auto;
+      if (!target) continue;
+      if (target.startsWith('outcome_')) {
+        const prev = outcomeDepths[target];
+        if (prev === undefined || decisionCount < prev) {
+          outcomeDepths[target] = decisionCount;
+        }
+      } else {
+        queue.push({ nodeId: target, decisionCount });
+      }
+    }
+  }
+
+  return outcomeDepths;
+}
+
+function auditDepthForScenario(s, label) {
+  let depthP1 = 0;
+  let depthWarn = 0;
+  for (const [personaKey, tree] of Object.entries(s.trees)) {
+    const depths = minDecisionsToOutcomes(tree);
+    for (const [outcomeId, minDecisions] of Object.entries(depths)) {
+      const ref = `${label}[${personaKey}] ${outcomeId}`;
+      if (minDecisions < 3) {
+        p1(`${ref} — reachable in ${minDecisions} decision(s) — minimum is 3`);
+        depthP1++;
+      } else if (minDecisions === 3) {
+        warn(`${ref} — reachable in exactly 3 decisions (borderline — consider extending)`);
+        depthWarn++;
+      } else {
+        pass(`${ref} — min depth ${minDecisions} decisions ✓`);
+      }
+    }
+  }
+  return { depthP1, depthWarn };
+}
+
+if (runAll) {
+  console.log('  Running depth audit across ALL scenarios...\n');
+  const { scenarios: allScenarios } = await import('../src/scenarios/index.js');
+  let totalDepthP1 = 0;
+  let totalDepthWarn = 0;
+  const thinScenarios = [];
+
+  for (const s of allScenarios) {
+    if (s.stub) continue;
+    const { depthP1, depthWarn } = auditDepthForScenario(s, `${s.id} `);
+    if (depthP1 > 0) thinScenarios.push({ id: s.id, title: s.title, depthP1 });
+    totalDepthP1 += depthP1;
+    totalDepthWarn += depthWarn;
+  }
+
+  console.log('\n  ── Depth audit summary ──');
+  if (thinScenarios.length === 0) {
+    pass('All scenarios meet minimum depth of 3 decisions per outcome path');
+  } else {
+    console.log(`  ${FAIL} ${thinScenarios.length} scenario(s) have thin paths (< 3 decisions):`);
+    for (const { id, title, depthP1: n } of thinScenarios) {
+      console.log(`     • ${id} — ${title} (${n} thin path(s))`);
+    }
+  }
+  console.log(`  Total thin paths (P1): ${totalDepthP1}`);
+  console.log(`  Total borderline paths (warn): ${totalDepthWarn}`);
+} else {
+  // Single scenario mode
+  auditDepthForScenario(scenario, '');
+  pass('Depth check complete for this scenario. Run with --all to audit all 32.');
+}
 
 
 const DANGLING = [
