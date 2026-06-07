@@ -81,8 +81,43 @@ export const scenario = {
                 note: `The vendor can explain the technical change. Only your team can explain the operational impact. These are different questions and both need answers.` },
             ],
           },
-          branches: { a: 'n2_documented', b: 'n2_general', c: 'outcome_warn' },
+          branches: { a: 'n2_documented', b: 'n2_general', c: 'n_bu_unravel' },
         },
+
+        n_bu_unravel: {
+          scene:       `office-meeting`,
+          caption:     `The vendor joins the call and gives a generic account — \"a routine model update, performance should be comparable.\" It explains nothing your team saw: the tone shifts, the wrong answers, the queries that started failing three weeks ago. The COO turns to you.`,
+          sub_caption: `Only your team has the operational detail. You tried to hand it to the vendor.`,
+          decision: {
+            prompt: `\"You flagged this weeks ago. What did you actually see?\" the COO asks.`,
+            choices: [
+              { id: 'a', label: `Give the specifics your team logged: which query types changed, old versus new responses, and the three-week timeline.`, quality: 'good',
+                note: `The operational account is the part the vendor cannot provide. Your logs are the spine of the investigation.` },
+              { id: 'b', label: `Describe it generally — responses felt off — and suggest the vendor fill in the technical detail.`, quality: 'partial',
+                note: `A general account is better than deferral but leaves the timeline and examples your team holds out of the record.` },
+              { id: 'c', label: `Stay out of it and let the vendor explain the change — they own the model.`, quality: 'poor',
+                note: `The vendor owns the model; only your team owns what the change did to customers. Deferring removes the evidence the COO needs.` },
+            ],
+          },
+          branches: { a: 'n3_staff_resistance', b: 'n4_thirty_days', c: 'n_bu_dig' },
+        },
+
+        n_bu_dig: {
+          scene:       `desk-focused`,
+          caption:     `The COO is still waiting. Your team's log is open on your screen — the examples are right there.`,
+          sub_caption: `\"I need the operational picture, and you're the one who has it.\"`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Pull the log and walk the COO through the examples and timeline — late, but complete.`, quality: 'partial',
+                note: `A late but full account recovers the evidence; the initial deferral is now part of the incident write-up.` },
+              { id: 'b', label: `Maintain that the technical explanation should come from the vendor.`, quality: 'poor',
+                note: `A second deferral leaves the investigation with the vendor's comparable-performance line and none of the operational reality.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_documented: {
           scene:       `office-meeting-hearing`,
@@ -193,8 +228,43 @@ export const scenario = {
                 note: `The vendor has already confirmed the change. Understanding the detail is useful but not a precondition for suspension. The system should not run on an untested model while you hold a meeting.` },
             ],
           },
-          branches: { a: 'n2_suspend', b: 'n2_breach', c: 'outcome_warn' },
+          branches: { a: 'n2_suspend', b: 'n2_breach', c: 'n_exec_unravel' },
         },
+
+        n_exec_unravel: {
+          scene:       `boardroom-crisis`,
+          caption:     `You asked for a vendor meeting before acting. It takes four days to schedule. In those four days the AI keeps running on the unverified model, and a customer complaint about a clearly wrong automated answer reaches your regulator's attention.`,
+          sub_caption: `The delay is now part of the timeline.`,
+          decision: {
+            prompt: `Your risk committee asks why the system stayed live. What do you do now?`,
+            choices: [
+              { id: 'a', label: `Suspend the system immediately pending regression testing, and issue the formal contractual breach notice to the vendor.`, quality: 'good',
+                note: `The two actions you deferred. Doing them now contains the harm and establishes the contractual position — late, but correct.` },
+              { id: 'b', label: `Issue the breach notice but keep the system running under enhanced monitoring.`, quality: 'partial',
+                note: `Establishes the contract position but leaves an unverified model making customer decisions — a hard call to defend after a complaint.` },
+              { id: 'c', label: `Hold for the vendor meeting — you still want to understand the change before acting.`, quality: 'poor',
+                note: `A third deferral after a customer was affected reads as an inability to act on a known risk without the counterparty's permission.` },
+            ],
+          },
+          branches: { a: 'n3_contract_challenge', b: 'n4_thirty_days', c: 'n_exec_dig' },
+        },
+
+        n_exec_dig: {
+          scene:       `boardroom-crisis`,
+          caption:     `The committee chair cuts in. \"Blake — is the system still running on a model we haven't tested?\"`,
+          sub_caption: `The answer is yes, and everyone knows it.`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Suspend it now, on the spot, and commit to the breach notice and regression plan.`, quality: 'partial',
+                note: `The right action arrives only under the chair's pressure; the suspension holds, but the four-day delay is on the record.` },
+              { id: 'b', label: `Argue that suspending without understanding the change could disrupt service unnecessarily.`, quality: 'poor',
+                note: `Service continuity is a real concern, but defending continued use of an untested model after a complaint inverts the risk priority.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_warn' },
+        },
+
 
         n2_suspend: {
           scene:       `office-bright`,
@@ -305,8 +375,43 @@ export const scenario = {
                 note: `The team did what they were asked to do — log it. If a tracker entry is not an escalation, that is a process design failure, not a staff failure.` },
             ],
           },
-          branches: { a: 'n2_own', b: 'n2_vendor_focus', c: 'outcome_bad' },
+          branches: { a: 'n2_own', b: 'n2_vendor_focus', c: 'n_pm_unravel' },
         },
+
+        n_pm_unravel: {
+          scene:       `office-meeting-hearing`,
+          caption:     `You said the team should have escalated harder. The investigation pulls the contract: the vendor owed a 30-day notice of any material model change and gave none. It also pulls your monitoring spec — the drift checks that would have caught this were on your roadmap, unbuilt. The team's tracker entry went to a process you owned.`,
+          sub_caption: `The breach was the vendor's. The detection gap was yours.`,
+          decision: {
+            prompt: `The COO asks you to account for the detection failure. What do you say?`,
+            choices: [
+              { id: 'a', label: `Own it: the notification clause and the monitoring were my responsibility, the team's flag had nowhere to go, and here's how I'd close both.`, quality: 'good',
+                note: `Owning the product gaps is what lets you lead the fix. The team's flag failing is evidence of your routing gap, not their urgency.` },
+              { id: 'b', label: `Accept the monitoring gap but note the team could have escalated outside the tracker too.`, quality: 'partial',
+                note: `Half-ownership. The monitoring and the routing were yours; spreading the blame dilutes the fix.` },
+              { id: 'c', label: `Hold that the team under-escalated a change they clearly noticed.`, quality: 'poor',
+                note: `Blaming the people who detected the problem, while the contract breach and the monitoring gap sit unaddressed, is the worst available account.` },
+            ],
+          },
+          branches: { a: 'n3_cab_pushback', b: 'n4_thirty_days', c: 'n_pm_dig' },
+        },
+
+        n_pm_dig: {
+          scene:       `desk-focused`,
+          caption:     `The COO has the contract and your monitoring roadmap side by side. \"Whose job was it to catch this?\"`,
+          sub_caption: `Both documents point at the product owner.`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it was mine — the notification check and the drift monitoring — and stop attributing it to the team.`, quality: 'partial',
+                note: `A late but clean concession that lets the remediation start; the initial deflection is now noted alongside the gap.` },
+              { id: 'b', label: `Maintain that earlier team escalation would have surfaced it regardless.`, quality: 'poor',
+                note: `A second deflection onto the team, against a contract breach and your own unbuilt monitoring, confirms an ownership problem on top of the detection gap.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_own: {
           scene:       `office-bright`,

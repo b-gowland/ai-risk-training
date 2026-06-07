@@ -84,8 +84,43 @@ export const scenario = {
                 note: `Your manager needs this information to scope the incident. Legal involvement is appropriate but it should not prevent you from providing a factual account of what was submitted.` },
             ],
           },
-          branches: { a: 'n2_full', b: 'n2_partial', c: 'outcome_warn' },
+          branches: { a: 'n2_full', b: 'n2_partial', c: 'n_bu_unravel' },
         },
+
+        n_bu_unravel: {
+          scene:       `office-meeting`,
+          caption:     `You declined to describe the documents without Legal present. The incident response stalls — and meanwhile the security team confirms the tool has been routing documents to an external model the whole time. They need to know what kind of documents your team submitted, and how many.`,
+          sub_caption: `These are facts about volume and category, not privileged content.`,
+          decision: {
+            prompt: `The security lead asks again: what has your team been putting through the tool?`,
+            choices: [
+              { id: 'a', label: `Describe the document types and rough volumes now — categories and counts, no privileged content — so they can scope the exposure.`, quality: 'good',
+                note: `The facts they need aren't privileged. Providing the inventory now is what lets the response size the problem.` },
+              { id: 'b', label: `Give a high-level category only and defer the specifics until Legal is in the room.`, quality: 'partial',
+                note: `A partial inventory helps but leaving volumes and types vague slows a response that is racing an open exposure.` },
+              { id: 'c', label: `Hold your position — nothing about the documents without Legal present.`, quality: 'poor',
+                note: `Treating a scoping question as a privilege question stalls containment while client data may still be flowing externally.` },
+            ],
+          },
+          branches: { a: 'n3_colleague_pressure', b: 'n4_thirty_days', c: 'n_bu_dig' },
+        },
+
+        n_bu_dig: {
+          scene:       `desk-focused`,
+          caption:     `The exposure is still open. The security team has a holding page ready but needs your document inventory to finish the assessment.`,
+          sub_caption: `Legal has been looped in by email and signalled the categories are fine to share.`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Provide the document inventory now — types, volumes, the client matters affected.`, quality: 'partial',
+                note: `A late inventory still lets the assessment close; the delay is part of the incident timeline.` },
+              { id: 'b', label: `Wait until Legal can attend in person before sharing anything.`, quality: 'poor',
+                note: `Insisting on in-person Legal for a factual inventory, after written sign-off, prioritises caution over a live data exposure.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_full: {
           scene:       `office-meeting-hearing`,
@@ -196,8 +231,43 @@ export const scenario = {
                 note: `Vendor confirmation is useful but takes time. In the interim, the product is still running. Suspend first — understand the scope while the suspension is in place.` },
             ],
           },
-          branches: { a: 'n2_full_response', b: 'n2_board_first', c: 'outcome_warn' },
+          branches: { a: 'n2_full_response', b: 'n2_board_first', c: 'n_exec_unravel' },
         },
+
+        n_exec_unravel: {
+          scene:       `boardroom-crisis`,
+          caption:     `You chose to ask the vendor for clarification before acting. While you waited, confidential client documents kept routing through the external foundation model. The exposure window widened by two days, and the security team flags that every hour adds documents.`,
+          sub_caption: `The data flow was the thing to stop first.`,
+          decision: {
+            prompt: `The risk committee asks for your decision now. What is it?`,
+            choices: [
+              { id: 'a', label: `Suspend the data flow to the vendor immediately, then pursue the facts about what the sub-processor received.`, quality: 'good',
+                note: `Stopping the flow is the containment action; the vendor conversation can happen with the exposure closed.` },
+              { id: 'b', label: `Restrict the tool to non-confidential documents while you investigate.`, quality: 'partial',
+                note: `Reduces the exposure but leaves a confidential-data judgement call in users' hands mid-incident.` },
+              { id: 'c', label: `Keep waiting for the vendor's account before changing anything.`, quality: 'poor',
+                note: `A third deferral while documents keep flowing externally treats the counterparty's explanation as a precondition for protecting your own data.` },
+            ],
+          },
+          branches: { a: 'n3_vendor_negotiation', b: 'n4_thirty_days', c: 'n_exec_dig' },
+        },
+
+        n_exec_dig: {
+          scene:       `boardroom-crisis`,
+          caption:     `The committee chair asks the question directly. \"Is client data still going to that external model right now?\"`,
+          sub_caption: `It is.`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Order the data flow suspended immediately and brief the committee on the remediation plan.`, quality: 'partial',
+                note: `The containment action, taken late under pressure. It holds, but the widened exposure window is on the record.` },
+              { id: 'b', label: `Argue that an abrupt suspension could break a process the business depends on.`, quality: 'poor',
+                note: `Business continuity is real, but defending continued external data flow during a live exposure inverts the priority.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_full_response: {
           scene:       `office-bright`,
@@ -315,8 +385,43 @@ export const scenario = {
                 note: `The standard was not adequate for AI vendor onboarding. Defending an inadequate standard because it was the standard is not a root cause analysis.` },
             ],
           },
-          branches: { a: 'n2_own', b: 'n2_vendor', c: 'outcome_bad' },
+          branches: { a: 'n2_own', b: 'n2_vendor', c: 'n_pm_unravel' },
         },
+
+        n_pm_unravel: {
+          scene:       `office-meeting-hearing`,
+          caption:     `You stood on the DPA and the SOC 2 report as the onboarding standard. The CRO asks a simple question your DDQ never did: where does the foundation model run, and who is the sub-processor? Neither document answers it. The exposure went through exactly the gap the questionnaire didn't cover.`,
+          sub_caption: `The process was followed. The process didn't ask the question that mattered.`,
+          decision: {
+            prompt: `The CRO asks whether the DDQ was fit for an AI vendor. What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it wasn't: a DPA and SOC 2 don't surface model hosting or sub-processors, and I'll rebuild the DDQ with AI-specific questions.`, quality: 'good',
+                note: `Naming the gap in your own process is what lets you lead the portfolio remediation rather than defend a questionnaire that missed the risk.` },
+              { id: 'b', label: `Defend the DDQ as standard practice but accept it needs an AI addendum.`, quality: 'partial',
+                note: `Half-ownership. \"Standard\" is exactly the problem — an AI vendor needed questions the standard didn't include.` },
+              { id: 'c', label: `Maintain that DPA plus SOC 2 is the accepted onboarding bar and was met.`, quality: 'poor',
+                note: `Insisting the bar was met, when the exposure ran straight through what the bar didn't ask, defends the process at the cost of the lesson.` },
+            ],
+          },
+          branches: { a: 'n3_portfolio_finding', b: 'n4_thirty_days', c: 'n_pm_dig' },
+        },
+
+        n_pm_dig: {
+          scene:       `desk-focused`,
+          caption:     `The CRO lays the DDQ next to the incident summary. The questionnaire has no line for model hosting or sub-processors.`,
+          sub_caption: `\"Did our onboarding ever ask where the data actually goes?\"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it didn't, and commit to a retroactive AI-specific review of the vendor portfolio.`, quality: 'partial',
+                note: `A late but clean concession that opens the real fix — checking the other vendors onboarded under the same gap.` },
+              { id: 'b', label: `Maintain that the onboarding met the documented standard at the time.`, quality: 'poor',
+                note: `A second defence of the standard, against an exposure that exploited its blind spot, keeps the portfolio gap open.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_own: {
           scene:       `office-meeting`,
@@ -427,8 +532,43 @@ export const scenario = {
                 note: `Contacting the vendor before briefing internally means the vendor knows about the gap before your leadership does. That creates a power imbalance in subsequent negotiations.` },
             ],
           },
-          branches: { a: 'n2_scope', b: 'n2_quick', c: 'outcome_warn' },
+          branches: { a: 'n2_scope', b: 'n2_quick', c: 'n_analyst_unravel' },
         },
+
+        n_analyst_unravel: {
+          scene:       `analyst-desk`,
+          caption:     `You decided to ask the vendor what their sub-processor handles before briefing anyone internally. The API traffic to the public endpoint continues while you wait for a reply. Two days later the vendor responds with a non-answer — and your internal security leadership still doesn't know.`,
+          sub_caption: `The evidence was already in your traffic logs.`,
+          decision: {
+            prompt: `Your CISO finds out from a peer team and asks why security sat on it. What do you do?`,
+            choices: [
+              { id: 'a', label: `Brief leadership now with the traffic evidence — endpoints, timing, volumes — and engage the vendor in parallel.`, quality: 'good',
+                note: `The internal brief is the action that should have come first; the logs are the evidence, and the vendor can be chased alongside.` },
+              { id: 'b', label: `Send a preliminary flag now and hold the full brief until the vendor replies properly.`, quality: 'partial',
+                note: `A flag is better than silence, but tying the full brief to a vendor reply you've already seen them dodge keeps leadership under-informed.` },
+              { id: 'c', label: `Keep waiting for a substantive vendor explanation before escalating.`, quality: 'poor',
+                note: `A third delay on internal escalation, while traffic continues and the evidence sits in your logs, is the failure the CISO is asking about.` },
+            ],
+          },
+          branches: { a: 'n3_vendor_response', b: 'n4_thirty_days', c: 'n_analyst_dig' },
+        },
+
+        n_analyst_dig: {
+          scene:       `desk-focused`,
+          caption:     `The CISO has your traffic logs open. The external endpoint connections are unambiguous.`,
+          sub_caption: `\"You had this two days ago. Why am I hearing it now?\"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Brief it fully now — the evidence, the timeline, the exposure — and own the delay.`, quality: 'partial',
+                note: `A late but complete escalation that lets leadership act; the two-day gap is now part of the record.` },
+              { id: 'b', label: `Maintain that escalating before the vendor confirmed would have been premature.`, quality: 'poor',
+                note: `Calling a documented, ongoing external data flow \"premature\" to escalate is the exact judgement error that delayed the response.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_scope: {
           scene:       `office-meeting-aftermath`,

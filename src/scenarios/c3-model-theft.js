@@ -65,6 +65,38 @@ export const scenario = {
           branches: { a: 'n2_legal', b: 'n2_contact_first', c: 'n2_wait' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The extraction attempt is contained — key revoked, logs preserved, Legal engaged. The CRO asks what changes so an unthrottled key can't be exploited again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Enforce rate limiting and query-anomaly detection at the API gateway for every key, not just this contract.`, quality: 'good',
+                note: `Binds the failure path at the layer it failed — gateway controls on all keys with detection for extraction-shaped traffic.` },
+              { id: 'b', label: `Revoke the key and tighten the terms on this specific contract.`, quality: 'partial',
+                note: `Closes this instance but leaves every other key on the same unthrottled gateway.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `boardroom-crisis`,
+          caption:     `The model's decision surface may already be mapped by the queries that got through. The CRO asks how you limit the exposure.`,
+          sub_caption: `The damage is done; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the likely compromise?`,
+            choices: [
+              { id: 'a', label: `Preserve evidence, notify Legal and any affected parties, and plan retraining on the assumption the surface is compromised.`, quality: 'partial',
+                note: `Treating it as a real compromise — evidence, notification, retraining — is the recoverable response, late as it is.` },
+              { id: 'b', label: `Treat it as a probable one-off and avoid escalating further.`, quality: 'poor',
+                note: `Assuming the best about a mapped decision surface leaves a stolen-model risk unmanaged.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_legal: {
           scene:       'boardroom-crisis',
           caption:     'Key revoked. Logs preserved. Legal is now in the room.',
@@ -78,7 +110,7 @@ export const scenario = {
                 note: 'Clean and fast. But if the partner is now running a competing product built on your model, remediation without enforcement leaves that standing.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_contact_first: {
@@ -94,15 +126,23 @@ export const scenario = {
                 note: 'An unverifiable deletion offer from a party who just extracted your proprietary model is not a resolution. Reinstatement before investigation is not a defensible position.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_wait: {
           scene:       'desk-working-night',
           caption:     'Technical analysis confirms the pattern is extraction. The model decision surface is likely fully mapped.',
           sub_caption: 'Four hours have passed. The partner is unreachable.',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `Four hours have passed and the model's decision surface is likely fully mapped. The partner is unreachable. What now?`,
+            choices: [
+              { id: 'a', label: `Escalate to the CISO and Legal now, preserve all logs, and treat the model as compromised.`, quality: 'partial',
+                note: `Acting on what you know beats waiting on a counterparty who isn't answering; the evidence and the clock both favour escalation.` },
+              { id: 'b', label: `Keep trying to reach the partner before escalating internally.`, quality: 'poor',
+                note: `Chasing the counterparty while the surface is mapped prioritises their explanation over your own response.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
       },
 
@@ -151,6 +191,38 @@ export const scenario = {
           branches: { a: 'n2_own', b: 'n2_deflect', c: 'n2_intent' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The extraction attempt is contained — key revoked, logs preserved, Legal engaged. The CRO asks what changes so an unthrottled key can't be exploited again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Enforce rate limiting and query-anomaly detection at the API gateway for every key, not just this contract.`, quality: 'good',
+                note: `Binds the failure path at the layer it failed — gateway controls on all keys with detection for extraction-shaped traffic.` },
+              { id: 'b', label: `Revoke the key and tighten the terms on this specific contract.`, quality: 'partial',
+                note: `Closes this instance but leaves every other key on the same unthrottled gateway.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `boardroom-crisis`,
+          caption:     `The model's decision surface may already be mapped by the queries that got through. The CRO asks how you limit the exposure.`,
+          sub_caption: `The damage is done; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the likely compromise?`,
+            choices: [
+              { id: 'a', label: `Preserve evidence, notify Legal and any affected parties, and plan retraining on the assumption the surface is compromised.`, quality: 'partial',
+                note: `Treating it as a real compromise — evidence, notification, retraining — is the recoverable response, late as it is.` },
+              { id: 'b', label: `Treat it as a probable one-off and avoid escalating further.`, quality: 'poor',
+                note: `Assuming the best about a mapped decision surface leaves a stolen-model risk unmanaged.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_own: {
           scene:       'office-bright',
           caption:     'The CRO accepts the account. She wants a remediation proposal within 48 hours.',
@@ -164,7 +236,7 @@ export const scenario = {
                 note: 'Necessary but insufficient. Fixing the process for future partners does not address the eight keys already live without the control. The immediate risk is in the existing base.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'n3_future_only' },
+          branches: { a: 'n3_resolve', b: 'n3_future_only' },
         },
 
         n2_deflect: {
@@ -180,15 +252,23 @@ export const scenario = {
                 note: 'Engineering cannot implement a control they were not told was required. The contract sat in your team. The gap is the absence of a handoff — and that sits with the process owner.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_intent: {
           scene:       'office-briefing',
           caption:     'The CRO notes that intent is not the question. The rate limit is a control, not a trust signal.',
           sub_caption: 'She asks again: why was it not configured?',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          decision: {
+            prompt: `The CRO presses: the rate limit was a control, not a trust signal. Why was it never configured?`,
+            choices: [
+              { id: 'a', label: `Own the configuration miss directly and move to enforce limits across all keys.`, quality: 'partial',
+                note: `The control failed because it was never set; owning that is what gets it fixed everywhere, not just here.` },
+              { id: 'b', label: `Keep arguing that the partner appeared legitimate.`, quality: 'poor',
+                note: `Re-litigating the partner's intent dodges the question the CRO actually asked — about the missing control.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
 
         n3_future_only: {
@@ -196,7 +276,7 @@ export const scenario = {
           caption:     'The updated checklist goes live. Two weeks later, security flags unusual query volume from a second partner key — one of the eight with no rate limiting.',
           sub_caption: 'The existing risk was not addressed.',
           decision: null,
-          branches: { auto: 'outcome_warn' },
+          branches: { auto: 'n3_resolve' },
         },
       },
 
@@ -245,6 +325,38 @@ export const scenario = {
           branches: { a: 'n2_escalated', b: 'n2_delayed', c: 'n2_informal' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The extraction attempt is contained — key revoked, logs preserved, Legal engaged. The CRO asks what changes so an unthrottled key can't be exploited again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Enforce rate limiting and query-anomaly detection at the API gateway for every key, not just this contract.`, quality: 'good',
+                note: `Binds the failure path at the layer it failed — gateway controls on all keys with detection for extraction-shaped traffic.` },
+              { id: 'b', label: `Revoke the key and tighten the terms on this specific contract.`, quality: 'partial',
+                note: `Closes this instance but leaves every other key on the same unthrottled gateway.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `boardroom-crisis`,
+          caption:     `The model's decision surface may already be mapped by the queries that got through. The CRO asks how you limit the exposure.`,
+          sub_caption: `The damage is done; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the likely compromise?`,
+            choices: [
+              { id: 'a', label: `Preserve evidence, notify Legal and any affected parties, and plan retraining on the assumption the surface is compromised.`, quality: 'partial',
+                note: `Treating it as a real compromise — evidence, notification, retraining — is the recoverable response, late as it is.` },
+              { id: 'b', label: `Treat it as a probable one-off and avoid escalating further.`, quality: 'poor',
+                note: `Assuming the best about a mapped decision surface leaves a stolen-model risk unmanaged.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_escalated: {
           scene:       'boardroom-crisis',
           caption:     'The CISO is on a call with you by 7:40am. She asks for your technical assessment of extraction completeness.',
@@ -274,15 +386,23 @@ export const scenario = {
                 note: 'The log is the foundation but Legal needs your technical interpretation — they cannot independently assess whether 50,000 queries is sufficient to reconstruct the model. That analysis is yours to provide.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_delayed: {
           scene:       'desk-working',
           caption:     'Your extended analysis confirms extraction. It is now 9:15am. The partner\'s offices opened at 9am.',
           sub_caption: 'The CISO asks why the escalation did not come earlier.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          decision: {
+            prompt: `The escalation lands at 9:15am, after the partner's offices opened. The CISO asks why it was late. What do you say?`,
+            choices: [
+              { id: 'a', label: `Own the delay, hand over the full evidence package now, and flag the exposure window.`, quality: 'partial',
+                note: `A straight account of the delay plus complete evidence lets the response proceed; the timing is noted, not hidden.` },
+              { id: 'b', label: `Downplay the timing and focus on the analysis quality.`, quality: 'poor',
+                note: `Minimising a delay the CISO already flagged adds an evasion to a response that's already behind.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
 
         n2_informal: {
@@ -298,7 +418,7 @@ export const scenario = {
                 note: 'A change-log check would have taken two minutes. The real issue is that the escalation threshold for a clear extraction pattern is not "I am certain" — it is "this is significant enough for the CISO to decide."' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
       },
 

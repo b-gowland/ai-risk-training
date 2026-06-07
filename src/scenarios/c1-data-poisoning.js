@@ -65,6 +65,38 @@ export const scenario = {
           branches: { a: 'n2_suspended', b: 'n2_partial', c: 'n2_wait' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The model is suspended and the investigation is closing out. The CRO asks what changes so a poisoned training pipeline can't reach production again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Restrict training-label write access to named owners and add label-provenance monitoring that flags anomalous label shifts.`, quality: 'good',
+                note: `Binds the actual failure path — who can change labels, and detection when they change suspiciously.` },
+              { id: 'b', label: `Tighten access broadly and commit to closer monitoring of model performance.`, quality: 'partial',
+                note: `Directionally right but vague; "closer monitoring" without a provenance signal is how the first poisoning went unseen.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `The compromised decisions that already went out are being tallied. The CRO asks how you limit the fallout.`,
+          sub_caption: `The damage is done; the question is whether it is contained or hidden.`,
+          decision: {
+            prompt: `How do you handle the decisions already made?`,
+            choices: [
+              { id: 'a', label: `Identify and review every affected decision, correct them, and disclose the scope to the CRO and affected stakeholders.`, quality: 'partial',
+                note: `Containment plus disclosure is the recoverable path — late, but it limits the harm and keeps the response honest.` },
+              { id: 'b', label: `Quietly correct decisions going forward and avoid drawing attention to the ones already out.`, quality: 'poor',
+                note: `Leaving the issued decisions unaddressed turns a model failure into a concealment — the worse and less defensible outcome.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_suspended: {
           scene:       'office-meeting',
           caption:     'Model suspended. The technical investigation is underway. Manual review has a backlog within four hours.',
@@ -78,23 +110,39 @@ export const scenario = {
                 note: 'Retraining is correct. But 847 manipulated records over eleven weeks, with a 40% increase in confirmed fraud losses, is a board-level event. Notifying after reinstatement rather than before puts the board in the position of learning about a resolved incident rather than exercising oversight.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_partial: {
           scene:       'desk-review',
           caption:     'The technical investigation confirms manipulation. The model\'s high-confidence decisions are the ones most affected — the manipulation was designed to produce them.',
           sub_caption: 'Low-confidence flagging was the wrong filter. The compromised decisions were the high-confidence ones.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          decision: {
+            prompt: `The wrong filter caught low-confidence decisions; the manipulation was built into the high-confidence ones. What now?`,
+            choices: [
+              { id: 'a', label: `Widen the review to the high-confidence decisions and re-suspend the model until they are checked.`, quality: 'partial',
+                note: `Following the manipulation to where it actually lives is the only way the partial response stops being a false reassurance.` },
+              { id: 'b', label: `Leave the low-confidence filter running and monitor for further drift.`, quality: 'poor',
+                note: `The filter already missed the affected decisions; trusting it again lets the compromised outputs keep flowing.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
 
         n2_wait: {
           scene:       'desk-waiting',
           caption:     'The technical briefing takes two days. In that time, the model makes 1,400 automated decisions.',
           sub_caption: 'Investigation confirms the manipulation targets high-value transactions specifically.',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `1,400 automated decisions went out while you waited for the briefing. What do you do?`,
+            choices: [
+              { id: 'a', label: `Suspend the model now and pull the 1,400 decisions for review.`, quality: 'partial',
+                note: `Containing the active harm comes before completeness; every hour of waiting adds compromised decisions.` },
+              { id: 'b', label: `Let the full technical briefing finish before acting.`, quality: 'poor',
+                note: `More certainty at the cost of more harm — the decisions keep going out while you wait to be sure.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
       },
 
@@ -143,6 +191,38 @@ export const scenario = {
           branches: { a: 'n2_own', b: 'n2_classify', c: 'n2_normal' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The model is suspended and the investigation is closing out. The CRO asks what changes so a poisoned training pipeline can't reach production again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Restrict training-label write access to named owners and add label-provenance monitoring that flags anomalous label shifts.`, quality: 'good',
+                note: `Binds the actual failure path — who can change labels, and detection when they change suspiciously.` },
+              { id: 'b', label: `Tighten access broadly and commit to closer monitoring of model performance.`, quality: 'partial',
+                note: `Directionally right but vague; "closer monitoring" without a provenance signal is how the first poisoning went unseen.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `The compromised decisions that already went out are being tallied. The CRO asks how you limit the fallout.`,
+          sub_caption: `The damage is done; the question is whether it is contained or hidden.`,
+          decision: {
+            prompt: `How do you handle the decisions already made?`,
+            choices: [
+              { id: 'a', label: `Identify and review every affected decision, correct them, and disclose the scope to the CRO and affected stakeholders.`, quality: 'partial',
+                note: `Containment plus disclosure is the recoverable path — late, but it limits the harm and keeps the response honest.` },
+              { id: 'b', label: `Quietly correct decisions going forward and avoid drawing attention to the ones already out.`, quality: 'poor',
+                note: `Leaving the issued decisions unaddressed turns a model failure into a concealment — the worse and less defensible outcome.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_own: {
           scene:       'office-bright',
           caption:     'The CRO accepts the account. She wants the access controls implemented before the model is retrained.',
@@ -156,7 +236,7 @@ export const scenario = {
                 note: 'Getting the fraud model fixed is urgent. But if the other three pipelines are already being used for training runs, the next sprint may be too slow. The fix for a known write access gap on a production training pipeline should not wait for a sprint cycle.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'n3_one_pipeline' },
+          branches: { a: 'n3_resolve', b: 'n3_one_pipeline' },
         },
 
         n2_classify: {
@@ -172,15 +252,23 @@ export const scenario = {
                 note: 'Process failures and judgement failures are not mutually exclusive. The question is whether a platform lead with domain knowledge should have recognised that a medium-severity write access gap on a production ML training pipeline warranted escalation.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_normal: {
           scene:       'office-briefing-urgent',
           caption:     'The CRO pulls the design specification. Three accounts — that was the design intent. Twelve was the gap.',
           sub_caption: '"This was not a conservative recommendation. The design called for three. Why did you have twelve?"',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `The design called for three privileged accounts; you ran with twelve. How do you answer the CRO?`,
+            choices: [
+              { id: 'a', label: `Own the access gap directly and move to revoke the unneeded accounts now.`, quality: 'partial',
+                note: `Naming the gap and closing it is what turns a finding into a fix rather than a dispute.` },
+              { id: 'b', label: `Defend the twelve as operationally necessary.`, quality: 'poor',
+                note: `Defending the access that enabled the poisoning, against the design spec, compounds the original failure.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
 
         n3_one_pipeline: {
@@ -188,7 +276,7 @@ export const scenario = {
           caption:     'The fraud model fix is implemented. Six weeks later, a second model shows an anomalous performance pattern.',
           sub_caption: 'One of the three other pipelines with broad write access has been used for a training run in the interim.',
           decision: null,
-          branches: { auto: 'outcome_warn' },
+          branches: { auto: 'n3_resolve' },
         },
       },
 
@@ -237,6 +325,38 @@ export const scenario = {
           branches: { a: 'n2_targeted', b: 'n2_immediate', c: 'n2_full_audit' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The model is suspended and the investigation is closing out. The CRO asks what changes so a poisoned training pipeline can't reach production again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Restrict training-label write access to named owners and add label-provenance monitoring that flags anomalous label shifts.`, quality: 'good',
+                note: `Binds the actual failure path — who can change labels, and detection when they change suspiciously.` },
+              { id: 'b', label: `Tighten access broadly and commit to closer monitoring of model performance.`, quality: 'partial',
+                note: `Directionally right but vague; "closer monitoring" without a provenance signal is how the first poisoning went unseen.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `The compromised decisions that already went out are being tallied. The CRO asks how you limit the fallout.`,
+          sub_caption: `The damage is done; the question is whether it is contained or hidden.`,
+          decision: {
+            prompt: `How do you handle the decisions already made?`,
+            choices: [
+              { id: 'a', label: `Identify and review every affected decision, correct them, and disclose the scope to the CRO and affected stakeholders.`, quality: 'partial',
+                note: `Containment plus disclosure is the recoverable path — late, but it limits the harm and keeps the response honest.` },
+              { id: 'b', label: `Quietly correct decisions going forward and avoid drawing attention to the ones already out.`, quality: 'poor',
+                note: `Leaving the issued decisions unaddressed turns a model failure into a concealment — the worse and less defensible outcome.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_targeted: {
           scene:       'desk-working',
           caption:     'In 25 minutes you find it: precision improvement tracks label changes in the fraud-confirmed bucket — specifically, transactions above $8,000 being relabelled as legitimate across 11 weeks of training batches.',
@@ -250,7 +370,7 @@ export const scenario = {
                 note: 'The model risk committee is a reasonable first step, but deliberate data manipulation is beyond their usual remit. The CRO needs to be informed simultaneously — not via a committee decision about whether to escalate further.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'n3_committee_only' },
+          branches: { a: 'n3_resolve', b: 'n3_committee_only' },
         },
 
         n2_immediate: {
@@ -266,15 +386,23 @@ export const scenario = {
                 note: 'The two numbers are suggestive but the committee is asking a reasonable question. Pushing without providing the analysis they need is less effective than providing it.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_full_audit: {
           scene:       'desk-focused',
           caption:     'Your full audit takes two days. The investigation finds 847 manipulated labels. The model has retrained twice more in the interim.',
           sub_caption: 'Two additional training runs on manipulated data have deepened the corruption.',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `Two more training runs happened on manipulated data while your audit ran. What now?`,
+            choices: [
+              { id: 'a', label: `Halt retraining immediately and roll back to the last clean checkpoint.`, quality: 'partial',
+                note: `Stopping the corruption from deepening matters more than finishing a perfect audit first.` },
+              { id: 'b', label: `Let the audit complete before changing anything.`, quality: 'poor',
+                note: `Each retraining run bakes the manipulation in further; waiting for a complete audit lets the corruption compound.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
 
         n3_committee_only: {
@@ -282,7 +410,7 @@ export const scenario = {
           caption:     'The model risk committee escalates to the CRO 90 minutes later. The CRO asks why she was not notified directly when the finding pointed to deliberate manipulation.',
           sub_caption: 'The committee agrees the escalation path should have been parallel, not sequential.',
           decision: null,
-          branches: { auto: 'outcome_warn' },
+          branches: { auto: 'n3_resolve' },
         },
       },
 

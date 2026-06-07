@@ -81,8 +81,43 @@ export const scenario = {
                 note: `This contradicts what you told your colleague. If that conversation surfaces, your credibility is damaged.` },
             ],
           },
-          branches: { a: 'n2_honest', b: 'n2_vague', c: 'outcome_bad' },
+          branches: { a: 'n2_honest', b: 'n2_vague', c: 'n_bu_unravel' },
         },
+
+        n_bu_unravel: {
+          scene:       `desk-colleague`,
+          caption:     `The auditor moves on. An hour later your colleague tells the auditor she remembers you flagging the shortlist patterns a month ago. The auditor returns — your \"nothing unusual\" no longer matches the record.`,
+          sub_caption: `She is not annoyed. She is just waiting.`,
+          decision: {
+            prompt: `She asks again, gently: did you notice anything about the shortlists?`,
+            choices: [
+              { id: 'a', label: `Correct the record now: yes, you raised it a month ago, and you should have said so the first time.`, quality: 'good',
+                note: `Correcting yourself the moment the contradiction surfaces is recoverable. The flag you raised is exactly the evidence the review needs.` },
+              { id: 'b', label: `Say you may have mentioned something informally but you weren't certain it mattered.`, quality: 'partial',
+                note: `Half-acknowledging is better than denial but still shades the record. The concern you raised was real — name it as real.` },
+              { id: 'c', label: `Hold your line that nothing stood out to you.`, quality: 'poor',
+                note: `A second denial against a colleague's account and the shortlist data makes the contradiction the auditor's main finding, not the tool.` },
+            ],
+          },
+          branches: { a: 'n3_manager_escalation', b: 'n4_thirty_days', c: 'n_bu_dig' },
+        },
+
+        n_bu_dig: {
+          scene:       `desk-focused`,
+          caption:     `The auditor lays it out plainly: your colleague's account, the shortlist data, and your two denials.`,
+          sub_caption: `\"I want to give you a clear chance to put this right.\"`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Come clean: you did notice, you did flag it, and you should not have denied it. Walk her through what you saw.`, quality: 'partial',
+                note: `A late, full correction is recoverable — the honesty lands, but the two denials are now part of the record alongside the finding.` },
+              { id: 'b', label: `Maintain that your memory of flagging it is unclear and you stand by what you first said.`, quality: 'poor',
+                note: `A third denial in front of the data and a colleague's account converts an operational finding into a credibility finding about you.` },
+            ],
+          },
+          branches: { a: 'n3_manager_escalation', b: 'outcome_bad' },
+        },
+
 
         n2_honest: {
           scene:       `desk-colleague`,
@@ -99,7 +134,7 @@ export const scenario = {
                 note: `Changing an honest account under managerial pressure in a formal audit creates liability for you, not protection. The auditor has your initial statement on record.` },
             ],
           },
-          branches: { a: 'n3_manager_escalation', b: 'n3_manager_escalation', c: 'outcome_bad' },
+          branches: { a: 'n3_manager_escalation', b: 'n3_manager_escalation', c: 'n_bu_dig' },
         },
 
         n2_vague: {
@@ -115,7 +150,7 @@ export const scenario = {
                 note: `The inconsistency is now on the record and unexplained. Two accounts that do not match each other will appear in the audit report.` },
             ],
           },
-          branches: { a: 'n3_manager_escalation', b: 'outcome_warn' },
+          branches: { a: 'n3_manager_escalation', b: 'n3_manager_escalation' },
         },
 
         n3_manager_escalation: {
@@ -193,8 +228,43 @@ export const scenario = {
                 note: `If the goal is to find genuine documentation, this is reasonable. If the goal is to create cover, this is the wrong path — and auditors recognise it.` },
             ],
           },
-          branches: { a: 'n2_legal', b: 'n2_vendor', c: 'outcome_bad' },
+          branches: { a: 'n2_legal', b: 'n2_vendor', c: 'n_exec_unravel' },
         },
+
+        n_exec_unravel: {
+          scene:       `boardroom-crisis`,
+          caption:     `Your \"check if a sign-off was filed somewhere\" instruction comes back empty. IT confirms in writing: no compliance sign-off was ever created. The auditor has noted the search activity — and that it began only after they arrived.`,
+          sub_caption: `Legal advises full disclosure, now.`,
+          decision: {
+            prompt: `The auditor asks directly why there is no sign-off. What do you say?`,
+            choices: [
+              { id: 'a', label: `State plainly that the deployment was treated as a standard software change, the AI-specific compliance step was missed, and commit to suspension and a 30-day remediation plan.`, quality: 'good',
+                note: `Owning the gap and committing to remediation is the response a regulator can work with. The search for phantom documents was the wrong instinct; this corrects it.` },
+              { id: 'b', label: `Acknowledge the gap but ask to keep the tool running under enhanced monitoring while you assess.`, quality: 'partial',
+                note: `A reasonable instinct that under-reads the moment. Employment-screening AI with no compliance basis is hard to defend keeping live during an audit.` },
+              { id: 'c', label: `Suggest the missing sign-off may be an administrative oversight and offer to keep looking.`, quality: 'poor',
+                note: `Continuing to chase a document everyone knows doesn't exist compounds the original gap with the appearance of obstruction.` },
+            ],
+          },
+          branches: { a: 'n3_board_scrutiny', b: 'n4_thirty_days', c: 'n_exec_dig' },
+        },
+
+        n_exec_dig: {
+          scene:       `boardroom-crisis`,
+          caption:     `The Chair has read the audit note about the document search. \"Morgan — was there ever a sign-off, or not?\"`,
+          sub_caption: `The board is watching how you answer.`,
+          decision: {
+            prompt: `How do you respond?`,
+            choices: [
+              { id: 'a', label: `Say it plainly: there was no sign-off, the deployment skipped the AI compliance step, and here is the remediation plan.`, quality: 'partial',
+                note: `The honest answer arrives only under the Chair's pressure, but it is the right one and lets the board govern the response.` },
+              { id: 'b', label: `Maintain that the position is still being established and you don't want to prejudge the assessment.`, quality: 'poor',
+                note: `Refusing to concede the obvious in front of the board reads as either evasion or a failure to grasp the regime — both worse than the original gap.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
+        },
+
 
         n2_legal: {
           scene:       `boardroom`,
@@ -305,8 +375,43 @@ export const scenario = {
                 note: `A vendor compliance statement is not a pre-deployment sign-off from your organisation's Legal function. Presenting it as one is misleading. Auditors will identify the difference.` },
             ],
           },
-          branches: { a: 'n2_honest', b: 'n2_search', c: 'outcome_bad' },
+          branches: { a: 'n2_honest', b: 'n2_search', c: 'n_pm_unravel' },
         },
+
+        n_pm_unravel: {
+          scene:       `office-meeting-hearing`,
+          caption:     `You presented the vendor's compliance statement as the sign-off. The auditor reads it, then reads the EU AI Act requirement, and notes they are not the same thing. Your go-live checklist marked compliance complete on the strength of this document.`,
+          sub_caption: `The room has gone quiet.`,
+          decision: {
+            prompt: `The auditor asks how the sign-off came to be marked complete. What do you say?`,
+            choices: [
+              { id: 'a', label: `Explain honestly: no written sign-off was obtained, you marked it complete after a verbal vendor conversation, and that was the wrong call.`, quality: 'good',
+                note: `Dropping the misrepresentation and naming your own decision is the only way to lead the checklist remediation rather than be its subject.` },
+              { id: 'b', label: `Say the vendor statement was treated as sufficient at the time under the process as it then stood.`, quality: 'partial',
+                note: `Partly a process point, partly a defence of presenting the wrong document. The verbal-only sign-off was still your call to accept.` },
+              { id: 'c', label: `Maintain that the vendor statement reasonably constitutes a compliance sign-off.`, quality: 'poor',
+                note: `Insisting a generic vendor statement is a pre-deployment sign-off, after the auditor has shown it isn't, turns a process gap into a credibility problem.` },
+            ],
+          },
+          branches: { a: 'n3_cab_pushback', b: 'n4_thirty_days', c: 'n_pm_dig' },
+        },
+
+        n_pm_dig: {
+          scene:       `desk-focused`,
+          caption:     `The auditor places the vendor statement and the checklist side by side. The compliance line is initialled by you.`,
+          sub_caption: `\"I'll ask directly. Was a compliance sign-off obtained before go-live?\"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it was not, stop presenting the vendor statement as one, and offer to lead the checklist fix.`, quality: 'partial',
+                note: `A late but clean concession. The honesty recovers ground; the attempt to pass off the vendor document is now on the record.` },
+              { id: 'b', label: `Repeat that the vendor documentation was treated as the compliance basis.`, quality: 'poor',
+                note: `A second attempt to stand on the wrong document. The auditor now has a misrepresentation to note alongside the missing sign-off.` },
+            ],
+          },
+          branches: { a: 'n3_cab_pushback', b: 'outcome_bad' },
+        },
+
 
         n2_honest: {
           scene:       `office-bright`,
@@ -417,8 +522,43 @@ export const scenario = {
                 note: `The auditor asked for the analysis, but raw results without methodology documentation and internal review create confusion. Your manager and Legal need to see this before the auditor does.` },
             ],
           },
-          branches: { a: 'n2_escalate', b: 'n2_recheck', c: 'outcome_warn' },
+          branches: { a: 'n2_escalate', b: 'n2_recheck', c: 'n_analyst_unravel' },
         },
+
+        n_analyst_unravel: {
+          scene:       `analyst-desk-privacy`,
+          caption:     `You sent the raw disaggregated results straight to the auditor — a statistically significant disparity, with no methodology note and no internal review. The auditor asks how the figures were produced, and whether anyone inside the firm has seen them.`,
+          sub_caption: `Neither question has a clean answer yet.`,
+          decision: {
+            prompt: `How do you respond?`,
+            choices: [
+              { id: 'a', label: `Pull it back: document the methodology, flag it to your manager, and re-send the analysis with full workings and an internal review noted.`, quality: 'good',
+                note: `Reconstructing the methodology and routing it internally before it goes further is what makes a regulatory-context finding usable rather than disputable.` },
+              { id: 'b', label: `Offer to write up the methodology now and send it as a follow-up to the raw figures.`, quality: 'partial',
+                note: `Better than nothing, but the raw numbers are already out without review — the follow-up is repair, not process.` },
+              { id: 'c', label: `Stand by the raw figures — the auditor asked for the analysis and you provided it.`, quality: 'poor',
+                note: `Defending an unreviewed raw data dump in a regulatory context invites exactly the methodology challenge that can sink an otherwise valid finding.` },
+            ],
+          },
+          branches: { a: 'n3_scope_question', b: 'n4_thirty_days', c: 'n_analyst_dig' },
+        },
+
+        n_analyst_dig: {
+          scene:       `analyst-desk`,
+          caption:     `The auditor has circulated your raw figures internally. Now Legal is asking who validated them, and your manager is asking why they heard about it from Legal.`,
+          sub_caption: `The number was right. The handling was not.`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Own the process failure: document the methodology retrospectively, accept it should have been reviewed first, and commit to the internal-review step going forward.`, quality: 'partial',
+                note: `A late correction that salvages the finding's credibility — but the unreviewed release is now part of the story.` },
+              { id: 'b', label: `Defend the disclosure on the basis that the auditor's request overrode internal process.`, quality: 'poor',
+                note: `Treating an external request as a reason to bypass internal validation is the exact failure that lets a correct finding be dismissed as unreliable.` },
+            ],
+          },
+          branches: { a: 'n3_scope_question', b: 'outcome_bad' },
+        },
+
 
         n2_escalate: {
           scene:       `office-meeting`,

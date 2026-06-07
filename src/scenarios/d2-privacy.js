@@ -67,7 +67,57 @@ export const scenario = {
                 note: 'The security logs will contradict this. A false account under these circumstances creates personal professional risk on top of the underlying data exposure.' },
             ],
           },
-          branches: { a: 'n2_honest', b: 'n2_uncertain', c: 'outcome_bad' },
+          branches: { a: 'n2_honest', b: 'n2_uncertain', c: 'n_unravel' },
+        },
+
+        n_unravel: {
+          scene:       `desk-focused`,
+          caption:     `You told the partner you only used approved tools. An hour later IT mentions the security team is pulling tool-usage logs for the client call. The logs will show the consumer-AI connection from your device, and when.`,
+          sub_caption: `The denial is about to meet the log.`,
+          decision: {
+            prompt: `What do you do before the logs come back?`,
+            choices: [
+              { id: 'a', label: `Correct the record with the partner now — exactly what you pasted, and when.`, quality: 'good',
+                note: `Getting ahead of the log is the only way to stay credible and help contain the exposure.` },
+              { id: 'b', label: `Tell only IT and ask them to keep it between you for now.`, quality: 'partial',
+                note: `Partial honesty to the wrong audience; the partner still has to face the client without the facts.` },
+              { id: 'c', label: `Say nothing and hope the logs are inconclusive.`, quality: 'poor',
+                note: `The logs are not inconclusive; silence turns a mistake into a cover-up.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow', c: 'n_dig' },
+        },
+
+        n_dig: {
+          scene:       `office-meeting`,
+          caption:     `The security log is on the table: the consumer-AI endpoint, your device, three sessions. The partner asks you directly whether you used the tool on this contract.`,
+          sub_caption: `There is no version of this where the log says otherwise.`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Admit it fully now — what you submitted and when — and accept it should have been said at the start.`, quality: 'partial',
+                note: `A late, complete correction is recoverable; the initial denial is now part of the record.` },
+              { id: 'b', label: `Hold the line that you only used approved tools.`, quality: 'poor',
+                note: `A denial against your own logged activity converts a data incident into a cover-up the firm cannot defend.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'outcome_bad' },
+        },
+
+        n3_follow: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `The account is given and the client call is scheduled. The partner asks what should change so this can't recur.`,
+          sub_caption: `Your answer becomes the team's new rule.`,
+          decision: {
+            prompt: `What do you recommend?`,
+            choices: [
+              { id: 'a', label: `An approved enterprise tool, plus a hard rule: client-confidential text never goes into consumer AI.`, quality: 'good',
+                note: `Names the control and the boundary — actionable and ownable.` },
+              { id: 'b', label: `Remind the team to be more careful with AI tools.`, quality: 'partial',
+                note: `Awareness without an approved alternative or a hard boundary changes nothing.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
         },
 
         n2_honest: {
@@ -83,15 +133,23 @@ export const scenario = {
                 note: 'If genuinely uncertain, say so. But an incomplete account of what was submitted makes the exposure assessment harder and may need to be corrected later.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
 
         n2_uncertain: {
-          scene:       'desk-focused',
-          caption:     'You check your browser history. The AI tool connection is there. You go back to the partner.',
-          sub_caption: 'Twenty minutes have passed. The client is still waiting.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          scene:       `desk-focused`,
+          caption:     `You check your browser history. The AI tool connection is there. You go back to the partner.`,
+          sub_caption: `Twenty minutes have passed. The client is still waiting.`,
+          decision: {
+            prompt: `You've confirmed you used the tool on this contract. What do you tell the partner now?`,
+            choices: [
+              { id: 'a', label: `The full picture — you used it on this contract and pasted the pricing schedules.`, quality: 'good',
+                note: `Confirming the specifics is what lets the firm scope the exposure and respond to the client honestly.` },
+              { id: 'b', label: `That you used it, but stay vague on exactly what you submitted.`, quality: 'partial',
+                note: `Half an answer leaves the firm guessing about the exposure it has to disclose.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
       },
 
@@ -140,6 +198,22 @@ export const scenario = {
           branches: { a: 'n2_facts', b: 'n2_competitor', c: 'n2_legal' },
         },
 
+        n3_follow: {
+          scene:       `boardroom`,
+          caption:     `The client call is done. The board asks what governance change follows.`,
+          sub_caption: `The incident becomes the mandate.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `An approved-AI register with data-classification rules and a blocking procurement gate for AI tools.`, quality: 'good',
+                note: `A real control with teeth — it changes what can be deployed, not just what people are told.` },
+              { id: 'b', label: `Issue a memo reminding staff to use only approved tools.`, quality: 'partial',
+                note: `A memo restates the expectation that was already being ignored; it is not a control.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
         n2_facts: {
           scene:       'office-meeting',
           caption:     'Your paralegal confirms full contract text including pricing was submitted to a consumer-tier AI tool. No enterprise DPA exists.',
@@ -153,23 +227,39 @@ export const scenario = {
                 note: 'Technically defensible but the client will likely discover the specific facts during the investigation anyway. Partial disclosure often damages trust more than full disclosure when the full picture emerges.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
 
         n2_competitor: {
-          scene:       'desk-review',
-          caption:     'You cannot determine in 30 minutes whether the competitor document is AI-related. The client is calling.',
-          sub_caption: 'You go into the call without knowing what your team submitted.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          scene:       `desk-review`,
+          caption:     `You cannot determine in 30 minutes whether the competitor document is AI-related. The client is calling.`,
+          sub_caption: `You go into the call without knowing what your team submitted.`,
+          decision: {
+            prompt: `You can't confirm the AI link before the call. How do you open with the client?`,
+            choices: [
+              { id: 'a', label: `Be transparent: an unapproved tool was used, you're investigating, and you'll report exactly what you find.`, quality: 'good',
+                note: `Transparency you can stand behind beats a confident answer you can't. It buys credibility for the follow-up.` },
+              { id: 'b', label: `Acknowledge a possible data-handling issue and promise to follow up.`, quality: 'partial',
+                note: `Soft acknowledgement avoids the lie but leaves the client unsure whether you grasp the exposure.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
 
         n2_legal: {
-          scene:       'desk-focused',
-          caption:     'Legal confirms notification may be required — but that depends on what data was involved, which you have not established.',
-          sub_caption: 'You go into the client call without the facts.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          scene:       `desk-focused`,
+          caption:     `Legal confirms notification may be required — but that depends on what data was involved, which you have not established.`,
+          sub_caption: `You go into the client call without the facts.`,
+          decision: {
+            prompt: `You don't yet know what was submitted. What do you commit to on the call?`,
+            choices: [
+              { id: 'a', label: `Commit to establishing exactly what was submitted within 24 hours and to notifying if the threshold is met.`, quality: 'good',
+                note: `A concrete, time-bound commitment is the credible move when you can't yet answer the substance.` },
+              { id: 'b', label: `Say the matter is under review and you'll be in touch.`, quality: 'partial',
+                note: `"Under review" without a timeline reads as managing the client rather than addressing the exposure.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
       },
 
@@ -211,7 +301,57 @@ export const scenario = {
                 note: 'Deflecting to individual staff when you knew about the practice and did nothing compounds the problem. Governance failures are owned by the person responsible for governance.' },
             ],
           },
-          branches: { a: 'n2_honest', b: 'n2_policy', c: 'outcome_bad' },
+          branches: { a: 'n2_honest', b: 'n2_policy', c: 'n_unravel' },
+        },
+
+        n_unravel: {
+          scene:       `desk-intranet`,
+          caption:     `You told the General Counsel the team should have checked with you. She points out that you manage the legal team's tools, you noticed the AI usage six months ago, and you did nothing. Deflecting to staff doesn't survive that.`,
+          sub_caption: `The governance was yours to run.`,
+          decision: {
+            prompt: `How do you respond now?`,
+            choices: [
+              { id: 'a', label: `Own it: tool governance was my responsibility, I saw the usage and didn't act, and here's how I'd close it.`, quality: 'good',
+                note: `Owning the decision point is what lets you lead the framework rather than be its subject.` },
+              { id: 'b', label: `Accept the oversight but note staff also bypassed the spirit of the policy.`, quality: 'partial',
+                note: `Half-ownership; spreading the blame to staff dilutes the fix you're meant to lead.` },
+              { id: 'c', label: `Maintain that staff should have sought approval before using any tool.`, quality: 'poor',
+                note: `Blaming the team you were supposed to govern, against your own six months of inaction, is the worst available account.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow', c: 'n_dig' },
+        },
+
+        n_dig: {
+          scene:       `desk-focused`,
+          caption:     `The General Counsel has the timeline: the usage you spotted, the months that passed, no action logged.`,
+          sub_caption: `"Whose job was the tool governance here?"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it was mine, stop attributing it to staff, and commit to leading the remediation.`, quality: 'partial',
+                note: `A late but clean concession that opens the fix; the deflection is now on the record.` },
+              { id: 'b', label: `Repeat that staff bypassed an expectation that was clearly understood.`, quality: 'poor',
+                note: `A second deflection against a documented timeline confirms an ownership problem on top of the gap.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'outcome_bad' },
+        },
+
+        n3_follow: {
+          scene:       `office-bright`,
+          caption:     `The gap is acknowledged. The General Counsel asks you to design the framework that should have existed.`,
+          sub_caption: `The incident becomes the brief for the remediation.`,
+          decision: {
+            prompt: `What are the two controls you implement immediately?`,
+            choices: [
+              { id: 'a', label: `An approved AI-tools register with data-classification rules, and a mandatory check before any external tool touches client data.`, quality: 'good',
+                note: `Two controls that bind the actual failure mode — tool approval and a data-classification gate.` },
+              { id: 'b', label: `A staff training programme and an updated acceptable-use policy.`, quality: 'partial',
+                note: `Useful, but training and policy without a binding gate leave the same hole open.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
         },
 
         n2_honest: {
@@ -228,15 +368,23 @@ export const scenario = {
                 note: 'Both valuable, but training and policy without technical controls and procurement requirements leaves the underlying gap open. Policy needs to be paired with register and DPA controls.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
 
         n2_policy: {
-          scene:       'desk-review',
-          caption:     'The General Counsel asks whether the IT AUP specifically addresses AI tools and data classification. It does not.',
-          sub_caption: 'The gap is now confirmed. And you deflected before acknowledging it.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          scene:       `desk-review`,
+          caption:     `The General Counsel asks whether the IT AUP specifically addresses AI tools and data classification. It does not.`,
+          sub_caption: `The gap is now confirmed. And you deflected before acknowledging it.`,
+          decision: {
+            prompt: `The gap is explicit now. How do you respond to the General Counsel?`,
+            choices: [
+              { id: 'a', label: `Acknowledge the AUP never covered AI tools or data classification, and own that closing that gap was mine.`, quality: 'good',
+                note: `Naming the gap as yours is what turns the incident into a mandate to fix it rather than a search for blame.` },
+              { id: 'b', label: `Note that an AUP exists and frame this as an edge case it didn't anticipate.`, quality: 'partial',
+                note: `Leaning on the existing policy softens an ownership question the GC has already seen through.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
       },
 
@@ -285,7 +433,57 @@ export const scenario = {
                 note: 'The logs cannot confirm what data was submitted — only that a connection was made. Presenting a log finding as evidence of data content overstates what you know and could be challenged.' },
             ],
           },
-          branches: { a: 'n2_precise', b: 'n2_inference', c: 'outcome_warn' },
+          branches: { a: 'n2_precise', b: 'n2_inference', c: 'n_unravel' },
+        },
+
+        n_unravel: {
+          scene:       `analyst-desk-privacy`,
+          caption:     `You told the General Counsel that client data was submitted to the external endpoint. Legal begins drafting a breach notification on that basis — then asks you to substantiate it. The logs show the connection and timing, but cannot show what content was sent.`,
+          sub_caption: `You stated as fact something the logs can't establish.`,
+          decision: {
+            prompt: `How do you handle it?`,
+            choices: [
+              { id: 'a', label: `Correct it now: the logs confirm the connection, not the content; the data claim comes only from the paralegal's account.`, quality: 'good',
+                note: `Walking the overstatement back before the notification goes out protects both the firm and your credibility.` },
+              { id: 'b', label: `Soften it to "data was likely submitted" without flagging the evidence gap.`, quality: 'partial',
+                note: `Hedging the wording without naming the evidence gap still leaves Legal acting on more than you can prove.` },
+              { id: 'c', label: `Stand by the original statement — the connection is as good as confirmation.`, quality: 'poor',
+                note: `Treating a connection as proof of content is the overstatement itself; insisting on it sends Legal down the wrong path.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow', c: 'n_dig' },
+        },
+
+        n_dig: {
+          scene:       `desk-focused`,
+          caption:     `Legal asks you to put the data-submission claim in writing for the notification. The logs in front of you show endpoints and timestamps — nothing about content.`,
+          sub_caption: `Your name will be on the evidentiary basis.`,
+          decision: {
+            prompt: `What do you write?`,
+            choices: [
+              { id: 'a', label: `Write what the logs actually support, separate the paralegal's account, and flag that content cannot be confirmed from logs.`, quality: 'partial',
+                note: `A late correction that keeps the notification defensible; the initial overstatement is noted.` },
+              { id: 'b', label: `Write that the logs confirm client data was submitted.`, quality: 'poor',
+                note: `Putting an unprovable claim in the evidentiary record is the overstatement that undermines the whole finding.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'outcome_bad' },
+        },
+
+        n3_follow: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `The briefing is clean. The General Counsel asks for the single most effective technical control.`,
+          sub_caption: `Your recommendation shapes the remediation plan.`,
+          decision: {
+            prompt: `What do you recommend?`,
+            choices: [
+              { id: 'a', label: `DLP rules that detect and block submission of content matching client documents to external endpoints.`, quality: 'good',
+                note: `Targets the exact failure path — content leaving for an unapproved destination.` },
+              { id: 'b', label: `Web filtering that blocks consumer AI tools from firm devices.`, quality: 'partial',
+                note: `Helps, but device-level filtering is easily bypassed and doesn't follow the data.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
         },
 
         n2_precise: {
@@ -303,15 +501,23 @@ export const scenario = {
                 note: 'Effective but blunt. Blocking all consumer AI access without providing approved alternatives drives shadow AI to personal devices. DLP plus approved enterprise tools is a better combination.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
 
         n2_inference: {
-          scene:       'desk-working',
-          caption:     'The General Counsel asks you to separate what the logs show from what the paralegal confirmed. The two are different evidence sources.',
-          sub_caption: 'You revise your briefing. The delay is noted.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          scene:       `desk-working`,
+          caption:     `The General Counsel asks you to separate what the logs show from what the paralegal confirmed. The two are different evidence sources.`,
+          sub_caption: `You revise your briefing. The delay is noted.`,
+          decision: {
+            prompt: `How do you revise the briefing?`,
+            choices: [
+              { id: 'a', label: `Separate them cleanly: the logs show the connection and timing; the data content comes only from the paralegal's account.`, quality: 'good',
+                note: `Distinguishing what each source can and cannot establish is the core of a credible security briefing.` },
+              { id: 'b', label: `Restate the combined picture without clearly distinguishing the two sources.`, quality: 'partial',
+                note: `Blending log evidence with recollection is exactly what overstates a finding — the thing to avoid here.` },
+            ],
+          },
+          branches: { a: 'n3_follow', b: 'n3_follow' },
         },
       },
 

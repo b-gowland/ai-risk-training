@@ -81,7 +81,41 @@ export const scenario = {
                 note: `You use this system daily. Your operational perspective is exactly what your manager needs right now. Deferring doesn't help anyone.` },
             ],
           },
-          branches: { a: 'n2_clear', b: 'n2_assumption', c: 'outcome_bad' },
+          branches: { a: 'n2_clear', b: 'n2_assumption', c: 'n_bu_unravel' },
+        },
+
+        n_bu_unravel: {
+          scene:       `office-meeting-hearing`,
+          caption:     `You told your manager it wasn't your place to say. The deflection didn't hold. The reviewer has pulled the decision logs — a loan was declined last week with no human sign-off, and it traces to a batch your team ran.`,
+          sub_caption: `She is back at your desk. This time the question is not general.`,
+          decision: {
+            prompt: `"Who approved that decision?" she asks. What do you say?`,
+            choices: [
+              { id: 'a', label: `Tell her plainly that no one is named as accountable, explain how the call actually gets made, and offer to help document the gap.`, quality: 'good',
+                note: `Owning the gap is the only move that lets the fix start. Your operational account is exactly what the review was missing.` },
+              { id: 'b', label: `Say you'll raise it with the governance lead so the right person can answer.`, quality: 'partial',
+                note: `Better than silence, but pushing it up without owning your part keeps you out of the account the review needs.` },
+              { id: 'c', label: `Repeat that ownership sits above your level and you can't speak to approvals.`, quality: 'poor',
+                note: `The same deflection, now in front of a documented failure. The reviewer can see the gap; refusing to describe it makes the gap look cultural.` },
+            ],
+          },
+          branches: { a: 'n3_contradiction', b: 'n4_thirty_days', c: 'n_bu_dig' },
+        },
+
+        n_bu_dig: {
+          scene:       `desk-focused`,
+          caption:     `The reviewer doesn't move on. She has the log open and your name on the run sheet.`,
+          sub_caption: `"I'll ask once more. When this system declines a customer, who is answerable for it?"`,
+          decision: {
+            prompt: `This is the last time she'll ask. What do you do?`,
+            choices: [
+              { id: 'a', label: `Drop the deflection. Walk her through how decisions actually get made and admit no one owns it — late, but on the record.`, quality: 'partial',
+                note: `Coming clean after two deflections is recoverable, barely. The honesty is real; the delay is now part of the finding.` },
+              { id: 'b', label: `Hold the line that it's a governance question you're not positioned to answer.`, quality: 'poor',
+                note: `A third deflection in front of evidence reads as a culture that cannot speak to its own systems — the worst possible signal to a supervisor.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
         },
 
         n2_clear: {
@@ -201,7 +235,41 @@ export const scenario = {
                 note: `Shared accountability is no accountability under FAR. APRA will read this as a failure to understand the accountability regime — which compounds the original gap.` },
             ],
           },
-          branches: { a: 'n2_name', b: 'n2_review', c: 'outcome_bad' },
+          branches: { a: 'n2_name', b: 'n2_review', c: 'n_exec_unravel' },
+        },
+
+        n_exec_unravel: {
+          scene:       `boardroom-crisis`,
+          caption:     `Your "shared across functions" response came back fast. APRA's supervisor replied in writing: under the Financial Accountability Regime, accountability cannot be shared or delegated to a function. They have asked you to name the individual Accountable Person — and to explain why the first response did not.`,
+          sub_caption: `The Chair has seen the exchange.`,
+          decision: {
+            prompt: `How do you respond now?`,
+            choices: [
+              { id: 'a', label: `Name yourself as interim Accountable Person immediately, correct the record with APRA, and commit to a permanent appointment within 30 days.`, quality: 'good',
+                note: `Recoverable. Correcting the regime misunderstanding quickly and naming an individual is exactly what FAR requires — and what the first answer avoided.` },
+              { id: 'b', label: `Commission a rapid review to identify the right permanent owner before naming anyone.`, quality: 'partial',
+                note: `Methodologically sound but slow against a regulator who has already had to correct you once. Name an interim owner while the review runs.` },
+              { id: 'c', label: `Reply that the shared model reflects how the organisation genuinely operates and ask APRA to accept it.`, quality: 'poor',
+                note: `Restating the position the regulator just rejected. This stops being a documentation gap and becomes a dispute about whether you understand the accountability regime.` },
+            ],
+          },
+          branches: { a: 'n3_chair_scrutiny', b: 'n4_thirty_days', c: 'n_exec_dig' },
+        },
+
+        n_exec_dig: {
+          scene:       `boardroom-crisis`,
+          caption:     `The Chair intervenes before APRA has to ask a third time. "Blake, name someone. Today. The regime does not bend on this."`,
+          sub_caption: `The room is waiting on you.`,
+          decision: {
+            prompt: `What do you do?`,
+            choices: [
+              { id: 'a', label: `Name yourself as interim Accountable Person on the spot and brief the board on the remediation plan — late, but done.`, quality: 'partial',
+                note: `The right action arrives only after the Chair forces it. The appointment is sound; the delay is now part of the supervisory record.` },
+              { id: 'b', label: `Argue the appointment shouldn't be rushed under pressure and ask for more time to get it right.`, quality: 'poor',
+                note: `"Don't rush it" is a reasonable principle in the wrong moment. After a rejected response and a direct instruction, further delay reads as inability to discharge the role.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
         },
 
         n2_name: {
@@ -313,7 +381,41 @@ export const scenario = {
                 note: `Shifting responsibility to another team under regulatory scrutiny creates a credibility problem. Even if true, the register is your responsibility to maintain — assumptions are not a defence.` },
             ],
           },
-          branches: { a: 'n2_honest', b: 'n2_process', c: 'outcome_bad' },
+          branches: { a: 'n2_honest', b: 'n2_process', c: 'n_pm_unravel' },
+        },
+
+        n_pm_unravel: {
+          scene:       `office-meeting-hearing`,
+          caption:     `You said the technology team was meant to fill in the field. The CRO checks. Technology produces an email thread showing they asked you to confirm the accountable owner before go-live — and you closed the thread as "to follow up."`,
+          sub_caption: `The register was yours. The blank field was yours.`,
+          decision: {
+            prompt: `The CRO asks you to account for that. What do you say?`,
+            choices: [
+              { id: 'a', label: `Own it directly: the field was my responsibility, the contested ownership should have been escalated, and I let it sit. Here is how I'd close it now.`, quality: 'good',
+                note: `Dropping the deflection and naming your own decision point is the only thing that lets you lead the fix instead of being the subject of it.` },
+              { id: 'b', label: `Acknowledge the thread but stress that no function would claim ownership, so escalation would have stalled anyway.`, quality: 'partial',
+                note: `Partly true and partly self-exculpating. The contested ownership was real; not escalating it was still your call.` },
+              { id: 'c', label: `Maintain that you reasonably relied on Technology to complete the entry after go-live.`, quality: 'poor',
+                note: `The email thread contradicts this. Holding the line against your own documented words turns a process gap into a credibility problem.` },
+            ],
+          },
+          branches: { a: 'n3_it_pushback', b: 'n4_thirty_days', c: 'n_pm_dig' },
+        },
+
+        n_pm_dig: {
+          scene:       `desk-focused`,
+          caption:     `The CRO reads the thread aloud. The "to follow up" note has your name on it.`,
+          sub_caption: `"I'll ask you plainly. Whose entry was this?"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Concede it was mine, stop attributing it to Technology, and offer to lead the register remediation.`, quality: 'partial',
+                note: `Coming clean after the thread is read is recoverable but late — the deflection is now on the record alongside the original gap.` },
+              { id: 'b', label: `Repeat that completion was a shared expectation across teams.`, quality: 'poor',
+                note: `A second deflection against documented evidence. The CRO now has two problems: the blank field, and a programme manager who won't own it.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
         },
 
         n2_honest: {
@@ -425,7 +527,41 @@ export const scenario = {
                 note: `A finding closed without evidence of resolution is not handled. Framing it as the end of your responsibility may be technically defensible but reads poorly in a regulatory context.` },
             ],
           },
-          branches: { a: 'n2_full', b: 'n2_assumption', c: 'outcome_bad' },
+          branches: { a: 'n2_full', b: 'n2_assumption', c: 'n_analyst_unravel' },
+        },
+
+        n_analyst_unravel: {
+          scene:       `desk-reading`,
+          caption:     `You told the reviewer the finding's closure was the end of your responsibility. She turns to the file: the finding was closed "in progress" with no evidence of remediation, and the same model is still running on the same gap.`,
+          sub_caption: `"The end of your responsibility," she repeats. "Walk me through that."`,
+          decision: {
+            prompt: `How do you answer?`,
+            choices: [
+              { id: 'a', label: `Correct yourself: a finding closed without evidence isn't resolved, I should have re-raised it, and I didn't. That was my call to make and I missed it.`, quality: 'good',
+                note: `The reviewer is offering room to reflect. A direct, self-critical answer recovers credibility the deflection had spent.` },
+              { id: 'b', label: `Explain that closure was a process decision made above you, and your remit moved to the next model.`, quality: 'partial',
+                note: `Accurate but defensive. "I followed the process" uses the room to justify rather than examine — partial recovery at best.` },
+              { id: 'c', label: `Hold that once a finding is formally closed, monitoring it is no longer the analyst's job.`, quality: 'poor',
+                note: `Technically arguable, terrible in a supervisory context. It tells APRA the model-risk function treats closure as a reason to stop looking.` },
+            ],
+          },
+          branches: { a: 'n3_loyalty_test', b: 'n4_thirty_days', c: 'n_analyst_dig' },
+        },
+
+        n_analyst_dig: {
+          scene:       `desk-focused`,
+          caption:     `The reviewer sets the finding log between you. The closure note reads "in progress." Nothing after it.`,
+          sub_caption: `"Last time. After it closed, what did you do?"`,
+          decision: {
+            prompt: `What do you say?`,
+            choices: [
+              { id: 'a', label: `Admit you did nothing — no re-raise, no check for remediation — and that the closure note shouldn't have satisfied you.`, quality: 'partial',
+                note: `A late but honest concession. It recovers some ground; the two prior deflections are now part of the finding too.` },
+              { id: 'b', label: `Maintain that the closure was authorised and therefore not yours to reopen.`, quality: 'poor',
+                note: `A third deflection in front of the log. It confirms the cultural problem the reviewer suspected: findings close and no one watches whether anything changed.` },
+            ],
+          },
+          branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
         },
 
         n2_full: {

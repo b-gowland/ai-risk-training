@@ -65,6 +65,38 @@ export const scenario = {
           branches: { a: 'n2_offline', b: 'n2_running', c: 'n2_conduct' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The assistant is offline and client notifications are underway. The COO asks what changes so an injected document can't drive the assistant again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Input sandboxing for ingested documents plus an output review gate before any client-facing send.`, quality: 'good',
+                note: `The two controls that map directly to the failure — untrusted input and unreviewed output.` },
+              { id: 'b', label: `Add monitoring and a staff warning about suspicious documents.`, quality: 'partial',
+                note: `Awareness and monitoring don't stop an injected instruction the way a sandbox and an output gate do.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `Other clients' data has already reached the wrong recipient. The COO asks how you contain it.`,
+          sub_caption: `The data is out; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the exposure?`,
+            choices: [
+              { id: 'a', label: `Notify the affected clients, recall what can be recalled, and review the full document queue for other injected content.`, quality: 'partial',
+                note: `Notification plus a queue review is the honest, containing response — late, but it limits the harm.` },
+              { id: 'b', label: `Handle the single complaint quietly and avoid a broader review.`, quality: 'poor',
+                note: `Treating a systemic injection vector as one complaint leaves the other exposed documents in the queue.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_offline: {
           scene:       'office-meeting',
           caption:     'The assistant is offline. Legal confirms Privacy Act notification obligations — affected clients must be notified within 30 days, but prompt notification is strongly advised.',
@@ -78,7 +110,7 @@ export const scenario = {
                 note: 'Legally defensible but relationally cold. The client is waiting. A brief personal call acknowledging the error while the full investigation completes demonstrates control and good faith.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_running: {
@@ -94,15 +126,23 @@ export const scenario = {
                 note: 'Affected clients have already had their data exposed. Waiting for a complete picture before notification extends the period of unreported breach and increases regulatory risk.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_conduct: {
           scene:       'office-briefing-urgent',
           caption:     'Legal reviews the RM\'s position. The assistant produced the draft. The go-live checklist shows output review was marked as post-launch.',
           sub_caption: 'Legal advises the conduct route is not defensible — the system had no output gate. The RM used it as designed.',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `Legal says blaming the relationship manager won't hold — the assistant had no output gate and the RM used it as designed. How do you proceed?`,
+            choices: [
+              { id: 'a', label: `Accept this is a system control gap, not user error, and own the missing output review.`, quality: 'partial',
+                note: `Locating the failure in the missing control, not the person, is what lets the right fix get built.` },
+              { id: 'b', label: `Maintain that the RM should have caught the injected content.`, quality: 'poor',
+                note: `Pinning a system-level gap on the user, against Legal's advice, defends the wrong thing and delays the fix.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
       },
 
@@ -151,6 +191,38 @@ export const scenario = {
           branches: { a: 'n2_own', b: 'n2_shared', c: 'n2_foreseeable' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The assistant is offline and client notifications are underway. The COO asks what changes so an injected document can't drive the assistant again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Input sandboxing for ingested documents plus an output review gate before any client-facing send.`, quality: 'good',
+                note: `The two controls that map directly to the failure — untrusted input and unreviewed output.` },
+              { id: 'b', label: `Add monitoring and a staff warning about suspicious documents.`, quality: 'partial',
+                note: `Awareness and monitoring don't stop an injected instruction the way a sandbox and an output gate do.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `Other clients' data has already reached the wrong recipient. The COO asks how you contain it.`,
+          sub_caption: `The data is out; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the exposure?`,
+            choices: [
+              { id: 'a', label: `Notify the affected clients, recall what can be recalled, and review the full document queue for other injected content.`, quality: 'partial',
+                note: `Notification plus a queue review is the honest, containing response — late, but it limits the harm.` },
+              { id: 'b', label: `Handle the single complaint quietly and avoid a broader review.`, quality: 'poor',
+                note: `Treating a systemic injection vector as one complaint leaves the other exposed documents in the queue.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_own: {
           scene:       'office-bright',
           caption:     'The COO accepts the account. She wants the two missing controls implemented before the system goes back online.',
@@ -164,7 +236,7 @@ export const scenario = {
                 note: 'Two-person review reinstates the same control — human review — that already failed once. The architectural fix is the only safe path.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_shared: {
@@ -180,15 +252,23 @@ export const scenario = {
                 note: 'A security team agreeing to defer controls is not an escalation to executive leadership. The COO is asking whether the decision to remove security gates from a customer-facing AI system was made visible to the people who should have decided it.' },
             ],
           },
-          branches: { a: 'n2_own', b: 'outcome_bad' },
+          branches: { a: 'n2_own', b: 'n3_aftermath' },
         },
 
         n2_foreseeable: {
           scene:       'office-briefing',
           caption:     'The COO pulls up the go-live checklist. Input sandboxing is listed as a requirement.',
           sub_caption: '"If it was in the checklist, it was foreseeable. Why was it marked post-launch?"',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `Input sandboxing was a listed go-live requirement, marked post-launch. The COO asks why. What do you say?`,
+            choices: [
+              { id: 'a', label: `Own the deferral decision and the risk it carried, and prioritise the control now.`, quality: 'partial',
+                note: `Owning the call to defer a listed control is what makes the remediation credible.` },
+              { id: 'b', label: `Argue the launch timeline left no choice.`, quality: 'poor',
+                note: `"The timeline forced it" treats a known control gap as unavoidable rather than a decision with consequences.` },
+            ],
+          },
+          branches: { a: 'n3_aftermath', b: 'n3_aftermath' },
         },
       },
 
@@ -237,6 +317,38 @@ export const scenario = {
           branches: { a: 'n2_scope', b: 'n2_document', c: 'n2_client_id' },
         },
 
+        n3_resolve: {
+          scene:       `desk-thirty-days`,
+          caption:     `The assistant is offline and client notifications are underway. The COO asks what changes so an injected document can't drive the assistant again.`,
+          sub_caption: `The fix is yours to define.`,
+          decision: {
+            prompt: `What do you put in place?`,
+            choices: [
+              { id: 'a', label: `Input sandboxing for ingested documents plus an output review gate before any client-facing send.`, quality: 'good',
+                note: `The two controls that map directly to the failure — untrusted input and unreviewed output.` },
+              { id: 'b', label: `Add monitoring and a staff warning about suspicious documents.`, quality: 'partial',
+                note: `Awareness and monitoring don't stop an injected instruction the way a sandbox and an output gate do.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_warn' },
+        },
+
+        n3_aftermath: {
+          scene:       `office-meeting-aftermath`,
+          caption:     `Other clients' data has already reached the wrong recipient. The COO asks how you contain it.`,
+          sub_caption: `The data is out; the question is containment.`,
+          decision: {
+            prompt: `How do you handle the exposure?`,
+            choices: [
+              { id: 'a', label: `Notify the affected clients, recall what can be recalled, and review the full document queue for other injected content.`, quality: 'partial',
+                note: `Notification plus a queue review is the honest, containing response — late, but it limits the harm.` },
+              { id: 'b', label: `Handle the single complaint quietly and avoid a broader review.`, quality: 'poor',
+                note: `Treating a systemic injection vector as one complaint leaves the other exposed documents in the queue.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+        },
+
         n2_scope: {
           scene:       'desk-working',
           caption:     'You review 47 client document ingestion events over six weeks. You find three PDFs with similar injection patterns — all submitted by the same client across different RMs.',
@@ -250,7 +362,7 @@ export const scenario = {
                 note: 'The scope and mechanism are essential. But Compliance may not know that the assistant is still live and still processing documents. Your recommendation to take it offline is the piece they need from you — not providing it leaves a gap.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_warn' },
+          branches: { a: 'n3_resolve', b: 'n3_resolve' },
         },
 
         n2_document: {
@@ -266,7 +378,7 @@ export const scenario = {
                 note: 'Characterising an unreviewed breach as apparently isolated is a significant misrepresentation. Compliance will notify affected parties based on what you tell them. Scope uncertainty should be stated as uncertainty, not optimism.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
 
         n2_client_id: {
@@ -282,7 +394,7 @@ export const scenario = {
                 note: 'Estimation without data is not analysis. If Compliance acts on an optimistic estimate and the true scope turns out wider, the notification timeline will be wrong and regulatory obligations may be missed.' },
             ],
           },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
+          branches: { a: 'n3_resolve', b: 'n3_aftermath' },
         },
       },
 
