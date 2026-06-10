@@ -115,7 +115,7 @@ export const scenario = {
                 note: 'Solid instinct. You didn\'t need to know the policy to make the right call.' },
             ],
           },
-          branches: { a: 'n2_used_it', b: 'n3_manager_saved_it', c: 'outcome_good' },
+          branches: { a: 'n2_used_it', b: 'n3_manager_saved_it', c: 'n3_clean' },
         },
 
         n2_found_policy: {
@@ -133,7 +133,7 @@ export const scenario = {
                 note: 'Manager gets the policy updated and approves an enterprise tool. You helped fix a gap.' },
             ],
           },
-          branches: { a: 'outcome_good', b: 'n2_used_it', c: 'outcome_great' },
+          branches: { a: 'n3_clean', b: 'n2_used_it', c: 'n3_clean' },
         },
 
         n2_did_it_slow: {
@@ -149,7 +149,7 @@ export const scenario = {
                 note: 'Fine outcome, accidental reasoning. Worth understanding why it was the right call.' },
             ],
           },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
+          branches: { a: 'n3_clean', b: 'n3_clean' },
         },
 
         n3_honest: {
@@ -205,7 +205,19 @@ export const scenario = {
           caption: 'Your manager flagged it to IT. Turns out three others had already done the same thing.',
           sub_caption: 'Your question triggered a policy review. The approved tool list ships next month.',
           decision: null,
-          branches: { auto: 'outcome_great' },
+          branches: { auto: 'n3_clean' },
+        },
+        n3_clean: {
+          scene: 'desk-focused',
+          caption: `You handled your own piece correctly — the client data never went into the tool. But the conversation isn't really about you any more: a few people weren't as careful, and there's still no approved tool and no current policy.`,
+          decision: {
+            prompt: `What do you do with what you've learned?`,
+            choices: [
+              { id: 'a', label: `Flag the real gap — with no approved tool and a stale policy, the next person under deadline takes the same shortcut.`, quality: 'good', note: `Your own good call protected one document. Naming the missing control — an approved tool and a current policy — is what stops it happening again.` },
+              { id: 'b', label: `Note that you personally did the right thing and leave it there.`, quality: 'partial', note: `Staying clean yourself is good, but it leaves the systemic gap in place for the next person under pressure.` },
+            ],
+          },
+          branches: { a: 'outcome_great', b: 'outcome_good' },
         },
       },
 
@@ -364,8 +376,14 @@ export const scenario = {
           scene: 'office-briefing-urgent',
           caption: 'Legal needs facts. IT needs direction. The board needs a briefing. Nobody is talking to each other.',
           sub_caption: 'External counsel sends a follow-up letter noting the organisation has not responded within the specified timeframe.',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
+          decision: {
+            prompt: `The drift is now the problem. What do you do?`,
+            choices: [
+              { id: 'a', label: `Take control — get Legal, IT and the board chair in one room today and put a single owner in charge of the response.`, quality: 'partial', note: `Late, but a single coordinated response stops the chaos compounding. The lost 48 hours still cost you; the drift after that is what you can still fix.` },
+              { id: 'b', label: `Keep fielding it piecemeal — answer each party as they come, there's no time to convene everyone.`, quality: 'poor', note: `Piecemeal handling of a legal hold is how the timeframe gets missed and statements diverge. The absence of a single coordinated response is what external counsel documents.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
         },
       },
 
@@ -467,7 +485,19 @@ export const scenario = {
                 note: 'The log is not wrong. IT is extremely confident of this. Doubling down on a false statement in writing is exactly what turns a data incident into a conduct matter.' },
             ],
           },
-          branches: { a: 'n3_caught', b: 'outcome_bad' },
+          branches: { a: 'n3_caught', b: 'n3_pm_exposed' },
+        },
+        n3_pm_exposed: {
+          scene: 'desk-evidence',
+          caption: `You held your account. But IT confirms the log, and the contradiction between what you said and what happened is now in the incident record alongside the original data issue.`,
+          decision: {
+            prompt: `It's no longer just a data issue. What do you do?`,
+            choices: [
+              { id: 'a', label: `Come clean now — acknowledge the tool use and the false statement, and accept the consequences.`, quality: 'partial', note: `Very late, and the false statement still counts against you — but correcting it is the only thing that stops this getting worse.` },
+              { id: 'b', label: `Hold the line — insist the log must be mistaken.`, quality: 'poor', note: `Maintaining a false statement against a confirmed log is what turns a data-policy incident into a conduct matter with a different ceiling of consequences.` },
+            ],
+          },
+          branches: { a: 'outcome_warn', b: 'outcome_bad' },
         },
 
         n3_systemic: {
@@ -508,8 +538,14 @@ export const scenario = {
           scene: 'desk-focused',
           caption: 'You corrected the record. Late, but you corrected it.',
           sub_caption: 'The written note reflects the correction. The initial response — vague or false — is also in the record.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
+          decision: {
+            prompt: `The immediate issue is contained. What do you do next?`,
+            choices: [
+              { id: 'a', label: `Push for the systemic fix — the real gap is that there was no approved tool and no clear policy, not just your slip.`, quality: 'good', note: `Turning a personal misstep into the case for a systemic control is the most useful thing you can do from here.` },
+              { id: 'b', label: `Take the warning, keep your head down, and move on.`, quality: 'partial', note: `Understandable, but it leaves the conditions that produced the incident untouched for the next person.` },
+            ],
+          },
+          branches: { a: 'n3_systemic', b: 'outcome_warn' },
         },
 
         n4_volunteer: {
@@ -579,7 +615,7 @@ export const scenario = {
                 note: 'You don\'t come back to it. Nobody does. The printer gets ticket #13.' },
             ],
           },
-          branches: { a: 'n2_investigated', b: 'n2_flagged_low', c: 'outcome_bad' },
+          branches: { a: 'n2_investigated', b: 'n2_flagged_low', c: 'n_analyst_fallout' },
         },
 
         n2_investigated: {
@@ -613,7 +649,19 @@ export const scenario = {
                 note: 'Audit logs track ticket modifications. Legal is looking at those too.' },
             ],
           },
-          branches: { a: 'n3_escalated', b: 'outcome_bad' },
+          branches: { a: 'n3_escalated', b: 'n3_too_late' },
+        },
+        n_analyst_fallout: {
+          scene: 'desk-focused',
+          caption: `You closed the alert as noise. Three weeks later the legal hold lands — referencing exactly the Q3 AI tool usage you saw first and waved off. Your dismissal is in the ticket history.`,
+          decision: {
+            prompt: `The incident is Legal's now, and you were the first to see it. What do you do?`,
+            choices: [
+              { id: 'a', label: `Escalate everything you have — the original log, the timestamp, the device — and own that you saw it first and misjudged it.`, quality: 'good', note: `Owning the early miss and handing over the full record is what lets the investigation move. The misjudgement stands, but a cover-up doesn't get added to it.` },
+              { id: 'b', label: `Frame the original alert as genuinely ambiguous, so the dismissal looks reasonable.`, quality: 'poor', note: `Reshaping how you describe the alert after the fact, with the timestamps on record, turns a judgement error into a credibility problem.` },
+            ],
+          },
+          branches: { a: 'n3_escalated', b: 'n3_too_late' },
         },
 
         n3_escalated: {
