@@ -56,14 +56,41 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'desk-working',
+          caption:     `The message from the fairness team is still open on your screen. You've been seeing the pattern for months — regional postcodes, manual review, slower outcomes.`,
+          sub_caption: `Before you reply, you have to decide what to make of it.`,
+          decision: {
+            prompt: `How do you regard the pattern you've been noticing?`,
+            choices: [
+              { id: 'a', label: `As a real signal worth documenting — you start noting specific cases before the conversation.`, quality: 'good',    note: `Treating your own frontline observation as legitimate evidence is the right instinct. Specifics gathered now make the conversation far more useful.` },
+              { id: 'b', label: `As something for the fairness team to judge — you'll answer what they ask, no more.`, quality: 'partial', note: `Cooperative but passive. The analyst doesn't know what you see day to day; waiting to be asked the exact right question leaves evidence on the table.` },
+              { id: 'c', label: `As probably not your concern — the model was tested, and second-guessing it isn't your job.`, quality: 'poor',    note: `Assuming the model must be right because it was tested is how frontline warning signs get lost. The people closest to the cases see things the statistics take months to confirm.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'desk-working',
           caption:     'Regional claims keep landing on your desk. The pattern has been building for months.',
-          sub_caption: 'The fairness team wants to know what you\'ve seen.',
+          sub_caption: `The fairness team wants to know what you've seen.`,
           decision: {
             prompt: 'The fairness analyst asks what you\'ve noticed about the claims being routed to manual review. What do you tell them?',
             choices: [
               { id: 'a', label: 'Share the pattern clearly — regional postcodes, similar claim types, but different routing outcomes.', quality: 'good',    note: 'Frontline observations are critical data for a fairness investigation. Describing the pattern specifically gives the analyst something concrete to test.' },
               { id: 'b', label: 'Mention it but downplay it — you assumed there was a legitimate reason for the routing difference.', quality: 'partial', note: 'Partial disclosure slows the investigation. The pattern you noticed is exactly what the analyst needs to hear — including your assumptions about it.' },
               { id: 'c', label: 'Stay quiet — raising concerns about the model feels above your pay grade.', quality: 'poor',    note: 'Frontline staff are often the first to see systematic model failures. Not escalating observed patterns delays detection and prolongs harm to policyholders.' },
+            ],
+          },
+          branches: { a: 'n2_data', b: 'n2_data', c: 'n_bu_recover' },
+        },
+        n_bu_recover: {
+          scene:       'desk-focused',
+          caption:     `You kept it to yourself. Weeks later the fairness finding lands anyway — and the analyst, retracing the timeline, asks whether anyone on the frontline had noticed the regional pattern before the audit.`,
+          decision: {
+            prompt: `The pattern you saw is exactly what they're trying to reconstruct now. What do you do?`,
+            choices: [
+              { id: 'a', label: `Tell the analyst what you saw, with the specific cases you can still remember.`, quality: 'good',    note: `Late is far better than never. Your account still helps the team confirm which claim types were affected and how long it ran.` },
+              { id: 'b', label: `Mention it only to your manager and let them decide whether to pass it on.`, quality: 'partial', note: `Routing it through one more person who didn't see the cases dilutes the signal and delays it again. The analyst is the one who needs it.` },
+              { id: 'c', label: `Say nothing — admitting you noticed earlier now feels worse than staying quiet.`, quality: 'poor',    note: `Withholding what you saw to protect yourself extends the harm to policyholders, and is the opposite of what frontline staff are there for.` },
             ],
           },
           branches: { a: 'n2_data', b: 'n2_data', c: 'outcome_silent' },
@@ -117,6 +144,20 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'boardroom',
+          caption:     `The fairness team has just finished presenting. The finding is not in dispute: the model your transformation programme was built on approves metropolitan claims at nearly twice the regional rate.`,
+          sub_caption: `Before you decide anything operational, your first move sets the tone.`,
+          decision: {
+            prompt: `How do you treat the finding in the room?`,
+            choices: [
+              { id: 'a', label: `As a confirmed fairness failure — accept it on the spot and bring Risk and Legal in before deciding anything operational.`, quality: 'good',    note: `Treating a confirmed audit finding as real, and involving the functions that own the exposure, is the defensible starting position.` },
+              { id: 'b', label: `As a result that needs one more round of validation before you act on it.`, quality: 'partial', note: `Some verification is reasonable, but the audit is complete. Re-litigating a confirmed finding mostly buys delay while the disparity keeps running.` },
+              { id: 'c', label: `As primarily a reputational issue — loop in Communications first to manage the narrative.`, quality: 'poor',    note: `Leading with narrative management over substance treats the symptom. The disparity is a conduct and fairness problem before it is a PR one.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'boardroom',
           caption:     'The audit finding is confirmed. The model is disadvantaging regional policyholders at scale.',
           sub_caption: 'The question now is what you do with it.',
           decision: {
@@ -125,6 +166,19 @@ export const scenario = {
               { id: 'a', label: 'Suspend the fast-track for regional claims immediately — accept the delay, eliminate the differential.', quality: 'good',    note: 'Continuing to operate a model known to produce discriminatory outcomes after a confirmed finding creates regulatory and legal exposure. Suspension is the defensible position.' },
               { id: 'b', label: 'Keep the model running but add a manual review layer for all regional claims while retraining proceeds.', quality: 'partial', note: 'A workable interim position that eliminates the differential treatment without suspending service. Requires resourcing the manual review layer — this must be confirmed before this option is viable.' },
               { id: 'c', label: 'Continue operating and fast-track retraining — the model is still faster than manual processing overall.', quality: 'poor',    note: 'Operating a model you know is producing discriminatory outcomes, once the finding is confirmed, is difficult to defend to a regulator. Speed of retraining does not eliminate the interim harm.' },
+            ],
+          },
+          branches: { a: 'n2_suspend', b: 'n2_interim', c: 'n_exec_recover' },
+        },
+        n_exec_recover: {
+          scene:       'office-meeting-hearing',
+          caption:     `You kept the model running and pushed retraining. Three weeks on, a regional policyholder complaint reaches the regulator, and the confirmed-but-unactioned finding is now part of the file. Your team is asking what you want to do.`,
+          decision: {
+            prompt: `The interim harm is still accruing. What do you do now?`,
+            choices: [
+              { id: 'a', label: `Suspend regional fast-track immediately and put the systemic fix on the table — the position you should have taken first.`, quality: 'good',    note: `Course-correcting decisively still limits further harm and shows the finding was acted on, even if late.` },
+              { id: 'b', label: `Stand up a manual-review layer for regional claims now while retraining finishes.`, quality: 'partial', note: `A real interim control that eliminates the differential — better late than not, though the delay between finding and action will be scrutinised.` },
+              { id: 'c', label: `Hold the line — retraining is nearly done, and reversing course now looks like an admission.`, quality: 'poor',    note: `Continuing to operate a model known to discriminate, to avoid the appearance of an admission, is the indefensible position the regulator will focus on.` },
             ],
           },
           branches: { a: 'n2_suspend', b: 'n2_interim', c: 'outcome_continue' },
@@ -198,6 +252,20 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'desk-review',
+          caption:     `The audit meeting is in an hour. The data quality assessment you signed off — the one that confirmed data integrity but never examined subgroup representation — is now central to the finding.`,
+          sub_caption: `How you prepare shapes how the conversation goes.`,
+          decision: {
+            prompt: `What do you do before you walk in?`,
+            choices: [
+              { id: 'a', label: `Pull the actual assessment scope and sign-off records so you can describe precisely what was and wasn't covered.`, quality: 'good',    note: `Going in with the real scope documented lets you give an accurate account — the foundation of a useful root-cause analysis.` },
+              { id: 'b', label: `Go in on memory — you broadly recall what the data science team checked.`, quality: 'partial', note: `Approximate recall risks over- or understating the scope. In an audit, precision about what was done is what the team needs.` },
+              { id: 'c', label: `Line up the timeline pressures first, so the scope gap reads as unavoidable rather than missed.`, quality: 'poor',    note: `Pre-building a justification before the facts are on the table steers you toward defending the delivery rather than helping find the cause.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'desk-review',
           caption:     'The data quality assessment you signed off is now central to the audit finding.',
           sub_caption: 'The assessment confirmed data integrity. It did not examine subgroup representation.',
           decision: {
@@ -208,7 +276,20 @@ export const scenario = {
               { id: 'c', label: 'Acknowledge the gap immediately and note that subgroup analysis wasn\'t standard practice at the time.', quality: 'good',    note: 'Contextualising the gap accurately — it wasn\'t standard practice, not that it was deliberately omitted — helps the audit distinguish systemic from individual failure and design effective remediation.' },
             ],
           },
-          branches: { a: 'n2_scope', b: 'outcome_obstruct', c: 'n2_scope' },
+          branches: { a: 'n2_scope', b: 'n_pm_recover', c: 'n2_scope' },
+        },
+        n_pm_recover: {
+          scene:       'office-meeting-hearing',
+          caption:     `You described the assessment as thorough. But the data science team is in the next session, and their account of what they actually checked won't match yours. The gap is about to be on the record either way.`,
+          decision: {
+            prompt: `Before the next session, what do you do?`,
+            choices: [
+              { id: 'a', label: `Correct the record now — set out exactly what the assessment covered, and that subgroup representation was not in scope.`, quality: 'good',    note: `Getting ahead of the contradiction keeps the focus on the methodology gap rather than on your account of it.` },
+              { id: 'b', label: `Tell the remediation lead privately, but let your earlier answer stand in the audit.`, quality: 'partial', note: `A half-correction to the wrong audience leaves the inaccurate statement on the formal record, where it still does damage.` },
+              { id: 'c', label: `Hold your account — argue the assessment met the standard of the time.`, quality: 'poor',    note: `Defending an inaccurate description once the contradiction is visible turns a scope gap into a question about your candour.` },
+            ],
+          },
+          branches: { a: 'n2_scope', b: 'n2_scope', c: 'outcome_obstruct' },
         },
         n2_scope: {
           scene:       'office-meeting-hearing',
@@ -259,6 +340,20 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
+          scene:       'analyst-desk',
+          caption:     `Your audit is complete. Rural and regional policyholders made up 28% of the current book but only 11% of the training data. Before you recommend a fix, the remediation team wants to know what actually went wrong.`,
+          sub_caption: `Naming the cause correctly determines whether the fix works.`,
+          decision: {
+            prompt: `How do you characterise the root cause to the team?`,
+            choices: [
+              { id: 'a', label: `A representativeness gap — the model learned from data that under-represented regional claims, so it never saw those patterns.`, quality: 'good',    note: `Naming it as a training-data representativeness gap points the team at the fix that addresses the cause rather than the symptom.` },
+              { id: 'b', label: `A disparity in approval rates — describe what the numbers show and leave the cause for the team to determine.`, quality: 'partial', note: `Accurate but incomplete. Reporting the symptom without the mechanism invites symptom-level fixes like threshold tweaks.` },
+              { id: 'c', label: `A calibration issue — the thresholds are set wrong for regional postcodes and need adjusting.`, quality: 'poor',    note: `Framing a data-representation problem as a calibration problem steers the team straight to the fix that won't hold: the model still never learned the regional patterns.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
           scene:       'analyst-desk',
           caption:     'Your audit is complete. Rural and regional policyholders are underrepresented in training data by 17 percentage points.',
           sub_caption: 'The remediation team wants your assessment of what needs to happen.',
@@ -389,6 +484,14 @@ export const scenario = {
       owner: 'Technology',
       go_live: false,
       context: 'As the insurer\'s regional market share grew, the training data became increasingly unrepresentative. A data refresh schedule would have prompted reassessment of the training dataset as the deployment population evolved.',
+    },
+    {
+      id: 'c5',
+      label: 'Frontline escalation path for model concerns',
+      effort: 'Low',
+      owner: 'Risk',
+      go_live: true,
+      context: 'The frontline assessor saw the regional routing pattern months before the audit confirmed it. A clear, low-friction way for staff to surface model concerns — and a norm that doing so is expected rather than above their role — shortens the time between a problem appearing and being investigated.',
     },
   ],
 };
