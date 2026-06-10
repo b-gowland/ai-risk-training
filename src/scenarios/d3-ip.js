@@ -55,6 +55,20 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'desk-working',
+          caption:     `The message from Legal is open on your screen. You used the AI assistant on that data transformation function three months ago — reviewed it, merged it, moved on. The note links to guidance on GPL licence contamination.`,
+          sub_caption: `Before you reply, how seriously do you take it?`,
+          decision: {
+            prompt: `How do you regard the function you wrote with AI assistance?`,
+            choices: [
+              { id: 'a', label: `As something that could carry a licence obligation you didn't check for — worth flagging regardless of how clean it looked.`, quality: 'good',    note: `AI-suggested code can reproduce licensed source, and functional review doesn't catch provenance. Treating it as flaggable is the right instinct.` },
+              { id: 'b', label: `As probably fine — you reviewed it carefully and it worked first time.`, quality: 'partial', note: `Careful review confirms correctness, not licence provenance. Those are different questions, and only one is what Legal is asking about.` },
+              { id: 'c', label: `As the tool's output — if there's a licence problem, that's on the AI vendor.`, quality: 'poor',    note: `The organisation incorporating AI output into its product carries the compliance obligation, not the tool. That misunderstanding is exactly what the review exists to correct.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'desk-working',
           caption:     'Legal is asking all developers who used AI code generation to self-identify. The message is clear — this is serious.',
           sub_caption: 'You know you used AI assistance on that data transformation function.',
           decision: {
@@ -63,6 +77,19 @@ export const scenario = {
               { id: 'a', label: 'Flag the function immediately and provide the pull request link and date.', quality: 'good',    note: 'Self-identification is the fastest way to scope the exposure. Providing the PR link and date lets Legal and the compliance team trace the code path quickly.' },
               { id: 'b', label: 'Flag it but note that you reviewed the code thoroughly and it looked correct to you.', quality: 'partial', note: 'Self-identifying is right. The note about review is understandable but slightly misses the point — the issue is licence provenance, not functional correctness. Both can be true at the same time.' },
               { id: 'c', label: 'Wait to see what the licence scanning tool finds — it might not flag your function.', quality: 'poor',    note: 'Waiting for an automated scan when you know you used AI generation is not self-identification — it\'s hoping not to be found. The legal message is asking for voluntary disclosure specifically because automated scanning may not catch everything.' },
+            ],
+          },
+          branches: { a: 'n2_flagged', b: 'n2_flagged', c: 'n_bu_recover' },
+        },
+        n_bu_recover: {
+          scene:       'office-briefing',
+          caption:     `You decided to wait. A week later the SCA scan flags your function anyway, and Legal follows up — the commit history shows you were among the AI-assistance users who didn't respond to the disclosure request.`,
+          decision: {
+            prompt: `Legal asks why you didn't flag it when the request went out. What do you do?`,
+            choices: [
+              { id: 'a', label: `Own it — confirm you used AI on that function and share the pull request and what you remember.`, quality: 'good',    note: `Late disclosure still helps scope related risk, and the candour matters more now than the delay does.` },
+              { id: 'b', label: `Say you assumed the scan would catch anything, and point to your review.`, quality: 'partial', note: `The scan did catch it, but waiting for it wasn't disclosure. Engaging properly now is still better than not.` },
+              { id: 'c', label: `Frame it as a non-issue — the scan found it, so the process worked.`, quality: 'poor',    note: `Calling the delay "the process working" misses that voluntary disclosure was the ask. The non-response is what gets noted.` },
             ],
           },
           branches: { a: 'n2_flagged', b: 'n2_flagged', c: 'outcome_wait' },
@@ -117,6 +144,20 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'desk-reading',
+          caption:     `Legal has flagged a GPL-3.0 contaminated function in production — AI-generated, merged without licence scanning. In the worst case it creates an obligation to disclose the whole module under GPL.`,
+          sub_caption: `How you frame the finding shapes the response.`,
+          decision: {
+            prompt: `How do you regard this one confirmed finding?`,
+            choices: [
+              { id: 'a', label: `As a likely signal — six months of AI assistance without licence scanning rarely produces a single contaminated function.`, quality: 'good',    note: `Treating a confirmed finding as the visible part of a larger pattern is the right starting assumption for an unscanned, AI-assisted codebase.` },
+              { id: 'b', label: `As serious and confirmed, but possibly isolated until the data says otherwise.`, quality: 'partial', note: `Reasonable caution, but it leans toward the optimistic read in a situation where the gap is structural, not incidental.` },
+              { id: 'c', label: `As a contained, one-function problem to remediate and close quickly.`, quality: 'poor',    note: `Treating one finding as the whole picture, in a codebase that's used AI generation without scanning, assumes the best case in exactly the situation that warrants the worst.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'desk-reading',
           caption:     'GPL contamination confirmed in production. The scope of the risk depends on how extensively AI code generation was used.',
           decision: {
             prompt: 'Legal asks whether you want to scope the full codebase for AI-generated code before deciding on a response, or act immediately on the confirmed finding only. What do you decide?',
@@ -124,6 +165,19 @@ export const scenario = {
               { id: 'a', label: 'Scope the full codebase first — one finding likely means more. Act on complete information.', quality: 'good',    note: 'One confirmed finding in a team that has been using AI assistance for six months is a signal, not an isolated event. Scoping fully before committing to a remediation approach prevents a second round of disruption.' },
               { id: 'b', label: 'Remediate the confirmed finding immediately and scan in parallel — contain the known risk now.', quality: 'good',    note: 'A reasonable dual-track approach — isolating the confirmed risk while building a picture of total exposure. Both actions are compatible and together are faster than sequential approach.' },
               { id: 'c', label: 'Remediate the confirmed finding and close the issue — one function is a manageable risk.', quality: 'poor',    note: 'Treating one confirmed finding as the complete picture, in a codebase where AI generation has been used without licence scanning, is unlikely to reflect reality. The risk is the process gap, not just the specific function.' },
+            ],
+          },
+          branches: { a: 'n2_scope', b: 'n2_scope', c: 'n_exec_recover' },
+        },
+        n_exec_recover: {
+          scene:       'office-meeting',
+          caption:     `You closed it after fixing the one function. Two months later an external security researcher publicly flags a second GPL-contaminated function in the same codebase — before Legal hears about it internally. The board wants to know why the first finding wasn't treated as a signal.`,
+          decision: {
+            prompt: `The second finding is public. What do you do now?`,
+            choices: [
+              { id: 'a', label: `Order the full-codebase scope now and get ahead of the disclosure — the position you should have taken first.`, quality: 'good',    note: `Scoping comprehensively and front-footing the response still limits the damage, even though the first finding should have prompted it.` },
+              { id: 'b', label: `Scope quietly and prepare a response, but don't get ahead of the researcher's disclosure.`, quality: 'partial', note: `Scoping is right; staying behind the public disclosure cedes the narrative and leaves further unknowns sitting in the codebase.` },
+              { id: 'c', label: `Treat the second finding as another one-off and remediate just that function.`, quality: 'poor',    note: `Repeating the one-function response after a second finding confirms the process gap rather than addressing it.` },
             ],
           },
           branches: { a: 'n2_scope', b: 'n2_scope', c: 'outcome_narrow' },
@@ -177,6 +231,20 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
+          scene:       'desk-review',
+          caption:     `A GPL-contaminated function went through your team's review process unchanged. Reviews check functionality, security, and style — licence compatibility was never on the list.`,
+          sub_caption: `How you diagnose the gap determines what you fix.`,
+          decision: {
+            prompt: `What kind of gap is this?`,
+            choices: [
+              { id: 'a', label: `A control gap — the process has no licence step, so it needs a mandatory one, not a stronger reminder.`, quality: 'good',    note: `Naming it as a missing control points at a structural fix that holds under pressure.` },
+              { id: 'b', label: `An awareness gap — reviewers didn't think to check licence risk on AI-generated code.`, quality: 'partial', note: `Awareness is part of it, but a process that relies on reviewers remembering an unwritten check will fail again under deadline.` },
+              { id: 'c', label: `A one-developer lapse — the reviewer should have caught it.`, quality: 'poor',    note: `Framing a systemic process gap as an individual mistake leads to talking-to-people fixes rather than the structural control the situation needs.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
           scene:       'desk-review',
           caption:     'Your code review process doesn\'t include licence scanning. That gap produced this finding.',
           decision: {
@@ -269,6 +337,20 @@ export const scenario = {
       nodes: {
         start: {
           scene:       'analyst-desk-privacy',
+          caption:     `One confirmed GPL finding has landed on your desk. Legal wants the full exposure scoped across six months of AI-generated code.`,
+          sub_caption: `How wide you assume the problem is shapes how you scope it.`,
+          decision: {
+            prompt: `Going in, how do you treat the single confirmed finding?`,
+            choices: [
+              { id: 'a', label: `As probably one of several — scope the whole codebase comprehensively, not just around the known function.`, quality: 'good',    note: `Assuming the finding is representative, not isolated, is the right posture for a codebase that's used AI generation without scanning.` },
+              { id: 'b', label: `As the starting point — scope systematically outward with tooling and see what turns up.`, quality: 'partial', note: `A methodical instinct, but framing it as starting small risks under-scoping if tooling alone is leaned on.` },
+              { id: 'c', label: `As likely isolated — a targeted check around the known function should be enough.`, quality: 'poor',    note: `Assuming isolation is how a scope exercise misses the very findings it exists to catch.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+        n_response: {
+          scene:       'analyst-desk-privacy',
           caption:     'One confirmed GPL finding. Your job is to scope the full exposure across six months of AI-generated code.',
           decision: {
             prompt: 'To scope the codebase you need to identify which code was AI-generated. Commit records don\'t flag AI assistance. What\'s your approach?',
@@ -276,6 +358,19 @@ export const scenario = {
               { id: 'a', label: 'Developer self-identification plus automated scanning of the full codebase — belt and braces.',            quality: 'good',    note: 'Self-identification finds code that automated scanning might miss (e.g. reformatted or refactored AI suggestions); automated scanning finds code that developers don\'t remember or didn\'t flag. Both together give the most complete picture.' },
               { id: 'b', label: 'Automated SCA scan of the full codebase — systematic and doesn\'t depend on developer memory.', quality: 'partial', note: 'Automated scanning is the right primary tool. But SCA tools detect known code matches — reformatted or substantially modified AI suggestions may evade detection. Self-identification fills that gap.' },
               { id: 'c', label: 'Ask developers to self-identify only — scanning the full codebase will take too long.',               quality: 'poor',    note: 'Self-identification alone misses code that developers don\'t remember using AI for, don\'t recognise as AI-generated, or don\'t disclose. For a compliance scope exercise, automated scanning is necessary.' },
+            ],
+          },
+          branches: { a: 'n2_both', b: 'n2_scan', c: 'n_analyst_recover' },
+        },
+        n_analyst_recover: {
+          scene:       'desk-focused',
+          caption:     `You scoped on self-identification alone. Three weeks later an automated scan run for a different reason finds two GPL-contaminated functions no developer had flagged. Legal asks why the scope exercise missed them.`,
+          decision: {
+            prompt: `The gap in your scoping is now visible. What do you do?`,
+            choices: [
+              { id: 'a', label: `Run the full automated SCA scan now and re-scope properly — self-identification alone was never sufficient for a compliance scope.`, quality: 'good',    note: `Correcting the method and re-scoping is the right move; the scan is what the exercise needed from the start.` },
+              { id: 'b', label: `Run the scan, but frame the miss as developers not disclosing rather than a method gap.`, quality: 'partial', note: `Partly true, but the method gap was yours to design out. Automated scanning was always required for a compliance scope.` },
+              { id: 'c', label: `Argue self-identification was reasonable given the time pressure.`, quality: 'poor',    note: `Defending an under-scoped method after it demonstrably missed findings leaves the exposure unquantified and the credibility of the scope in question.` },
             ],
           },
           branches: { a: 'n2_both', b: 'n2_scan', c: 'outcome_selfreport' },
@@ -378,6 +473,14 @@ export const scenario = {
       owner: 'Procurement',
       go_live: true,
       context: 'The AI coding assistant\'s indemnification programme has conditions — the organisation must implement licence scanning to qualify. Vendor documentation would have surfaced this requirement at procurement rather than after a finding.',
+    },
+    {
+      id: 'c5',
+      label: 'Developer self-disclosure path for AI-assisted code',
+      effort: 'Low',
+      owner: 'Technology',
+      go_live: true,
+      context: 'When a licence review is triggered, voluntary self-identification by developers who used AI generation is faster and more complete than automated scanning alone — scanning misses reformatted or modified suggestions. A low-friction disclosure path, and a norm that disclosing is expected, shortens the time to scope an exposure.',
     },
   ],
 };
