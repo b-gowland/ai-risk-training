@@ -35,7 +35,7 @@ const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) =
   id, risk_ref: riskRef, title, domain, difficulty,
   stub: true,
   has_business_user: hasBusinessUser,
-  kb_url: 'https://b-gowland.github.io/ai-risk-kb/docs/how-to-use',
+  kb_url: 'https://library.airiskpractice.org/docs/how-to-use',
   estimated_minutes: null,
 });
 
