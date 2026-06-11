@@ -53,6 +53,24 @@ export const scenario = {
     business_user: {
       nodes: {
         start: {
+          scene: `document-error`,
+          caption: `The client flagged one citation and you have checked it: the clause numbers, the date, the publication reference — all generated, none of it real.`,
+          sub_caption: `Before you decide how to handle the call, you have to decide what this means for the rest of the briefing.`,
+          decision: {
+            prompt: `One citation is confirmed fabricated. What is your working assumption about the rest of the document?`,
+            choices: [
+              { id: 'a', label: `The tool confabulated once, so nothing it generated is trustworthy until checked — treat every citation in this briefing, and the ones you sent earlier this week, as unverified.`, quality: 'good',
+                note: `A confident fabrication is a property of how the model generates text, not a one-off slip. The safe assumption is that the rest needs checking against source too.` },
+              { id: 'b', label: `Probably contained to this one citation — but verify the other two in this document before you say anything definite.`, quality: 'partial',
+                note: `Checking this document is the right instinct. Stopping there assumes the problem cannot have reached anything else you sent from the tool. It can.` },
+              { id: 'c', label: `Likely a one-off glitch — the tool has been accurate for weeks, and one bad reference does not make the rest wrong.`, quality: 'poor',
+                note: `"It has been accurate" is exactly the fluency that makes hallucination dangerous. Past plausibility is not verification; treating this as an anomaly is how a second fabrication reaches the client.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+
+        n_response: {
           scene: 'document-error',
           caption: 'The client is on the phone. The regulation they\'re asking about appears to be completely fabricated by the AI.',
           sub_caption: 'Two other citations are in the document. You haven\'t checked them yet.',
@@ -155,6 +173,24 @@ export const scenario = {
     executive: {
       nodes: {
         start: {
+          scene: `desk-review`,
+          caption: `The partner's forwarded email is open in front of you: your firm sent a client a regulatory briefing citing a document that does not exist, and the client has put it in front of their board.`,
+          sub_caption: `Before you respond to anyone, you have to decide what kind of problem this is.`,
+          decision: {
+            prompt: `How do you frame what has happened?`,
+            choices: [
+              { id: 'a', label: `A process failure — the firm shipped unverified AI output to a client, so the exposure is potentially every AI-assisted document, not one citation.`, quality: 'good',
+                note: `Naming it as a missing control rather than a single bad reference is what lets you scope the real exposure instead of only the visible one.` },
+              { id: 'b', label: `A serious but contained incident — one briefing, one client, fixable once you correct the reference.`, quality: 'partial',
+                note: `Treating it as contained before anyone has audited three weeks of output is the same confident-but-unverified error that produced the briefing.` },
+              { id: 'c', label: `An individual lapse — someone did not check their work, which is a training and supervision matter.`, quality: 'poor',
+                note: `Framing a missing workflow control as one person's mistake protects the process that will reproduce it. The tool had no required verification step; that gap is the firm's.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+
+        n_response: {
           scene: 'desk-review',
           caption: 'A client briefing went out with fabricated regulatory citations. The client has shared it with their board.',
           sub_caption: 'The AI writing tool was deployed last month. No verification step was ever required.',
@@ -251,6 +287,24 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
+          scene: `desk-review`,
+          caption: `A briefing you helped get out the door contained a fabricated citation. The Managing Partner has asked to see you. You have a few minutes at your desk first.`,
+          sub_caption: `Before you walk in, you have to settle how you understand what went wrong in the rollout.`,
+          decision: {
+            prompt: `How do you understand the cause?`,
+            choices: [
+              { id: 'a', label: `The rollout made verification optional for a tool that is certain to fabricate sometimes — the gap is in the process you designed.`, quality: 'good',
+                note: `Owning the design gap is the only framing that leads to a fix. "AI can make things up" offered as advice, not a required step, was always going to fail eventually.` },
+              { id: 'b', label: `A mix — the warning was there in training, but it should have been enforced rather than suggested.`, quality: 'partial',
+                note: `Closer, but "the warning was there" still leans on the user. The honest read is that an optional control for a known, certain failure mode is not a control at all.` },
+              { id: 'c', label: `The user ignored clear guidance — hallucination risk was covered in the training you ran.`, quality: 'poor',
+                note: `You mentioned it; you did not require it. Treating a foreseeable, certain failure mode as a user-discipline problem guarantees it recurs.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+
+        n_response: {
           scene: 'boardroom-agm',
           caption: 'The Managing Partner asks what went wrong in the rollout. The training covered hallucination risk. Verification was mentioned. It was not required.',
           sub_caption: '"Was there a documented verification requirement in the workflow?" There was not.',
@@ -354,6 +408,24 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
+          scene: `desk-focused`,
+          caption: `One citation in one briefing is confirmed fabricated. The Managing Partner has asked you to find out how big the problem is. The tool has been in use for three weeks.`,
+          sub_caption: `Before you open a single document, you have to decide how to scope what you are looking for.`,
+          decision: {
+            prompt: `How do you scope the problem you have been asked to size?`,
+            choices: [
+              { id: 'a', label: `Assume every AI-assisted document in the three-week window is potentially affected until checked — confabulation is not confined to one document.`, quality: 'good',
+                note: `A model that fabricated one citation can fabricate in any output. Scoping to all AI-assisted documents is the only way to actually answer "how big is this".` },
+              { id: 'b', label: `Start with documents for this client, and widen the net only if you find a second problem.`, quality: 'partial',
+                note: `Reasonable triage, but it assumes the fault tracks the client rather than the tool. The tool produced output for everyone, not just this account.` },
+              { id: 'c', label: `Treat it as a one-off: pull this briefing, correct the citation, and report it as an isolated error.`, quality: 'poor',
+                note: `Reporting "isolated" before you have looked is the confident-but-unverified answer the task exists to prevent. You cannot call it isolated until you have checked the others.` },
+            ],
+          },
+          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
+        },
+
+        n_response: {
           scene: 'desk-focused',
           caption: 'The Managing Partner wants to know: is the fabricated citation isolated, or is there more?',
           sub_caption: 'The AI tool has been in use for three weeks. Multiple client-facing documents have gone out.',
