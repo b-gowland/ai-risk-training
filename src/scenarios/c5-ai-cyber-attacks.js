@@ -70,6 +70,24 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `The email is flawless: perfect grammar, the right names, a real project reference, a plausible reason for the new bank account. Nothing in it looks wrong.`,
+          sub_caption: `Before you decide what to do with the payment, you have to decide what that flawlessness actually tells you.`,
+          decision: {
+            prompt: `The email is convincing in every detail. How should that affect your confidence in it?`,
+            choices: [
+              { id: `a`, label: `The polish tells me nothing — a flawless email is exactly what a modern attack looks like, so I'll trust the process, not how right it reads.`, quality: `good`,
+                note: `AI-written fraud is indistinguishable from genuine correspondence by content. Confidence has to come from an independent channel, never from the message itself.` },
+              { id: `b`, label: `It reads as legitimate, but the new bank account is worth confirming before I release the funds.`, quality: `partial`,
+                note: `Right to pause on the account change — but treating the rest as "looks legitimate, so probably is" still trusts the content. The whole instruction needs verifying, not just the account number.` },
+              { id: `c`, label: `It's clearly genuine — every detail matches, and Dana wouldn't send this if it weren't real.`, quality: `poor`,
+                note: `"Every detail matches" is the attack working as designed. Detail accuracy is cheap to research and trivial to assemble; it is evidence of effort, not of authenticity.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `The email is accurate in every detail. The project reference, the penalty clause, even the subcontractor name. Nothing looks wrong.`,
           sub_caption: `Dana says the payment team lead is travelling. She's asking you to handle it directly.`,
           decision: {
@@ -188,6 +206,24 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `office-briefing`,
+          caption:     `A $47,500 transfer left the company Thursday in your name. The email used your address — one transposed character — your title, and an accurate project reference. The amount sat just under your dual-authorisation threshold.`,
+          sub_caption: `Before you decide what to do, you have to decide why this worked.`,
+          decision: {
+            prompt: `How do you understand the cause of what happened?`,
+            choices: [
+              { id: `a`, label: `The control failed, not the person — the process let a single sub-threshold, unverified instruction through, and content this good would have fooled anyone.`, quality: `good`,
+                note: `Naming it as a process gap is what leads to dual authorisation and out-of-band verification. Blaming judgement guarantees the next perfect email succeeds too.` },
+              { id: `b`, label: `A serious failure that needs both a process review and a reminder to staff about staying vigilant.`, quality: `partial`,
+                note: `The process review is right; the vigilance reminder is not. You cannot train people to out-spot a content-perfect email — defeating that detection is the entire point of this attack class.` },
+              { id: `c`, label: `Someone should have caught this — staff need to be more careful with payment requests.`, quality: `poor`,
+                note: `This email had no tell to catch. Pinning it on care reproduces the exact assumption — that humans detect content-perfect fraud — that the attacker exploited.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `office-briefing`,
           caption:     `A $47,500 payment left the company Thursday in your name. You gave no such instruction. The email used your name, your title, and an accurate project reference.`,
           sub_caption: `The amount was $2,500 below the dual-authorisation threshold. That wasn\'t a coincidence.`,
           decision: {
@@ -289,6 +325,24 @@ export const scenario = {
     pm: {
       nodes: {
         start: {
+          scene:       `desk-review`,
+          caption:     `The fraudulent email reproduced your project's details exactly: contract name, penalty-clause structure, the subcontractor. Finance has come to you asking how the attacker knew all this.`,
+          sub_caption: `Before you answer, you have to decide whether this is even your problem to own.`,
+          decision: {
+            prompt: `How do you regard finance's question?`,
+            choices: [
+              { id: `a`, label: `Legitimately mine — the attacker built credibility from project details that were public, so reducing that exposed footprint is part of the fix.`, quality: `good`,
+                note: `The fraud's plausibility came from real project data. Treating the information footprint as in scope is what closes the reconnaissance gap that made the email convincing.` },
+              { id: `b`, label: `Mostly a finance matter, but I'll share whatever project information is public if they ask.`, quality: `partial`,
+                note: `Cooperative but passive. The specific details the attacker used came from your project's public footprint — you are the one who knows what is exposed and why.` },
+              { id: `c`, label: `Not a project issue — the failure was in the payment process, not in my documentation.`, quality: `poor`,
+                note: `The payment gap is real, but disowning the reconnaissance angle leaves the attack surface that made the email convincing wide open for the next attempt.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
           scene:       `desk-review`,
           caption:     `The fraudulent email referenced your project accurately: contract name, penalty clause structure, subcontractor. Finance wants to know how the attacker knew this.`,
           sub_caption: `Your project status update has been on the company website for three months.`,
@@ -393,6 +447,24 @@ export const scenario = {
     analyst: {
       nodes: {
         start: {
+          scene:       `analyst-desk`,
+          caption:     `The email that triggered the transfer passed every content check: perfect grammar, accurate context, no urgency tells. The raw headers say otherwise — SPF fail, no DKIM, a domain registered six days ago. The gateway saw none of it.`,
+          sub_caption: `Before you write a single line of the report, you have to decide what this incident actually demonstrates.`,
+          decision: {
+            prompt: `How do you frame what this incident shows?`,
+            choices: [
+              { id: `a`, label: `Content-based detection is structurally blind to AI-written phishing — the signal that would have caught this was metadata, not anything in the text.`, quality: `good`,
+                note: `The correct frame: as generation quality rises, content heuristics lose value and metadata and process controls have to carry the load. That reframes the whole detection strategy.` },
+              { id: `b`, label: `The gateway missed a domain that threat intelligence could have flagged — a tuning gap in one feed.`, quality: `partial`,
+                note: `True but narrow. Framing it as a single missed indicator understates it: the gateway's content-first weighting is the issue, not one absent feed.` },
+              { id: `c`, label: `The core failure was human — the user didn't verify the sender, and detection is secondary.`, quality: `poor`,
+                note: `There was nothing in the content to verify against. Leading with user error misdiagnoses an attack designed specifically to defeat human and content-based detection alike.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
           scene:       `analyst-desk`,
           caption:     `The email that triggered a $47,500 transfer passed every content check. Perfect grammar. Accurate context. No urgency red flags. But the headers tell a different story.`,
           sub_caption: `SPF: fail. DKIM: none. Domain registered six days ago. The email security gateway saw none of this.`,
