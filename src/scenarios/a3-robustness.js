@@ -70,8 +70,25 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `A radiology AI returns a result of Normal at 52% confidence on a challenging scan. Your own reading is inconclusive. Your supervisor has told the team to trust the AI system.`,
+          sub_caption: `52% confidence means the AI is barely more certain than a coin flip. That is not the same as Normal.`,
+          decision: {
+            prompt: `What does a 52% confidence score from a diagnostic AI tell you about the reliability of that result?`,
+            choices: [
+              { id: `a`, label: `It tells you the AI is operating near the boundary of its training distribution — this result should trigger human review, not acceptance`, quality: `good`,
+                note: `Correct. AI confidence scores reflect how well the input matches the model's training data. 52% means the scan is near the edge of what the model was trained on — precisely the condition where human oversight adds most value. Supervisor policy doesn't change what the number means.` },
+              { id: `b`, label: `It tells you the AI has given a result — confidence is about certainty, and 52% is still a Normal result`, quality: `poor`,
+                note: `This conflates the output label with the reliability of that label. 52% confidence means the model is barely more certain than chance. A Normal result at 52% confidence is not the same as a Normal result at 91% confidence — the label is the same but the evidentiary weight is very different.` },
+              { id: `c`, label: `It tells you to escalate — any result below a set threshold should automatically go to a senior radiologist`, quality: `partial`,
+                note: `Escalation is a reasonable protocol response, but the deeper point is understanding why this number matters. If you escalate without understanding that 52% signals distributional uncertainty — not just a low score — you can't make the case for why the protocol needs to exist.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `AI result: Normal — 52% confidence. Your own reading is unclear. Your supervisor said to use the system the same way as at St Catherine's. Three weeks of scores like this.`,
-          sub_caption: `You don\'t know what 52% confidence means in terms of clinical action.`,
           decision: {
             prompt: `The AI says Normal at 52% confidence. Your own reading is unclear. What do you do?`,
             choices: [
@@ -156,8 +173,25 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom`,
+          caption:     `Three adverse outcomes. Six weeks. All linked to the AI system returning low-confidence scores that were accepted without escalation. The board review begins now.`,
+          sub_caption: `Low confidence signals weren't a known risk in the deployment plan. They should have been.`,
+          decision: {
+            prompt: `What does a pattern of adverse outcomes linked to low-confidence AI results tell you about the deployment design?`,
+            choices: [
+              { id: `a`, label: `That the deployment plan didn't define what happens when the AI returns low-confidence results — a critical operating condition was left unaddressed`, quality: `good`,
+                note: `Correct. A deployment plan that covers normal operation but not edge cases leaves the AI operating without guardrails precisely where it's least reliable. Low-confidence outputs are a foreseeable condition that the design should have explicitly addressed — including escalation thresholds and override protocols.` },
+              { id: `b`, label: `That the clinicians who accepted the low-confidence results made individual errors — the system design isn't at fault`, quality: `poor`,
+                note: `Individual error framing misses the systemic failure. If the deployment plan gave clinicians no guidance on how to interpret confidence scores or when to escalate, the system design created the conditions for these decisions. Blaming individuals for following (or not following) a protocol that didn't exist is not a useful finding.` },
+              { id: `c`, label: `That the AI vendor should have set automatic escalation thresholds in the product before deploying to clinical settings`, quality: `partial`,
+                note: `Vendor design is one lever, but the deploying organisation accepted a system into a clinical setting. The responsibility to define safe operating protocols — including what happens at low confidence — belongs to the deployer, not just the vendor.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom`,
           caption:     `Three adverse outcomes. Six weeks. All linked to the AI system returning low confidence scores that clinicians proceeded with. ODD documentation: doesn\'t exist.`,
-          sub_caption: `The system was deployed to Millbrook without validating its performance on Millbrook\'s imaging equipment.`,
           decision: {
             prompt: `What is your immediate action?`,
             choices: [
@@ -258,8 +292,25 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `Go-live checklist item 7: 'Equipment compatibility — confirmed.' That confirmation covered software compatibility. It didn't cover whether Millbrook's scanner model was within the AI's validated operational design domain.`,
+          sub_caption: `Compatible means the system runs. Within validated ODD means the system produces reliable results. Those are different things.`,
+          decision: {
+            prompt: `What is the difference between equipment compatibility and validated operational design domain in an AI deployment?`,
+            choices: [
+              { id: `a`, label: `Compatibility means the AI software can connect to and receive data from the scanner. Validated ODD means the scanner's output type was included in the training data the AI was validated against — compatibility doesn't imply the latter`, quality: `good`,
+                note: `Correct. An AI model validated on GE Revolution scanner data can run on a Siemens SOMATOM's output — but the model's performance on Siemens data is unknown unless explicitly validated. Compatibility is a technical integration question. ODD is a clinical reliability question. The checklist conflated them.` },
+              { id: `b`, label: `The checklist item should have been more specific — 'equipment compatibility' should have been split into hardware and software compatibility checks`, quality: `partial`,
+                note: `Specificity in the checklist is a valid improvement, but the underlying gap is conceptual — ODD validation isn't a variant of equipment compatibility, it's a separate clinical safety requirement. Splitting the checklist item doesn't capture a category that isn't understood.` },
+              { id: `c`, label: `The AI vendor is responsible for documenting the validated ODD — if they listed the scanner as compatible, the deployment team was entitled to rely on that`, quality: `poor`,
+                note: `Vendor documentation is a necessary input, not a sufficient check. The deploying organisation is responsible for confirming that the equipment in use is within the validated ODD — not for assuming that 'compatible' and 'validated' mean the same thing.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `Go-live checklist item 7: Equipment compatibility — confirmed. That confirmation covered software compatibility, not AI performance validation on Millbrook\'s scanner protocols. These are different things.`,
-          sub_caption: `The checklist asked the wrong question.`,
           decision: {
             prompt: `The CMO asks: what did the go-live checklist actually verify, and what did it miss?`,
             choices: [
@@ -360,8 +411,25 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `Training data: St Catherine's GE Revolution scanners, standard protocol. Millbrook data: Siemens SOMATOM, non-standard acquisition parameters. Two findings needed: ODD status and outcome causation.`,
+          sub_caption: `Different scanner, different acquisition parameters. The model has never seen this input type in training.`,
+          decision: {
+            prompt: `What does it mean for an AI model to operate outside its validated operational design domain?`,
+            choices: [
+              { id: `a`, label: `The model is processing inputs that differ meaningfully from its training data — its performance on those inputs is unknown, because it was never validated against them`, quality: `good`,
+                note: `The correct definition. ODD specifies the conditions under which a model's performance has been validated. Operating outside the ODD doesn't mean the model will fail — it means its reliability is unknown. Unknown reliability in a clinical setting is a patient safety risk, regardless of whether any individual output was wrong.` },
+              { id: `b`, label: `The model is malfunctioning — inputs outside the ODD cause incorrect outputs`, quality: `poor`,
+                note: `ODD violation doesn't mean malfunction. The model may produce outputs that look plausible. The problem is that performance on out-of-ODD inputs hasn't been tested, so there's no basis for trusting those outputs. The risk is unknown reliability, not guaranteed failure.` },
+              { id: `c`, label: `The model's confidence scores will be lower on out-of-ODD inputs, signalling the reliability issue`, quality: `partial`,
+                note: `Lower confidence scores are one possible signal — and in the Millbrook case, the 52% scores are consistent with this. But confidence scores don't reliably track ODD boundaries. A model can return high confidence on out-of-ODD inputs that are close to the training distribution in ways the model can't distinguish. Confidence is a signal, not a guarantee.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Training data: St Catherine\'s GE Revolution scanners, standard protocol. Millbrook data: Siemens SOMATOM, different HU calibration, different slice thickness. The validation study used only St Catherine\'s data.`,
-          sub_caption: `The confidence scores have been correct. The system has been signalling it\'s out of its training distribution for six weeks.`,
           decision: {
             prompt: `The CMO needs two findings: (1) Is Millbrook within the AI\'s validated ODD? (2) Are the three adverse outcomes causally linked to the ODD failure? What do you establish first?`,
             choices: [

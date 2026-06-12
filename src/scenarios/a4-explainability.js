@@ -72,8 +72,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `Kwame Mensah is on the phone. His mortgage application was declined by an AI credit scoring system. He wants to know why.`,
+          sub_caption: `The adverse action notice says: "Score below threshold." That is not an explanation.`,
+          decision: {
+            prompt: `What does Kwame have a right to receive when he asks why his application was declined?`,
+            choices: [
+              { id: `a`, label: `A specific explanation of the factors that led to the AI's decision — not just the outcome`, quality: `good`,
+                note: `Correct. Under consumer credit law in most jurisdictions, adverse action notices must specify the reasons for the decision. "Score below threshold" tells the applicant nothing they can act on. A specific, factor-level explanation is the legal and ethical baseline.` },
+              { id: `b`, label: `An explanation of how the scoring system works generally — the model considers income, debt, and credit history`, quality: `partial`,
+                note: `A general explanation of model inputs isn't an explanation of this decision. Kwame needs to know which factors drove his specific outcome — not a description of the model's methodology.` },
+              { id: `c`, label: `A referral to the lender's complaints process — this is a complex technical question that requires escalation`, quality: `poor`,
+                note: `Complaints process referral isn't a substitute for the explanation Kwame is entitled to now. The adverse action notice requirements exist precisely so that applicants don't have to lodge a complaint to find out why they were declined.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `Kwame Mensah is on the phone. His mortgage application was declined by an AI credit scoring system. He wants to know why.`,
+          decision: {
+            prompt: `What does Kwame have a right to receive when he asks why his application was declined?`,
+            choices: [
+              { id: `a`, label: `A specific explanation of the factors that led to the AI's decision — not just the outcome`, quality: `good`,
+                note: `Correct. Under consumer credit law in most jurisdictions, adverse action notices must specify the reasons for the decision. "Score below threshold" tells the applicant nothing they can act on. A specific, factor-level explanation is the legal and ethical baseline.` },
+              { id: `b`, label: `An explanation of how the scoring system works generally — the model considers income, debt, and credit history`, quality: `partial`,
+                note: `A general explanation of model inputs isn't an explanation of this decision. Kwame needs to know which factors drove his specific outcome — not a description of the model's methodology.` },
+              { id: `c`, label: `A referral to the lender's complaints process — this is a complex technical question that requires escalation`, quality: `poor`,
+                note: `Complaints process referral isn't a substitute for the explanation Kwame is entitled to now. The adverse action notice requirements exist precisely so that applicants don't have to lodge a complaint to find out why they were declined.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `Kwame Mensah is on the phone. His credit score is 487. Minimum is 520. The reason field says: "Score below threshold." That\'s all you have.`,
-          sub_caption: `He wants to know why he was declined. You have no way to tell him.`,
           decision: {
             prompt: `Kwame asks for a specific explanation of why he was declined. What do you do?`,
             choices: [
@@ -158,8 +192,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom`,
+          caption:     `14 months of credit declines. Non-compliant adverse action notices across all of them. The AI system returned a score and a threshold — the notices said nothing specific.`,
+          sub_caption: `The explanation gap isn't a documentation problem. It's a compliance failure built into the system design.`,
+          decision: {
+            prompt: `What does non-compliant adverse action notices at scale tell you about where the design failed?`,
+            choices: [
+              { id: `a`, label: `The system was designed to output a score and threshold decision — explanation capability was never built in, so every notice was non-compliant by design`, quality: `good`,
+                note: `Correct framing. If the system can't produce factor-level explanations, the adverse action notices can't be compliant. The compliance failure is upstream in the design — not in the notice-drafting process.` },
+              { id: `b`, label: `The legal team should have reviewed the notice templates before deployment`, quality: `partial`,
+                note: `Legal review of the templates would have caught the gap — but the root cause is that the system didn't generate the content the notices needed. Template review is a downstream check on an upstream design failure.` },
+              { id: `c`, label: `The AI vendor should have flagged that the model outputs weren't explanation-compatible`, quality: `partial`,
+                note: `Possibly — but the deploying organisation is responsible for ensuring the system meets its regulatory obligations. Vendor silence doesn't transfer the compliance obligation.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom`,
+          caption:     `14 months of credit declines. Non-compliant adverse action notices across all of them. The AI system returned a score and a threshold — the notices said nothing specific.`,
+          decision: {
+            prompt: `What does non-compliant adverse action notices at scale tell you about where the design failed?`,
+            choices: [
+              { id: `a`, label: `The system was designed to output a score and threshold decision — explanation capability was never built in, so every notice was non-compliant by design`, quality: `good`,
+                note: `Correct framing. If the system can't produce factor-level explanations, the adverse action notices can't be compliant. The compliance failure is upstream in the design — not in the notice-drafting process.` },
+              { id: `b`, label: `The legal team should have reviewed the notice templates before deployment`, quality: `partial`,
+                note: `Legal review of the templates would have caught the gap — but the root cause is that the system didn't generate the content the notices needed. Template review is a downstream check on an upstream design failure.` },
+              { id: `c`, label: `The AI vendor should have flagged that the model outputs weren't explanation-compatible`, quality: `partial`,
+                note: `Possibly — but the deploying organisation is responsible for ensuring the system meets its regulatory obligations. Vendor silence doesn't transfer the compliance obligation.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom`,
           caption:     `14 months of credit declines. Non-compliant adverse action notices on all of them. Postcode as the top adverse feature — correlated with demographic composition. Two regulatory obligations potentially breached simultaneously.`,
-          sub_caption: `This needs to go to the board. It also needs to go to ASIC.`,
           decision: {
             prompt: `What is the sequence of your response?`,
             choices: [
@@ -260,8 +328,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-intranet`,
+          caption:     `Implementation design doc, explanation section: 'Explanation capability — confirmed.' The model outputs a credit score. There is no factor-level output. No explanation interface was built.`,
+          sub_caption: `Confirmed against what requirement? The checkbox passed something. It didn't pass explainability.`,
+          decision: {
+            prompt: `What is the difference between a model that produces a score and a model that produces an explanation?`,
+            choices: [
+              { id: `a`, label: `A score tells you the outcome. An explanation tells you which input factors drove the outcome and by how much — those are different outputs that require different model architecture or post-hoc tooling`, quality: `good`,
+                note: `Correct. Explainability is a system capability, not a documentation exercise. A model that outputs only a score cannot produce a compliant adverse action notice without additional explanation infrastructure — SHAP values, LIME, or equivalent. Ticking 'confirmed' without that infrastructure confirmed nothing.` },
+              { id: `b`, label: `A score can function as an explanation if the threshold and weighting methodology are documented`, quality: `poor`,
+                note: `Threshold documentation explains the model's mechanics. It doesn't explain to an individual applicant why their specific combination of factors produced their specific outcome. Those are different things.` },
+              { id: `c`, label: `The explanation requirement can be met by providing the applicant with the model's top features — income, debt ratio, credit history`, quality: `partial`,
+                note: `Top features are a starting point but not sufficient. The requirement is to explain the factors that drove this applicant's specific decision — not a generic list of what the model considers.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-intranet`,
+          caption:     `Implementation design doc, explanation section: 'Explanation capability — confirmed.' The model outputs a credit score. There is no factor-level output. No explanation interface was built.`,
+          decision: {
+            prompt: `What is the difference between a model that produces a score and a model that produces an explanation?`,
+            choices: [
+              { id: `a`, label: `A score tells you the outcome. An explanation tells you which input factors drove the outcome and by how much — those are different outputs that require different model architecture or post-hoc tooling`, quality: `good`,
+                note: `Correct. Explainability is a system capability, not a documentation exercise. A model that outputs only a score cannot produce a compliant adverse action notice without additional explanation infrastructure — SHAP values, LIME, or equivalent. Ticking 'confirmed' without that infrastructure confirmed nothing.` },
+              { id: `b`, label: `A score can function as an explanation if the threshold and weighting methodology are documented`, quality: `poor`,
+                note: `Threshold documentation explains the model's mechanics. It doesn't explain to an individual applicant why their specific combination of factors produced their specific outcome. Those are different things.` },
+              { id: `c`, label: `The explanation requirement can be met by providing the applicant with the model's top features — income, debt ratio, credit history`, quality: `partial`,
+                note: `Top features are a starting point but not sufficient. The requirement is to explain the factors that drove this applicant's specific decision — not a generic list of what the model considers.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-intranet`,
           caption:     `Implementation design doc, explanation section: "Model outputs credit score. Threshold determines approval/decline. Decline notices include score and threshold." No SHAP. No reason codes. The checklist item "Explanation capability — confirmed" was marked complete.`,
-          sub_caption: `The score being visible is not the same as the score being explainable.`,
           decision: {
             prompt: `Compliance asks: what did "Explanation capability — confirmed" actually verify? What do you tell them?`,
             choices: [
@@ -344,8 +446,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `14 months of adverse action notices. Postcode as a top predictor. Two questions: regulatory exposure and proxy discrimination. Both urgent.`,
+          sub_caption: `Postcode correlates with race in this dataset. That may make it a proxy even if it's predictive.`,
+          decision: {
+            prompt: `What makes a predictive variable a proxy discrimination risk rather than a legitimate model feature?`,
+            choices: [
+              { id: `a`, label: `When a variable correlates with a protected characteristic strongly enough that using it produces disparate impact across protected groups — even if the variable itself isn't protected`, quality: `good`,
+                note: `Correct. Proxy discrimination doesn't require intent. If postcode correlates with race and produces disparate credit outcomes across racial groups, it may constitute indirect discrimination regardless of its predictive validity. Predictive power doesn't resolve the discrimination question.` },
+              { id: `b`, label: `When the variable isn't directly related to creditworthiness — postcode may be predictive but it's not a credit-relevant factor`, quality: `partial`,
+                note: `Relevance to creditworthiness is one consideration but not the only one. A variable can be credit-relevant and still constitute proxy discrimination if it produces disparate impact on protected groups. The analysis requires both the relevance and the disparate impact assessment.` },
+              { id: `c`, label: `When the variable was added to the model without explicit approval — the question is whether postcode was an authorised feature`, quality: `poor`,
+                note: `Authorisation is a governance question, not a discrimination question. A variable can be fully authorised and still constitute proxy discrimination. The analysis starts with disparate impact, not with the approval record.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
+          caption:     `14 months of adverse action notices. Postcode as a top predictor. Two questions: regulatory exposure and proxy discrimination. Both urgent.`,
+          decision: {
+            prompt: `What makes a predictive variable a proxy discrimination risk rather than a legitimate model feature?`,
+            choices: [
+              { id: `a`, label: `When a variable correlates with a protected characteristic strongly enough that using it produces disparate impact across protected groups — even if the variable itself isn't protected`, quality: `good`,
+                note: `Correct. Proxy discrimination doesn't require intent. If postcode correlates with race and produces disparate credit outcomes across racial groups, it may constitute indirect discrimination regardless of its predictive validity. Predictive power doesn't resolve the discrimination question.` },
+              { id: `b`, label: `When the variable isn't directly related to creditworthiness — postcode may be predictive but it's not a credit-relevant factor`, quality: `partial`,
+                note: `Relevance to creditworthiness is one consideration but not the only one. A variable can be credit-relevant and still constitute proxy discrimination if it produces disparate impact on protected groups. The analysis requires both the relevance and the disparate impact assessment.` },
+              { id: `c`, label: `When the variable was added to the model without explicit approval — the question is whether postcode was an authorised feature`, quality: `poor`,
+                note: `Authorisation is a governance question, not a discrimination question. A variable can be fully authorised and still constitute proxy discrimination. The analysis starts with disparate impact, not with the approval record.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Two questions. One: 14 months of adverse action notices — what\'s the regulatory exposure? Two: postcode as top adverse feature — proxy discrimination or coincidence?`,
-          sub_caption: `Both questions are significant. The second one may be more serious.`,
           decision: {
             prompt: `The CRO needs both assessments. Which do you address first?`,
             choices: [
