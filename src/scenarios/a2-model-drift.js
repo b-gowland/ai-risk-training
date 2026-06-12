@@ -68,6 +68,24 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `The fraud model's accuracy metric shows 96.2% — unchanged from last quarter. But legitimate transaction decline complaints have tripled in six weeks. Your team leader says it's probably seasonal.`,
+          sub_caption: `Two numbers that shouldn't both be true at the same time.`,
+          decision: {
+            prompt: `What does the gap between the accuracy metric and the complaint volume tell you?`,
+            choices: [
+              { id: `a`, label: `The accuracy metric and the complaint data are measuring different things — the metric may not reflect what's happening now`, quality: `good`,
+                note: `Correct read. Aggregate accuracy metrics can look healthy while a specific segment fails. The divergence is a signal that the metric isn't capturing current reality — not that the complaints are wrong.` },
+              { id: `b`, label: `The complaints are probably real but not yet statistically significant enough to challenge the model`, quality: `partial`,
+                note: `The volume — tripled in six weeks — is already significant. Waiting for more evidence before treating the pattern as meaningful means the problem compounds before anyone acts.` },
+              { id: `c`, label: `The model accuracy figure is more reliable than call-centre complaint patterns, which can have many causes`, quality: `poor`,
+                note: `That assumption is the trap. When complaint volume and model metrics diverge sharply, the question isn't which number to trust — it's what the metric is actually measuring. Aggregate figures can mask localised failures.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `Three to four calls a day about declined legitimate transactions. Up from maybe one a week. And most callers are describing the same type of transaction.`,
           sub_caption: `Your team leader says it's probably seasonal. The calls are still coming.`,
           decision: {
@@ -170,10 +188,28 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `drift-dashboard`,
-          caption:     `340% increase in legitimate transaction decline complaints. 96.2% model accuracy — unchanged from last quarter. One of these numbers is lying.`,
-          sub_caption: `The model team says aggregate metrics look fine. That\'s not an answer.`,
+          caption:     `A 340% spike in legitimate transaction decline complaints. The fraud model's accuracy metric: 96.2%, unchanged from last quarter. The model team says aggregate metrics look fine.`,
+          sub_caption: `One of these numbers is not measuring what you think it is.`,
           decision: {
-            prompt: `How do you respond to the model team\'s "aggregate metrics look fine" answer?`,
+            prompt: `What does the divergence between complaint volume and model accuracy tell you about the accuracy metric itself?`,
+            choices: [
+              { id: `a`, label: `Aggregate accuracy can look healthy while a specific customer segment is failing — the metric is probably masking something`, quality: `good`,
+                note: `The right frame. A single accuracy figure averaged across all customers hides distributional problems. A segment with a 34% false positive rate contributes only slightly to aggregate accuracy if it's a small share of overall volume.` },
+              { id: `b`, label: `The model is probably fine — a metric that's been stable for 18 months wouldn't suddenly become meaningless`, quality: `poor`,
+                note: `Stability in the metric doesn't mean stability in performance. If the metric is measured against historical validation data, it can stay constant while real-world performance degrades significantly.` },
+              { id: `c`, label: `The complaints may be driven by factors outside the model — customer behaviour, process changes, communications`, quality: `partial`,
+                note: `Possible but not the right first assumption. When a specific complaint type triples while a directly related model metric is unchanged, the model's measurement methodology needs scrutiny before looking elsewhere.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `drift-dashboard`,
+          caption:     `340% increase in legitimate transaction decline complaints. 96.2% model accuracy — unchanged from last quarter. One of these numbers is lying.`,
+          sub_caption: `The model team says aggregate metrics look fine. That's not an answer.`,
+          decision: {
+            prompt: `How do you respond to the model team's "aggregate metrics look fine" answer?`,
             choices: [
               { id: `a`, label: `Ask for disaggregated performance by customer segment, transaction type, and time period — not aggregate accuracy`, quality: `good`,
                 note: `Aggregate metrics can look healthy while a specific segment is failing significantly. The question the model team hasn\'t asked is where in the distribution the complaints are concentrated.` },
@@ -272,8 +308,26 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `The fraud model has been in production 18 months. Complaint volume has tripled. The accuracy metric is 96.2% — identical to launch. The CRO wants an explanation for the divergence.`,
+          sub_caption: `Before you explain it to her, you need to understand it yourself.`,
+          decision: {
+            prompt: `What's the most important question to ask about the accuracy metric before the CRO meeting?`,
+            choices: [
+              { id: `a`, label: `What data is the accuracy metric actually measured against — current transactions or the original validation set?`, quality: `good`,
+                note: `This is the question that unlocks everything. If the metric is measured against 18-month-old validation data, it doesn't reflect current performance at all. The metric can be stable while real performance degrades significantly.` },
+              { id: `b`, label: `Whether the model has been retrained since launch and what the retraining schedule is`, quality: `partial`,
+                note: `Relevant but secondary. The more urgent question is what the existing metric is actually measuring — because if it's historical, the absence of retraining explains the divergence but doesn't help you understand the current state.` },
+              { id: `c`, label: `Whether the complaint data itself is reliable — could there be a reporting or categorisation issue?`, quality: `poor`,
+                note: `A 340% increase in a specific complaint type is unlikely to be a data artefact. Starting with the complaint data's reliability before scrutinising the model's measurement methodology gets the sequence backwards.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `18 months in production. No monitoring framework. No drift detection. No retraining schedule. The accuracy metric is calculated against the original training validation set — 18 months old.`,
-          sub_caption: `You\'ve been measuring how well the model performs on old data. Not on today\'s data.`,
+          sub_caption: `You've been measuring how well the model performs on old data. Not on today's data.`,
           decision: {
             prompt: `The CRO asks you to explain why complaint volumes tripled while accuracy metrics look healthy. What is your honest answer?`,
             choices: [
@@ -374,7 +428,25 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `drift-dashboard`,
-          caption:     `96.2% aggregate accuracy. 340% complaint increase. The accuracy metric is measured against 18-month-old validation data. You\'re looking at a dashboard that has been measuring the past for 18 months.`,
+          caption:     `96.2% aggregate accuracy. 340% complaint increase. You've just confirmed that the accuracy metric is calculated against 18-month-old validation data — not against current transactions.`,
+          sub_caption: `The dashboard has been measuring the past for 18 months. It says nothing about now.`,
+          decision: {
+            prompt: `What does this tell you about how to interpret the 96.2% accuracy figure?`,
+            choices: [
+              { id: `a`, label: `The figure is meaningless for assessing current model performance — it only tells you how well the model performed on historical patterns`, quality: `good`,
+                note: `Exactly right. A metric measured against a static validation set from 18 months ago doesn't detect drift. If transaction patterns have changed — which they clearly have — the metric won't move even as real performance degrades.` },
+              { id: `b`, label: `The figure is partially useful — it confirms the model hasn't catastrophically broken, but doesn't tell you about segment-level performance`, quality: `partial`,
+                note: `Closer, but overstates what the metric tells you. It doesn't even confirm the model is performing well overall — it confirms it's performing well on 18-month-old data patterns, which may no longer represent the live population.` },
+              { id: `c`, label: `The figure is still a useful baseline — even if it's historical, a 96.2% score suggests the core model logic is sound`, quality: `poor`,
+                note: `This conflates historical validation performance with current operational performance. The core logic may have been sound 18 months ago and have since encountered a data distribution it wasn't trained on. The metric won't surface that.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `drift-dashboard`,
+          caption:     `96.2% aggregate accuracy. 340% complaint increase. The accuracy metric is measured against 18-month-old validation data. You're looking at a dashboard that has been measuring the past for 18 months.`,
           sub_caption: `Your job: find where the model is failing in the present.`,
           decision: {
             prompt: `Where do you start the investigation?`,
