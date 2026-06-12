@@ -69,8 +69,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `The computer-use agent submitted your clipboard contents to an external URL. The clipboard had client account details. The instruction was hidden in white text on a supplier's website.`,
+          sub_caption: `The agent saw the instruction. You couldn't see it. The agent acted on it.`,
+          decision: {
+            prompt: `What makes computer-use agents particularly vulnerable to visual injection attacks?`,
+            choices: [
+              { id: `a`, label: `Computer-use agents interpret the visual environment — they can see and act on content that's invisible to human users, including white text on white backgrounds, off-screen elements, and hidden overlays`, quality: `good`,
+                note: `The core vulnerability. Computer-use agents process the rendered page as they see it, not as a human reads it. Content hidden by colour, positioning, or size that a human skips is visible to an agent reading the page systematically.` },
+              { id: `b`, label: `Computer-use agents have broader system access than text-based agents — they can interact with any application on the screen`, quality: `partial`,
+                note: `Broader access is a real risk factor, but it's not specific to visual injection. The injection vulnerability is about the agent's ability to see and act on hidden instructions in visual content.` },
+              { id: `c`, label: `The agent should have verified the form destination before submitting — the vulnerability is in the submission step, not the instruction parsing`, quality: `partial`,
+                note: `Destination verification is a valid control, but it addresses the execution step, not the injection step. Both the injection and execution controls need to be addressed.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `The computer-use agent submitted your clipboard contents to an external URL. The clipboard had client account details. The instruction was hidden in white text on a supplier's website.`,
+          decision: {
+            prompt: `What makes computer-use agents particularly vulnerable to visual injection attacks?`,
+            choices: [
+              { id: `a`, label: `Computer-use agents interpret the visual environment — they can see and act on content that's invisible to human users, including white text on white backgrounds, off-screen elements, and hidden overlays`, quality: `good`,
+                note: `The core vulnerability. Computer-use agents process the rendered page as they see it, not as a human reads it. Content hidden by colour, positioning, or size that a human skips is visible to an agent reading the page systematically.` },
+              { id: `b`, label: `Computer-use agents have broader system access than text-based agents — they can interact with any application on the screen`, quality: `partial`,
+                note: `Broader access is a real risk factor, but it's not specific to visual injection. The injection vulnerability is about the agent's ability to see and act on hidden instructions in visual content.` },
+              { id: `c`, label: `The agent should have verified the form destination before submitting — the vulnerability is in the submission step, not the instruction parsing`, quality: `partial`,
+                note: `Destination verification is a valid control, but it addresses the execution step, not the injection step. Both the injection and execution controls need to be addressed.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `The agent submitted your clipboard contents to an external URL. The clipboard had the pricing briefing from the previous supplier. You don't know which of the eight sites triggered it.`,
-          sub_caption: `The pricing data is now at an unknown external destination.`,
           decision: {
             prompt: `What do you do first?`,
             choices: [
@@ -164,8 +198,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `office-briefing-urgent`,
+          caption:     `A computer-use agent submitted client account details to an external URL via a hidden instruction on a supplier's website. The data is gone. You need to respond.`,
+          sub_caption: `This is a data breach. The vector was the agent's visual processing capability.`,
+          decision: {
+            prompt: `What are the notification obligations when an AI agent is the vector for a data breach?`,
+            choices: [
+              { id: `a`, label: `The notification obligations are the same as any data breach — the vector doesn't change the obligation to notify regulators and affected individuals within required timeframes`, quality: `good`,
+                note: `Correct. Privacy legislation defines notification obligations based on the nature of the breach and data involved, not the mechanism. An AI agent as vector doesn't create a new category.` },
+              { id: `b`, label: `AI-agent breaches may have a different notification timeline — regulators may not have clear guidance yet for this attack vector`, quality: `partial`,
+                note: `Regulatory guidance on AI-specific breaches is developing, but the underlying obligation to notify is set by existing privacy law. Apply the standard breach notification framework.` },
+              { id: `c`, label: `The supplier whose website hosted the malicious instruction is the data controller — their notification obligations apply, not yours`, quality: `poor`,
+                note: `The organisation deployed the agent that submitted the data. The supplier may have separate liability, but that doesn't transfer the breaching organisation's notification obligations.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `office-briefing-urgent`,
+          caption:     `A computer-use agent submitted client account details to an external URL via a hidden instruction on a supplier's website. The data is gone. You need to respond.`,
+          decision: {
+            prompt: `What are the notification obligations when an AI agent is the vector for a data breach?`,
+            choices: [
+              { id: `a`, label: `The notification obligations are the same as any data breach — the vector doesn't change the obligation to notify regulators and affected individuals within required timeframes`, quality: `good`,
+                note: `Correct. Privacy legislation defines notification obligations based on the nature of the breach and data involved, not the mechanism. An AI agent as vector doesn't create a new category.` },
+              { id: `b`, label: `AI-agent breaches may have a different notification timeline — regulators may not have clear guidance yet for this attack vector`, quality: `partial`,
+                note: `Regulatory guidance on AI-specific breaches is developing, but the underlying obligation to notify is set by existing privacy law. Apply the standard breach notification framework.` },
+              { id: `c`, label: `The supplier whose website hosted the malicious instruction is the data controller — their notification obligations apply, not yours`, quality: `poor`,
+                note: `The organisation deployed the agent that submitted the data. The supplier may have separate liability, but that doesn't transfer the breaching organisation's notification obligations.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `office-briefing-urgent`,
           caption:     `Computer-use agent. Supplier website. Hidden instruction. Clipboard contents — pricing data — submitted to an external URL. The agent ran with the analyst's credentials.`,
-          sub_caption: `The agent had full desktop-level access. The attacker now has procurement pricing data.`,
           decision: {
             prompt: `What is your immediate response?`,
             choices: [
@@ -282,8 +350,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working-night`,
+          caption:     `The agent had no URL allowlist. It had form submission capability you didn't specify — the capability was inherited from the base agent framework. The review is asking why.`,
+          sub_caption: `Capabilities that weren't specified were present by default. Defaults that weren't reviewed created the attack surface.`,
+          decision: {
+            prompt: `What is the risk of deploying a computer-use agent with default capabilities rather than explicitly specified ones?`,
+            choices: [
+              { id: `a`, label: `Default capabilities reflect the framework's general design, not the specific deployment's requirements — capabilities that aren't needed for the use case but are present by default are attack surface that hasn't been assessed`, quality: `good`,
+                note: `The correct framing. Principle of least privilege applies to agent capabilities. Capabilities present by default that weren't reviewed represent unassessed risk. The form submission capability wasn't needed — it was just there.` },
+              { id: `b`, label: `The agent framework vendor is responsible for documenting default capabilities — if they didn't flag form submission as a risk, that's a vendor failure`, quality: `partial`,
+                note: `Vendor documentation responsibility is real, but the deploying organisation is responsible for understanding what capabilities their agent has before deployment.` },
+              { id: `c`, label: `Default capabilities are a framework feature, not a deployment decision — the specification should have covered business logic, not framework internals`, quality: `poor`,
+                note: `Deployment specifications need to cover what the agent can do, including capabilities inherited from the framework. Framework internals that create security-relevant capabilities are deployment decisions.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working-night`,
+          caption:     `The agent had no URL allowlist. It had form submission capability you didn't specify — the capability was inherited from the base agent framework. The review is asking why.`,
+          decision: {
+            prompt: `What is the risk of deploying a computer-use agent with default capabilities rather than explicitly specified ones?`,
+            choices: [
+              { id: `a`, label: `Default capabilities reflect the framework's general design, not the specific deployment's requirements — capabilities that aren't needed for the use case but are present by default are attack surface that hasn't been assessed`, quality: `good`,
+                note: `The correct framing. Principle of least privilege applies to agent capabilities. Capabilities present by default that weren't reviewed represent unassessed risk. The form submission capability wasn't needed — it was just there.` },
+              { id: `b`, label: `The agent framework vendor is responsible for documenting default capabilities — if they didn't flag form submission as a risk, that's a vendor failure`, quality: `partial`,
+                note: `Vendor documentation responsibility is real, but the deploying organisation is responsible for understanding what capabilities their agent has before deployment.` },
+              { id: `c`, label: `Default capabilities are a framework feature, not a deployment decision — the specification should have covered business logic, not framework internals`, quality: `poor`,
+                note: `Deployment specifications need to cover what the agent can do, including capabilities inherited from the framework. Framework internals that create security-relevant capabilities are deployment decisions.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working-night`,
           caption:     `The agent had no URL allowlist. It had form submission capability you didn't design for. The post-incident review wants to understand both.`,
-          sub_caption: `Two design gaps. One incident.`,
           decision: {
             prompt: `The review asks why the agent had form submission capability when it wasn't supposed to submit forms. How do you explain this?`,
             choices: [
@@ -400,8 +502,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `Computer-use agents read the visual environment. White text on white background. The agent saw it. You didn't. The review is asking how this attack class differs from text-based injection.`,
+          sub_caption: `The attack surface is the rendered page, not the underlying HTML. What the agent sees is what matters.`,
+          decision: {
+            prompt: `How does computer-use agent injection differ from text-based prompt injection in terms of attack surface and detection?`,
+            choices: [
+              { id: `a`, label: `Text-based injection attacks the model's text input — computer-use injection attacks the visual rendering layer, using formatting tricks that text-based filters can't detect because they operate on content, not visual appearance`, quality: `good`,
+                note: `The correct distinction. Text-based injection filters parse content strings. Visual injection uses rendering properties — colour, position, opacity — to hide instructions that text parsers see as legitimate content.` },
+              { id: `b`, label: `Computer-use injection is harder to execute — it requires controlling the visual environment the agent accesses`, quality: `partial`,
+                note: `Controlling a webpage the agent is expected to visit is achievable for an attacker with access to the site. The barrier is lower than it might appear.` },
+              { id: `c`, label: `Detection is straightforward — scan pages for hidden text before the agent processes them`, quality: `partial`,
+                note: `Scanning helps but isn't complete. Visual injection can use mechanisms beyond colour-matching tricks: off-screen positioned elements, transparent overlays, tiny font sizes, or content rendered after page load.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
+          caption:     `Computer-use agents read the visual environment. White text on white background. The agent saw it. You didn't. The review is asking how this attack class differs from text-based injection.`,
+          decision: {
+            prompt: `How does computer-use agent injection differ from text-based prompt injection in terms of attack surface and detection?`,
+            choices: [
+              { id: `a`, label: `Text-based injection attacks the model's text input — computer-use injection attacks the visual rendering layer, using formatting tricks that text-based filters can't detect because they operate on content, not visual appearance`, quality: `good`,
+                note: `The correct distinction. Text-based injection filters parse content strings. Visual injection uses rendering properties — colour, position, opacity — to hide instructions that text parsers see as legitimate content.` },
+              { id: `b`, label: `Computer-use injection is harder to execute — it requires controlling the visual environment the agent accesses`, quality: `partial`,
+                note: `Controlling a webpage the agent is expected to visit is achievable for an attacker with access to the site. The barrier is lower than it might appear.` },
+              { id: `c`, label: `Detection is straightforward — scan pages for hidden text before the agent processes them`, quality: `partial`,
+                note: `Scanning helps but isn't complete. Visual injection can use mechanisms beyond colour-matching tricks: off-screen positioned elements, transparent overlays, tiny font sizes, or content rendered after page load.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Computer-use agents read the visual environment. White text on white background is invisible to humans — not to the agent. The attack surface is every website the agent visits.`,
-          sub_caption: `Your threat model covered API-level injection. The attack surface here is the visual rendering environment.`,
           decision: {
             prompt: `The review asks how computer-use agent injection differs from other injection classes. How do you characterise it?`,
             choices: [

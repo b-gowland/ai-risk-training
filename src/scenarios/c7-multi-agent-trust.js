@@ -72,8 +72,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `A document with a grey-text-on-white-background instruction entered a three-agent pipeline. The instruction propagated through all three agents and was executed by the last one.`,
+          sub_caption: `The instruction was invisible to human readers. It was fully visible to every agent in the pipeline.`,
+          decision: {
+            prompt: `What does this attack reveal about how multi-agent pipelines handle instructions in document content?`,
+            choices: [
+              { id: `a`, label: `Agents process document content as data — they don't distinguish between legitimate document content and injected instructions hidden in that content. Every agent in the pipeline is exposed to whatever is in the documents they process`, quality: `good`,
+                note: `The correct framing. AI agents reading documents treat all text as processable content. An instruction hidden in document formatting that a human skips over is fully visible to an agent that processes the raw content.` },
+              { id: `b`, label: `The instruction propagated because the agents shared outputs without validation — better output filtering between agents would have caught it`, quality: `partial`,
+                note: `Output filtering between agents is a valid control, but it addresses the propagation, not the initial injection. Both the injection point and the propagation mechanism need to be addressed.` },
+              { id: `c`, label: `This is a document sanitisation failure — the document should have been scanned before entering the pipeline`, quality: `partial`,
+                note: `Sanitisation is one layer, but detecting prompt injection in documents is technically hard. Defence in depth requires sanitisation plus agent-level controls, not sanitisation alone.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
+          caption:     `A document with a grey-text-on-white-background instruction entered a three-agent pipeline. The instruction propagated through all three agents and was executed by the last one.`,
+          decision: {
+            prompt: `What does this attack reveal about how multi-agent pipelines handle instructions in document content?`,
+            choices: [
+              { id: `a`, label: `Agents process document content as data — they don't distinguish between legitimate document content and injected instructions hidden in that content. Every agent in the pipeline is exposed to whatever is in the documents they process`, quality: `good`,
+                note: `The correct framing. AI agents reading documents treat all text as processable content. An instruction hidden in document formatting that a human skips over is fully visible to an agent that processes the raw content.` },
+              { id: `b`, label: `The instruction propagated because the agents shared outputs without validation — better output filtering between agents would have caught it`, quality: `partial`,
+                note: `Output filtering between agents is a valid control, but it addresses the propagation, not the initial injection. Both the injection point and the propagation mechanism need to be addressed.` },
+              { id: `c`, label: `This is a document sanitisation failure — the document should have been scanned before entering the pipeline`, quality: `partial`,
+                note: `Sanitisation is one layer, but detecting prompt injection in documents is technically hard. Defence in depth requires sanitisation plus agent-level controls, not sanitisation alone.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `The security team has shown you the footnote. Grey text on white background. Invisible to a human reader scanning the document. Exactly what an adversarial injection looks like.`,
-          sub_caption: `The pipeline processed hundreds of documents this month. This may not be the only one.`,
           decision: {
             prompt: `Security asks whether you reviewed documents before they entered the pipeline. What's your answer?`,
             choices: [
@@ -167,8 +201,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom-crisis`,
+          caption:     `Three-agent pipeline compromised. An injected instruction in a processed document propagated through all three agents and executed. External data was forwarded to an unauthorised address.`,
+          sub_caption: `The attack crossed three trust boundaries. None of them caught it.`,
+          decision: {
+            prompt: `What does a successful multi-agent attack reveal about the trust architecture of the pipeline?`,
+            choices: [
+              { id: `a`, label: `Each agent trusted the previous agent's output as a legitimate instruction source — the attack succeeded because inter-agent trust was unconditional rather than verified`, quality: `good`,
+                note: `The core vulnerability. In a pipeline where each agent treats upstream output as trusted, a compromise at the first agent propagates through all subsequent agents.` },
+              { id: `b`, label: `The pipeline lacked human oversight — a human checkpoint between agents would have caught the forwarding instruction`, quality: `partial`,
+                note: `Human checkpoints are a valid control, but they may not be practical at every inter-agent handoff in a high-volume pipeline. Architectural controls are more scalable.` },
+              { id: `c`, label: `The external forwarding capability shouldn't have existed — removing it prevents this class of attack`, quality: `partial`,
+                note: `Capability restriction is the right principle, but external forwarding may be a legitimate pipeline function. The control question is whether it requires explicit authorisation beyond what the agent can grant itself.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
+          caption:     `Three-agent pipeline compromised. An injected instruction in a processed document propagated through all three agents and executed. External data was forwarded to an unauthorised address.`,
+          decision: {
+            prompt: `What does a successful multi-agent attack reveal about the trust architecture of the pipeline?`,
+            choices: [
+              { id: `a`, label: `Each agent trusted the previous agent's output as a legitimate instruction source — the attack succeeded because inter-agent trust was unconditional rather than verified`, quality: `good`,
+                note: `The core vulnerability. In a pipeline where each agent treats upstream output as trusted, a compromise at the first agent propagates through all subsequent agents.` },
+              { id: `b`, label: `The pipeline lacked human oversight — a human checkpoint between agents would have caught the forwarding instruction`, quality: `partial`,
+                note: `Human checkpoints are a valid control, but they may not be practical at every inter-agent handoff in a high-volume pipeline. Architectural controls are more scalable.` },
+              { id: `c`, label: `The external forwarding capability shouldn't have existed — removing it prevents this class of attack`, quality: `partial`,
+                note: `Capability restriction is the right principle, but external forwarding may be a legitimate pipeline function. The control question is whether it requires explicit authorisation beyond what the agent can grant itself.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
           caption:     `Three-agent pipeline compromised. Injected instruction propagated from document to Agent 1 to Agent 2 to Agent 3. Agent 3 sent client data to an attacker email. Each agent trusted the previous one's output completely.`,
-          sub_caption: `The pipeline design made this attack possible. The trust model is the root cause.`,
           decision: {
             prompt: `What are your immediate actions?`,
             choices: [
@@ -278,8 +346,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `Your specification said each agent treats the previous agent's output as trusted content. The review is asking whether inter-agent trust levels were considered in the design.`,
+          sub_caption: `Trusted was a design choice. It simplified integration. It also created the attack surface.`,
+          decision: {
+            prompt: `What is the security trade-off between treating inter-agent outputs as trusted versus verified?`,
+            choices: [
+              { id: `a`, label: `Trusted inter-agent outputs simplify integration and reduce latency — verified outputs add complexity and overhead but prevent injected instructions from propagating through the pipeline`, quality: `good`,
+                note: `The explicit trade-off. Unconditional trust between agents is an engineering convenience. The security cost is that a compromise at any point propagates. The design choice needs to be made explicitly, with the security implication understood.` },
+              { id: `b`, label: `Verification between agents isn't technically feasible at scale — trusted outputs are the only practical architecture for high-volume pipelines`, quality: `poor`,
+                note: `Verification has overhead but is technically feasible. The feasibility question is about implementation cost, not technical possibility.` },
+              { id: `c`, label: `The trust level should be determined by the sensitivity of the data the pipeline processes — trusted is fine for non-sensitive data`, quality: `partial`,
+                note: `The attack surface isn't determined by what the pipeline is designed to process. An injection attack works by introducing adversarial content regardless of normal data sensitivity.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `Your specification said each agent treats the previous agent's output as trusted content. The review is asking whether inter-agent trust levels were considered in the design.`,
+          decision: {
+            prompt: `What is the security trade-off between treating inter-agent outputs as trusted versus verified?`,
+            choices: [
+              { id: `a`, label: `Trusted inter-agent outputs simplify integration and reduce latency — verified outputs add complexity and overhead but prevent injected instructions from propagating through the pipeline`, quality: `good`,
+                note: `The explicit trade-off. Unconditional trust between agents is an engineering convenience. The security cost is that a compromise at any point propagates. The design choice needs to be made explicitly, with the security implication understood.` },
+              { id: `b`, label: `Verification between agents isn't technically feasible at scale — trusted outputs are the only practical architecture for high-volume pipelines`, quality: `poor`,
+                note: `Verification has overhead but is technically feasible. The feasibility question is about implementation cost, not technical possibility.` },
+              { id: `c`, label: `The trust level should be determined by the sensitivity of the data the pipeline processes — trusted is fine for non-sensitive data`, quality: `partial`,
+                note: `The attack surface isn't determined by what the pipeline is designed to process. An injection attack works by introducing adversarial content regardless of normal data sensitivity.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `You specified that each agent treats the previous agent's output as trusted context. That specification is why the injection propagated. The post-incident review is examining whether you considered inter-agent trust as a design variable.`,
-          sub_caption: `The design decision was intentional. The attack surface it created wasn't foreseen.`,
           decision: {
             prompt: `The review asks whether inter-agent trust levels were considered in the pipeline design. What's your answer?`,
             choices: [
@@ -396,8 +498,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `Single-agent injection: the attack surface is user input. Multi-agent injection: the attack surface is every document every agent in the chain processes. The review is asking why this attack was more severe.`,
+          sub_caption: `The attack surface scales with the pipeline. The controls didn't.`,
+          decision: {
+            prompt: `How does attack surface change when moving from a single-agent to a multi-agent architecture?`,
+            choices: [
+              { id: `a`, label: `In a single-agent system, injection requires compromising the user input channel. In a multi-agent system, any document processed by any agent in the chain is an injection point — and a successful injection propagates forward through all downstream agents`, quality: `good`,
+                note: `The correct characterisation. Single-agent attack surface is bounded by what the agent directly receives from users. Multi-agent attack surface includes all external content any agent in the chain processes.` },
+              { id: `b`, label: `Multi-agent systems are more secure because each agent provides an additional validation layer — the attack had to bypass three agents`, quality: `poor`,
+                note: `This inverts the security logic. Additional agents aren't additional validators unless they're designed as validators. More agents without verification architecture means more propagation, not more defence.` },
+              { id: `c`, label: `The attack surface is the same — it depends on what external content the system processes, not how many agents process it`, quality: `poor`,
+                note: `The number of agents matters for propagation. Multi-agent propagation means the injected instruction reaches capabilities that the initially compromised agent didn't have — the pipeline amplifies the attack.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
+          caption:     `Single-agent injection: the attack surface is user input. Multi-agent injection: the attack surface is every document every agent in the chain processes. The review is asking why this attack was more severe.`,
+          decision: {
+            prompt: `How does attack surface change when moving from a single-agent to a multi-agent architecture?`,
+            choices: [
+              { id: `a`, label: `In a single-agent system, injection requires compromising the user input channel. In a multi-agent system, any document processed by any agent in the chain is an injection point — and a successful injection propagates forward through all downstream agents`, quality: `good`,
+                note: `The correct characterisation. Single-agent attack surface is bounded by what the agent directly receives from users. Multi-agent attack surface includes all external content any agent in the chain processes.` },
+              { id: `b`, label: `Multi-agent systems are more secure because each agent provides an additional validation layer — the attack had to bypass three agents`, quality: `poor`,
+                note: `This inverts the security logic. Additional agents aren't additional validators unless they're designed as validators. More agents without verification architecture means more propagation, not more defence.` },
+              { id: `c`, label: `The attack surface is the same — it depends on what external content the system processes, not how many agents process it`, quality: `poor`,
+                note: `The number of agents matters for propagation. Multi-agent propagation means the injected instruction reaches capabilities that the initially compromised agent didn't have — the pipeline amplifies the attack.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Single-agent injection: the attack surface is user input. Multi-agent injection: the attack surface is every inter-agent message. The controls are different.`,
-          sub_caption: `Your threat model covered the first. It missed the second.`,
           decision: {
             prompt: `The post-incident review asks you to explain why this attack is different from single-agent prompt injection. How do you explain it?`,
             choices: [
