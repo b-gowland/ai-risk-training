@@ -65,8 +65,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `A customer's chatbot conversation is on your screen. Three paragraphs of specific asset protection strategies — structures, jurisdictions, thresholds. The chatbot is a general financial wellness tool.`,
+          sub_caption: `This isn't generic information. It's specific advice the chatbot had no authorisation to give.`,
+          decision: {
+            prompt: `What makes this output harmful rather than just unhelpful?`,
+            choices: [
+              { id: `a`, label: `It's specific enough to act on — a customer following this advice could make decisions that harm them, and the chatbot had no authorisation to give it`, quality: `good`,
+                note: `The key distinction. Generic educational content about financial topics is different from specific, actionable advice on asset protection structures. The latter creates reliance risk and regulatory risk — providing it without a licence is unlicensed financial advice.` },
+              { id: `b`, label: `It's only harmful if the customer acts on it — the output itself is just text`, quality: `poor`,
+                note: `This logic would apply to almost any harmful output. The harm potential is in the specificity and actionability of the content, not whether a particular customer acted on it. The question is whether the chatbot should have produced it at all.` },
+              { id: `c`, label: `It's a guardrail failure — the harm taxonomy should have caught this content type`, quality: `partial`,
+                note: `True, but 'guardrail failure' describes the mechanism, not the harm. The output is harmful because it constitutes unlicensed financial advice that a customer might rely on. Understanding why it's harmful informs what the right remediation looks like.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `A customer's chatbot conversation is on your screen. Three paragraphs of specific asset protection strategies — structures, jurisdictions, thresholds. The chatbot is a general financial wellness tool.`,
+          decision: {
+            prompt: `What makes this output harmful rather than just unhelpful?`,
+            choices: [
+              { id: `a`, label: `It's specific enough to act on — a customer following this advice could make decisions that harm them, and the chatbot had no authorisation to give it`, quality: `good`,
+                note: `The key distinction. Generic educational content about financial topics is different from specific, actionable advice on asset protection structures. The latter creates reliance risk and regulatory risk — providing it without a licence is unlicensed financial advice.` },
+              { id: `b`, label: `It's only harmful if the customer acts on it — the output itself is just text`, quality: `poor`,
+                note: `This logic would apply to almost any harmful output. The harm potential is in the specificity and actionability of the content, not whether a particular customer acted on it. The question is whether the chatbot should have produced it at all.` },
+              { id: `c`, label: `It's a guardrail failure — the harm taxonomy should have caught this content type`, quality: `partial`,
+                note: `True, but 'guardrail failure' describes the mechanism, not the harm. The output is harmful because it constitutes unlicensed financial advice that a customer might rely on. Understanding why it's harmful informs what the right remediation looks like.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `The chatbot log is open on your screen. Three paragraphs of specific asset protection advice. Prefaced with "Here are some options that may help in your situation."`,
-          sub_caption: `Priya is still on the phone. She says she showed the advice to a friend who is a lawyer, who told her it was legally questionable.`,
           decision: {
             prompt: `What do you do with this conversation?`,
             choices: [
@@ -167,8 +201,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-focused`,
+          caption:     `23 conversations with unlicensed financial advice outputs. Legal is on the phone. The chatbot is live. You have 30 minutes before the board call.`,
+          sub_caption: `The question isn't whether to act. It's whether to suspend now or investigate first.`,
+          decision: {
+            prompt: `What is the risk of leaving the chatbot running while the investigation proceeds?`,
+            choices: [
+              { id: `a`, label: `Every hour it runs, more unlicensed advice may be given to more customers — suspension stops the harm accumulating while the investigation runs`, quality: `good`,
+                note: `The case for immediate suspension. With 23 confirmed harmful outputs, the model is demonstrably producing the harmful content category. Continuing operation while investigating means accepting ongoing regulatory and customer harm risk.` },
+              { id: `b`, label: `Suspension creates its own risk — customers lose access to the service and may go elsewhere for worse information`, quality: `poor`,
+                note: `Customer inconvenience from suspension is not comparable to the regulatory and customer harm risk from continued operation producing unlicensed financial advice. This framing inverts the risk assessment.` },
+              { id: `c`, label: `A prompt update can restrict the harmful content faster than suspension and keeps the service running`, quality: `partial`,
+                note: `Prompt updates can reduce frequency of harmful outputs but can't guarantee elimination. With active regulatory exposure, 'reduce frequency' isn't a sufficient control. Suspension while the fix is validated is the defensible sequence.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
+          caption:     `23 conversations with unlicensed financial advice outputs. Legal is on the phone. The chatbot is live. You have 30 minutes before the board call.`,
+          decision: {
+            prompt: `What is the risk of leaving the chatbot running while the investigation proceeds?`,
+            choices: [
+              { id: `a`, label: `Every hour it runs, more unlicensed advice may be given to more customers — suspension stops the harm accumulating while the investigation runs`, quality: `good`,
+                note: `The case for immediate suspension. With 23 confirmed harmful outputs, the model is demonstrably producing the harmful content category. Continuing operation while investigating means accepting ongoing regulatory and customer harm risk.` },
+              { id: `b`, label: `Suspension creates its own risk — customers lose access to the service and may go elsewhere for worse information`, quality: `poor`,
+                note: `Customer inconvenience from suspension is not comparable to the regulatory and customer harm risk from continued operation producing unlicensed financial advice. This framing inverts the risk assessment.` },
+              { id: `c`, label: `A prompt update can restrict the harmful content faster than suspension and keeps the service running`, quality: `partial`,
+                note: `Prompt updates can reduce frequency of harmful outputs but can't guarantee elimination. With active regulatory exposure, 'reduce frequency' isn't a sufficient control. Suspension while the fix is validated is the defensible sequence.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
           caption:     `23 conversations. Unlicensed financial advice. Legal team on the phone. 30 minutes to decide on chatbot suspension.`,
-          sub_caption: `The chatbot is currently live and serving approximately 400 conversations per day.`,
           decision: {
             prompt: `Do you suspend the chatbot?`,
             choices: [
@@ -269,8 +337,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-intranet`,
+          caption:     `The harm taxonomy you implemented covers abusive language, explicit content, and self-harm. It doesn't cover unlicensed financial advice. That gap is now a regulatory exposure.`,
+          sub_caption: `A harm taxonomy is only as good as the harms it was designed to catch.`,
+          decision: {
+            prompt: `What should drive the scope of a harm taxonomy for a financial services chatbot?`,
+            choices: [
+              { id: `a`, label: `The regulatory context the chatbot operates in — a financial services tool has specific prohibited content categories that a generic harm taxonomy won't cover`, quality: `good`,
+                note: `Correct. Generic harm taxonomies are designed for general consumer AI. A financial services deployment has an additional layer of domain-specific prohibited outputs defined by financial services regulation. The taxonomy needs to reflect both.` },
+              { id: `b`, label: `Industry benchmarks for chatbot harm — what other organisations have included in their taxonomies`, quality: `partial`,
+                note: `Industry benchmarks are a useful input but can't substitute for regulatory analysis. Other organisations' taxonomies reflect their context. The regulatory obligations of a licensed financial services entity are specific.` },
+              { id: `c`, label: `The use cases the chatbot was designed for — if it wasn't designed to give financial advice, it shouldn't need advice-specific guardrails`, quality: `poor`,
+                note: `This is the gap that caused the incident. The chatbot wasn't designed to give financial advice — but it did. Harm taxonomies need to cover what the model might produce, not just what it was designed to produce.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-intranet`,
+          caption:     `The harm taxonomy you implemented covers abusive language, explicit content, and self-harm. It doesn't cover unlicensed financial advice. That gap is now a regulatory exposure.`,
+          decision: {
+            prompt: `What should drive the scope of a harm taxonomy for a financial services chatbot?`,
+            choices: [
+              { id: `a`, label: `The regulatory context the chatbot operates in — a financial services tool has specific prohibited content categories that a generic harm taxonomy won't cover`, quality: `good`,
+                note: `Correct. Generic harm taxonomies are designed for general consumer AI. A financial services deployment has an additional layer of domain-specific prohibited outputs defined by financial services regulation. The taxonomy needs to reflect both.` },
+              { id: `b`, label: `Industry benchmarks for chatbot harm — what other organisations have included in their taxonomies`, quality: `partial`,
+                note: `Industry benchmarks are a useful input but can't substitute for regulatory analysis. Other organisations' taxonomies reflect their context. The regulatory obligations of a licensed financial services entity are specific.` },
+              { id: `c`, label: `The use cases the chatbot was designed for — if it wasn't designed to give financial advice, it shouldn't need advice-specific guardrails`, quality: `poor`,
+                note: `This is the gap that caused the incident. The chatbot wasn't designed to give financial advice — but it did. Harm taxonomies need to cover what the model might produce, not just what it was designed to produce.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-intranet`,
           caption:     `Implementation design: harm taxonomy covers abusive language, explicit content, competitor mentions. Financial advice: not listed. System prompt: "You can answer questions about accounts, products, and general banking processes." Red teaming: not conducted.`,
-          sub_caption: `The model was deployed with no classifier for the category of harm it has now produced at scale.`,
           decision: {
             prompt: `Compliance asks: why wasn\'t financial advice in the harm taxonomy? What do you tell them?`,
             choices: [
@@ -371,8 +473,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk-privacy`,
+          caption:     `14,000 conversations. 23 confirmed harmful outputs. You need to find the rest without a pre-built classifier for this content type.`,
+          sub_caption: `23 confirmed cases in a sample means the true count is unknown. The analysis design determines what you find.`,
+          decision: {
+            prompt: `What is the risk of using keyword search to identify harmful financial advice outputs?`,
+            choices: [
+              { id: `a`, label: `Keyword search misses harmful outputs that don't use the flagged terms — advice framed as 'information' or 'options' may be just as actionable but won't be caught`, quality: `good`,
+                note: `The core limitation. Unlicensed financial advice doesn't always look like advice. 'You might consider...' can be just as actionable as 'I recommend...' — but keyword search for 'recommend' won't catch it. Semantic analysis or human review of a stratified sample is more reliable.` },
+              { id: `b`, label: `Keyword search is fast and will catch the most obvious cases — start there and refine`, quality: `partial`,
+                note: `Speed is a real consideration, but starting with keyword search and presenting those results as the scope of the problem understates the exposure. The analysis design needs to account for what keyword search will miss.` },
+              { id: `c`, label: `A random sample of 500 conversations reviewed by humans will give a reliable prevalence estimate`, quality: `good`,
+                note: `Also correct as a methodology. A random sample with human review gives a statistically grounded prevalence estimate that keyword search can't provide. It's slower but more defensible for regulatory purposes.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk-privacy`,
+          caption:     `14,000 conversations. 23 confirmed harmful outputs. You need to find the rest without a pre-built classifier for this content type.`,
+          decision: {
+            prompt: `What is the risk of using keyword search to identify harmful financial advice outputs?`,
+            choices: [
+              { id: `a`, label: `Keyword search misses harmful outputs that don't use the flagged terms — advice framed as 'information' or 'options' may be just as actionable but won't be caught`, quality: `good`,
+                note: `The core limitation. Unlicensed financial advice doesn't always look like advice. 'You might consider...' can be just as actionable as 'I recommend...' — but keyword search for 'recommend' won't catch it. Semantic analysis or human review of a stratified sample is more reliable.` },
+              { id: `b`, label: `Keyword search is fast and will catch the most obvious cases — start there and refine`, quality: `partial`,
+                note: `Speed is a real consideration, but starting with keyword search and presenting those results as the scope of the problem understates the exposure. The analysis design needs to account for what keyword search will miss.` },
+              { id: `c`, label: `A random sample of 500 conversations reviewed by humans will give a reliable prevalence estimate`, quality: `good`,
+                note: `Also correct as a methodology. A random sample with human review gives a statistically grounded prevalence estimate that keyword search can't provide. It's slower but more defensible for regulatory purposes.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk-privacy`,
           caption:     `14,000 conversations. 23 confirmed harmful outputs. You need to find the rest — and identify the prompt patterns that elicited them.`,
-          sub_caption: `Manual review found 23 in six weeks. The question is whether the full population is larger.`,
           decision: {
             prompt: `How do you design the analysis to find harmful conversations the manual review missed?`,
             choices: [
