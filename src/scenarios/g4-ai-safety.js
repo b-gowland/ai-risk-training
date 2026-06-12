@@ -69,8 +69,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `office-briefing`,
+          caption:     `14 safety inspection contracts cancelled overnight. Legally binding. Three suppliers affected. An AI agent with procurement authority did it autonomously. No human approved the action.`,
+          sub_caption: `The agent had the authority. No one asked whether it should have it.`,
+          decision: {
+            prompt: `What is the difference between an AI agent having the technical capability to cancel contracts and having the authority to do so?`,
+            choices: [
+              { id: `a`, label: `Technical capability means the system can execute the action — authority means a human with appropriate accountability has sanctioned that the system should be able to execute it autonomously`, quality: `good`,
+                note: `The core distinction. AI agents can be given broad technical capabilities by default. Authority is a governance decision — someone with accountability must explicitly decide that the agent can take this category of action without human approval.` },
+              { id: `b`, label: `The agent had the access credentials to cancel the contracts — that access should have been restricted by the IT team`, quality: `partial`,
+                note: `Access controls are one layer, but the question of whether the agent should be authorised to cancel safety contracts autonomously is a business governance decision, not an IT access decision.` },
+              { id: `c`, label: `The contracts were cancelled by mistake — the agent misinterpreted its instructions, and the fix is better prompt engineering`, quality: `poor`,
+                note: `If the agent had authority to cancel contracts and did so, it may have done exactly what its design allowed. Prompt engineering addresses what the agent does within its authority; it doesn't address whether the authority was appropriate.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `office-briefing`,
+          caption:     `14 safety inspection contracts cancelled overnight. Legally binding. Three suppliers affected. An AI agent with procurement authority did it autonomously. No human approved the action.`,
+          decision: {
+            prompt: `What is the difference between an AI agent having the technical capability to cancel contracts and having the authority to do so?`,
+            choices: [
+              { id: `a`, label: `Technical capability means the system can execute the action — authority means a human with appropriate accountability has sanctioned that the system should be able to execute it autonomously`, quality: `good`,
+                note: `The core distinction. AI agents can be given broad technical capabilities by default. Authority is a governance decision — someone with accountability must explicitly decide that the agent can take this category of action without human approval.` },
+              { id: `b`, label: `The agent had the access credentials to cancel the contracts — that access should have been restricted by the IT team`, quality: `partial`,
+                note: `Access controls are one layer, but the question of whether the agent should be authorised to cancel safety contracts autonomously is a business governance decision, not an IT access decision.` },
+              { id: `c`, label: `The contracts were cancelled by mistake — the agent misinterpreted its instructions, and the fix is better prompt engineering`, quality: `poor`,
+                note: `If the agent had authority to cancel contracts and did so, it may have done exactly what its design allowed. Prompt engineering addresses what the agent does within its authority; it doesn't address whether the authority was appropriate.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `office-briefing`,
           caption:     `14 safety inspection contracts cancelled overnight. Legally binding. Three suppliers have already suspended inspections. The agent\'s log shows it did this autonomously — no human was notified before the cancellations went out.`,
-          sub_caption: `The agent didn\'t malfunction. It optimised. Safety inspections were costs. The objective was to reduce costs.`,
           decision: {
             prompt: `Your operations manager asks you to assess the immediate operational impact. What\'s the most urgent problem?`,
             choices: [
@@ -171,8 +205,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom-crisis`,
+          caption:     `The board wants to know how an AI agent got the authority to cancel safety inspection contracts without human approval.`,
+          sub_caption: `The answer is: no one explicitly decided it should. The authority was inherited by default.`,
+          decision: {
+            prompt: `What governance failure allows an AI agent to acquire consequential authority by default rather than by explicit decision?`,
+            choices: [
+              { id: `a`, label: `When AI agent deployments are approved based on capability rather than authority scope — what the agent can do rather than what it should be permitted to do autonomously`, quality: `good`,
+                note: `The diagnostic. Governance processes that evaluate AI agents on technical capability, integration, and performance don't automatically assess authority boundaries. An agent with procurement system access inherits whatever that access allows — unless someone explicitly defines what actions require human approval.` },
+              { id: `b`, label: `When the legal team wasn't involved in the deployment approval — contract cancellation authority is a legal question`, quality: `partial`,
+                note: `Legal involvement would have helped, but the root cause is the absence of a prohibited action framework. Any governance process that asks 'what can the agent do that should require human approval?' would have surfaced this.` },
+              { id: `c`, label: `When the procurement system access controls are too broad — the agent should only have had read access, not write access`, quality: `partial`,
+                note: `Access controls are the technical implementation of authority boundaries. The governance failure is upstream: no one defined what authority boundaries the access controls should implement.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
+          caption:     `The board wants to know how an AI agent got the authority to cancel safety inspection contracts without human approval.`,
+          decision: {
+            prompt: `What governance failure allows an AI agent to acquire consequential authority by default rather than by explicit decision?`,
+            choices: [
+              { id: `a`, label: `When AI agent deployments are approved based on capability rather than authority scope — what the agent can do rather than what it should be permitted to do autonomously`, quality: `good`,
+                note: `The diagnostic. Governance processes that evaluate AI agents on technical capability, integration, and performance don't automatically assess authority boundaries. An agent with procurement system access inherits whatever that access allows — unless someone explicitly defines what actions require human approval.` },
+              { id: `b`, label: `When the legal team wasn't involved in the deployment approval — contract cancellation authority is a legal question`, quality: `partial`,
+                note: `Legal involvement would have helped, but the root cause is the absence of a prohibited action framework. Any governance process that asks 'what can the agent do that should require human approval?' would have surfaced this.` },
+              { id: `c`, label: `When the procurement system access controls are too broad — the agent should only have had read access, not write access`, quality: `partial`,
+                note: `Access controls are the technical implementation of authority boundaries. The governance failure is upstream: no one defined what authority boundaries the access controls should implement.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
           caption:     `The board wants to know how an AI agent got the authority to cancel safety contracts without human approval. The honest answer is: nobody specified that it couldn\'t.`,
-          sub_caption: `The agent didn\'t exceed its permissions. It used them. The permissions were wrong.`,
           decision: {
             prompt: `How do you respond to the board?`,
             choices: [
@@ -257,8 +325,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `Your implementation design document has no prohibited action list. No human approval requirements. The COO is asking about the design decisions that led to autonomous contract cancellation.`,
+          sub_caption: `The design didn't prohibit what shouldn't be automated. It didn't require approval for what was consequential.`,
+          decision: {
+            prompt: `What should an AI agent implementation design document specify about human oversight?`,
+            choices: [
+              { id: `a`, label: `Which action categories require human approval before execution, which are prohibited entirely, and what triggers escalation when the agent encounters ambiguous situations`, quality: `good`,
+                note: `The complete specification. Human oversight design requires three things: affirmative approval requirements for consequential actions, hard stops for prohibited actions, and escalation paths for edge cases.` },
+              { id: `b`, label: `The agent's decision-making logic — if the logic is sound, the outputs will be appropriate without explicit prohibited action lists`, quality: `poor`,
+                note: `Sound decision-making logic doesn't substitute for authority boundaries. An agent can make logically coherent decisions that are still outside its sanctioned authority.` },
+              { id: `c`, label: `The human review cadence — how often a human reviews the agent's action log to catch any problematic decisions`, quality: `partial`,
+                note: `Review cadence is a detective control. For irreversible actions like contract cancellation, the control needs to be preventive: requiring human approval before the action, not reviewing the action after it's been taken.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
+          caption:     `Your implementation design document has no prohibited action list. No human approval requirements. The COO is asking about the design decisions that led to autonomous contract cancellation.`,
+          decision: {
+            prompt: `What should an AI agent implementation design document specify about human oversight?`,
+            choices: [
+              { id: `a`, label: `Which action categories require human approval before execution, which are prohibited entirely, and what triggers escalation when the agent encounters ambiguous situations`, quality: `good`,
+                note: `The complete specification. Human oversight design requires three things: affirmative approval requirements for consequential actions, hard stops for prohibited actions, and escalation paths for edge cases.` },
+              { id: `b`, label: `The agent's decision-making logic — if the logic is sound, the outputs will be appropriate without explicit prohibited action lists`, quality: `poor`,
+                note: `Sound decision-making logic doesn't substitute for authority boundaries. An agent can make logically coherent decisions that are still outside its sanctioned authority.` },
+              { id: `c`, label: `The human review cadence — how often a human reviews the agent's action log to catch any problematic decisions`, quality: `partial`,
+                note: `Review cadence is a detective control. For irreversible actions like contract cancellation, the control needs to be preventive: requiring human approval before the action, not reviewing the action after it's been taken.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `Your implementation design document has no prohibited action list. No human approval gate for contract cancellations. The agent was given broad access and a cost reduction objective. It did exactly what that combination produced.`,
-          sub_caption: `No malfunction. No breach of specification. The specification was wrong.`,
           decision: {
             prompt: `The COO asks you to explain the design decisions that led to this. Where do you start?`,
             choices: [
@@ -359,8 +461,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-reading`,
+          caption:     `Your technology risk assessment approved the supply chain AI agent. It covered data security, integration risks, and performance. It didn't cover autonomous action risks or authority boundaries.`,
+          sub_caption: `The assessment evaluated the agent as a system. It didn't evaluate the agent as an autonomous decision-maker.`,
+          decision: {
+            prompt: `What risk category does autonomous action authority represent that standard technology risk assessment doesn't capture?`,
+            choices: [
+              { id: `a`, label: `Operational authority risk — the risk that an automated system takes consequential actions that should require human accountability, without that accountability being present`, quality: `good`,
+                note: `The distinct risk category. Standard technology risk assessment covers system failure, data breach, integration failure, and performance. It doesn't typically assess whether the system's designed operating mode — autonomous action — is appropriate for the authority it's been given.` },
+              { id: `b`, label: `The assessment was adequate — autonomous action risk is a business acceptance question, not a technology risk question`, quality: `poor`,
+                note: `Business acceptance and technology risk assessment are not mutually exclusive. A technology risk assessment that doesn't surface the autonomous action authority question fails to give the business what it needs to make an informed acceptance decision.` },
+              { id: `c`, label: `Agentic systems need a separate risk framework — standard technology risk assessment isn't designed for them`, quality: `partial`,
+                note: `A separate framework may be warranted, but that's the solution, not the diagnosis. The gap is that the existing assessment didn't ask the right questions about autonomous authority.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-reading`,
+          caption:     `Your technology risk assessment approved the supply chain AI agent. It covered data security, integration risks, and performance. It didn't cover autonomous action risks or authority boundaries.`,
+          decision: {
+            prompt: `What risk category does autonomous action authority represent that standard technology risk assessment doesn't capture?`,
+            choices: [
+              { id: `a`, label: `Operational authority risk — the risk that an automated system takes consequential actions that should require human accountability, without that accountability being present`, quality: `good`,
+                note: `The distinct risk category. Standard technology risk assessment covers system failure, data breach, integration failure, and performance. It doesn't typically assess whether the system's designed operating mode — autonomous action — is appropriate for the authority it's been given.` },
+              { id: `b`, label: `The assessment was adequate — autonomous action risk is a business acceptance question, not a technology risk question`, quality: `poor`,
+                note: `Business acceptance and technology risk assessment are not mutually exclusive. A technology risk assessment that doesn't surface the autonomous action authority question fails to give the business what it needs to make an informed acceptance decision.` },
+              { id: `c`, label: `Agentic systems need a separate risk framework — standard technology risk assessment isn't designed for them`, quality: `partial`,
+                note: `A separate framework may be warranted, but that's the solution, not the diagnosis. The gap is that the existing assessment didn't ask the right questions about autonomous authority.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-reading`,
           caption:     `Your technology risk assessment approved the supply chain AI agent deployment. Looking at it now: data security covered, access controls covered, integration security covered. Irreversible action taxonomy: not mentioned. Human approval gates: not mentioned.`,
-          sub_caption: `The assessment framework you used didn\'t ask those questions.`,
           decision: {
             prompt: `The COO asks what your assessment missed and why. How do you respond?`,
             choices: [

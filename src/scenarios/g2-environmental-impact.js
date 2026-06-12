@@ -66,8 +66,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the sustainability team's emissions inventory. A board briefing on AI strategy goes out next week.`,
+          sub_caption: `The emissions are real. The absence from the inventory doesn't make them smaller.`,
+          decision: {
+            prompt: `What is the risk of an AI emissions gap in a sustainability disclosure?`,
+            choices: [
+              { id: `a`, label: `A material category of emissions is missing from the disclosure — if discovered, it creates regulatory, reputational, and investor credibility risk`, quality: `good`,
+                note: `Correct. Sustainability disclosures are increasingly subject to assurance requirements. A material omission — AI infrastructure energy consumption that the organisation knows about — is not a gap that can be defended as oversight once the organisation is aware of it.` },
+              { id: `b`, label: `The risk is reputational — if investors or media notice the gap, it looks like greenwashing even if the emissions are modest`, quality: `partial`,
+                note: `Reputational risk is real, but it's downstream of the regulatory and disclosure risk. Many jurisdictions now treat material sustainability disclosure gaps as regulatory issues.` },
+              { id: `c`, label: `AI infrastructure emissions are hard to measure accurately — the gap reflects measurement difficulty, not evasion`, quality: `partial`,
+                note: `Measurement difficulty doesn't justify omission. The standard response to measurement uncertainty is to use estimates with stated methodology and uncertainty ranges — not to exclude the category.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the sustainability team's emissions inventory. A board briefing on AI strategy goes out next week.`,
+          decision: {
+            prompt: `What is the risk of an AI emissions gap in a sustainability disclosure?`,
+            choices: [
+              { id: `a`, label: `A material category of emissions is missing from the disclosure — if discovered, it creates regulatory, reputational, and investor credibility risk`, quality: `good`,
+                note: `Correct. Sustainability disclosures are increasingly subject to assurance requirements. A material omission — AI infrastructure energy consumption that the organisation knows about — is not a gap that can be defended as oversight once the organisation is aware of it.` },
+              { id: `b`, label: `The risk is reputational — if investors or media notice the gap, it looks like greenwashing even if the emissions are modest`, quality: `partial`,
+                note: `Reputational risk is real, but it's downstream of the regulatory and disclosure risk. Many jurisdictions now treat material sustainability disclosure gaps as regulatory issues.` },
+              { id: `c`, label: `AI infrastructure emissions are hard to measure accurately — the gap reflects measurement difficulty, not evasion`, quality: `partial`,
+                note: `Measurement difficulty doesn't justify omission. The standard response to measurement uncertainty is to use estimates with stated methodology and uncertainty ranges — not to exclude the category.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the net-zero model. The AGM is in two weeks.`,
-          sub_caption: `An investor advisory firm is already asking questions publicly.`,
           decision: {
             prompt: `You need to quantify the gap. What do you do first?`,
             choices: [
@@ -168,8 +202,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom-agm`,
+          caption:     `An institutional investor — 4.2% of shares — has the microphone at the AGM. 'Is the AI compute included in your Scope 2 emissions?' You don't know the answer.`,
+          sub_caption: `Not knowing is itself the answer, and the investor knows it.`,
+          decision: {
+            prompt: `What does an institutional investor's question about AI compute emissions signal about investor expectations?`,
+            choices: [
+              { id: `a`, label: `That sophisticated investors are now tracking AI infrastructure emissions as a material disclosure item — this is no longer a peripheral ESG question`, quality: `good`,
+                note: `Correct. Institutional investors with significant holdings monitor sustainability disclosures carefully. A direct question about AI compute at an AGM signals that this investor considers it material and has noticed the gap.` },
+              { id: `b`, label: `That this particular investor has an activist ESG agenda — the question may not reflect broader investor sentiment`, quality: `poor`,
+                note: `An investor with 4.2% of shares asking a specific, technically informed question about a known disclosure gap is not a fringe position. It reflects an emerging standard expectation.` },
+              { id: `c`, label: `That the organisation should proactively publish an AI sustainability report — getting ahead of investor questions`, quality: `partial`,
+                note: `Proactive disclosure is the right direction, but the immediate question is how to answer this investor now.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-agm`,
+          caption:     `An institutional investor — 4.2% of shares — has the microphone at the AGM. 'Is the AI compute included in your Scope 2 emissions?' You don't know the answer.`,
+          decision: {
+            prompt: `What does an institutional investor's question about AI compute emissions signal about investor expectations?`,
+            choices: [
+              { id: `a`, label: `That sophisticated investors are now tracking AI infrastructure emissions as a material disclosure item — this is no longer a peripheral ESG question`, quality: `good`,
+                note: `Correct. Institutional investors with significant holdings monitor sustainability disclosures carefully. A direct question about AI compute at an AGM signals that this investor considers it material and has noticed the gap.` },
+              { id: `b`, label: `That this particular investor has an activist ESG agenda — the question may not reflect broader investor sentiment`, quality: `poor`,
+                note: `An investor with 4.2% of shares asking a specific, technically informed question about a known disclosure gap is not a fringe position. It reflects an emerging standard expectation.` },
+              { id: `c`, label: `That the organisation should proactively publish an AI sustainability report — getting ahead of investor questions`, quality: `partial`,
+                note: `Proactive disclosure is the right direction, but the immediate question is how to answer this investor now.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-agm`,
           caption:     `An institutional investor. 4.2% of shares. Microphone in hand. "Is the AI compute investment included in your net-zero pathway modelling?" You and the CDO exchange a look.`,
-          sub_caption: `Ten seconds to decide how to answer.`,
           decision: {
             prompt: `What do you say?`,
             choices: [
@@ -270,8 +338,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `Your cost model has detailed energy projections for the AI infrastructure. The sustainability team's inventory has none of it. The CDO needs the numbers in an hour.`,
+          sub_caption: `The data exists. It's in a different team's system. The gap is organisational, not technical.`,
+          decision: {
+            prompt: `What does the gap between the cost model and the sustainability inventory tell you about how AI projects are governed?`,
+            choices: [
+              { id: `a`, label: `AI projects are being assessed for financial costs without sustainability impacts being routed to the teams that need them — the governance process doesn't connect the two`, quality: `good`,
+                note: `The structural diagnosis. Cost modelling and sustainability accounting happen in separate processes. If AI project approvals don't require sustainability impact assessment, the inventory gap is a predictable outcome.` },
+              { id: `b`, label: `The sustainability team should have been included in the AI project steering — the gap reflects a stakeholder management failure`, quality: `partial`,
+                note: `Stakeholder inclusion is one mechanism, but the more durable fix is process-level: AI project approvals that require sustainability impact assessment and route the data to the inventory.` },
+              { id: `c`, label: `The gap is the sustainability team's responsibility — they should have identified AI infrastructure as a new emissions category and asked for the data`, quality: `poor`,
+                note: `This reverses the accountability. The teams generating the emissions data are responsible for ensuring it reaches the teams that need it.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
+          caption:     `Your cost model has detailed energy projections for the AI infrastructure. The sustainability team's inventory has none of it. The CDO needs the numbers in an hour.`,
+          decision: {
+            prompt: `What does the gap between the cost model and the sustainability inventory tell you about how AI projects are governed?`,
+            choices: [
+              { id: `a`, label: `AI projects are being assessed for financial costs without sustainability impacts being routed to the teams that need them — the governance process doesn't connect the two`, quality: `good`,
+                note: `The structural diagnosis. Cost modelling and sustainability accounting happen in separate processes. If AI project approvals don't require sustainability impact assessment, the inventory gap is a predictable outcome.` },
+              { id: `b`, label: `The sustainability team should have been included in the AI project steering — the gap reflects a stakeholder management failure`, quality: `partial`,
+                note: `Stakeholder inclusion is one mechanism, but the more durable fix is process-level: AI project approvals that require sustainability impact assessment and route the data to the inventory.` },
+              { id: `c`, label: `The gap is the sustainability team's responsibility — they should have identified AI infrastructure as a new emissions category and asked for the data`, quality: `poor`,
+                note: `This reverses the accountability. The teams generating the emissions data are responsible for ensuring it reaches the teams that need it.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `Your cost model has detailed energy projections. The sustainability team wasn't in your stakeholder map. The CDO is calling from the AGM asking for your figures right now.`,
-          sub_caption: `The data exists. It was never shared.`,
           decision: {
             prompt: `The CDO needs your energy numbers in the next hour. What do you send?`,
             choices: [
@@ -372,8 +474,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `drift-dashboard`,
+          caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total: ~4.4MW. Board briefing in four hours. None of this is in the current sustainability disclosure.`,
+          sub_caption: `The numbers exist. The question is how to present a material gap to the board honestly.`,
+          decision: {
+            prompt: `How should a material emissions gap be characterised in a board briefing?`,
+            choices: [
+              { id: `a`, label: `As a known gap with a quantified estimate, clear methodology, stated uncertainty range, and a remediation timeline — not as a discovery but as something the organisation now needs to address`, quality: `good`,
+                note: `The correct approach. Presenting the gap honestly — here's what we know, here's how we estimated it, here's the uncertainty, here's what we're doing — is more defensible than either minimising it or presenting it as a crisis.` },
+              { id: `b`, label: `As preliminary data pending full measurement — caveat everything to avoid committing to numbers that may change`, quality: `partial`,
+                note: `Caveating uncertain estimates is appropriate, but excessive caveating that avoids communicating the scale of the gap doesn't serve the board's decision-making needs.` },
+              { id: `c`, label: `As a disclosure risk — frame it as a legal and reputational issue rather than an environmental one`, quality: `poor`,
+                note: `The disclosure risk is real and worth naming, but framing it exclusively as a legal/reputational issue inverts the priorities. The board needs to understand both dimensions.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `drift-dashboard`,
+          caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total: ~4.4MW. Board briefing in four hours. None of this is in the current sustainability disclosure.`,
+          decision: {
+            prompt: `How should a material emissions gap be characterised in a board briefing?`,
+            choices: [
+              { id: `a`, label: `As a known gap with a quantified estimate, clear methodology, stated uncertainty range, and a remediation timeline — not as a discovery but as something the organisation now needs to address`, quality: `good`,
+                note: `The correct approach. Presenting the gap honestly — here's what we know, here's how we estimated it, here's the uncertainty, here's what we're doing — is more defensible than either minimising it or presenting it as a crisis.` },
+              { id: `b`, label: `As preliminary data pending full measurement — caveat everything to avoid committing to numbers that may change`, quality: `partial`,
+                note: `Caveating uncertain estimates is appropriate, but excessive caveating that avoids communicating the scale of the gap doesn't serve the board's decision-making needs.` },
+              { id: `c`, label: `As a disclosure risk — frame it as a legal and reputational issue rather than an environmental one`, quality: `poor`,
+                note: `The disclosure risk is real and worth naming, but framing it exclusively as a legal/reputational issue inverts the priorities. The board needs to understand both dimensions.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `drift-dashboard`,
           caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total addition: ~4.4MW annually. Current baseline: ~37MW. That's a 12% step increase.`,
-          sub_caption: `The net-zero pathway assumed 3% year-on-year efficiency improvements. This changes the picture significantly.`,
           decision: {
             prompt: `The board briefing is in four hours. How do you frame the finding?`,
             choices: [

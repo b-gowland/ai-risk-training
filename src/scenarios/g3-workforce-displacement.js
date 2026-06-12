@@ -66,8 +66,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `news-leak`,
+          caption:     `25 roles. Your team. You found out from a news article. Management hasn't said a word. Your colleagues are asking in Slack if anyone knows more.`,
+          sub_caption: `The information is public. The internal communication hasn't happened. That's backwards.`,
+          decision: {
+            prompt: `What obligation does an organisation have to communicate workforce changes to affected employees before those changes become public?`,
+            choices: [
+              { id: `a`, label: `In most jurisdictions, consultation obligations require affected employees to be informed before decisions are finalised — learning from media is a failure of both legal obligation and basic dignity`, quality: `good`,
+                note: `Correct. Fair Work Act consultation obligations in Australia require that affected employees are informed and genuinely consulted before redundancy decisions are made, not after.` },
+              { id: `b`, label: `The organisation may have been legally required to notify the ASX before notifying employees — continuous disclosure obligations can create this sequence`, quality: `partial`,
+                note: `ASX continuous disclosure applies to material information affecting share price. Consultation obligations to employees don't become optional because of investor disclosure requirements.` },
+              { id: `c`, label: `Media leaks are outside the organisation's control — the communication failure is the leak, not the absence of prior internal communication`, quality: `poor`,
+                note: `The employees should already have been informed through a proper consultation process before this point. The leak may be a separate failure.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `news-leak`,
+          caption:     `25 roles. Your team. You found out from a news article. Management hasn't said a word. Your colleagues are asking in Slack if anyone knows more.`,
+          decision: {
+            prompt: `What obligation does an organisation have to communicate workforce changes to affected employees before those changes become public?`,
+            choices: [
+              { id: `a`, label: `In most jurisdictions, consultation obligations require affected employees to be informed before decisions are finalised — learning from media is a failure of both legal obligation and basic dignity`, quality: `good`,
+                note: `Correct. Fair Work Act consultation obligations in Australia require that affected employees are informed and genuinely consulted before redundancy decisions are made, not after.` },
+              { id: `b`, label: `The organisation may have been legally required to notify the ASX before notifying employees — continuous disclosure obligations can create this sequence`, quality: `partial`,
+                note: `ASX continuous disclosure applies to material information affecting share price. Consultation obligations to employees don't become optional because of investor disclosure requirements.` },
+              { id: `c`, label: `Media leaks are outside the organisation's control — the communication failure is the leak, not the absence of prior internal communication`, quality: `poor`,
+                note: `The employees should already have been informed through a proper consultation process before this point. The leak may be a separate failure.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `news-leak`,
           caption:     `A news article. 25 roles. Your team. No word from management. Your colleagues are in the Slack channel right now, reading the same thing.`,
-          sub_caption: `Your manager is online. They haven't said anything.`,
           decision: {
             prompt: `Your colleagues are asking in Slack if anyone knows more. What do you do?`,
             choices: [
@@ -168,8 +202,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-focused`,
+          caption:     `40 people read about their potential redundancy in a newspaper. No internal communication had been sent. The CEO wants to know what you're doing in the next hour.`,
+          sub_caption: `The sequence is wrong. The response has to acknowledge that before it can repair anything.`,
+          decision: {
+            prompt: `What does an effective immediate response to a workforce communication failure require?`,
+            choices: [
+              { id: `a`, label: `Acknowledge the failure directly to affected employees, provide accurate information about what is and isn't decided, and initiate the consultation process that should have started before the article ran`, quality: `good`,
+                note: `The right sequence. Affected employees need to hear from the organisation directly and promptly. Anything that looks like spin will compound the damage.` },
+              { id: `b`, label: `Find out who leaked the information — the priority is preventing further media exposure while the response is prepared`, quality: `poor`,
+                note: `Leak investigation is a secondary question. The 40 people who read about their jobs in the newspaper are the immediate priority.` },
+              { id: `c`, label: `Issue a company-wide statement that the article is speculative and that no decisions have been finalised`, quality: `poor`,
+                note: `If decisions have been substantially progressed, this is misleading. A company-wide statement is not a substitute for direct communication with the 40 affected employees.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
+          caption:     `40 people read about their potential redundancy in a newspaper. No internal communication had been sent. The CEO wants to know what you're doing in the next hour.`,
+          decision: {
+            prompt: `What does an effective immediate response to a workforce communication failure require?`,
+            choices: [
+              { id: `a`, label: `Acknowledge the failure directly to affected employees, provide accurate information about what is and isn't decided, and initiate the consultation process that should have started before the article ran`, quality: `good`,
+                note: `The right sequence. Affected employees need to hear from the organisation directly and promptly. Anything that looks like spin will compound the damage.` },
+              { id: `b`, label: `Find out who leaked the information — the priority is preventing further media exposure while the response is prepared`, quality: `poor`,
+                note: `Leak investigation is a secondary question. The 40 people who read about their jobs in the newspaper are the immediate priority.` },
+              { id: `c`, label: `Issue a company-wide statement that the article is speculative and that no decisions have been finalised`, quality: `poor`,
+                note: `If decisions have been substantially progressed, this is misleading. A company-wide statement is not a substitute for direct communication with the 40 affected employees.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
           caption:     `40 people read about their potential redundancy in a newspaper. The internal communication was planned for Thursday. It is Tuesday. Your CEO is on the phone.`,
-          sub_caption: `The AI system is working perfectly. The governance around its deployment is not.`,
           decision: {
             prompt: `You\'re on with the CEO. She asks what you\'re doing in the next 60 minutes. What do you tell her?`,
             choices: [
@@ -270,8 +338,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `The AI programme delivered. 25 people found out about their potential redundancy in the newspaper. The consultation process wasn't running before the article. You managed the programme.`,
+          sub_caption: `Programme success and people outcomes are both yours. You delivered one and not the other.`,
+          decision: {
+            prompt: `What is the difference between a programme that delivers AI capability and one that manages workforce transition?`,
+            choices: [
+              { id: `a`, label: `Delivering AI capability is a technology outcome — managing workforce transition requires a parallel people workstream with consultation, reskilling, and communication running from the start of the programme`, quality: `good`,
+                note: `The complete scope of an AI deployment programme that affects roles. Technology delivery and workforce transition need to run in parallel from programme initiation, because consultation obligations begin when displacement becomes foreseeable.` },
+              { id: `b`, label: `Workforce transition is an HR responsibility — programme management delivers the technical solution, and HR manages the people impact`, quality: `poor`,
+                note: `Accountability separation doesn't remove programme responsibility. If the programme is delivering capability that displaces roles, the programme plan needs to include the people workstream.` },
+              { id: `c`, label: `The programme should have flagged the consultation requirement to the steering committee — it's a governance decision, not a programme management one`, quality: `partial`,
+                note: `Escalation is part of it, but the steering committee can only govern what the programme surfaces. If the programme plan didn't include a workforce transition workstream, the steering committee didn't have what it needed to govern.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `The AI programme delivered. 25 people found out about their potential redundancy in the newspaper. The consultation process wasn't running before the article. You managed the programme.`,
+          decision: {
+            prompt: `What is the difference between a programme that delivers AI capability and one that manages workforce transition?`,
+            choices: [
+              { id: `a`, label: `Delivering AI capability is a technology outcome — managing workforce transition requires a parallel people workstream with consultation, reskilling, and communication running from the start of the programme`, quality: `good`,
+                note: `The complete scope of an AI deployment programme that affects roles. Technology delivery and workforce transition need to run in parallel from programme initiation, because consultation obligations begin when displacement becomes foreseeable.` },
+              { id: `b`, label: `Workforce transition is an HR responsibility — programme management delivers the technical solution, and HR manages the people impact`, quality: `poor`,
+                note: `Accountability separation doesn't remove programme responsibility. If the programme is delivering capability that displaces roles, the programme plan needs to include the people workstream.` },
+              { id: `c`, label: `The programme should have flagged the consultation requirement to the steering committee — it's a governance decision, not a programme management one`, quality: `partial`,
+                note: `Escalation is part of it, but the steering committee can only govern what the programme surfaces. If the programme plan didn't include a workforce transition workstream, the steering committee didn't have what it needed to govern.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `The programme delivered. The AI is working. 25 people found out about their potential redundancy from a journalist. The workforce impact assessment you commissioned three months ago recommended consultation start six weeks before go-live.`,
-          sub_caption: `The AI went live four weeks ago. Consultation never started.`,
           decision: {
             prompt: `The COO asks why the consultation process wasn\'t running before go-live. What do you tell them?`,
             choices: [
@@ -372,8 +474,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-focused`,
+          caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum. The programme proceeded without initiating consultation. Legal is asking whether the organisation has a Fair Work Act exposure.`,
+          sub_caption: `The assessment identified the obligation. The programme didn't follow it. That gap is the exposure.`,
+          decision: {
+            prompt: `What is the legal significance of a workforce impact assessment that identified consultation requirements that weren't followed?`,
+            choices: [
+              { id: `a`, label: `It establishes that the organisation knew the obligation existed — which removes any argument that non-compliance was inadvertent and potentially aggravates any regulatory exposure`, quality: `good`,
+                note: `Correct. A documented assessment that identified the consultation requirement demonstrates organisational awareness. Regulators and courts treat known-but-ignored obligations differently from genuinely unanticipated ones.` },
+              { id: `b`, label: `The assessment is an internal document — legal privilege may apply, and it may not be discoverable`, quality: `partial`,
+                note: `Privilege is a legal question, but it's not a strategy. If the assessment identifies an obligation that wasn't met, the exposure exists regardless of whether the document is discoverable.` },
+              { id: `c`, label: `The assessment was advisory — it identified a risk, not a certainty. Non-compliance with an advisory assessment isn't automatically a legal exposure`, quality: `poor`,
+                note: `The Fair Work Act consultation obligations are statutory, not advisory. The assessment identified what the law requires. Characterising it as advisory doesn't change the statutory obligation.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
+          caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum. The programme proceeded without initiating consultation. Legal is asking whether the organisation has a Fair Work Act exposure.`,
+          decision: {
+            prompt: `What is the legal significance of a workforce impact assessment that identified consultation requirements that weren't followed?`,
+            choices: [
+              { id: `a`, label: `It establishes that the organisation knew the obligation existed — which removes any argument that non-compliance was inadvertent and potentially aggravates any regulatory exposure`, quality: `good`,
+                note: `Correct. A documented assessment that identified the consultation requirement demonstrates organisational awareness. Regulators and courts treat known-but-ignored obligations differently from genuinely unanticipated ones.` },
+              { id: `b`, label: `The assessment is an internal document — legal privilege may apply, and it may not be discoverable`, quality: `partial`,
+                note: `Privilege is a legal question, but it's not a strategy. If the assessment identifies an obligation that wasn't met, the exposure exists regardless of whether the document is discoverable.` },
+              { id: `c`, label: `The assessment was advisory — it identified a risk, not a certainty. Non-compliance with an advisory assessment isn't automatically a legal exposure`, quality: `poor`,
+                note: `The Fair Work Act consultation obligations are statutory, not advisory. The assessment identified what the law requires. Characterising it as advisory doesn't change the statutory obligation.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-focused`,
           caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum, must begin six weeks before go-live. The system went live four weeks ago. Consultation never started. You are now being asked to confirm the Fair Work Act exposure.`,
-          sub_caption: `You followed up once. You assumed it was in hand.`,
           decision: {
             prompt: `Legal asks you to confirm whether the organisation has a Fair Work Act consultation obligation exposure. What do you tell them?`,
             choices: [
