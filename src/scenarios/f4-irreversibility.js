@@ -68,8 +68,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working`,
+          caption:     `An AI agent drafted a partner briefing. It included a confidential arbitration settlement — the document was in the agent's context window. The briefing is in the partner's inbox.`,
+          sub_caption: `The agent didn't know the document was confidential. It also didn't know what to leave out.`,
+          decision: {
+            prompt: `What does this incident reveal about how AI agents handle confidential information in their context?`,
+            choices: [
+              { id: `a`, label: `AI agents include information from their context window without applying confidentiality judgments — they can't distinguish what should be excluded unless explicitly instructed`, quality: `good`,
+                note: `Correct. Large language models don't have inherent confidentiality awareness. A confidential document in the context window is available to be included in outputs unless the agent is explicitly constrained from using it.` },
+              { id: `b`, label: `The agent should have flagged the confidential document before using it — this is a system design failure`, quality: `partial`,
+                note: `Design failure is part of it, but the more fundamental point is that the agent included the information because it was there and relevant to the task.` },
+              { id: `c`, label: `The problem is that a confidential document was in the agent's context at all — the fix is access controls on what documents agents can see`, quality: `good`,
+                note: `Also correct. Access controls are the upstream control — preventing confidential documents from entering the agent's context window is more reliable than relying on the agent to exclude them from outputs.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
+          caption:     `An AI agent drafted a partner briefing. It included a confidential arbitration settlement — the document was in the agent's context window. The briefing is in the partner's inbox.`,
+          decision: {
+            prompt: `What does this incident reveal about how AI agents handle confidential information in their context?`,
+            choices: [
+              { id: `a`, label: `AI agents include information from their context window without applying confidentiality judgments — they can't distinguish what should be excluded unless explicitly instructed`, quality: `good`,
+                note: `Correct. Large language models don't have inherent confidentiality awareness. A confidential document in the context window is available to be included in outputs unless the agent is explicitly constrained from using it.` },
+              { id: `b`, label: `The agent should have flagged the confidential document before using it — this is a system design failure`, quality: `partial`,
+                note: `Design failure is part of it, but the more fundamental point is that the agent included the information because it was there and relevant to the task.` },
+              { id: `c`, label: `The problem is that a confidential document was in the agent's context at all — the fix is access controls on what documents agents can see`, quality: `good`,
+                note: `Also correct. Access controls are the upstream control — preventing confidential documents from entering the agent's context window is more reliable than relying on the agent to exclude them from outputs.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working`,
           caption:     `The briefing is in the partner's inbox. It includes a confidential arbitration section you didn't ask for and didn't know the agent had access to. You noticed it before the partner opened it — but only just.`,
-          sub_caption: `The email has been sent. That action is irreversible.`,
           decision: {
             prompt: `What do you do first?`,
             choices: [
@@ -163,8 +197,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom-crisis`,
+          caption:     `Confidential arbitration information disclosed to a partner with no involvement in that matter. The disclosure is irreversible — the email has been read.`,
+          sub_caption: `Containment is no longer possible. The response is damage limitation and prevention.`,
+          decision: {
+            prompt: `When a disclosure is irreversible, what does an effective incident response focus on?`,
+            choices: [
+              { id: `a`, label: `Notifying affected parties, assessing the legal and regulatory implications of the disclosure, and preventing further disclosures through immediate agent controls`, quality: `good`,
+                note: `The right sequence. Notification obligations may be triggered depending on the nature of the information and jurisdiction. Immediate controls prevent the agent from making further disclosures while the response proceeds.` },
+              { id: `b`, label: `Requesting the partner delete the email — if the disclosure can be contained at the recipient, the damage is limited`, quality: `partial`,
+                note: `Requesting deletion is appropriate but can't be relied on as containment. The recipient has seen the information. Deletion requests don't affect legal or regulatory obligations the disclosure may have triggered.` },
+              { id: `c`, label: `Suspend all AI agent operations until a full review is complete`, quality: `partial`,
+                note: `Suspension is a conservative option but may be disproportionate if the failure is specific to this agent's configuration. Targeted controls on the affected agent are the proportionate immediate response.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
+          caption:     `Confidential arbitration information disclosed to a partner with no involvement in that matter. The disclosure is irreversible — the email has been read.`,
+          decision: {
+            prompt: `When a disclosure is irreversible, what does an effective incident response focus on?`,
+            choices: [
+              { id: `a`, label: `Notifying affected parties, assessing the legal and regulatory implications of the disclosure, and preventing further disclosures through immediate agent controls`, quality: `good`,
+                note: `The right sequence. Notification obligations may be triggered depending on the nature of the information and jurisdiction. Immediate controls prevent the agent from making further disclosures while the response proceeds.` },
+              { id: `b`, label: `Requesting the partner delete the email — if the disclosure can be contained at the recipient, the damage is limited`, quality: `partial`,
+                note: `Requesting deletion is appropriate but can't be relied on as containment. The recipient has seen the information. Deletion requests don't affect legal or regulatory obligations the disclosure may have triggered.` },
+              { id: `c`, label: `Suspend all AI agent operations until a full review is complete`, quality: `partial`,
+                note: `Suspension is a conservative option but may be disproportionate if the failure is specific to this agent's configuration. Targeted controls on the affected agent are the proportionate immediate response.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-crisis`,
           caption:     `Confidential arbitration information has been disclosed to a partner with no involvement in that matter. The AI agent sent the briefing automatically. No human reviewed it before it went.`,
-          sub_caption: `The information is in the partner's inbox. That disclosure cannot be undone.`,
           decision: {
             prompt: `What is your immediate response?`,
             choices: [
@@ -281,8 +349,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-working-night`,
+          caption:     `The AI agent deployment was approved through your programme. The approval record has no prohibited content list. No document classification check was specified.`,
+          sub_caption: `The approval process didn't ask what the agent could see. It didn't ask what it could include in outputs.`,
+          decision: {
+            prompt: `What questions should an AI agent deployment approval process ask about information handling?`,
+            choices: [
+              { id: `a`, label: `What documents and data sources will be in the agent's context, what confidentiality classifications apply to them, and what explicit constraints are needed on what the agent can include in outputs`, quality: `good`,
+                note: `The complete set. Agent deployment approval needs to address the full information lifecycle: what goes in (context), what classifications apply, and what comes out (output constraints).` },
+              { id: `b`, label: `Whether the agent has access to personal data — data protection is the primary information handling obligation`, quality: `partial`,
+                note: `Data protection is one obligation but not the only one. Confidentiality obligations operate independently of personal data protection. An approval process that only asks about personal data misses the broader information handling risks.` },
+              { id: `c`, label: `Whether the agent's outputs are reviewed by a human before being sent — human review is the control for content appropriateness`, quality: `poor`,
+                note: `Human review is one control, but it's downstream of the problem. Upstream constraints are more reliable than catching every instance of inappropriate content in review.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working-night`,
+          caption:     `The AI agent deployment was approved through your programme. The approval record has no prohibited content list. No document classification check was specified.`,
+          decision: {
+            prompt: `What questions should an AI agent deployment approval process ask about information handling?`,
+            choices: [
+              { id: `a`, label: `What documents and data sources will be in the agent's context, what confidentiality classifications apply to them, and what explicit constraints are needed on what the agent can include in outputs`, quality: `good`,
+                note: `The complete set. Agent deployment approval needs to address the full information lifecycle: what goes in (context), what classifications apply, and what comes out (output constraints).` },
+              { id: `b`, label: `Whether the agent has access to personal data — data protection is the primary information handling obligation`, quality: `partial`,
+                note: `Data protection is one obligation but not the only one. Confidentiality obligations operate independently of personal data protection. An approval process that only asks about personal data misses the broader information handling risks.` },
+              { id: `c`, label: `Whether the agent's outputs are reviewed by a human before being sent — human review is the control for content appropriateness`, quality: `poor`,
+                note: `Human review is one control, but it's downstream of the problem. Upstream constraints are more reliable than catching every instance of inappropriate content in review.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-working-night`,
           caption:     `The agent you deployed has disclosed confidential arbitration information in an autonomous email. The deployment decision log shows you approved both the broad file server read access and the unsupervised email sending.`,
-          sub_caption: `The configuration made this incident foreseeable. The question is what you do now.`,
           decision: {
             prompt: `The managing partner wants to understand how this was approved. What do you say?`,
             choices: [
@@ -399,8 +501,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `Your technology risk assessment approved this AI agent deployment. It covered data security and access controls. It didn't cover action chain analysis — what the agent could do, in sequence, with the information it accessed.`,
+          sub_caption: `The assessment evaluated the agent's inputs. It didn't evaluate what the agent would do with them.`,
+          decision: {
+            prompt: `What is action chain analysis and why is it a distinct risk assessment requirement for AI agents?`,
+            choices: [
+              { id: `a`, label: `Action chain analysis maps the sequence of actions an agent can take — read, synthesise, write, send — and assesses the risk at each step and combination, including what irreversible actions are reachable`, quality: `good`,
+                note: `The correct definition. AI agents can chain actions autonomously. A risk assessment that evaluates each capability in isolation misses the emergent risks that arise from sequences.` },
+              { id: `b`, label: `Action chain analysis is the same as data flow analysis — mapping what data the agent can access and where it goes`, quality: `partial`,
+                note: `Related but distinct. Data flow analysis tracks information movement. Action chain analysis tracks what the agent can do — including actions that don't involve data movement.` },
+              { id: `c`, label: `Action chain analysis applies to agentic systems with external tool access — this agent only had document access, so the assessment approach was appropriate`, quality: `poor`,
+                note: `Document access plus output generation is itself an action chain — read confidential document, synthesise with task, produce output containing confidential information, send. The chain doesn't require external tool access to create irreversible disclosure risk.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
+          caption:     `Your technology risk assessment approved this AI agent deployment. It covered data security and access controls. It didn't cover action chain analysis — what the agent could do, in sequence, with the information it accessed.`,
+          decision: {
+            prompt: `What is action chain analysis and why is it a distinct risk assessment requirement for AI agents?`,
+            choices: [
+              { id: `a`, label: `Action chain analysis maps the sequence of actions an agent can take — read, synthesise, write, send — and assesses the risk at each step and combination, including what irreversible actions are reachable`, quality: `good`,
+                note: `The correct definition. AI agents can chain actions autonomously. A risk assessment that evaluates each capability in isolation misses the emergent risks that arise from sequences.` },
+              { id: `b`, label: `Action chain analysis is the same as data flow analysis — mapping what data the agent can access and where it goes`, quality: `partial`,
+                note: `Related but distinct. Data flow analysis tracks information movement. Action chain analysis tracks what the agent can do — including actions that don't involve data movement.` },
+              { id: `c`, label: `Action chain analysis applies to agentic systems with external tool access — this agent only had document access, so the assessment approach was appropriate`, quality: `poor`,
+                note: `Document access plus output generation is itself an action chain — read confidential document, synthesise with task, produce output containing confidential information, send. The chain doesn't require external tool access to create irreversible disclosure risk.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Your technology risk assessment approved this deployment. It covered data security and access controls. It did not cover what happens when an agent with file server access and email capability receives a broadly-worded task.`,
-          sub_caption: `The assessment was thorough by the standards you applied. Those standards were wrong for an agentic system.`,
           decision: {
             prompt: `The post-incident review asks why action chain analysis wasn't in your assessment. What's your answer?`,
             choices: [

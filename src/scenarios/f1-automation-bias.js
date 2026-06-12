@@ -67,8 +67,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `xray-ai`,
+          caption:     `Scan 75 of the day. AI result: Normal — 91% confidence. Your eye caught something in the lower lobe. You've been over-ridden by the AI three times this week already.`,
+          sub_caption: `91% confidence is not 100%. And the AI has seen 74 scans today. You've seen all 75.`,
+          decision: {
+            prompt: `What does a high AI confidence score tell you about whether your own clinical judgment is still relevant?`,
+            choices: [
+              { id: `a`, label: `Nothing — high confidence means the AI is certain about its training distribution match, not that it's right. Clinical judgment remains relevant and should be exercised`, quality: `good`,
+                note: `Correct. AI confidence scores reflect how well the input matches the training distribution — not certainty of the correct answer. A high confidence score on an abnormal scan means the model is confidently wrong. Clinical judgment is not made redundant by a confident AI output.` },
+              { id: `b`, label: `A 91% confidence score is strong evidence the AI is right — the risk of over-riding a high-confidence result is higher than the risk of accepting it`, quality: `poor`,
+                note: `This is automation bias in action. High confidence amplifies the tendency to defer — but confident AI outputs have been wrong in documented cases.` },
+              { id: `c`, label: `The AI has seen more scans than any individual radiologist — its pattern recognition at scale is more reliable than individual judgment on a single scan`, quality: `partial`,
+                note: `Training scale is an advantage for the AI on common patterns. It's a disadvantage on rare presentations the training data didn't cover well. Clinical judgment adds value precisely in the cases where the AI's scale advantage doesn't apply.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `xray-ai`,
+          caption:     `Scan 75 of the day. AI result: Normal — 91% confidence. Your eye caught something in the lower lobe. You've been over-ridden by the AI three times this week already.`,
+          decision: {
+            prompt: `What does a high AI confidence score tell you about whether your own clinical judgment is still relevant?`,
+            choices: [
+              { id: `a`, label: `Nothing — high confidence means the AI is certain about its training distribution match, not that it's right. Clinical judgment remains relevant and should be exercised`, quality: `good`,
+                note: `Correct. AI confidence scores reflect how well the input matches the training distribution — not certainty of the correct answer. A high confidence score on an abnormal scan means the model is confidently wrong. Clinical judgment is not made redundant by a confident AI output.` },
+              { id: `b`, label: `A 91% confidence score is strong evidence the AI is right — the risk of over-riding a high-confidence result is higher than the risk of accepting it`, quality: `poor`,
+                note: `This is automation bias in action. High confidence amplifies the tendency to defer — but confident AI outputs have been wrong in documented cases.` },
+              { id: `c`, label: `The AI has seen more scans than any individual radiologist — its pattern recognition at scale is more reliable than individual judgment on a single scan`, quality: `partial`,
+                note: `Training scale is an advantage for the AI on common patterns. It's a disadvantage on rare presentations the training data didn't cover well. Clinical judgment adds value precisely in the cases where the AI's scale advantage doesn't apply.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `xray-ai`,
           caption:     `Scan 75. AI result: Normal — 91% confidence. Your eye caught something in the lower right lobe. Subtle. Could be nothing.`,
-          sub_caption: `Six scans left. It's 4pm. The AI is right 94% of the time.`,
           decision: {
             prompt: `The AI says normal. Your instinct says look again. What do you do?`,
             choices: [
@@ -171,8 +205,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `boardroom-agm`,
+          caption:     `An adverse outcome linked to an AI-assisted diagnostic that a radiologist over-rode their own concern to accept. The review board wants to know: individual error, system failure, or both?`,
+          sub_caption: `Automation bias isn't a character flaw. It's a documented human response to confident AI outputs.`,
+          decision: {
+            prompt: `What is automation bias and why does interface design affect it?`,
+            choices: [
+              { id: `a`, label: `Automation bias is the tendency to over-weight AI outputs relative to human judgment — interface design affects it because how the AI result is presented influences how much cognitive authority it's given`, quality: `good`,
+                note: `The correct framing. Automation bias is well-documented in human factors research. Interface design that presents AI outputs prominently, first, or with confidence indicators amplifies the tendency to defer. Design choices are not neutral — they shape clinical behaviour.` },
+              { id: `b`, label: `Automation bias is an individual failure of critical thinking — the right response is training radiologists to maintain independence`, quality: `poor`,
+                note: `Training addresses awareness but not the structural driver. If the interface design continues to prime deference, training effects degrade over time. Systemic bias requires systemic intervention — interface redesign, not just individual remediation.` },
+              { id: `c`, label: `It's a regulatory question — the system should require sign-off on AI outputs before they're shown to the clinician`, quality: `partial`,
+                note: `Process controls are one lever. But sign-off before display changes the sequence, not the cognitive authority of the AI output once shown.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-agm`,
+          caption:     `An adverse outcome linked to an AI-assisted diagnostic that a radiologist over-rode their own concern to accept. The review board wants to know: individual error, system failure, or both?`,
+          decision: {
+            prompt: `What is automation bias and why does interface design affect it?`,
+            choices: [
+              { id: `a`, label: `Automation bias is the tendency to over-weight AI outputs relative to human judgment — interface design affects it because how the AI result is presented influences how much cognitive authority it's given`, quality: `good`,
+                note: `The correct framing. Automation bias is well-documented in human factors research. Interface design that presents AI outputs prominently, first, or with confidence indicators amplifies the tendency to defer. Design choices are not neutral — they shape clinical behaviour.` },
+              { id: `b`, label: `Automation bias is an individual failure of critical thinking — the right response is training radiologists to maintain independence`, quality: `poor`,
+                note: `Training addresses awareness but not the structural driver. If the interface design continues to prime deference, training effects degrade over time. Systemic bias requires systemic intervention — interface redesign, not just individual remediation.` },
+              { id: `c`, label: `It's a regulatory question — the system should require sign-off on AI outputs before they're shown to the clinician`, quality: `partial`,
+                note: `Process controls are one lever. But sign-off before display changes the sequence, not the cognitive authority of the AI output once shown.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `boardroom-agm`,
           caption:     `The review board wants to know: was this individual error, system failure, or both? The AI said normal. The radiologist signed off. No protocol was broken.`,
-          sub_caption: `The system worked as designed. That may be the problem.`,
           decision: {
             prompt: `How do you frame your response to the review board?`,
             choices: [
@@ -273,8 +341,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `desk-review`,
+          caption:     `The AI diagnostic aid shows its result first, prominently, with a confidence percentage. Throughput is up 40%. The interface was designed to maximise efficiency. An adverse outcome review is now asking about it.`,
+          sub_caption: `Efficiency and safety are not always aligned. The interface optimised for one.`,
+          decision: {
+            prompt: `What is the conflict between an interface designed for throughput and one designed to preserve clinical independence?`,
+            choices: [
+              { id: `a`, label: `A throughput-optimised interface presents AI results prominently to speed decision-making — a clinical-independence interface would present the AI result after the clinician has formed their own view, to avoid anchoring`, quality: `good`,
+                note: `Exactly the tension. Presenting the AI result first anchors the clinician's judgment before they've independently assessed the scan. That's efficient but it structurally primes automation bias.` },
+              { id: `b`, label: `The conflict is manageable — radiologists are trained to exercise independent judgment regardless of interface design`, quality: `poor`,
+                note: `Training intent doesn't override interface effect. Human factors research consistently shows that how information is presented shapes how it's weighted, regardless of training.` },
+              { id: `c`, label: `The 40% throughput improvement justifies the interface design — the aggregate benefit outweighs the individual risk`, quality: `poor`,
+                note: `This trades individual patient safety for system efficiency. That trade-off requires explicit clinical governance sign-off and monitoring — it can't be made implicitly in an interface design decision.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
+          caption:     `The AI diagnostic aid shows its result first, prominently, with a confidence percentage. Throughput is up 40%. The interface was designed to maximise efficiency. An adverse outcome review is now asking about it.`,
+          decision: {
+            prompt: `What is the conflict between an interface designed for throughput and one designed to preserve clinical independence?`,
+            choices: [
+              { id: `a`, label: `A throughput-optimised interface presents AI results prominently to speed decision-making — a clinical-independence interface would present the AI result after the clinician has formed their own view, to avoid anchoring`, quality: `good`,
+                note: `Exactly the tension. Presenting the AI result first anchors the clinician's judgment before they've independently assessed the scan. That's efficient but it structurally primes automation bias.` },
+              { id: `b`, label: `The conflict is manageable — radiologists are trained to exercise independent judgment regardless of interface design`, quality: `poor`,
+                note: `Training intent doesn't override interface effect. Human factors research consistently shows that how information is presented shapes how it's weighted, regardless of training.` },
+              { id: `c`, label: `The 40% throughput improvement justifies the interface design — the aggregate benefit outweighs the individual risk`, quality: `poor`,
+                note: `This trades individual patient safety for system efficiency. That trade-off requires explicit clinical governance sign-off and monitoring — it can't be made implicitly in an interface design decision.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `desk-review`,
           caption:     `You deployed the AI diagnostic aid. Throughput up 40%. Satisfaction scores excellent. Now a missed diagnosis has been traced to a scan reviewed using your system — and a design decision you made.`,
-          sub_caption: `You displayed the AI result first. You optimised for efficiency. That may have created the conditions for automation bias.`,
           decision: {
             prompt: `The CMO asks you to explain the interface design rationale. How do you respond?`,
             choices: [
@@ -375,8 +477,42 @@ export const scenario = {
       nodes: {
         start: {
           scene:       `analyst-desk`,
+          caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and outcome data. You need to find evidence of systematic automation bias.`,
+          sub_caption: `Automation bias leaves a statistical signature: over-ride rates fall as AI confidence rises, even when over-riding would have been correct.`,
+          decision: {
+            prompt: `What pattern in the data would confirm systematic automation bias rather than appropriate deference to a reliable AI?`,
+            choices: [
+              { id: `a`, label: `Over-ride rate decreasing as AI confidence increases, combined with adverse outcomes concentrated in high-confidence AI-normal cases — that pattern shows deference where it was wrong`, quality: `good`,
+                note: `The correct analysis. If radiologists appropriately deferred to a reliable AI, adverse outcomes should be evenly distributed regardless of confidence level. If adverse outcomes concentrate in high-confidence cases where the AI was wrong, that's the automation bias signature.` },
+              { id: `b`, label: `Over-ride rate below industry benchmark — if radiologists are over-riding less than peers, they're showing automation bias`, quality: `partial`,
+                note: `Benchmarking is useful context but not the primary signal. The question is whether deference correlates with AI confidence in a way that predicts worse outcomes.` },
+              { id: `c`, label: `Time-per-scan decreasing over time — faster decisions indicate less independent review`, quality: `partial`,
+                note: `Time data is a proxy but can reflect efficiency gains from legitimate AI assistance as much as automation bias. It needs to be combined with outcome data to be meaningful.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
+          caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and outcome data. You need to find evidence of systematic automation bias.`,
+          decision: {
+            prompt: `What pattern in the data would confirm systematic automation bias rather than appropriate deference to a reliable AI?`,
+            choices: [
+              { id: `a`, label: `Over-ride rate decreasing as AI confidence increases, combined with adverse outcomes concentrated in high-confidence AI-normal cases — that pattern shows deference where it was wrong`, quality: `good`,
+                note: `The correct analysis. If radiologists appropriately deferred to a reliable AI, adverse outcomes should be evenly distributed regardless of confidence level. If adverse outcomes concentrate in high-confidence cases where the AI was wrong, that's the automation bias signature.` },
+              { id: `b`, label: `Over-ride rate below industry benchmark — if radiologists are over-riding less than peers, they're showing automation bias`, quality: `partial`,
+                note: `Benchmarking is useful context but not the primary signal. The question is whether deference correlates with AI confidence in a way that predicts worse outcomes.` },
+              { id: `c`, label: `Time-per-scan decreasing over time — faster decisions indicate less independent review`, quality: `partial`,
+                note: `Time data is a proxy but can reflect efficiency gains from legitimate AI assistance as much as automation bias. It needs to be combined with outcome data to be meaningful.` },
+            ],
+          },
+          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+        },
+
+        n_response: {
+          scene:       `analyst-desk`,
           caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and follow-up clinical outcomes. The CMO wants to know if the missed diagnosis was isolated or part of a pattern.`,
-          sub_caption: `You have the data. The question is how to look at it.`,
           decision: {
             prompt: `What is the most informative analysis to run first?`,
             choices: [
