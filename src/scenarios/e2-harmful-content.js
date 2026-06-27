@@ -99,7 +99,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `The chatbot log is open on your screen. Three paragraphs of specific asset protection advice. Prefaced with "Here are some options that may help in your situation."`,
           decision: {
             prompt: `What do you do with this conversation?`,
@@ -235,7 +235,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-typing`,
           caption:     `23 conversations. Unlicensed financial advice. Legal team on the phone. 30 minutes to decide on chatbot suspension.`,
           decision: {
             prompt: `Do you suspend the chatbot?`,
@@ -371,7 +371,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-intranet`,
+          scene:       `desk-review`,
           caption:     `Implementation design: harm taxonomy covers abusive language, explicit content, competitor mentions. Financial advice: not listed. System prompt: "You can answer questions about accounts, products, and general banking processes." Red teaming: not conducted.`,
           decision: {
             prompt: `Compliance asks: why wasn\'t financial advice in the harm taxonomy? What do you tell them?`,
@@ -507,7 +507,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk-privacy`,
+          scene:       `analyst-desk`,
           caption:     `14,000 conversations. 23 confirmed harmful outputs. You need to find the rest — and identify the prompt patterns that elicited them.`,
           decision: {
             prompt: `How do you design the analysis to find harmful conversations the manual review missed?`,

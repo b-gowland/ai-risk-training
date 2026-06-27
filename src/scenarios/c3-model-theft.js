@@ -98,7 +98,7 @@ export const scenario = {
         },
 
         n2_legal: {
-          scene:       'boardroom-crisis',
+          scene:       'boardroom-agm',
           caption:     'Key revoked. Logs preserved. Legal is now in the room.',
           sub_caption: 'Legal asks: what do you want the outcome to be — remediation, or enforcement?',
           decision: {

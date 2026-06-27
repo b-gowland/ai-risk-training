@@ -250,7 +250,7 @@ export const scenario = {
         },
 
         n_exec_dig: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `The committee chair cuts in. \"Blake — is the system still running on a model we haven't tested?\"`,
           sub_caption: `The answer is yes, and everyone knows it.`,
           decision: {

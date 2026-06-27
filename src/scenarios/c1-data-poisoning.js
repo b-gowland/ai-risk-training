@@ -240,7 +240,7 @@ export const scenario = {
         },
 
         n2_classify: {
-          scene:       'office-meeting',
+          scene:       'office-bright',
           caption:     'The CRO asks to see the security review classification and the deprioritisation decisions.',
           sub_caption: 'The review classified the finding as medium severity. You deprioritised a medium-severity gap in write access to a production training pipeline twice.',
           decision: {

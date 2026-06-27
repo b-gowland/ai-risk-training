@@ -240,7 +240,7 @@ export const scenario = {
         },
 
         n2_shared: {
-          scene:       'office-meeting',
+          scene:       'office-briefing',
           caption:     'Security confirms the deferral was discussed but the final call to remove both controls from the go-live gate was in the PM\'s sign-off.',
           sub_caption: 'The COO asks: did you escalate the risk of removing both controls before signing off?',
           decision: {

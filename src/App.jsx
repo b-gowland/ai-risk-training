@@ -145,6 +145,11 @@ const IMAGE_SCENES = new Set([
   'news-leak',
   'drift-dashboard',
   'api-outage',
+  'desk-relief',
+  'office-meeting-tense',
+  'desk-decision',
+  'corridor-walk',
+  'office-oneonone',
 ]);
 
 // Accessibility alt text for image-backed scenes
@@ -185,6 +190,11 @@ const IMAGE_ALT = {
   'news-leak':               `Corporate desk with a news article or internal announcement on screen`,
   'drift-dashboard':         `Corporate desk with an analytics dashboard showing a hidden segment diverging`,
   'api-outage':              `Corporate desk with a system status page showing red error indicators`,
+  'desk-relief':             `Corporate desk with a settled, unhurried atmosphere after an issue is resolved`,
+  'office-meeting-tense':    `Corporate meeting room with a tense atmosphere, figures seated mid-discussion`,
+  'desk-decision':           `Corporate desk at the moment of decision, a confirmation poised on screen`,
+  'corridor-walk':           `Office corridor with a figure walking between meetings, viewed from behind`,
+  'office-oneonone':         `Quiet office with two figures in a one-on-one conversation across a small table`,
 };
 
 // SVG scene lookup — used directly for non-image scenes and as fallback
@@ -227,6 +237,11 @@ function getSVGScene(sceneKey) {
     'office-meeting-hearing':  <OfficeMeetingScene />,
     'office-meeting-aftermath':<OfficeMeetingScene />,
     'office-briefing-urgent':  <OfficeBriefingScene />,
+    'desk-relief':             <DeskFocusedScene />,
+    'office-meeting-tense':     <OfficeMeetingScene />,
+    'desk-decision':           <DeskFocusedScene />,
+    'corridor-walk':           <OfficeMeetingScene />,
+    'office-oneonone':         <OfficeMeetingScene />,
   };
   return scenes[sceneKey] || scenes['desk-casual'];
 }

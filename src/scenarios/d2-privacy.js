@@ -305,7 +305,7 @@ export const scenario = {
         },
 
         n_unravel: {
-          scene:       `desk-intranet`,
+          scene:       `desk-review`,
           caption:     `You told the General Counsel the team should have checked with you. She points out that you manage the legal team's tools, you noticed the AI usage six months ago, and you did nothing. Deflecting to staff doesn't survive that.`,
           sub_caption: `The governance was yours to run.`,
           decision: {
@@ -339,7 +339,7 @@ export const scenario = {
         },
 
         n3_follow: {
-          scene:       `office-bright`,
+          scene:       `office-meeting`,
           caption:     `The gap is acknowledged. The General Counsel asks you to design the framework that should have existed.`,
           sub_caption: `The incident becomes the brief for the remediation.`,
           decision: {
@@ -437,7 +437,7 @@ export const scenario = {
         },
 
         n_unravel: {
-          scene:       `analyst-desk-privacy`,
+          scene:       `analyst-desk`,
           caption:     `You told the General Counsel that client data was submitted to the external endpoint. Legal begins drafting a breach notification on that basis — then asks you to substantiate it. The logs show the connection and timing, but cannot show what content was sent.`,
           sub_caption: `You stated as fact something the logs can't establish.`,
           decision: {
@@ -471,7 +471,7 @@ export const scenario = {
         },
 
         n3_follow: {
-          scene:       `office-meeting-aftermath`,
+          scene:       `office-meeting`,
           caption:     `The briefing is clean. The General Counsel asks for the single most effective technical control.`,
           sub_caption: `Your recommendation shapes the remediation plan.`,
           decision: {

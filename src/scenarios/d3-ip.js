@@ -68,7 +68,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'desk-working',
+          scene:       'desk-focused',
           caption:     'Legal is asking all developers who used AI code generation to self-identify. The message is clear — this is serious.',
           sub_caption: 'You know you used AI assistance on that data transformation function.',
           decision: {
@@ -95,7 +95,7 @@ export const scenario = {
           branches: { a: 'n2_flagged', b: 'n2_flagged', c: 'outcome_wait' },
         },
         n2_flagged: {
-          scene:       'office-briefing',
+          scene:       'office-meeting',
           caption:     'You\'ve flagged the function. Legal confirms it matches the GPL-3.0 finding.',
           decision: {
             prompt: 'Legal asks if you remember what prompt you used to generate the function. Why does this matter, and what do you tell them?',
@@ -157,7 +157,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'desk-reading',
+          scene:       'desk-review',
           caption:     'GPL contamination confirmed in production. The scope of the risk depends on how extensively AI code generation was used.',
           decision: {
             prompt: 'Legal asks whether you want to scope the full codebase for AI-generated code before deciding on a response, or act immediately on the confirmed finding only. What do you decide?',
@@ -183,7 +183,7 @@ export const scenario = {
           branches: { a: 'n2_scope', b: 'n2_scope', c: 'outcome_narrow' },
         },
         n2_scope: {
-          scene:       'office-meeting',
+          scene:       'office-bright',
           caption:     'The scan is running. Legal wants to know what structural changes you\'ll make to prevent recurrence.',
           decision: {
             prompt: 'Legal asks you to choose between two approaches to prevent recurrence: (A) mandatory licence scanning in CI/CD — blocks merges with critical findings, or (B) developer training on AI code generation risks — relies on awareness. Which do you implement?',
@@ -245,7 +245,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'desk-review',
+          scene:       'desk-reading',
           caption:     'Your code review process doesn\'t include licence scanning. That gap produced this finding.',
           decision: {
             prompt: 'Your manager asks you to update the code review process immediately. What do you add?',
@@ -350,7 +350,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'analyst-desk-privacy',
+          scene:       'analyst-desk',
           caption:     'One confirmed GPL finding. Your job is to scope the full exposure across six months of AI-generated code.',
           decision: {
             prompt: 'To scope the codebase you need to identify which code was AI-generated. Commit records don\'t flag AI assistance. What\'s your approach?',
@@ -376,7 +376,7 @@ export const scenario = {
           branches: { a: 'n2_both', b: 'n2_scan', c: 'outcome_selfreport' },
         },
         n2_both: {
-          scene:       'desk-focused',
+          scene:       'desk-working',
           caption:     'Self-identification and scanning are running in parallel. Three functions flagged so far.',
           decision: {
             prompt: 'The SCA tool returns findings at four severity levels: critical (copyleft contamination), high (weak copyleft), medium (permissive with conditions), low (minimal restrictions). Legal wants to know which findings require immediate action. What do you recommend?',

@@ -100,7 +100,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `api-outage`,
+          scene:       `security-alert`,
           caption:     `9:17am. AI assistant offline. Queue: 47 customers. No manual process documented. No guidance from management yet.`,
           decision: {
             prompt: `The queue is building and you have no tools. What do you do?`,
@@ -236,7 +236,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `api-outage`,
+          scene:       `security-alert`,
           caption:     `Provider status page: major outage, estimated 2-4 hours. Customer service AI: offline. Fallback: none. BCP scenario for AI provider outage: doesn\'t exist.`,
           decision: {
             prompt: `You have roughly 4 hours before this outage ends. What are your two immediate priorities?`,
@@ -347,7 +347,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `Risk register, Item 7: "Single provider dependency." Likelihood: Low. Impact: High. Mitigation: "Monitor provider status." The outage happened. The mitigation was watching a status page.`,
           decision: {
             prompt: `The COO has the risk register item in front of her. She asks why the mitigation was "monitor provider status" rather than a fallback architecture. What do you tell her?`,
@@ -483,7 +483,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-typing`,
           caption:     `Material service provider register: AI provider listed. CPS 230 requirement: tested fallback arrangements. Fallback status: "Monitor provider status." Outage duration so far: 45 minutes.`,
           decision: {
             prompt: `The COO asks you to confirm the CPS 230 position. What do you tell her?`,

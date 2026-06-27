@@ -69,7 +69,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'desk-working',
+          scene:       'desk-typing',
           caption:     'Regional claims keep landing on your desk. The pattern has been building for months.',
           sub_caption: `The fairness team wants to know what you've seen.`,
           decision: {
@@ -157,7 +157,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'boardroom',
+          scene:       'boardroom-agm',
           caption:     'The audit finding is confirmed. The model is disadvantaging regional policyholders at scale.',
           sub_caption: 'The question now is what you do with it.',
           decision: {
@@ -265,7 +265,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'desk-review',
+          scene:       'desk-reading',
           caption:     'The data quality assessment you signed off is now central to the audit finding.',
           sub_caption: 'The assessment confirmed data integrity. It did not examine subgroup representation.',
           decision: {
@@ -292,7 +292,7 @@ export const scenario = {
           branches: { a: 'n2_scope', b: 'n2_scope', c: 'outcome_obstruct' },
         },
         n2_scope: {
-          scene:       'office-meeting-hearing',
+          scene:       'office-meeting-tense',
           caption:     'The audit team now understands what the assessment covered. The root cause is a gap in methodology, not data integrity.',
           decision: {
             prompt: 'The remediation lead asks you to design a revised data quality assessment process for all future AI models. What does it include?',
@@ -354,7 +354,7 @@ export const scenario = {
           branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
         },
         n_response: {
-          scene:       'analyst-desk',
+          scene:       'analyst-desk-privacy',
           caption:     'Your audit is complete. Rural and regional policyholders are underrepresented in training data by 17 percentage points.',
           sub_caption: 'The remediation team wants your assessment of what needs to happen.',
           decision: {

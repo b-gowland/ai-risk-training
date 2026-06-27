@@ -87,7 +87,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `AI result: Normal — 52% confidence. Your own reading is unclear. Your supervisor said to use the system the same way as at St Catherine's. Three weeks of scores like this.`,
           decision: {
             prompt: `The AI says Normal at 52% confidence. Your own reading is unclear. What do you do?`,
@@ -190,7 +190,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `Three adverse outcomes. Six weeks. All linked to the AI system returning low confidence scores that clinicians proceeded with. ODD documentation: doesn\'t exist.`,
           decision: {
             prompt: `What is your immediate action?`,
@@ -309,7 +309,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `Go-live checklist item 7: Equipment compatibility — confirmed. That confirmation covered software compatibility, not AI performance validation on Millbrook\'s scanner protocols. These are different things.`,
           decision: {
             prompt: `The CMO asks: what did the go-live checklist actually verify, and what did it miss?`,
@@ -428,7 +428,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Training data: St Catherine\'s GE Revolution scanners, standard protocol. Millbrook data: Siemens SOMATOM, different HU calibration, different slice thickness. The validation study used only St Catherine\'s data.`,
           decision: {
             prompt: `The CMO needs two findings: (1) Is Millbrook within the AI\'s validated ODD? (2) Are the three adverse outcomes causally linked to the ODD failure? What do you establish first?`,

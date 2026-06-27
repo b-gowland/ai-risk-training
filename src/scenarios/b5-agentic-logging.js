@@ -103,7 +103,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `The examiner is waiting. The entry is in the system. The log has no document reference, no reasoning, no flags found. The original document is gone.`,
           decision: {
             prompt: `What do you tell the examiner?`,
@@ -232,7 +232,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-briefing-urgent`,
+          scene:       `office-meeting-tense`,
           caption:     `The examiner has flagged that a specific AI-assisted compliance determination cannot be evidenced. The log exists. The document is gone. The reasoning was never captured.`,
           decision: {
             prompt: `What is your immediate response to the examiner?`,
@@ -384,7 +384,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-typing`,
           caption:     `The logging specification you approved captures: timestamp, action type, outcome. It does not capture: document identifier, issues flagged, or reasoning. That decision is now a regulatory finding.`,
           decision: {
             prompt: `The CCO asks you to explain the logging decision. What do you say?`,
@@ -536,7 +536,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Your technology risk assessment approved this deployment. It covered data security and model accuracy. It did not ask: if a regulator asks for the basis of a specific determination in three years, can the firm provide it?`,
           decision: {
             prompt: `The post-incident review asks what the assessment should have included. What's your answer?`,

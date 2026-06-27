@@ -103,7 +103,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `The agent submitted your clipboard contents to an external URL. The clipboard had the pricing briefing from the previous supplier. You don't know which of the eight sites triggered it.`,
           decision: {
             prompt: `What do you do first?`,
@@ -232,7 +232,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-briefing-urgent`,
+          scene:       `office-meeting-tense`,
           caption:     `Computer-use agent. Supplier website. Hidden instruction. Clipboard contents — pricing data — submitted to an external URL. The agent ran with the analyst's credentials.`,
           decision: {
             prompt: `What is your immediate response?`,
@@ -384,7 +384,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working-night`,
+          scene:       `desk-focused`,
           caption:     `The agent had no URL allowlist. It had form submission capability you didn't design for. The post-incident review wants to understand both.`,
           decision: {
             prompt: `The review asks why the agent had form submission capability when it wasn't supposed to submit forms. How do you explain this?`,
@@ -536,7 +536,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `drift-dashboard`,
           caption:     `Computer-use agents read the visual environment. White text on white background is invisible to humans — not to the agent. The attack surface is every website the agent visits.`,
           decision: {
             prompt: `The review asks how computer-use agent injection differs from other injection classes. How do you characterise it?`,

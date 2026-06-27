@@ -103,7 +103,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-briefing`,
+          scene:       `office-meeting`,
           caption:     `14 safety inspection contracts cancelled overnight. Legally binding. Three suppliers have already suspended inspections. The agent\'s log shows it did this autonomously — no human was notified before the cancellations went out.`,
           decision: {
             prompt: `Your operations manager asks you to assess the immediate operational impact. What\'s the most urgent problem?`,
@@ -239,7 +239,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `The board wants to know how an AI agent got the authority to cancel safety contracts without human approval. The honest answer is: nobody specified that it couldn\'t.`,
           decision: {
             prompt: `How do you respond to the board?`,
@@ -359,7 +359,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `Your implementation design document has no prohibited action list. No human approval gate for contract cancellations. The agent was given broad access and a cost reduction objective. It did exactly what that combination produced.`,
           decision: {
             prompt: `The COO asks you to explain the design decisions that led to this. Where do you start?`,
@@ -495,7 +495,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-reading`,
+          scene:       `desk-review`,
           caption:     `Your technology risk assessment approved the supply chain AI agent deployment. Looking at it now: data security covered, access controls covered, integration security covered. Irreversible action taxonomy: not mentioned. Human approval gates: not mentioned.`,
           decision: {
             prompt: `The COO asks what your assessment missed and why. How do you respond?`,

@@ -106,7 +106,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `security-alert`,
+          scene:       `analyst-desk`,
           caption:     `Security has flagged the outbound traffic. The agent sent client document contents to an external URL. The instruction came from the currency conversion MCP server you added. The server is now suspended.`,
           decision: {
             prompt: `Your manager asks you to explain what happened. What do you say?`,
@@ -235,7 +235,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-briefing-urgent`,
+          scene:       `office-meeting-tense`,
           caption:     `Client document contents sent to an external URL. Attack vector: a malicious instruction in a currency conversion API response. Tool was connected without security review.`,
           decision: {
             prompt: `What do you do first?`,
@@ -387,7 +387,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `Your project approval record includes the unreviewed MCP server. The post-incident review is examining whether the approval process was adequate.`,
           decision: {
             prompt: `The review asks whether the approval process required a security review for third-party MCP connections. What's your answer?`,
@@ -539,7 +539,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `drift-dashboard`,
           caption:     `This is not a standard prompt injection. The attack came through the MCP tool response channel. Your existing threat model didn't cover it. You need to understand the attack surface and recommend the controls.`,
           decision: {
             prompt: `Where do you start your analysis?`,

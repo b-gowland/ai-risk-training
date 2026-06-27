@@ -154,7 +154,7 @@ export const scenario = {
         },
 
         n3_manager_escalation: {
-          scene:       `desk-colleague`,
+          scene:       `desk-working`,
           caption:     `Three days after the audit session. Your manager's request that you "keep things simple" has been raised with HR Legal.`,
           sub_caption: `HR Legal wants to understand what was said. You are asked to provide a written account of that conversation.`,
           decision: {
@@ -250,7 +250,7 @@ export const scenario = {
         },
 
         n_exec_dig: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `The Chair has read the audit note about the document search. \"Morgan — was there ever a sign-off, or not?\"`,
           sub_caption: `The board is watching how you answer.`,
           decision: {
@@ -267,7 +267,7 @@ export const scenario = {
 
 
         n2_legal: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `Legal confirms: no sign-off exists. They advise full disclosure to the auditor.`,
           sub_caption: `The question is now how you remediate, not whether the gap exists.`,
           decision: {
@@ -299,7 +299,7 @@ export const scenario = {
         },
 
         n3_board_scrutiny: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom`,
           caption:     `Board meeting. The Chair has read the audit summary.`,
           sub_caption: `She asks privately: "Morgan — did you know an employment AI system would be classified high-risk under the EU AI Act before this went live?"`,
           decision: {
@@ -526,7 +526,7 @@ export const scenario = {
         },
 
         n_analyst_unravel: {
-          scene:       `analyst-desk-privacy`,
+          scene:       `drift-dashboard`,
           caption:     `You sent the raw disaggregated results straight to the auditor — a statistically significant disparity, with no methodology note and no internal review. The auditor asks how the figures were produced, and whether anyone inside the firm has seen them.`,
           sub_caption: `Neither question has a clean answer yet.`,
           decision: {

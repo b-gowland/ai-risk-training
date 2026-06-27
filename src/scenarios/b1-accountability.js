@@ -257,7 +257,7 @@ export const scenario = {
         },
 
         n_exec_dig: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `The Chair intervenes before APRA has to ask a third time. "Blake, name someone. Today. The regime does not bend on this."`,
           sub_caption: `The room is waiting on you.`,
           decision: {
@@ -305,7 +305,7 @@ export const scenario = {
         },
 
         n3_chair_scrutiny: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `Board meeting. The Chair has read your response to APRA and raises a question privately afterward.`,
           sub_caption: `"Blake, did you name yourself because it was the right appointment — or because it was the fastest response?"`,
           decision: {
@@ -531,7 +531,7 @@ export const scenario = {
         },
 
         n_analyst_unravel: {
-          scene:       `desk-reading`,
+          scene:       `desk-review`,
           caption:     `You told the reviewer the finding's closure was the end of your responsibility. She turns to the file: the finding was closed "in progress" with no evidence of remediation, and the same model is still running on the same gap.`,
           sub_caption: `"The end of your responsibility," she repeats. "Walk me through that."`,
           decision: {

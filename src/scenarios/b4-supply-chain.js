@@ -253,7 +253,7 @@ export const scenario = {
         },
 
         n_exec_dig: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `The committee chair asks the question directly. \"Is client data still going to that external model right now?\"`,
           sub_caption: `It is.`,
           decision: {
@@ -536,7 +536,7 @@ export const scenario = {
         },
 
         n_analyst_unravel: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `You decided to ask the vendor what their sub-processor handles before briefing anyone internally. The API traffic to the public endpoint continues while you wait for a reply. Two days later the vendor responds with a non-answer — and your internal security leadership still doesn't know.`,
           sub_caption: `The evidence was already in your traffic logs.`,
           decision: {

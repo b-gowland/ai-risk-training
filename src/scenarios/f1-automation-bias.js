@@ -101,7 +101,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `xray-ai`,
+          scene:       `desk-review`,
           caption:     `Scan 75. AI result: Normal — 91% confidence. Your eye caught something in the lower right lobe. Subtle. Could be nothing.`,
           decision: {
             prompt: `The AI says normal. Your instinct says look again. What do you do?`,
@@ -239,7 +239,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-agm`,
+          scene:       `boardroom`,
           caption:     `The review board wants to know: was this individual error, system failure, or both? The AI said normal. The radiologist signed off. No protocol was broken.`,
           decision: {
             prompt: `How do you frame your response to the review board?`,
@@ -375,7 +375,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `You deployed the AI diagnostic aid. Throughput up 40%. Satisfaction scores excellent. Now a missed diagnosis has been traced to a scan reviewed using your system — and a design decision you made.`,
           decision: {
             prompt: `The CMO asks you to explain the interface design rationale. How do you respond?`,
@@ -511,7 +511,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and follow-up clinical outcomes. The CMO wants to know if the missed diagnosis was isolated or part of a pattern.`,
           decision: {
             prompt: `What is the most informative analysis to run first?`,

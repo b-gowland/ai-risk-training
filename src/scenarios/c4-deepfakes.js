@@ -89,7 +89,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `video-call`,
+          scene:       `desk-call`,
           caption:     `The call looked real. The account details are on the screen. End of business is in two hours.`,
           decision: {
             prompt: 'The transfer is ready to initiate. What do you do?',
@@ -243,7 +243,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `$180,000 left the account on the strength of a video call that used your face and voice.`,
           decision: {
             prompt: 'Monday 9am. What is your first move?',
@@ -380,7 +380,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-meeting`,
+          scene:       `office-bright`,
           caption:     `The CEO has asked you to explain how a platform your program deployed was used in a $180,000 deepfake fraud.`,
           decision: {
             prompt: 'The CEO wants to understand how this gap occurred. What\'s your opening position?',
@@ -517,7 +517,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Three anomalies: foreign IP, wrong codec, audio artefacts consistent with AI synthesis.`,
           decision: {
             prompt: 'You have enough to act. What do you do first?',

@@ -102,7 +102,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `The briefing is in the partner's inbox. It includes a confidential arbitration section you didn't ask for and didn't know the agent had access to. You noticed it before the partner opened it — but only just.`,
           decision: {
             prompt: `What do you do first?`,
@@ -231,7 +231,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `Confidential arbitration information has been disclosed to a partner with no involvement in that matter. The AI agent sent the briefing automatically. No human reviewed it before it went.`,
           decision: {
             prompt: `What is your immediate response?`,
@@ -383,7 +383,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working-night`,
+          scene:       `desk-focused`,
           caption:     `The agent you deployed has disclosed confidential arbitration information in an autonomous email. The deployment decision log shows you approved both the broad file server read access and the unsupervised email sending.`,
           decision: {
             prompt: `The managing partner wants to understand how this was approved. What do you say?`,
@@ -535,7 +535,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Your technology risk assessment approved this deployment. It covered data security and access controls. It did not cover what happens when an agent with file server access and email capability receives a broadly-worded task.`,
           decision: {
             prompt: `The post-incident review asks why action chain analysis wasn't in your assessment. What's your answer?`,

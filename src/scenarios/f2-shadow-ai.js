@@ -208,7 +208,7 @@ export const scenario = {
           branches: { auto: 'n3_clean' },
         },
         n3_clean: {
-          scene: 'desk-focused',
+          scene: 'desk-working',
           caption: `You handled your own piece correctly — the client data never went into the tool. But the conversation isn't really about you any more: a few people weren't as careful, and there's still no approved tool and no current policy.`,
           decision: {
             prompt: `What do you do with what you've learned?`,
@@ -275,7 +275,7 @@ export const scenario = {
         },
 
         n2_fast_response: {
-          scene: 'boardroom',
+          scene: 'boardroom-agm',
           caption: 'IT pulls the logs. Unapproved AI tool. 847KB. Q3 board prep. One employee. The data included M&A target names.',
           sub_caption: 'Your acceptable use policy was in draft at the time. It had been in draft for six months.',
           decision: {
@@ -488,7 +488,7 @@ export const scenario = {
           branches: { a: 'n3_caught', b: 'n3_pm_exposed' },
         },
         n3_pm_exposed: {
-          scene: 'desk-evidence',
+          scene: 'desk-review',
           caption: `You held your account. But IT confirms the log, and the contradiction between what you said and what happened is now in the incident record alongside the original data issue.`,
           decision: {
             prompt: `It's no longer just a data issue. What do you do?`,
@@ -535,7 +535,7 @@ export const scenario = {
         },
 
         n3_caught: {
-          scene: 'desk-focused',
+          scene: 'desk-working',
           caption: 'You corrected the record. Late, but you corrected it.',
           sub_caption: 'The written note reflects the correction. The initial response — vague or false — is also in the record.',
           decision: {
@@ -697,7 +697,7 @@ export const scenario = {
         },
 
         n3_too_late: {
-          scene: 'desk-focused',
+          scene: 'desk-working',
           caption: 'External counsel arrived before your incident report. Legal is doing the investigation now, not InfoSec.',
           sub_caption: 'Your manager is being asked why they advised waiting. They are not mentioning that conversation.',
           decision: {

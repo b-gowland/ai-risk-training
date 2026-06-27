@@ -106,7 +106,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `Kwame Mensah is on the phone. His credit score is 487. Minimum is 520. The reason field says: "Score below threshold." That\'s all you have.`,
           decision: {
             prompt: `Kwame asks for a specific explanation of why he was declined. What do you do?`,
@@ -226,7 +226,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `14 months of credit declines. Non-compliant adverse action notices on all of them. Postcode as the top adverse feature — correlated with demographic composition. Two regulatory obligations potentially breached simultaneously.`,
           decision: {
             prompt: `What is the sequence of your response?`,
@@ -362,7 +362,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-intranet`,
+          scene:       `desk-review`,
           caption:     `Implementation design doc, explanation section: "Model outputs credit score. Threshold determines approval/decline. Decline notices include score and threshold." No SHAP. No reason codes. The checklist item "Explanation capability — confirmed" was marked complete.`,
           decision: {
             prompt: `Compliance asks: what did "Explanation capability — confirmed" actually verify? What do you tell them?`,
@@ -480,7 +480,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Two questions. One: 14 months of adverse action notices — what\'s the regulatory exposure? Two: postcode as top adverse feature — proxy discrimination or coincidence?`,
           decision: {
             prompt: `The CRO needs both assessments. Which do you address first?`,

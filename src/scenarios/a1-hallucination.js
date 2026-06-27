@@ -71,7 +71,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene: 'document-error',
+          scene: 'desk-evidence',
           caption: 'The client is on the phone. The regulation they\'re asking about appears to be completely fabricated by the AI.',
           sub_caption: 'Two other citations are in the document. You haven\'t checked them yet.',
           decision: {
@@ -191,7 +191,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene: 'desk-review',
+          scene: 'desk-reading',
           caption: 'A client briefing went out with fabricated regulatory citations. The client has shared it with their board.',
           sub_caption: 'The AI writing tool was deployed last month. No verification step was ever required.',
           decision: {
@@ -426,7 +426,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene: 'desk-focused',
+          scene: 'desk-typing',
           caption: 'The Managing Partner wants to know: is the fabricated citation isolated, or is there more?',
           sub_caption: 'The AI tool has been in use for three weeks. Multiple client-facing documents have gone out.',
           decision: {

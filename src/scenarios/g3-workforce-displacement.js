@@ -100,7 +100,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `news-leak`,
+          scene:       `desk-review`,
           caption:     `A news article. 25 roles. Your team. No word from management. Your colleagues are in the Slack channel right now, reading the same thing.`,
           decision: {
             prompt: `Your colleagues are asking in Slack if anyone knows more. What do you do?`,
@@ -236,7 +236,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-working`,
           caption:     `40 people read about their potential redundancy in a newspaper. The internal communication was planned for Thursday. It is Tuesday. Your CEO is on the phone.`,
           decision: {
             prompt: `You\'re on with the CEO. She asks what you\'re doing in the next 60 minutes. What do you tell her?`,
@@ -372,7 +372,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `The programme delivered. The AI is working. 25 people found out about their potential redundancy from a journalist. The workforce impact assessment you commissioned three months ago recommended consultation start six weeks before go-live.`,
           decision: {
             prompt: `The COO asks why the consultation process wasn\'t running before go-live. What do you tell them?`,
@@ -508,7 +508,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-working`,
           caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum, must begin six weeks before go-live. The system went live four weeks ago. Consultation never started. You are now being asked to confirm the Fair Work Act exposure.`,
           decision: {
             prompt: `Legal asks you to confirm whether the organisation has a Fair Work Act consultation obligation exposure. What do you tell them?`,
@@ -525,7 +525,7 @@ export const scenario = {
         },
 
         n2_clear_finding: {
-          scene:       `desk-report`,
+          scene:       `desk-review`,
           caption:     `Legal confirms the exposure is real. They\'re now asking what a remediation path looks like — can the consultation obligation be partially met through a genuine process starting today?`,
           sub_caption: `The damage is done. The question is whether it can be limited.`,
           decision: {

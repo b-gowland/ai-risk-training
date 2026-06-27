@@ -87,7 +87,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-typing`,
           caption:     `The email is accurate in every detail. The project reference, the penalty clause, even the subcontractor name. Nothing looks wrong.`,
           sub_caption: `Dana says the payment team lead is travelling. She's asking you to handle it directly.`,
           decision: {
@@ -223,7 +223,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-briefing`,
+          scene:       `office-meeting`,
           caption:     `A $47,500 payment left the company Thursday in your name. You gave no such instruction. The email used your name, your title, and an accurate project reference.`,
           sub_caption: `The amount was $2,500 below the dual-authorisation threshold. That wasn\'t a coincidence.`,
           decision: {
@@ -343,7 +343,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `The fraudulent email referenced your project accurately: contract name, penalty clause structure, subcontractor. Finance wants to know how the attacker knew this.`,
           sub_caption: `Your project status update has been on the company website for three months.`,
           decision: {
@@ -465,7 +465,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `The email that triggered a $47,500 transfer passed every content check. Perfect grammar. Accurate context. No urgency red flags. But the headers tell a different story.`,
           sub_caption: `SPF: fail. DKIM: none. Domain registered six days ago. The email security gateway saw none of this.`,
           decision: {

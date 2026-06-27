@@ -104,7 +104,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `40 applications with suspiciously similar cover letters. Several with credentials that don\'t match LinkedIn. One with a publication that doesn\'t exist.`,
           decision: {
             prompt: `You\'ve identified a pattern that looks like widespread use of AI-generated and potentially fabricated application materials. What do you do?`,
@@ -240,7 +240,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `Two finalists. Both with substantially fabricated applications. Offers not yet signed. No policy on AI-generated applications.`,
           decision: {
             prompt: `What do you do about the two shortlisted candidates?`,
@@ -376,7 +376,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `ATS capability: keyword matching, qualification ranking, duplicate detection. AI content detection: none. Vendor AI detection module: launching next quarter. The CPO needs a recommendation within a week.`,
           decision: {
             prompt: `What do you recommend to the CPO?`,
@@ -512,7 +512,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-typing`,
           caption:     `140 applications. No AI detection tool. You need to assess the scale and identify the patterns. Your methodology will determine how accurate the picture is.`,
           decision: {
             prompt: `How do you approach the analysis without a dedicated AI detection tool?`,

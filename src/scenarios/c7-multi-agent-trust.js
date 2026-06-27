@@ -106,7 +106,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `The security team has shown you the footnote. Grey text on white background. Invisible to a human reader scanning the document. Exactly what an adversarial injection looks like.`,
           decision: {
             prompt: `Security asks whether you reviewed documents before they entered the pipeline. What's your answer?`,
@@ -235,7 +235,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-crisis`,
+          scene:       `boardroom-agm`,
           caption:     `Three-agent pipeline compromised. Injected instruction propagated from document to Agent 1 to Agent 2 to Agent 3. Agent 3 sent client data to an attacker email. Each agent trusted the previous one's output completely.`,
           decision: {
             prompt: `What are your immediate actions?`,
@@ -380,7 +380,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-typing`,
           caption:     `You specified that each agent treats the previous agent's output as trusted context. That specification is why the injection propagated. The post-incident review is examining whether you considered inter-agent trust as a design variable.`,
           decision: {
             prompt: `The review asks whether inter-agent trust levels were considered in the pipeline design. What's your answer?`,
@@ -532,7 +532,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `drift-dashboard`,
           caption:     `Single-agent injection: the attack surface is user input. Multi-agent injection: the attack surface is every inter-agent message. The controls are different.`,
           decision: {
             prompt: `The post-incident review asks you to explain why this attack is different from single-agent prompt injection. How do you explain it?`,

@@ -104,7 +104,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `You've finished the registry. Eight agents. Three risk chains. The findings are technically accurate — but you're a junior analyst presenting to the CRO in two hours.`,
           decision: {
             prompt: `How do you frame the finding for the CRO?`,
@@ -274,7 +274,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
+          scene:       `boardroom-agm`,
           caption:     `The governance analyst's briefing is on your desk. Eight agents. Three risk chains. No enterprise policy. Forty-five days to the regulatory examination.`,
           decision: {
             prompt: `Your first decision: what is the immediate organisational response?`,
@@ -426,7 +426,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-typing`,
           caption:     `You've been coordinating AI deployments for 18 months. You tracked timelines. You didn't track capability sets. The registry the analyst built shows what you missed.`,
           decision: {
             prompt: `The CRO asks you to lead the remediation programme. Your first step?`,
@@ -578,7 +578,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
+          scene:       `drift-dashboard`,
           caption:     `You approved three of the eight AI agent deployments. One of them is in a risk chain. Your risk assessment template has no action chain analysis section.`,
           decision: {
             prompt: `Where do you start?`,

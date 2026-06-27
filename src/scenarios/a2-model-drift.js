@@ -85,7 +85,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `Three to four calls a day about declined legitimate transactions. Up from maybe one a week. And most callers are describing the same type of transaction.`,
           sub_caption: `Your team leader says it's probably seasonal. The calls are still coming.`,
           decision: {
@@ -205,7 +205,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `drift-dashboard`,
+          scene:       `analyst-desk`,
           caption:     `340% increase in legitimate transaction decline complaints. 96.2% model accuracy — unchanged from last quarter. One of these numbers is lying.`,
           sub_caption: `The model team says aggregate metrics look fine. That's not an answer.`,
           decision: {
@@ -325,7 +325,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `18 months in production. No monitoring framework. No drift detection. No retraining schedule. The accuracy metric is calculated against the original training validation set — 18 months old.`,
           sub_caption: `You've been measuring how well the model performs on old data. Not on today's data.`,
           decision: {
@@ -445,7 +445,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `drift-dashboard`,
+          scene:       `chart-declining`,
           caption:     `96.2% aggregate accuracy. 340% complaint increase. The accuracy metric is measured against 18-month-old validation data. You're looking at a dashboard that has been measuring the past for 18 months.`,
           sub_caption: `Your job: find where the model is failing in the present.`,
           decision: {
@@ -463,7 +463,7 @@ export const scenario = {
         },
 
         n2_disaggregate: {
-          scene:       `analyst-desk`,
+          scene:       `analyst-desk-privacy`,
           caption:     `Disaggregated accuracy against current data: overall 94.1% — slightly down from reported 96.2%. But the segment breakdown tells a different story. Digital banking customers onboarded in the last 12 months: false positive rate 34%.`,
           sub_caption: `The aggregate was masking a segment that the model has essentially stopped working for.`,
           decision: {

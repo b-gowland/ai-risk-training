@@ -89,7 +89,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `chart-declining`,
+          scene:       `drift-dashboard`,
           caption:     `Ten shortlists. The same narrow profile, repeated. Your colleague noticed it first. Now you're seeing it too.`,
           decision: {
             prompt: 'You\'ve noticed something that looks like a pattern. What do you do?',
@@ -225,7 +225,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `chart-declining`,
+          scene:       `drift-dashboard`,
           caption:     `The benchmarking correlation is clear. Shortlist diversity declined in the three months since the tool launched.`,
           decision: {
             prompt: 'What do you do first?',
@@ -369,7 +369,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-meeting`,
+          scene:       `office-oneonone`,
           caption:     `The Chief People Officer has shown you the benchmarking correlation. You implemented this tool three months ago. No fairness assessment was in scope.`,
           decision: {
             prompt: 'The CPO wants to understand how the gap occurred. What\'s your position?',
@@ -506,7 +506,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `security-alert`,
+          scene:       `analyst-desk`,
           caption:     `Statistically significant disparities in shortlist rates across gender and ethnicity — even after controlling for qualifications.`,
           decision: {
             prompt: 'You have a significant finding. What do you do first?',

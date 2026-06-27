@@ -100,7 +100,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-typing`,
           caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the net-zero model. The AGM is in two weeks.`,
           decision: {
             prompt: `You need to quantify the gap. What do you do first?`,
@@ -236,7 +236,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-agm`,
+          scene:       `boardroom`,
           caption:     `An institutional investor. 4.2% of shares. Microphone in hand. "Is the AI compute investment included in your net-zero pathway modelling?" You and the CDO exchange a look.`,
           decision: {
             prompt: `What do you say?`,
@@ -372,7 +372,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `Your cost model has detailed energy projections. The sustainability team wasn't in your stakeholder map. The CDO is calling from the AGM asking for your figures right now.`,
           decision: {
             prompt: `The CDO needs your energy numbers in the next hour. What do you send?`,
@@ -508,7 +508,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `drift-dashboard`,
+          scene:       `analyst-desk`,
           caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total addition: ~4.4MW annually. Current baseline: ~37MW. That's a 12% step increase.`,
           decision: {
             prompt: `The board briefing is in four hours. How do you frame the finding?`,

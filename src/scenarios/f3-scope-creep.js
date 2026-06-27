@@ -102,7 +102,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
+          scene:       `desk-focused`,
           caption:     `Compliance is asking whether a separate assessment was done for the NZ deployment. The answer is: you don\'t know. Your manager told you to run NZ applications through the AU model. You did.`,
           decision: {
             prompt: `Compliance wants to understand how the NZ applications started going through the AU model. What do you tell them?`,
@@ -238,7 +238,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
+          scene:       `desk-reading`,
           caption:     `Four months of NZ credit decisions made by a model validated only for Australian consumer credit obligations. No change request raised. No jurisdictional assessment done. The AI Register entry is clear.`,
           decision: {
             prompt: `What is your immediate priority?`,
@@ -374,7 +374,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-intranet`,
+          scene:       `desk-reading`,
           caption:     `The AI Register entry is clear: AU scope only. No change request was ever raised for NZ. The expansion happened because nobody in the credit operations team knew they needed to raise one.`,
           decision: {
             prompt: `The CRO wants to know how this happened and what changes. Where do you start?`,
@@ -510,7 +510,7 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
+          scene:       `desk-typing`,
           caption:     `847 NZ credit applications processed through a model validated only for AU consumer credit obligations. You need to assess materiality — were any customers potentially harmed by using the wrong model?`,
           decision: {
             prompt: `How do you structure the materiality assessment?`,
