@@ -244,7 +244,7 @@ function ImageScene({ sceneKey }) {
       )}
       {status !== 'error' && (
         <img
-          src={`${import.meta.env.BASE_URL}scenes/${sceneKey}.png`}
+          src={`${import.meta.env.BASE_URL}scenes/${sceneKey}.webp`}
           alt={alt}
           className={styles.sceneImg}
           style={{ display: status === 'loaded' ? 'block' : 'none' }}

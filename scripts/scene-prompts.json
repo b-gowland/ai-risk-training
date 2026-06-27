@@ -1,0 +1,164 @@
+{
+  "_readme": "Scene image prompts v3.0 — one entry per image. 'reference' names the approved style-anchor image to attach (desk-working or boardroom-crisis). Used by scripts/generate-scenes.mjs and rendered into the manual worksheet. Tier 4 keys are NEW scene keys: generate now, but they appear in the app only after a node-reassignment build session.",
+  "style_preamble_desk": "Create a new image in the exact watercolour style of the attached reference image — same loose editorial watercolour, soft ink linework, same warm amber-led palette, same level of abstraction on screens, 16:9 wide landscape.",
+  "style_preamble_people": "Create a new image in the exact watercolour style of the attached reference image — same loose editorial watercolour, soft ink linework, same warm amber-led palette, same way of rendering people, 16:9 wide landscape.",
+  "closing": "No readable text anywhere on any screen, paper, or whiteboard — all text-like content is abstract watercolour strokes. No photorealism — figures are illustrative, not portraits.",
+  "images": [
+    {
+      "tier": 1, "filename": "desk-focused", "reference": "desk-working", "preamble": "desk",
+      "scene": "An evening deep-focus scene: a person seen from behind, back of head only, no facial features visible, seated at a corporate office desk in a darkened office. The only warm light comes from a desk lamp and the monitor's glow falling on their shoulders. The monitor shows a document as abstract text-stroke blocks. Steaming coffee, an open notebook with handwritten abstract marks, dusk fading in the window. The rest of the office is empty and dim behind them. Quiet concentration — someone staying late to get this right."
+    },
+    {
+      "tier": 1, "filename": "office-meeting", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A CALM daylight register, not tense: a constructive working meeting in a modern corporate meeting room. The protagonist is seen from behind in the near foreground at one end of an oval table, back of head only, no facial features visible. Three colleagues around the table in relaxed engaged postures — one gesturing at a whiteboard covered in abstract diagram shapes, one taking notes, one listening with a laptop open. Secondary figures have soft, loosely suggested watercolour faces, readable as human but not as any specific person. Soft warm daylight from large windows. Collaborative, energised atmosphere."
+    },
+    {
+      "tier": 1, "filename": "desk-review", "reference": "desk-working", "preamble": "desk",
+      "scene": "An over-the-shoulder view of a person seen from behind, back of head only, no facial features visible, reviewing material at their desk. The monitor shows a structured register or table rendered as abstract rows and column blocks. Printed documents spread beside the keyboard; their hand rests on a page holding a pen; reading glasses folded nearby. Warm desk lamp light pooling over the papers. Methodical, careful atmosphere — checking the detail before signing off."
+    },
+    {
+      "tier": 1, "filename": "analyst-desk", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at a dual-monitor analyst workstation. The left monitor shows an abstract dashboard with muted chart blocks and indicator shapes; the right monitor shows a document as abstract text strokes. Mechanical keyboard, coffee cup, a focused warm desk lamp pooling light on the desk. One distant colleague suggested as a loose watercolour shape in the blurred open-plan background. Technical, absorbed atmosphere."
+    },
+    {
+      "tier": 1, "filename": "boardroom", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A CALM, composed formal register, not tense: a formal board meeting in progress. The protagonist's shoulder and the back of their head frame the near foreground at one end of a long polished table, no facial features visible. Five or six figures along the table in attentive professional postures, one presenting toward a screen at the far end showing abstract slide shapes. Soft, loosely suggested watercolour faces, not any specific person. City view through floor-to-ceiling windows, warm late-afternoon light. Decisions being made properly."
+    },
+    {
+      "tier": 1, "filename": "office-briefing", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "Alert-but-controlled energy, lighter than the reference, not a crisis: a small standing briefing huddle in a corporate meeting area. The protagonist is seen from behind in the near foreground, back of head only, no facial features visible, facing a wall-mounted screen that shows an alert dashboard as abstract amber status shapes. Two colleagues stand beside them — one pointing at the screen, one holding a notebook — soft loosely suggested watercolour faces, not any specific person. Warm office light. Something needs attention and the team is on it."
+    },
+    {
+      "tier": 1, "filename": "office-bright", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A BRIGHT, optimistic register, the opposite mood of the reference: a bright airy meeting room immediately after a productive working session. The protagonist is seen from behind, back of head only, no facial features visible, adding a final sticky note to a whiteboard covered in abstract diagram shapes and coloured sticky notes. Two colleagues at the table mid-conversation, one smiling, soft loosely suggested watercolour faces, not any specific person. Laptops and coffee cups scattered. Natural bright warm light flooding from large windows. Energised atmosphere."
+    },
+    {
+      "tier": 1, "filename": "desk-colleague", "reference": "desk-working", "preamble": "desk",
+      "scene": "Two adjacent corporate desks. The protagonist is seen from behind at one desk, back of head only, no facial features visible. At the neighbouring desk a colleague has turned toward them mid-conversation — soft, loosely suggested watercolour face, readable as human but not any specific person — gesturing at a printed document placed between the two workstations. Both monitors show abstract interface blocks. Warm natural office light, a plant or two in the soft blurred background. Collegial, working-it-out-together atmosphere."
+    },
+    {
+      "tier": 1, "filename": "desk-thirty-days", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at their desk in calm morning light, looking at a wall calendar or desk planner beside the monitor. The calendar is a grid of abstract marks with a visible stretch of days crossed through — no readable numbers or words. The monitor shows an abstract status dashboard in settled green and amber tones. Tidy desk, fresh coffee. Reflective aftermath atmosphere — time has passed since an incident, and this is the review."
+    },
+    {
+      "tier": 1, "filename": "office-meeting-hearing", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "Same weighty low warm lighting as the reference: a formal hearing-style meeting. The protagonist is seen from behind, back of head only, no facial features visible, seated alone on one side of a table. Three figures sit opposite with neutral, formal postures — one consulting a document folder — rendered with soft, stylistically ambiguous watercolour faces, deliberately generic, not any specific person, no distinct characteristics. Abstract papers between them. Muted warm light, window blinds partly drawn. Weighty, accountable atmosphere — the protagonist is answering for decisions."
+    },
+    {
+      "tier": 2, "filename": "office-briefing-urgent", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "An escalated briefing: the protagonist seen from behind, back of head only, no facial features visible, with three colleagues in a corporate meeting area — one on a phone mid-call, one holding printed pages, one pointing at a wall screen dense with abstract amber and red alert shapes. Standing, urgent coordinated postures, soft loosely suggested watercolour faces, not any specific person. Pressured but professional atmosphere — an incident is unfolding and the team is responding."
+    },
+    {
+      "tier": 2, "filename": "analyst-desk-privacy", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at a dual-monitor analyst workstation studying sensitive material. The left monitor shows an access log rendered as abstract muted-blue row blocks; the right monitor shows a document with several sections covered by amber redaction blocks, all text as abstract strokes. A printed report on the desk bears an abstract lock-shield emblem with no readable title. Warm focused lamp light, quiet blurred office behind. Careful, discreet atmosphere."
+    },
+    {
+      "tier": 2, "filename": "desk-intranet", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, relaxed at their desk in morning light reading a corporate intranet page on the monitor — rendered as an abstract banner block, tile shapes, and text-stroke paragraphs. Mug in hand, leaning back slightly. Routine catching-up-on-announcements atmosphere."
+    },
+    {
+      "tier": 2, "filename": "desk-report", "reference": "desk-working", "preamble": "desk",
+      "scene": "An over-the-shoulder view of a person seen from behind, back of head only, no facial features visible, with a multi-page printed report open on the desk in the foreground — abstract heading block, paragraph strokes, and a small abstract bar chart on the visible pages. A highlighter in their hand mid-mark, reading glasses beside the report, keyboard further back, monitor showing an abstract document. Warm lamp light on the pages. Close-reading atmosphere."
+    },
+    {
+      "tier": 2, "filename": "office-meeting-aftermath", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A meeting room moments after a difficult session: the protagonist seen from behind, back of head only, no facial features visible, gathering papers at the table. One colleague lingers at the door in quiet exchange with them — soft loosely suggested watercolour face, not any specific person. Chairs pushed back at angles, a whiteboard half-erased, coffee cups abandoned. Subdued warm light. Decompressing, reflective atmosphere."
+    },
+    {
+      "tier": 2, "filename": "desk-working-night", "reference": "desk-working", "preamble": "desk",
+      "scene": "A night scene: the office dark except one desk where a person sits seen from behind, back of head only, no facial features visible — desk lamp and monitor glow the only light, city lights visible through the window, a jacket over the chair back. Monitor shows abstract document blocks. Solitary, determined late-night atmosphere."
+    },
+    {
+      "tier": 2, "filename": "desk-call", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at their desk holding a phone to their ear, the other hand writing a note on a pad. The monitor with abstract content is pushed slightly aside. Posture attentive and slightly tense. Warm desk light. Important-call atmosphere — listening hard, taking it down."
+    },
+    {
+      "tier": 2, "filename": "boardroom-agm", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A large formal assembly: the protagonist seen from behind at a lectern at the front of a big room, back of head only, no facial features visible, facing rows of seated audience figures rendered as loose watercolour shapes. A large screen behind shows abstract slide shapes. Formal lighting, public-accountability atmosphere — presenting to many."
+    },
+    {
+      "tier": 2, "filename": "desk-reading", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, absorbed in a single printed document held in both hands at their desk. The monitor is dark or off. Coffee to the side, a highlighter resting on the desk as if just set down, warm lamp light pooling on the page of abstract text strokes. Still, deep-reading atmosphere."
+    },
+    {
+      "tier": 2, "filename": "drift-dashboard", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, facing a large monitor dominated by an abstract monitoring dashboard — a single line chart trending visibly away from a shaded expected band, with amber indicator shapes. Their hand is paused on the mouse. Warm screen glow against a dim office. Something's-off atmosphere — they have just noticed."
+    },
+    {
+      "tier": 2, "filename": "security-alert", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, leaning in sharply toward a workstation monitor where an abstract alert modal glows in amber-red shapes over a dimmed abstract interface. A colleague is arriving behind them rendered as a loose watercolour shape in motion. Sharp, focused urgency, screen glow on their shoulders. No depiction of harm."
+    },
+    {
+      "tier": 2, "filename": "desk-waiting", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, leaned back from their desk with arms crossed, watching a monitor that shows an abstract pending or progress state — a bar shape, a spinner shape, muted tones. Window light, a blurred wall clock shape in the background. Suspended, waiting atmosphere — nothing to do but wait for the result."
+    },
+    {
+      "tier": 3, "filename": "chart-declining", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, standing with one colleague — a loose watercolour figure — both still, studying a wall-mounted screen showing a single abstract downward-trending line chart in muted red and amber tones. Sober, quiet assessment atmosphere. The numbers are going the wrong way."
+    },
+    {
+      "tier": 3, "filename": "api-outage", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at a workstation showing an abstract status page with red and amber outage blocks on one monitor and abstract terminal-style stroke lines on a second. A colleague leans in at their shoulder pointing at the screen — soft loose watercolour figure, not any specific person. Incident-response urgency, warm screen glow."
+    },
+    {
+      "tier": 3, "filename": "desk-evidence", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, methodically arranging printed pages across their desk — abstract document strokes, small sticky tabs, an open folder — their hands mid-sort. Warm lamp light over the spread of papers. Building-the-record atmosphere — assembling evidence carefully."
+    },
+    {
+      "tier": 3, "filename": "xray-ai", "reference": "desk-working", "preamble": "desk",
+      "scene": "A clinical reading-room register: a person seen from behind, back of head only, no facial features visible, facing a large dark display showing abstract radiograph-like soft shapes with one region highlighted by an amber AI-overlay outline — no anatomical detail, no readable text, purely abstract shapes. Dim room, cool screen glow warmed by a small desk lamp. Careful clinical-judgment atmosphere."
+    },
+    {
+      "tier": 3, "filename": "video-call", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, wearing headphones, facing a monitor showing an abstract video-call grid — four tiles each containing a soft, loosely suggested watercolour face, readable as human but not any specific person, one tile highlighted as speaking. Warm desk light, notebook beside the keyboard. Remote-meeting atmosphere."
+    },
+    {
+      "tier": 3, "filename": "phone-verify", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, at their desk holding a smartphone in front of them showing an abstract active-call interface — a silhouette circle, button shapes, a muted green call-active indicator, no readable name or number. Keyboard and coffee visible on the desk behind the phone. Wary, verifying atmosphere — is this caller who they claim to be?"
+    },
+    {
+      "tier": 3, "filename": "news-leak", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, very still, reading a monitor showing an abstract news-article layout — masthead block, bold headline strokes, image block, column strokes. Beside the keyboard their phone lies face-up, lit with abstract notification shapes stacking. It's-out atmosphere — the story has broken and they are reading it."
+    },
+    {
+      "tier": 3, "filename": "desk-casual", "reference": "desk-working", "preamble": "desk",
+      "scene": "A hot-desk in an ordinary open-plan office: a person seen from behind, back of head only, no facial features visible, at a laptop showing a generic web application as abstract interface blocks. A jacket draped over the chair, phone face-down beside the laptop, coffee cup. One distant colleague as a loose watercolour shape. Regular-Tuesday informality — someone's normal desk, not a photoshoot."
+    },
+    {
+      "tier": 3, "filename": "payment-screen", "reference": "desk-working", "preamble": "desk",
+      "scene": "A close over-the-shoulder view of a person seen from behind, back of head only, no facial features visible, facing a monitor showing an abstract payment or approval form — stacked field blocks and one prominent amber confirm-button shape. Their hand hesitates on the mouse. Warm screen glow. The moment before committing — one click and it's done."
+    },
+    {
+      "tier": 3, "filename": "office-busted", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "A person seen from behind at their desk, back of head only, no facial features visible, turning slightly in their chair as a manager figure approaches from the blurred background holding a printed page — the manager rendered with a soft, deliberately generic and ambiguous watercolour face, neutral-firm posture, not any specific person, no distinct characteristics. Quiet caught-out tension, warm office light, no depiction of harm or confrontation beyond posture."
+    },
+    {
+      "tier": 3, "filename": "document-error", "reference": "desk-working", "preamble": "desk",
+      "scene": "A person seen from behind, back of head only, no facial features visible, comparing a printed page held in one hand against the monitor, the other hand's fingertip touching an abstract highlighted block on screen that visibly mismatches a block on the page — both rendered as abstract strokes. Warm lamp light. Spot-the-error atmosphere — something doesn't line up."
+    },
+    {
+      "tier": 3, "filename": "desk-typing", "reference": "desk-working", "preamble": "desk",
+      "scene": "A close over-the-shoulder view of a person seen from behind, back of head only, no facial features visible, hands mid-typing on the keyboard, abstract draft text strokes appearing in a document on screen. Warm screen glow on their hands and shoulders, coffee steaming beside the keyboard. In-flow drafting atmosphere."
+    },
+    {
+      "tier": 4, "filename": "desk-relief", "reference": "desk-working", "preamble": "desk",
+      "scene": "NEW KEY (wire-in later): a person seen from behind, back of head only, no facial features visible, leaning back in their chair with hands relaxed, shoulders visibly dropped, facing a monitor showing an abstract status dashboard settled in calm green and soft amber shapes. Bright warm morning light through the window, fresh coffee. Relief-and-resolution atmosphere — it worked, the incident is over."
+    },
+    {
+      "tier": 4, "filename": "office-meeting-tense", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "NEW KEY (wire-in later): a register between calm and crisis — a meeting where disagreement has surfaced. The protagonist seen from behind, back of head only, no facial features visible, at one end of the table; two colleagues mid-debate across the table, one with a raised open palm, one with arms folded, others looking down at papers; soft loosely suggested watercolour faces, not any specific person. Warm but slightly hard light. Tense, contested-decision atmosphere, no hostility beyond posture."
+    },
+    {
+      "tier": 4, "filename": "desk-decision", "reference": "desk-working", "preamble": "desk",
+      "scene": "NEW KEY (wire-in later): a tight over-the-shoulder view of a person seen from behind, back of head only, no facial features visible, cursor hovering over an abstract confirmation dialog on screen — two button shapes, one amber, one neutral, no readable text. Their hand still on the mouse, everything else on the desk quiet and out of focus. Held-breath atmosphere — the decisive click."
+    },
+    {
+      "tier": 4, "filename": "corridor-walk", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "NEW KEY (wire-in later): a corporate corridor with warm light from glass-walled meeting rooms along one side. The protagonist seen from behind, back of head only, no facial features visible, walking away from camera toward a meeting-room door at the corridor's end, carrying a folder. One or two figures as loose watercolour shapes in the rooms behind glass. On-the-way-to-the-conversation atmosphere — summoned, composing themselves as they walk."
+    },
+    {
+      "tier": 4, "filename": "office-oneonone", "reference": "boardroom-crisis", "preamble": "people",
+      "scene": "NEW KEY (wire-in later): a small one-to-one meeting at a round table by a window — the protagonist seen from behind, back of head only, no facial features visible, across from a single manager figure with a soft, loosely suggested, deliberately generic watercolour face, not any specific person, leaning forward in an attentive listening posture. Two coffee cups, one notebook. Warm window light. Private, candid-conversation atmosphere."
+    }
+  ]
+}
