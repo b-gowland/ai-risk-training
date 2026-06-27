@@ -677,7 +677,7 @@ export const scenario = {
       effort:  `Low`,
       owner:   `Security`,
       go_live: true,
-      context: `The threat model covered direct prompt injection (user messages) but not indirect injection via tool responses. These are distinct attack classes with distinct controls. MITRE ATLAS AML.T0054 documents indirect injection specifically. The threat model update ensures that all future agent deployments are assessed against both attack classes.`,
+      context: `The threat model covered direct prompt injection (user messages) but not indirect injection via tool responses. These are distinct attack classes with distinct controls. MITRE ATLAS AML.T0051.001 documents indirect injection specifically. The threat model update ensures that all future agent deployments are assessed against both attack classes.`,
     },
     {
       id:      `c4`,

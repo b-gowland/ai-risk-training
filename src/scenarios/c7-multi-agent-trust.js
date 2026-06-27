@@ -422,7 +422,7 @@ export const scenario = {
               { id: `a`, label: `Accept the finding — the design process should have included review of the relevant guidance, and inter-agent trust modelling should have been explicit`, quality: `good`,
                 note: `Correct. The MITRE ATLAS and OWASP guidance exists. The design process should have referenced it. Accepting the finding is the appropriate professional response.` },
               { id: `b`, label: `The guidance was published after the pipeline was deployed — it wasn't available at design time`, quality: `partial`,
-                note: `Verify this claim before stating it to the review. MITRE ATLAS AML.T0054 predates most current multi-agent pipeline deployments. Inaccurate factual claims in a review setting compound the finding.` },
+                note: `Verify this claim before stating it to the review. MITRE ATLAS AML.T0051 predates most current multi-agent pipeline deployments. Inaccurate factual claims in a review setting compound the finding.` },
             ],
           },
           branches: { a: `n3_controls`, b: `outcome_warn` },
@@ -480,7 +480,7 @@ export const scenario = {
           heading:  `Factual claim under investigation — credibility affected`,
           tone:     `warn`,
           score:    44,
-          result:   `The claim that industry guidance was published after deployment is investigated. MITRE ATLAS AML.T0054 predates the deployment by 18 months. The inaccurate claim is noted in the review. The redesign proceeds, but the PM's credibility with the review panel is reduced.`,
+          result:   `The claim that industry guidance was published after deployment is investigated. MITRE ATLAS AML.T0051 predates the deployment by 18 months. The inaccurate claim is noted in the review. The redesign proceeds, but the PM's credibility with the review panel is reduced.`,
           learning: `In a post-incident review, factual claims about documentation and publication dates will be verified. Inaccurate claims about the availability of guidance — even if made in good faith — compound the review finding when they're contradicted by the record.`,
         },
         outcome_bad: {
