@@ -72,23 +72,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `video-call`,
-          caption:     `A video call with your CFO. He asked you to transfer $180,000 to a new supplier account. The call looked completely real. The transfer is ready to initiate.`,
-          decision: {
-            prompt: `What does a convincing video call from a known person prove about whether the request is legitimate?`,
-            choices: [
-              { id: `a`, label: `Nothing by itself — AI deepfake technology can replicate a known person's appearance and voice, so visual and audio authenticity no longer verify identity`, quality: `good`,
-                note: `Correct. The Arup case ($25M loss, February 2024) involved a real-time deepfake video call that replicated known colleagues convincingly enough to authorise a large transfer. Visual and audio authenticity cannot be treated as identity verification for high-value financial instructions.` },
-              { id: `b`, label: `It's strong evidence the request is legitimate — a real-time video call is much harder to fake than email or text`, quality: `poor`,
-                note: `This was the assumption that led to the Arup loss. Real-time deepfake video is technically achievable and has been used in documented fraud cases. Difficulty of the attack doesn't make it impossible — and for $180,000, it's worth attempting.` },
-              { id: `c`, label: `It raises the likelihood the request is legitimate but an out-of-band verification is still good practice for large transfers`, quality: `good`,
-                note: `The right instinct — out-of-band verification (calling the CFO on a known number, not the number from the call) is the correct control for high-value financial instructions regardless of how convincing the request appears.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-call`,
           caption:     `The call looked real. The account details are on the screen. End of business is in two hours.`,
           decision: {
@@ -226,23 +209,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
-          caption:     `$180,000 transferred on the strength of a video call. The call used your face and voice. The fraud is confirmed. It's Monday morning.`,
-          decision: {
-            prompt: `What does this incident reveal about the organisation's financial authorisation controls?`,
-            choices: [
-              { id: `a`, label: `High-value financial instructions were authorised based on visual identity verification — a control that AI deepfake technology has made unreliable`, quality: `good`,
-                note: `The root cause. When visual and audio authenticity can be faked in real time, any process that relies on them as identity verification for financial instructions is compromised. The control wasn't wrong historically — it's been rendered insufficient by technology.` },
-              { id: `b`, label: `The employee who authorised the transfer failed to follow the right process — additional training is the priority`, quality: `poor`,
-                note: `Individual blame misses the systemic failure. If the process allowed visual identity verification for large transfers, the employee followed the process. The process is the problem, not the individual.` },
-              { id: `c`, label: `The organisation needs better deepfake detection technology deployed before payments are authorised`, quality: `partial`,
-                note: `Detection technology is one layer — but it's an arms race. The more durable control is out-of-band verification: requiring a secondary confirmation through a separate, pre-established channel that doesn't rely on the authenticity of the original communication.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `boardroom-agm`,
           caption:     `$180,000 left the account on the strength of a video call that used your face and voice.`,
           decision: {
@@ -363,23 +329,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-meeting`,
-          caption:     `Your security awareness program covered phishing, email fraud, and social engineering. It did not cover AI-generated video fraud. A $180,000 transfer was authorised via deepfake call.`,
-          decision: {
-            prompt: `What is the gap between traditional social engineering training and AI deepfake threat awareness?`,
-            choices: [
-              { id: `a`, label: `Traditional training teaches people to be suspicious of unexpected requests — deepfake training must also teach that visual and audio authenticity no longer verify identity`, quality: `good`,
-                note: `The key additional lesson. Social engineering training assumes that if someone looks and sounds like who they claim to be, that's evidence of identity. Deepfake threats require the additional principle: visual and audio authenticity are not identity verification for high-value actions.` },
-              { id: `b`, label: `The gap is primarily technical — employees need deepfake detection tools, not just awareness training`, quality: `partial`,
-                note: `Detection tools help but are not the primary control. The behavioural change — always verify high-value financial instructions through a separate, pre-established channel — is more durable than any detection technology.` },
-              { id: `c`, label: `The content was adequate — this attack was sophisticated enough that no training would have prevented it`, quality: `poor`,
-                note: `This forecloses the learning. The Arup case is now a documented incident that has changed what 'adequate' means for financial fraud awareness training. The attack was sophisticated; the control gap was real and addressable.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `office-bright`,
           caption:     `The CEO has asked you to explain how a platform your program deployed was used in a $180,000 deepfake fraud.`,
           decision: {
@@ -485,23 +434,6 @@ export const scenario = {
           scene:       `analyst-desk`,
           caption:     `Foreign IP. Wrong video codec. Audio artefacts consistent with AI synthesis. Three anomalies flagged by the security system after the transfer was authorised.`,
           sub_caption: `The signals were there. They were flagged after the fact, not before.`,
-          decision: {
-            prompt: `What does post-transfer anomaly detection tell you about where the control needs to move?`,
-            choices: [
-              { id: `a`, label: `Post-transfer detection confirms the attack happened but can't prevent the loss — the control needs to move upstream to the authorisation step`, quality: `good`,
-                note: `Correct. Anomaly detection that fires after authorisation is forensic, not preventive. For a $180,000 transfer, the relevant control point is before authorisation — either real-time detection during the call, or out-of-band verification as a mandatory step in the process.` },
-              { id: `b`, label: `The detection system worked — it identified the attack. The issue is alert routing, not detection timing`, quality: `partial`,
-                note: `Alert routing matters but doesn't address the fundamental gap. Even perfect alert routing post-transfer doesn't recover funds already sent. The detection timing is the core issue.` },
-              { id: `c`, label: `Real-time deepfake detection during calls should be the priority — if the system had fired during the call, the transfer wouldn't have been authorised`, quality: `good`,
-                note: `Also correct — real-time detection is the upstream control. It's technically harder than post-hoc analysis but addresses the right point in the process. Both this and mandatory out-of-band verification are valid upstream controls.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk`,
-          caption:     `Foreign IP. Wrong video codec. Audio artefacts consistent with AI synthesis. Three anomalies flagged by the security system after the transfer was authorised.`,
           decision: {
             prompt: `What does post-transfer anomaly detection tell you about where the control needs to move?`,
             choices: [

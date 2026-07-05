@@ -86,23 +86,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
-          caption:     `An examiner is waiting. An AI-assisted compliance determination is in the system. The log has a timestamp and an outcome — but no document reference, no reasoning trace, no indication of what the AI considered.`,
-          decision: {
-            prompt: `What is the difference between logging that a decision was made and logging how it was made?`,
-            choices: [
-              { id: `a`, label: `Outcome logging records what the AI decided — process logging records the inputs, reasoning, and evidence the AI used to reach that decision. Regulators need process logging to assess whether the decision was appropriate`, quality: `good`,
-                note: `The key distinction. A log that records 'determination: compliant, timestamp: 09:14' tells a regulator that a determination was made. It doesn't tell them what documents were reviewed or whether the AI's reasoning was sound.` },
-              { id: `b`, label: `Outcome logging is sufficient if the determination is correct — regulators care about accuracy, not process`, quality: `poor`,
-                note: `Regulators care about both. In regulated contexts, the ability to demonstrate how a decision was reached is often a standalone compliance requirement.` },
-              { id: `c`, label: `The examiner can review the underlying documents themselves — the log doesn't need to replicate what's already in the file`, quality: `partial`,
-                note: `Document availability doesn't substitute for a reasoning trace. Without the log showing which documents the AI considered and how it weighted them, the examiner can't assess whether the determination was sound.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-reading`,
           caption:     `The examiner is waiting. The entry is in the system. The log has no document reference, no reasoning, no flags found. The original document is gone.`,
           decision: {
@@ -200,23 +183,6 @@ export const scenario = {
           scene:       `office-briefing-urgent`,
           caption:     `A regulator is asking for the reasoning behind a specific AI-assisted compliance determination. The log has an outcome and a timestamp. Nothing else.`,
           sub_caption: `The determination was made eight months ago. Without a reasoning trace, you can't reconstruct it.`,
-          decision: {
-            prompt: `What does the inability to reconstruct an AI-assisted determination tell a regulator about the organisation's AI governance?`,
-            choices: [
-              { id: `a`, label: `That the organisation deployed AI for compliance-sensitive decisions without implementing the logging infrastructure needed to make those decisions auditable — a governance gap, not just a technical one`, quality: `good`,
-                note: `The correct characterisation. Auditable decision-making is a governance requirement. Deploying AI for compliance determinations without adequate logging means the organisation accepted regulatory risk at deployment.` },
-              { id: `b`, label: `That the logging system had a failure — outcomes were captured but process data was lost`, quality: `partial`,
-                note: `Possible, but the more common explanation is that process logging was never specified. The distinction matters for the remediation.` },
-              { id: `c`, label: `That the determination can be re-run with the same inputs to reconstruct the reasoning`, quality: `poor`,
-                note: `Re-running an AI determination eight months later doesn't reconstruct what the AI decided eight months ago. A re-run produces a new determination — not evidence of the original one.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `office-briefing-urgent`,
-          caption:     `A regulator is asking for the reasoning behind a specific AI-assisted compliance determination. The log has an outcome and a timestamp. Nothing else.`,
           decision: {
             prompt: `What does the inability to reconstruct an AI-assisted determination tell a regulator about the organisation's AI governance?`,
             choices: [
@@ -367,23 +333,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `The logging specification you approved captures timestamp, action type, and outcome. It doesn't capture document references, criteria applied, or reasoning. The CCO is asking why.`,
-          decision: {
-            prompt: `What is the difference between operational logging and regulatory accountability logging for AI systems?`,
-            choices: [
-              { id: `a`, label: `Operational logging supports system monitoring. Accountability logging supports determination review — what did the AI consider, what criteria did it apply, what would a human reviewer need to assess the decision`, quality: `good`,
-                note: `The correct distinction. These are different purposes requiring different data. Operational logs tell you whether the system is healthy. Accountability logs tell you whether specific decisions were appropriate.` },
-              { id: `b`, label: `Regulatory accountability logging is the legal team's specification — the project shouldn't have approved a logging spec without legal sign-off`, quality: `partial`,
-                note: `Legal involvement would have helped, but accountability logging is a business governance requirement that project management should understand.` },
-              { id: `c`, label: `The logging spec was adequate for the use case as initially scoped — the accountability requirement emerged later`, quality: `poor`,
-                note: `Compliance determination was the use case from the start. The accountability requirement didn't emerge — it was inherent in deploying AI for regulated decisions.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-typing`,
           caption:     `The logging specification you approved captures: timestamp, action type, outcome. It does not capture: document identifier, issues flagged, or reasoning. That decision is now a regulatory finding.`,
           decision: {
@@ -504,23 +453,6 @@ export const scenario = {
           scene:       `analyst-desk`,
           caption:     `Your technology risk assessment approved this deployment. It covered data security, integration, and performance. Explainability and audit trail requirements weren't assessed.`,
           sub_caption: `The assessment evaluated the system's technical performance. It didn't evaluate its accountability architecture.`,
-          decision: {
-            prompt: `Why are explainability and audit trail requirements distinct from data security and performance in an AI risk assessment?`,
-            choices: [
-              { id: `a`, label: `Data security protects information from unauthorised access — explainability and audit trails ensure that authorised decisions can be reviewed and challenged. They address different accountability obligations`, quality: `good`,
-                note: `The correct framing. Security protects data; accountability enables review. A system can be fully secure and still produce decisions that can't be audited — security and accountability are independent dimensions.` },
-              { id: `b`, label: `They're all part of the same risk domain — data governance covers security, explainability, and audit trails`, quality: `partial`,
-                note: `Treating them as the same assessment item means explainability gets evaluated against data security criteria, which are the wrong criteria. They need explicit assessment against regulatory accountability requirements.` },
-              { id: `c`, label: `Explainability requirements depend on the model type — if the model is interpretable, the audit trail requirement is automatically met`, quality: `poor`,
-                note: `Model interpretability and audit trail requirements are different things. Interpretability doesn't automatically produce a logged reasoning trace for specific decisions at the time they were made.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk`,
-          caption:     `Your technology risk assessment approved this deployment. It covered data security, integration, and performance. Explainability and audit trail requirements weren't assessed.`,
           decision: {
             prompt: `Why are explainability and audit trail requirements distinct from data security and performance in an AI risk assessment?`,
             choices: [

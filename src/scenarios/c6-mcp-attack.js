@@ -89,23 +89,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `security-alert`,
-          caption:     `Security has flagged outbound traffic from the AI agent. Client document contents were sent to an external URL. The attack vector: a malicious instruction embedded in an MCP tool response.`,
-          decision: {
-            prompt: `What makes an MCP-based attack different from a standard prompt injection?`,
-            choices: [
-              { id: `a`, label: `Standard prompt injection comes from user input — MCP attacks come from tool responses, which agents typically treat as trusted. The trust model is the vulnerability`, quality: `good`,
-                note: `The key distinction. AI agents are generally designed to treat tool outputs as reliable data. An attacker who controls an MCP server can inject instructions into what the agent treats as trusted tool output.` },
-              { id: `b`, label: `MCP attacks are more sophisticated but the defence is the same — better input filtering will catch the injected instructions`, quality: `partial`,
-                note: `Input filtering that works on user-provided prompts doesn't necessarily work on tool responses, because agents are designed to process tool responses as structured data rather than suspect input.` },
-              { id: `c`, label: `The attack succeeded because the MCP server wasn't verified — verifying server authenticity would have prevented it`, quality: `partial`,
-                note: `Server verification is one defence layer, but it doesn't address the case where a legitimate server is compromised or where the agent doesn't distinguish between legitimate tool output and injected instructions within that output.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `analyst-desk`,
           caption:     `Security has flagged the outbound traffic. The agent sent client document contents to an external URL. The instruction came from the currency conversion MCP server you added. The server is now suspended.`,
           decision: {
@@ -203,23 +186,6 @@ export const scenario = {
           scene:       `office-briefing-urgent`,
           caption:     `Client document contents sent to an external URL via an AI agent. Confirmed exfiltration. The MCP server was not in the approved vendor list. You need to act.`,
           sub_caption: `The immediate question is containment. The second question is how an unapproved MCP server was in the agent's configuration.`,
-          decision: {
-            prompt: `What does an unapproved MCP server in a production agent configuration indicate about the approval process?`,
-            choices: [
-              { id: `a`, label: `The agent deployment approval process didn't review or control MCP server connections — a critical attack surface was outside the governance scope`, quality: `good`,
-                note: `The governance gap. MCP servers extend agent capabilities — and attack surface. If the approval process reviewed the agent's AI capabilities without reviewing its tool connections, it assessed half the risk.` },
-              { id: `b`, label: `Someone added the MCP server after deployment without going through the change process — this is a change management failure`, quality: `partial`,
-                note: `Possible, but even if the server was present at deployment, the question is whether the approval process would have caught it.` },
-              { id: `c`, label: `The vendor should have flagged the security risk when the MCP server was configured — third-party responsibility applies`, quality: `poor`,
-                note: `Third-party responsibility doesn't transfer the organisation's obligation to govern its own agent configuration.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `office-briefing-urgent`,
-          caption:     `Client document contents sent to an external URL via an AI agent. Confirmed exfiltration. The MCP server was not in the approved vendor list. You need to act.`,
           decision: {
             prompt: `What does an unapproved MCP server in a production agent configuration indicate about the approval process?`,
             choices: [
@@ -370,23 +336,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `The project approval record shows the MCP server listed but marked 'pending security review.' The review never happened. The agent went live with an unreviewed tool integration.`,
-          decision: {
-            prompt: `What is the risk of deploying an AI agent with security review items still outstanding?`,
-            choices: [
-              { id: `a`, label: `Outstanding security reviews mean the risk of that component is unassessed — going live accepts a risk that hasn't been quantified or controlled`, quality: `good`,
-                note: `The correct characterisation. A pending review means a component of the agent has an unknown risk profile. Deploying with that uncertainty accepts a risk the organisation hasn't decided to accept because it hasn't assessed it.` },
-              { id: `b`, label: `The security team should have blocked go-live — the project manager isn't responsible for enforcing their review timeline`, quality: `poor`,
-                note: `Project management is responsible for the deployment decision, including whether outstanding dependencies make deployment appropriate.` },
-              { id: `c`, label: `The review was pending, not failed — there's a difference between an unreviewed item and a known risk`, quality: `partial`,
-                note: `Unreviewed means the risk is unknown. An unknown risk is not necessarily smaller than a known one. Proceeding treats unknown risk as acceptable risk, which is not sound risk management.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
           caption:     `Your project approval record includes the unreviewed MCP server. The post-incident review is examining whether the approval process was adequate.`,
           decision: {
@@ -507,23 +456,6 @@ export const scenario = {
           scene:       `analyst-desk`,
           caption:     `This is not a standard prompt injection. The attack came through the MCP tool response layer — the channel the agent treats as trusted. The standard injection defence didn't catch it.`,
           sub_caption: `The attack exploited the trust model. The defence was built for a different attack model.`,
-          decision: {
-            prompt: `What does a trust-model attack tell you about where AI security controls need to focus?`,
-            choices: [
-              { id: `a`, label: `Controls that filter user input don't protect the tool response channel — securing agentic systems requires validating instructions regardless of which channel they arrive on`, quality: `good`,
-                note: `The core insight. Traditional AI security focuses on the user-to-model boundary. Agentic systems have additional boundaries — model-to-tool and tool-to-model. An attacker who can inject into the tool response channel bypasses user-input controls entirely.` },
-              { id: `b`, label: `The MCP protocol needs to be updated to include instruction validation — the vulnerability is in the protocol, not the agent`, quality: `partial`,
-                note: `Protocol-level validation would help, but waiting for protocol updates doesn't address the current risk. Agent-level controls are available now.` },
-              { id: `c`, label: `The agent should have had a human-in-the-loop for external data requests — human oversight would have caught the exfiltration`, quality: `partial`,
-                note: `Human oversight is a valid control, but the more targeted control is output filtering — reviewing what the agent sends externally before it's sent.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk`,
-          caption:     `This is not a standard prompt injection. The attack came through the MCP tool response layer — the channel the agent treats as trusted. The standard injection defence didn't catch it.`,
           decision: {
             prompt: `What does a trust-model attack tell you about where AI security controls need to focus?`,
             choices: [

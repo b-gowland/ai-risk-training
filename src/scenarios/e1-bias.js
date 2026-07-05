@@ -72,23 +72,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `chart-declining`,
-          caption:     `Ten shortlists from the AI recruitment tool. The same narrow profile repeated across different roles. Your colleague noticed it first — she's been tracking it for three weeks.`,
-          decision: {
-            prompt: `What does a repeated pattern across multiple AI-generated shortlists suggest about the model?`,
-            choices: [
-              { id: `a`, label: `The model has learned to favour a particular profile — the pattern reflects systematic bias in its outputs, not random variation`, quality: `good`,
-                note: `Correct. Ten shortlists with the same narrow profile isn't coincidence — it's the model consistently applying learned associations. AI recruitment tools trained on historical hiring data encode the preferences and patterns in that data, including any historical biases.` },
-              { id: `b`, label: `The pattern might reflect genuine candidate quality — if the best candidates have similar profiles, the shortlists would naturally look similar`, quality: `poor`,
-                note: `This explains away the pattern before investigating it. The question isn't whether the shortlisted candidates are qualified — it's whether qualified candidates with different profiles are being systematically filtered out. Those are different questions.` },
-              { id: `c`, label: `It could be a data quality issue — if the candidate pool is homogeneous, the shortlists will be too`, quality: `partial`,
-                note: `Possible, but this needs testing rather than assuming. If the candidate pool is diverse and the shortlists aren't, the model is doing the filtering. Candidate pool homogeneity is one hypothesis; model bias is another. Both need to be assessed.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `drift-dashboard`,
           caption:     `Ten shortlists. The same narrow profile, repeated. Your colleague noticed it first. Now you're seeing it too.`,
           decision: {
@@ -193,23 +176,6 @@ export const scenario = {
           scene:       `chart-declining`,
           caption:     `Benchmarking shows shortlist diversity declined sharply after the AI recruitment tool was deployed. The correlation is clear. Three months of data.`,
           sub_caption: `The tool was deployed to reduce bias. The outcome data suggests it may have introduced it.`,
-          decision: {
-            prompt: `What does the gap between the tool's stated purpose and the outcome data tell you?`,
-            choices: [
-              { id: `a`, label: `That 'reduces bias' is a vendor claim that requires validation against your specific candidate population and role types — stated purpose and actual effect are different things`, quality: `good`,
-                note: `Exactly. AI recruitment tools marketed as bias-reducing need to be validated on the deploying organisation's actual data, not accepted on the vendor's general claims. The outcome data is the validation — and it's contradicting the claim.` },
-              { id: `b`, label: `That the tool may be working correctly but the candidate pool has changed — the diversity decline could be upstream of the tool`, quality: `partial`,
-                note: `Worth investigating, but the benchmark data controls for this by comparing pre- and post-deployment periods. If the candidate pool were the driver, you'd expect the change to predate the deployment. The timing correlation points to the tool.` },
-              { id: `c`, label: `That three months isn't enough data to draw conclusions — suspend judgment until there's a larger sample`, quality: `poor`,
-                note: `Three months of consistent directional data is sufficient to trigger investigation and interim controls. Waiting for more data while the tool continues operating means continuing to expose candidates to potentially biased outcomes.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `chart-declining`,
-          caption:     `Benchmarking shows shortlist diversity declined sharply after the AI recruitment tool was deployed. The correlation is clear. Three months of data.`,
           decision: {
             prompt: `What does the gap between the tool's stated purpose and the outcome data tell you?`,
             choices: [
@@ -352,23 +318,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `office-meeting`,
-          caption:     `You implemented the AI recruitment tool. The vendor said it reduces bias. You didn't commission an independent bias audit before deployment. The Chief People Officer has the benchmarking data.`,
-          decision: {
-            prompt: `What is the difference between a vendor's bias reduction claim and validated bias performance?`,
-            choices: [
-              { id: `a`, label: `A vendor claim is a marketing statement. Validated performance means testing the tool on your candidate population, your role types, and your historical data — and confirming the outcome`, quality: `good`,
-                note: `The critical distinction. A tool validated on one population may perform differently on another. Bias validation needs to be specific to the deployment context — the candidate pool, the roles, the geographic market. Generic vendor validation doesn't substitute for this.` },
-              { id: `b`, label: `The vendor provided documentation — that's the basis for the claim, and it was reasonable to rely on it at deployment`, quality: `partial`,
-                note: `Reasonable reliance on documentation is a starting point, not an endpoint. For a tool making decisions about people's employment opportunities, the deploying organisation bears responsibility for validating that the tool performs as claimed in their specific context.` },
-              { id: `c`, label: `The gap is that no human reviewed the shortlists — adding human review would have caught the bias earlier`, quality: `partial`,
-                note: `Human review is a useful check but doesn't address the root cause. If the model is systematically biased, humans reviewing its outputs may absorb and normalise that bias rather than correcting it. The model's outputs need to be audited, not just reviewed.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `office-oneonone`,
           caption:     `The Chief People Officer has shown you the benchmarking correlation. You implemented this tool three months ago. No fairness assessment was in scope.`,
           decision: {
@@ -474,23 +423,6 @@ export const scenario = {
           scene:       `security-alert`,
           caption:     `Statistically significant disparities in shortlist rates across gender and ethnicity. Three months of data. The finding is clear. You need to present it.`,
           sub_caption: `Statistical significance means the pattern is unlikely to be random. It doesn't yet tell you whether it's legally actionable.`,
-          decision: {
-            prompt: `What is the difference between a statistically significant disparity and a finding of unlawful discrimination?`,
-            choices: [
-              { id: `a`, label: `Statistical disparity is evidence that discrimination may have occurred — but legal discrimination requires establishing that a protected characteristic caused the disparate outcome, with no justifying defence`, quality: `good`,
-                note: `Correct framing. Disparate impact analysis establishes the pattern. Whether it constitutes unlawful discrimination depends on causation, intent (in some frameworks), and available defences. The statistical finding triggers the legal analysis — it doesn't complete it.` },
-              { id: `b`, label: `If the disparity is statistically significant, it's discrimination — the law requires equal outcomes`, quality: `poor`,
-                note: `Equal outcomes aren't the legal standard. Disparate impact must be assessed against the relevant legal framework — which typically requires causation and considers available defences. Statistical significance is necessary but not sufficient for a discrimination finding.` },
-              { id: `c`, label: `The finding should be escalated to legal before any conclusions are drawn — analysts shouldn't characterise discrimination risk`, quality: `partial`,
-                note: `Legal escalation is correct — but the analyst's job is to present the statistical finding clearly, including its implications. Refusing to characterise the risk leaves decision-makers without the analysis they need to act.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `security-alert`,
-          caption:     `Statistically significant disparities in shortlist rates across gender and ethnicity. Three months of data. The finding is clear. You need to present it.`,
           decision: {
             prompt: `What is the difference between a statistically significant disparity and a finding of unlawful discrimination?`,
             choices: [

@@ -85,23 +85,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `The credit decision AI was registered for Australian consumers only. It's been making decisions on New Zealand applications for four months. No change request was ever raised.`,
-          decision: {
-            prompt: `What does it mean for an AI system to operate outside its registered scope?`,
-            choices: [
-              { id: `a`, label: `The system is making decisions in a context it wasn't validated for — the validation, controls, and regulatory mapping that applied to AU may not apply to NZ`, quality: `good`,
-                note: `Correct. Scope isn't an administrative label — it defines the population, regulatory context, and operating conditions the system was validated against. NZ consumers may have different regulatory protections and fairness requirements than AU consumers.` },
-              { id: `b`, label: `It's a governance process failure — the right people didn't know the system was being used for NZ applications`, quality: `partial`,
-                note: `Process failure is part of it, but the consequence isn't just administrative. 847 real credit decisions were made on a model that wasn't validated for that population.` },
-              { id: `c`, label: `NZ and AU are similar markets — the model probably performs adequately even if it wasn't explicitly validated for NZ`, quality: `poor`,
-                note: `'Probably performs adequately' is not a validation. Adequacy needs to be established, not assumed.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
           caption:     `Compliance is asking whether a separate assessment was done for the NZ deployment. The answer is: you don\'t know. Your manager told you to run NZ applications through the AU model. You did.`,
           decision: {
@@ -206,23 +189,6 @@ export const scenario = {
           scene:       `desk-review`,
           caption:     `847 NZ credit decisions made by a model validated only for AU consumers. Four months. The model is still running.`,
           sub_caption: `The immediate question is what to do with the decisions already made. The second question is what happens to the ones being made right now.`,
-          decision: {
-            prompt: `What are the two distinct obligations when a model is found to have operated outside its validated scope?`,
-            choices: [
-              { id: `a`, label: `Remediation of past decisions made outside scope, and suspension or controlled re-scoping of the model before further out-of-scope decisions are made`, quality: `good`,
-                note: `Both obligations are real. Past decisions require a review to assess whether customers were harmed. Future decisions require either suspension until the model is validated for NZ, or a controlled re-scoping process with appropriate governance.` },
-              { id: `b`, label: `Validate the model for NZ immediately and apply that validation retrospectively to the existing decisions`, quality: `poor`,
-                note: `Retrospective validation doesn't work — you can't validate after the fact and apply it to decisions already made under different conditions.` },
-              { id: `c`, label: `Suspend the model immediately and investigate before taking any further action`, quality: `partial`,
-                note: `Suspension is appropriate as an interim control, but the obligations don't stop at suspension. Past decisions need to be reviewed regardless of what happens next with the model.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-review`,
-          caption:     `847 NZ credit decisions made by a model validated only for AU consumers. Four months. The model is still running.`,
           decision: {
             prompt: `What are the two distinct obligations when a model is found to have operated outside its validated scope?`,
             choices: [
@@ -357,23 +323,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-intranet`,
-          caption:     `The AI Register entry was clear: AU scope only. No change request was filed for NZ expansion. The CRO wants to know how the model ended up processing NZ applications for four months.`,
-          decision: {
-            prompt: `What is the gap between having an AI Register and having effective scope controls?`,
-            choices: [
-              { id: `a`, label: `A register records what scope was approved — scope controls prevent the system from operating outside that scope. Recording and enforcing are different capabilities`, quality: `good`,
-                note: `The key distinction. An AI Register is a documentation tool — it records the approved scope. Without enforcement mechanisms, the register documents what should happen without ensuring it does.` },
-              { id: `b`, label: `The register should have flagged the NZ applications automatically — if it didn't, the register design is inadequate`, quality: `partial`,
-                note: `Automated flagging is one control mechanism, but it's not inherent to a register. The register did its job — it recorded the scope accurately. The gap is that nothing enforced that scope at the point of use.` },
-              { id: `c`, label: `The business team that onboarded NZ applications should have checked the register — human oversight is the right control`, quality: `partial`,
-                note: `Human oversight is one layer, but process-dependent controls fail when processes aren't followed. The question is why four months elapsed without detection — which suggests the monitoring and enforcement layer was missing.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-reading`,
           caption:     `The AI Register entry is clear: AU scope only. No change request was ever raised for NZ. The expansion happened because nobody in the credit operations team knew they needed to raise one.`,
           decision: {
@@ -478,23 +427,6 @@ export const scenario = {
           scene:       `desk-focused`,
           caption:     `847 NZ credit decisions. AU-only validated model. You need to assess materiality — whether the decisions were adversely affected by operating outside the validated scope.`,
           sub_caption: `Materiality means whether customers were actually harmed, not just whether the process was wrong.`,
-          decision: {
-            prompt: `How do you structure a materiality assessment for decisions made outside a model's validated scope?`,
-            choices: [
-              { id: `a`, label: `Compare outcomes for NZ applicants against AU applicants with similar profiles — if NZ applicants experienced materially different outcomes, scope matters for customers`, quality: `good`,
-                note: `The right starting point. If the model performed similarly on comparable profiles, the scope gap may be governance-significant without being individually harmful. If NZ applicants experienced materially different outcomes, the scope gap has customer impact requiring remediation.` },
-              { id: `b`, label: `Review a sample of NZ decisions for compliance with NZ consumer credit law — scope materiality is primarily a regulatory question`, quality: `partial`,
-                note: `Regulatory compliance is part of materiality but not all of it. A model can produce compliant decisions while still performing differently on an out-of-scope population.` },
-              { id: `c`, label: `The 847 decisions are all potentially affected — materiality assessment isn't meaningful when the model was operating without validation`, quality: `poor`,
-                note: `Scope violation is a governance failure — but it doesn't automatically mean every decision was wrong. Materiality assessment tells you whether and where customer harm occurred, which is necessary for proportionate remediation.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-focused`,
-          caption:     `847 NZ credit decisions. AU-only validated model. You need to assess materiality — whether the decisions were adversely affected by operating outside the validated scope.`,
           decision: {
             prompt: `How do you structure a materiality assessment for decisions made outside a model's validated scope?`,
             choices: [

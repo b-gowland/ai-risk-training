@@ -83,23 +83,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `api-outage`,
-          caption:     `9:17am. The AI assistant is offline. Single provider outage. 47 customers waiting. No manual process has been documented since the AI was deployed.`,
-          decision: {
-            prompt: `What risk does single-provider dependency create beyond the outage itself?`,
-            choices: [
-              { id: `a`, label: `When the AI goes down, there's no documented fallback — the organisation can't operate its own process without the tool it replaced`, quality: `good`,
-                note: `The concentration risk consequence. Single-provider dependency means that provider's availability determines your operational capacity. If the manual process was never documented after AI deployment, the outage removes the organisation's ability to serve customers at all.` },
-              { id: `b`, label: `It creates financial risk — the provider could change pricing or terms and the organisation has no alternative`, quality: `partial`,
-                note: `Commercial dependency is a real risk, but the more immediate operational risk is service continuity.` },
-              { id: `c`, label: `The risk is manageable — most AI providers have high uptime SLAs and outages are rare`, quality: `poor`,
-                note: `SLA uptime doesn't eliminate outage risk — it defines what compensation applies when it occurs. For operational resilience frameworks, 'rare but possible' is exactly what business continuity planning is for.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `security-alert`,
           caption:     `9:17am. AI assistant offline. Queue: 47 customers. No manual process documented. No guidance from management yet.`,
           decision: {
@@ -219,23 +202,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `api-outage`,
-          caption:     `Provider status page: major outage, 2-4 hours. Customer service AI offline. No documented manual fallback. You have roughly 4 hours.`,
-          decision: {
-            prompt: `What does CPS 230 require of organisations that rely on a single AI provider for critical operations?`,
-            choices: [
-              { id: `a`, label: `Material service providers must be identified, tested against disruption scenarios, and covered by documented continuity arrangements — a single AI provider for customer service is almost certainly material`, quality: `good`,
-                note: `Correct. CPS 230 requires that material service providers are identified and that the organisation has tested its ability to continue operations if that provider fails.` },
-              { id: `b`, label: `CPS 230 applies to technology infrastructure — an AI assistant is a software tool, not a service provider in the regulatory sense`, quality: `poor`,
-                note: `This is too narrow. CPS 230's material service provider definition covers entities that support critical operations — if the AI assistant handles customer service at scale, its provider meets that threshold.` },
-              { id: `c`, label: `CPS 230 requires a backup provider — the fix is to contract with a second AI provider as a failover`, quality: `partial`,
-                note: `A backup provider is one continuity mechanism. CPS 230 requires tested continuity arrangements, which could also include documented manual processes.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `security-alert`,
           caption:     `Provider status page: major outage, estimated 2-4 hours. Customer service AI: offline. Fallback: none. BCP scenario for AI provider outage: doesn\'t exist.`,
           decision: {
@@ -315,23 +281,6 @@ export const scenario = {
           scene:       `desk-review`,
           caption:     `Risk register Item 7: 'Single provider dependency.' Likelihood: Low. Impact: High. Risk accepted. No mitigation documented. The COO has the register in front of her.`,
           sub_caption: `The risk was identified. It was accepted without mitigation. Today is the impact materialising.`,
-          decision: {
-            prompt: `What is the difference between accepting a risk and accepting a risk without mitigation?`,
-            choices: [
-              { id: `a`, label: `Risk acceptance is a governance decision that a risk is tolerable given its likelihood and impact — it should still include monitoring and a trigger for review if conditions change`, quality: `good`,
-                note: `Correct framing. 'Accept' in risk management means 'tolerate at current level' — it's not 'ignore.' Accepted risks require ongoing monitoring and defined conditions under which the acceptance decision is revisited.` },
-              { id: `b`, label: `Accepting a high-impact risk without mitigation is always wrong — the register should have escalated this for board sign-off`, quality: `partial`,
-                note: `Escalation thresholds vary by organisation and risk appetite. The problem isn't necessarily that acceptance was wrong — it's that no mitigation was documented and no review trigger was set.` },
-              { id: `c`, label: `The risk was accepted in good faith — the outage materialising doesn't mean the decision was wrong at the time`, quality: `poor`,
-                note: `The register entry had High impact and no mitigation documented. That combination — regardless of whether the outage occurred — represents an incomplete risk management response.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-review`,
-          caption:     `Risk register Item 7: 'Single provider dependency.' Likelihood: Low. Impact: High. Risk accepted. No mitigation documented. The COO has the register in front of her.`,
           decision: {
             prompt: `What is the difference between accepting a risk and accepting a risk without mitigation?`,
             choices: [
@@ -451,23 +400,6 @@ export const scenario = {
           scene:       `desk-focused`,
           caption:     `Material service provider register: AI provider listed. CPS 230 requirement: tested continuity arrangements. Testing status: not recorded. The COO wants the CPS 230 position confirmed.`,
           sub_caption: `Listed is not the same as tested. The register records the identification. It says nothing about the continuity test.`,
-          decision: {
-            prompt: `What does 'tested continuity arrangements' mean in the context of CPS 230 compliance?`,
-            choices: [
-              { id: `a`, label: `The organisation must have demonstrated — through actual testing, not just documentation — that it can continue operations if the material service provider fails`, quality: `good`,
-                note: `The correct standard. CPS 230 requires tested arrangements, which means the continuity plan has been exercised and the organisation has evidence of its effectiveness.` },
-              { id: `b`, label: `A documented business continuity plan covering the provider failure scenario satisfies the CPS 230 requirement`, quality: `poor`,
-                note: `Documentation is necessary but not sufficient. 'Tested' means the plan has been exercised. A plan that exists but has never been tested may not work when needed.` },
-              { id: `c`, label: `CPS 230 testing requirements apply to infrastructure providers — AI software providers may be out of scope`, quality: `poor`,
-                note: `CPS 230 scope follows operational criticality, not provider category. If the AI provider's unavailability would materially disrupt operations, the provider is material regardless of whether it's classified as infrastructure or software.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-focused`,
-          caption:     `Material service provider register: AI provider listed. CPS 230 requirement: tested continuity arrangements. Testing status: not recorded. The COO wants the CPS 230 position confirmed.`,
           decision: {
             prompt: `What does 'tested continuity arrangements' mean in the context of CPS 230 compliance?`,
             choices: [

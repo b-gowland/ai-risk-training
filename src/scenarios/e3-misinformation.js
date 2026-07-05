@@ -87,23 +87,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `40 job applications with suspiciously similar cover letters. Several with credentials you can't verify. An AI writing tool could explain the similarity — but fabricated credentials are a different problem.`,
-          decision: {
-            prompt: `What is the difference between AI-assisted application writing and AI-fabricated credentials?`,
-            choices: [
-              { id: `a`, label: `AI-assisted writing helps a candidate express genuine experience more effectively — fabricated credentials are false claims about qualifications that don't exist`, quality: `good`,
-                note: `The critical distinction. Similar phrasing across applications may reflect AI writing assistance, which is ethically ambiguous but not inherently dishonest. Fabricated credentials are fraud. They require different handling.` },
-              { id: `b`, label: `Both are forms of misrepresentation — if AI wrote any part of the application, the candidate is misrepresenting their abilities`, quality: `poor`,
-                note: `This conflates presentation assistance with factual fabrication. A candidate who uses AI to articulate genuine experience is not misrepresenting their abilities. A candidate who claims a degree they don't have is. The distinction matters for the response.` },
-              { id: `c`, label: `The similarity pattern is the problem regardless of cause — similar applications should be deprioritised`, quality: `poor`,
-                note: `Deprioritising based on similarity penalises candidates for using the same legitimate tools. The relevant filter is whether the credentials are accurate — not whether the writing style is similar.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
           caption:     `40 applications with suspiciously similar cover letters. Several with credentials that don\'t match LinkedIn. One with a publication that doesn\'t exist.`,
           decision: {
@@ -208,23 +191,6 @@ export const scenario = {
           scene:       `boardroom`,
           caption:     `Two shortlisted finalists. Both with substantially fabricated applications — employment history that doesn't match, qualifications that can't be verified. Offers not yet made.`,
           sub_caption: `The candidates are identifiable. The offers haven't gone out. There's still a decision to make.`,
-          decision: {
-            prompt: `What are your obligations when you identify credential fabrication in the recruitment process?`,
-            choices: [
-              { id: `a`, label: `Withdraw both from the process — fabricated credentials are grounds for disqualification regardless of how strong the candidate otherwise appears`, quality: `good`,
-                note: `Correct. Credential fabrication is a material misrepresentation that goes to the integrity of the application. It's grounds for disqualification at any stage. The candidate's other qualities don't offset a deliberate false statement.` },
-              { id: `b`, label: `Give the candidates an opportunity to explain the discrepancies before withdrawing — there may be a legitimate explanation`, quality: `partial`,
-                note: `Reasonable in principle, but the threshold matters. Credentials that simply don't exist don't have a legitimate explanation.` },
-              { id: `c`, label: `Complete the process and make it a condition of the offer that credentials are verified before start date`, quality: `poor`,
-                note: `This keeps fabricating candidates in the process and creates an offer conditional on the very thing that should have disqualified them.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `boardroom`,
-          caption:     `Two shortlisted finalists. Both with substantially fabricated applications — employment history that doesn't match, qualifications that can't be verified. Offers not yet made.`,
           decision: {
             prompt: `What are your obligations when you identify credential fabrication in the recruitment process?`,
             choices: [
@@ -359,23 +325,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
-          caption:     `Your ATS does keyword matching, qualification ranking, and duplicate detection. It doesn't detect AI-generated content or verify credentials. The CPO is asking what to do.`,
-          decision: {
-            prompt: `What should determine whether credential verification belongs in the ATS or elsewhere in the process?`,
-            choices: [
-              { id: `a`, label: `Whether the ATS is the right place to do it — credential verification may be better placed at offer stage by a specialist process rather than built into screening`, quality: `good`,
-                note: `Correct framing. Verification at screening is expensive and premature. The right control point for credential verification is post-shortlist or pre-offer, which keeps it outside the ATS and in a process designed for it.` },
-              { id: `b`, label: `The ATS should be upgraded to include AI content detection — if the problem came through the ATS, the fix belongs there`, quality: `partial`,
-                note: `ATS upgrades are one option, but AI content detection doesn't detect fabricated credentials — it detects AI-generated writing, which is a different problem.` },
-              { id: `c`, label: `Credential verification should be added as a screening step — candidates who can't verify credentials at application stage are filtered out`, quality: `poor`,
-                note: `Verification at application stage creates significant friction that disadvantages legitimate candidates and won't necessarily stop determined fabricators.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-reading`,
           caption:     `ATS capability: keyword matching, qualification ranking, duplicate detection. AI content detection: none. Vendor AI detection module: launching next quarter. The CPO needs a recommendation within a week.`,
           decision: {
@@ -480,23 +429,6 @@ export const scenario = {
           scene:       `desk-focused`,
           caption:     `140 applications. No AI detection tool. You need to assess the scale of potential fabrication and identify affected applications using only the data you have.`,
           sub_caption: `The absence of a dedicated tool doesn't mean the analysis can't be done. It means it has to be done differently.`,
-          decision: {
-            prompt: `What signals in application data can indicate potential credential fabrication without an AI detection tool?`,
-            choices: [
-              { id: `a`, label: `Credential inconsistencies — dates that don't add up, qualifications from institutions that don't offer them, employment overlaps that are implausible`, quality: `good`,
-                note: `The most reliable signals. Fabricated credentials often contain internal inconsistencies: graduation years that don't match the claimed qualification duration, certifications the issuing body doesn't record, employment periods that overlap implausibly. These are checkable without AI tools.` },
-              { id: `b`, label: `Linguistic similarity across applications — AI-generated content tends to use similar phrasing and structure`, quality: `partial`,
-                note: `Linguistic similarity flags AI-assisted writing, which isn't the same as fabricated credentials. It's a useful signal for the writing question but not directly for the credential verification question.` },
-              { id: `c`, label: `Application timing — applications submitted very quickly may indicate AI assistance`, quality: `poor`,
-                note: `Submission timing doesn't indicate fabrication and penalises candidates who apply promptly. It's not a meaningful signal for the credential verification question.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-focused`,
-          caption:     `140 applications. No AI detection tool. You need to assess the scale of potential fabrication and identify affected applications using only the data you have.`,
           decision: {
             prompt: `What signals in application data can indicate potential credential fabrication without an AI detection tool?`,
             choices: [
