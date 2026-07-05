@@ -173,7 +173,7 @@ while ((fnMatch2 = fnRegex2.exec(appSrc)) !== null) {
     const usedAsFree = new RegExp(`\\b${propName}[.]`).test(body2);
     // Check it's not a locally defined variable (const/let/var or map/forEach/filter callback param)
     const isLocalVar = new RegExp(`\\b(const|let|var)\\s+${propName}\\b`).test(body2);
-    const isCallbackParam = new RegExp(`[.](?:map|forEach|filter|find|reduce|some|every)\\s*\\(\\s*${propName}\\s*[=,)>]`).test(body2); // eslint-disable-line no-useless-escape
+    const isCallbackParam = new RegExp(`[.](?:map|forEach|filter|find|reduce|some|every)\\s*\\(\\s*${propName}\\s*[=,)>]`).test(body2);  
     if (usedAsFree && !isLocalVar && !isCallbackParam) {
       p1(`Component "${fnName2}" uses "${propName}." as free variable — must be declared in props`);
       freeVarIssues++;

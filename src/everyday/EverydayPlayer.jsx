@@ -3,7 +3,7 @@
 // Uses shared narrativeEngine. Single 'player' persona — skips persona select.
 // Swipe-left/right choice mechanic. No score bar. Lean outcome screen.
 
-import { useReducer, useEffect, useRef, useState } from 'react';
+import { useReducer, useEffect, useRef } from 'react';
 import {
   STATES, createInitialState, reducer,
   resolveNext, getCurrentNode, getOutcome,
@@ -13,7 +13,7 @@ import { ShareCard } from './ShareCard.jsx';
 import styles from './EverydayBundle.module.css';
 import {
   trackForkStarted, trackForkDecision,
-  trackForkCompleted, trackForkReplayed, trackForkCardShared,
+  trackForkCompleted, trackForkReplayed,
 } from '../utils/analytics.js';
 
 const QUALITY_LABEL = { good: 'Good call', partial: 'Partially right', poor: 'Missed this one' };

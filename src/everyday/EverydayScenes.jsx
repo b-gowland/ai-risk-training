@@ -466,6 +466,7 @@ const FALLBACK = {
   'everyday-p3-employment-screening':  <RejectionEmailScene />,
 };
 
+// eslint-disable-next-line react-refresh/only-export-components -- lookup helper must live beside the scene components it maps; only affects dev fast-refresh
 export function getEverydayScene(scenarioId, sceneKey) {
   return SCENE_MAP[sceneKey] || FALLBACK[scenarioId] || <PhoneCallScene />;
 }

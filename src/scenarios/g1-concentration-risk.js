@@ -90,10 +90,10 @@ export const scenario = {
             choices: [
               { id: `a`, label: `Contact your team lead directly — you need either a manual process or guidance on how to communicate with waiting customers`, quality: `good`,
                 note: `Your team lead needs to know the queue is building and that you need direction. "Known issue, waiting on IT" is not operational guidance.` },
-              { id: `b`, label: `Start calling customers in the queue to let them know there\'s a system issue and offer a callback`, quality: `good`,
+              { id: `b`, label: `Start calling customers in the queue to let them know there's a system issue and offer a callback`, quality: `good`,
                 note: `Also right — customers waiting without information will be more frustrated than customers who receive a brief, honest update. Both this and escalating to your team lead are correct moves.` },
-              { id: `c`, label: `Wait for IT to fix it — there\'s nothing you can do without the system`, quality: `poor`,
-                note: `There\'s always something you can do: communicate with waiting customers, escalate the queue impact, or ask for any available manual process. Waiting passively makes the customer experience worse.` },
+              { id: `c`, label: `Wait for IT to fix it — there's nothing you can do without the system`, quality: `poor`,
+                note: `There's always something you can do: communicate with waiting customers, escalate the queue impact, or ask for any available manual process. Waiting passively makes the customer experience worse.` },
             ],
           },
           branches: { a: `n2_escalates`, b: `n2_contacts_customers`, c: `n2_waits` },
@@ -101,15 +101,15 @@ export const scenario = {
 
         n2_escalates: {
           scene:       `desk-call`,
-          caption:     `Your team lead confirms there is no documented manual process. They\'re escalating to operations. The queue is now 68 customers.`,
-          sub_caption: `The gap isn\'t the outage. The gap is that nobody planned for it.`,
+          caption:     `Your team lead confirms there is no documented manual process. They're escalating to operations. The queue is now 68 customers.`,
+          sub_caption: `The gap isn't the outage. The gap is that nobody planned for it.`,
           decision: {
             prompt: `While operations works on a response, the queue keeps building. What do you do for the customers already waiting?`,
             choices: [
               { id: `a`, label: `Start contacting waiting customers to acknowledge the issue and give them a realistic timeframe or callback option`, quality: `good`,
-                note: `Customers waiting without information assume the worst and escalate. A brief honest message — system issue, we\'ll call you back — is significantly better than silence.` },
+                note: `Customers waiting without information assume the worst and escalate. A brief honest message — system issue, we'll call you back — is significantly better than silence.` },
               { id: `b`, label: `Continue waiting for the official communications guidance before saying anything to customers`, quality: `partial`,
-                note: `Waiting for official guidance is reasonable up to a point. But customers who\'ve been waiting 30 minutes in silence are already forming negative impressions. Some proactive communication is better than none.` },
+                note: `Waiting for official guidance is reasonable up to a point. But customers who've been waiting 30 minutes in silence are already forming negative impressions. Some proactive communication is better than none.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -117,15 +117,15 @@ export const scenario = {
 
         n2_contacts_customers: {
           scene:       `desk-working`,
-          caption:     `You start working through the queue, leaving brief messages: system issue, estimated 2-4 hours, we\'ll call back. Most customers respond positively. Several say they appreciate being told.`,
-          sub_caption: `You\'ve managed the customer experience through the outage. The system gap remains.`,
+          caption:     `You start working through the queue, leaving brief messages: system issue, estimated 2-4 hours, we'll call back. Most customers respond positively. Several say they appreciate being told.`,
+          sub_caption: `You've managed the customer experience through the outage. The system gap remains.`,
           decision: {
             prompt: `Operations asks what you need to be able to serve customers when the system comes back up. What do you tell them?`,
             choices: [
-              { id: `a`, label: `A manual fallback process — even a basic one — so the next outage doesn\'t leave the team with no options`, quality: `good`,
+              { id: `a`, label: `A manual fallback process — even a basic one — so the next outage doesn't leave the team with no options`, quality: `good`,
                 note: `The specific operational need is a documented manual process. Your direct experience of the gap is exactly the input operations needs to design it.` },
               { id: `b`, label: `A better estimated resolution time from the provider — the 2-4 hour window is too vague to plan around`, quality: `partial`,
-                note: `Provider communication is a real gap. But it\'s secondary to the manual fallback gap — even with a precise ETA, you still had nothing to do while waiting.` },
+                note: `Provider communication is a real gap. But it's secondary to the manual fallback gap — even with a precise ETA, you still had nothing to do while waiting.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -134,14 +134,14 @@ export const scenario = {
         n2_waits: {
           scene:       `desk-waiting`,
           caption:     `Two hours pass. The queue grows to 134 customers. Some have called the main line and been told to call back. Three have lodged complaints via the website.`,
-          sub_caption: `The outage is the same. The customer experience didn\'t have to be this bad.`,
+          sub_caption: `The outage is the same. The customer experience didn't have to be this bad.`,
           decision: {
-            prompt: `The system comes back at 11:08am. Your team lead asks for a debrief. What\'s your main observation?`,
+            prompt: `The system comes back at 11:08am. Your team lead asks for a debrief. What's your main observation?`,
             choices: [
               { id: `a`, label: `The team had no manual process and no customer communication guidance — both gaps made the outage significantly worse than it needed to be`, quality: `good`,
                 note: `Accurate and actionable. The debrief needs the operational perspective — what it actually felt like to have no tools and no guidance for two hours.` },
               { id: `b`, label: `IT needs better escalation processes for system issues`, quality: `poor`,
-                note: `IT\'s response is one part of the picture. The bigger gap is that the team had no fallback and no customer communication process. That\'s an operations design gap, not an IT response gap.` },
+                note: `IT's response is one part of the picture. The bigger gap is that the team had no fallback and no customer communication process. That's an operations design gap, not an IT response gap.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -153,7 +153,7 @@ export const scenario = {
           heading: `Customer experience managed, operational gap surfaced`,
           tone:    `good`,
           result:  `Customers in the queue received proactive communication. Complaint volume was significantly lower than the queue size would have predicted. Your specific feedback — no manual process, no customer communication guidance — was cited in the post-incident review as the operational perspective that shaped the fallback design. A manual process was documented within two weeks.`,
-          learning: `When a system goes down, two things matter: what you can do for customers right now, and what you can tell operations about the gap so it gets fixed. Both are available to you even when the system isn\'t.`,
+          learning: `When a system goes down, two things matter: what you can do for customers right now, and what you can tell operations about the gap so it gets fixed. Both are available to you even when the system isn't.`,
           score:   100,
         },
         outcome_good: {
@@ -166,8 +166,8 @@ export const scenario = {
         outcome_warn: {
           heading: `Passive during outage, constructive in debrief`,
           tone:    `warn`,
-          result:  `The two hours of the outage were worse than they needed to be — 134 customers waited without communication. The debrief was constructive and your observation about the manual process gap was accurate and useful. The post-incident review used it. But the debrief couldn\'t undo two hours of poor customer experience.`,
-          learning: `The debrief shapes what happens next time. The response during the outage shapes what customers experienced this time. Both matter — but the during-outage response can\'t be recovered after the fact.`,
+          result:  `The two hours of the outage were worse than they needed to be — 134 customers waited without communication. The debrief was constructive and your observation about the manual process gap was accurate and useful. The post-incident review used it. But the debrief couldn't undo two hours of poor customer experience.`,
+          learning: `The debrief shapes what happens next time. The response during the outage shapes what customers experienced this time. Both matter — but the during-outage response can't be recovered after the fact.`,
           score:   30,
         },
         outcome_bad: {
@@ -203,14 +203,14 @@ export const scenario = {
 
         n_response: {
           scene:       `security-alert`,
-          caption:     `Provider status page: major outage, estimated 2-4 hours. Customer service AI: offline. Fallback: none. BCP scenario for AI provider outage: doesn\'t exist.`,
+          caption:     `Provider status page: major outage, estimated 2-4 hours. Customer service AI: offline. Fallback: none. BCP scenario for AI provider outage: doesn't exist.`,
           decision: {
             prompt: `You have roughly 4 hours before this outage ends. What are your two immediate priorities?`,
             choices: [
               { id: `a`, label: `First: activate whatever manual capability exists for the customer queue. Second: get the CPS 230 exposure confirmed before the outage becomes a regulatory disclosure`, quality: `good`,
                 note: `Two separate problems running in parallel: the operational problem (customers waiting) and the regulatory problem (CPS 230 exposure). Both need action now.` },
               { id: `b`, label: `Escalate to the provider for a precise ETA and hold until you have a clear timeline`, quality: `poor`,
-                note: `Provider communication matters but it\'s not your first priority. 47 customers are in the queue now and the BCP gap exists regardless of when the system comes back.` },
+                note: `Provider communication matters but it's not your first priority. 47 customers are in the queue now and the BCP gap exists regardless of when the system comes back.` },
             ],
           },
           branches: { a: `n2_two_tracks`, b: `n2_waits_for_provider` },
@@ -224,9 +224,9 @@ export const scenario = {
             prompt: `Compliance asks whether to notify APRA proactively or wait to see if the outage triggers their own review. What do you decide?`,
             choices: [
               { id: `a`, label: `Notify proactively — APRA typically responds better to organisations that self-report compliance gaps than to those who wait to be asked`, quality: `good`,
-                note: `Proactive disclosure is almost always the right regulatory approach. APRA\'s review of a self-reported gap is usually more collaborative than one triggered by their own monitoring.` },
+                note: `Proactive disclosure is almost always the right regulatory approach. APRA's review of a self-reported gap is usually more collaborative than one triggered by their own monitoring.` },
               { id: `b`, label: `Wait to see if APRA raises it — a 4-hour outage may not cross their materiality threshold`, quality: `partial`,
-                note: `Possibly correct on materiality. But the gap isn\'t just the outage — it\'s the absence of a tested fallback for a listed material service provider. That gap predates the outage and is the CPS 230 issue.` },
+                note: `Possibly correct on materiality. But the gap isn't just the outage — it's the absence of a tested fallback for a listed material service provider. That gap predates the outage and is the CPS 230 issue.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -235,14 +235,14 @@ export const scenario = {
         n2_waits_for_provider: {
           scene:       `desk-working-night`,
           caption:     `The provider updates their status page: estimated resolution extended to 4–6 hours. The customer queue is now 89 people. No manual process has been activated.`,
-          sub_caption: `Waiting for the provider\'s ETA has cost 40 minutes of queue build.`,
+          sub_caption: `Waiting for the provider's ETA has cost 40 minutes of queue build.`,
           decision: {
             prompt: `The ETA has extended. The queue is at 89. What now?`,
             choices: [
-              { id: `a`, label: `Activate whatever manual capability exists immediately — the provider timeline is irrelevant to the queue that\'s building now`, quality: `good`,
+              { id: `a`, label: `Activate whatever manual capability exists immediately — the provider timeline is irrelevant to the queue that's building now`, quality: `good`,
                 note: `Correct. The provider ETA should have been irrelevant from the start. Customers in the queue need service regardless of when the system comes back.` },
               { id: `b`, label: `Brief the CEO and let them decide whether to activate a manual process`, quality: `partial`,
-                note: `The CEO briefing is appropriate. But activating a manual process for a building customer queue is an operational decision — it doesn\'t require CEO approval to start.` },
+                note: `The CEO briefing is appropriate. But activating a manual process for a building customer queue is an operational decision — it doesn't require CEO approval to start.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_bad` },
@@ -261,13 +261,13 @@ export const scenario = {
           heading: `Operational response activated, regulatory exposure managed conservatively`,
           tone:    `good`,
           result:  `Manual callbacks were activated. The regulatory decision to wait rather than proactively disclose was conservative. APRA did not raise the outage in their next review cycle. The fallback architecture was built regardless. The regulatory outcome was the same — the approach was riskier than necessary.`,
-          learning: `CPS 230 compliance isn\'t just about the outage — it\'s about the absence of a tested fallback for a listed material service provider. That gap exists regardless of APRA\'s review cycle. Proactive disclosure of a known gap is generally lower risk than waiting to be found.`,
+          learning: `CPS 230 compliance isn't just about the outage — it's about the absence of a tested fallback for a listed material service provider. That gap exists regardless of APRA's review cycle. Proactive disclosure of a known gap is generally lower risk than waiting to be found.`,
           score:   65,
         },
         outcome_bad: {
           heading: `Delayed response, extended customer impact`,
           tone:    `bad`,
-          result:  `The customer queue grew to 134 before any manual process was activated. The CEO briefing added 45 minutes to the response time. The regulatory disclosure was eventually made — APRA\'s follow-up was less collaborative than it would have been with a proactive notification. The fallback architecture was built but the remediation plan was submitted under more scrutiny than a proactive approach would have generated.`,
+          result:  `The customer queue grew to 134 before any manual process was activated. The CEO briefing added 45 minutes to the response time. The regulatory disclosure was eventually made — APRA's follow-up was less collaborative than it would have been with a proactive notification. The fallback architecture was built but the remediation plan was submitted under more scrutiny than a proactive approach would have generated.`,
           learning: `In a concentration risk event, two decisions determine the outcome: how quickly you serve customers when the primary system fails, and how you engage with regulators when a compliance gap is exposed. Delays in both are compounding.`,
           score:   10,
         },
@@ -304,8 +304,8 @@ export const scenario = {
               { id: `a`, label: `The honest answer: the fallback was assessed as out of scope for the initial deployment budget and timeline. Low likelihood was the rationale for deferring it.`, quality: `good`,
                 note: `Accurate and specific. The COO needs to understand the decision that was made, not a general explanation of why fallbacks are hard.` },
               { id: `b`, label: `The risk was identified and accepted at the time. The assessment proved incorrect.`, quality: `partial`,
-                note: `True but incomplete. Risk acceptance is valid — but the mitigation of "monitor the status page" doesn\'t meaningfully reduce the impact of an outage. It just tells you it\'s happening.` },
-              { id: `c`, label: `Single provider dependency is industry standard — most organisations don\'t have secondary LLM provider fallbacks`, quality: `poor`,
+                note: `True but incomplete. Risk acceptance is valid — but the mitigation of "monitor the status page" doesn't meaningfully reduce the impact of an outage. It just tells you it's happening.` },
+              { id: `c`, label: `Single provider dependency is industry standard — most organisations don't have secondary LLM provider fallbacks`, quality: `poor`,
                 note: `Possibly true in practice but not relevant to CPS 230. The standard is the regulation, not industry common practice.` },
             ],
           },
@@ -315,14 +315,14 @@ export const scenario = {
         n2_honest: {
           scene:       `office-bright`,
           caption:     `The COO accepts the account. She asks what a realistic fallback architecture looks like — not a theoretical one — and what it would have cost to build at deployment.`,
-          sub_caption: `She\'s asking for the tradeoff decision that wasn\'t made explicitly at the time.`,
+          sub_caption: `She's asking for the tradeoff decision that wasn't made explicitly at the time.`,
           decision: {
             prompt: `What do you tell her?`,
             choices: [
               { id: `a`, label: `Two options at deployment: secondary provider integration (4 weeks, ~$40K) or documented manual process (1 week, minimal cost). The manual process alone would have given the team something to work with today.`, quality: `good`,
-                note: `Specific and honest. The manual process was the low-cost, high-value option that wasn\'t taken. Making that concrete for the COO frames the remediation decision clearly.` },
+                note: `Specific and honest. The manual process was the low-cost, high-value option that wasn't taken. Making that concrete for the COO frames the remediation decision clearly.` },
               { id: `b`, label: `Full secondary provider integration — the only robust fallback for a customer-facing AI system`, quality: `partial`,
-                note: `Secondary provider integration is the robust solution. But the manual process was available at near-zero cost and would have meaningfully improved today\'s outage experience. Presenting only the expensive option narrows the remediation choices unnecessarily.` },
+                note: `Secondary provider integration is the robust solution. But the manual process was available at near-zero cost and would have meaningfully improved today's outage experience. Presenting only the expensive option narrows the remediation choices unnecessarily.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -331,7 +331,7 @@ export const scenario = {
         n2_risk_accepted: {
           scene:       `boardroom`,
           caption:     `The COO asks: "Was the risk acceptance documented and signed off by Risk?" You check the project file. There is no formal risk acceptance record — it was a project team decision.`,
-          sub_caption: `Risk acceptance without formal sign-off isn\'t risk acceptance — it\'s a deferred decision.`,
+          sub_caption: `Risk acceptance without formal sign-off isn't risk acceptance — it's a deferred decision.`,
           decision: {
             prompt: `The documentation gap has surfaced. How do you respond?`,
             choices: [
@@ -346,8 +346,8 @@ export const scenario = {
 
         n2_industry_standard: {
           scene:       `desk-working`,
-          caption:     `The COO asks what CPS 230 requires for material service providers. You know the answer: tested fallback arrangements. "Monitor provider status" isn\'t that.`,
-          sub_caption: `Industry standard isn\'t the CPS 230 standard.`,
+          caption:     `The COO asks what CPS 230 requires for material service providers. You know the answer: tested fallback arrangements. "Monitor provider status" isn't that.`,
+          sub_caption: `Industry standard isn't the CPS 230 standard.`,
           decision: {
             prompt: `The regulatory standard has been established. How do you respond?`,
             choices: [
@@ -372,7 +372,7 @@ export const scenario = {
         outcome_good: {
           heading: `Account given, remediation path found`,
           tone:    `good`,
-          result:  `The account was honest and the remediation was eventually scoped. The conversation took longer than it needed to because the full range of options wasn\'t presented upfront. Both the manual process and secondary provider integration were implemented. The timeline was slightly longer than the fastest path.`,
+          result:  `The account was honest and the remediation was eventually scoped. The conversation took longer than it needed to because the full range of options wasn't presented upfront. Both the manual process and secondary provider integration were implemented. The timeline was slightly longer than the fastest path.`,
           learning: `Presenting all available remediation options — including the low-cost ones — gives decision-makers a complete picture. Narrowing to the most expensive option leaves the quick wins unaddressed.`,
           score:   65,
         },
@@ -380,14 +380,14 @@ export const scenario = {
           heading: `Risk acceptance gap acknowledged, credibility reduced`,
           tone:    `warn`,
           result:  `The formal risk acceptance gap was acknowledged. The COO noted it in the post-incident review. The remediation was implemented. But the combination of deferred risk and undocumented acceptance meant the review was more critical of the programme governance than the technical gap alone would have warranted.`,
-          learning: `Risk acceptance decisions need to be documented at the right level. A High impact risk accepted informally at project team level is not actually accepted — it\'s unresolved.`,
+          learning: `Risk acceptance decisions need to be documented at the right level. A High impact risk accepted informally at project team level is not actually accepted — it's unresolved.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Defence failed, remediation delayed`,
           tone:    `bad`,
-          result:  `The industry standard and legal delay defences added 30 minutes to the post-incident conversation and achieved nothing. The remediation was eventually scoped and implemented. The COO\'s review noted that the programme manager\'s initial response to the incident review had not been constructive. The same remediation options that were available from the start were implemented — three weeks later.`,
-          learning: `When a risk materialises after being deferred, the post-incident conversation requires honesty about why it was deferred and concrete options for fixing it. Defences that delay that conversation don\'t change the outcome — they just make the path to it longer.`,
+          result:  `The industry standard and legal delay defences added 30 minutes to the post-incident conversation and achieved nothing. The remediation was eventually scoped and implemented. The COO's review noted that the programme manager's initial response to the incident review had not been constructive. The same remediation options that were available from the start were implemented — three weeks later.`,
+          learning: `When a risk materialises after being deferred, the post-incident conversation requires honesty about why it was deferred and concrete options for fixing it. Defences that delay that conversation don't change the outcome — they just make the path to it longer.`,
           score:   5,
         },
       },
@@ -420,12 +420,12 @@ export const scenario = {
           decision: {
             prompt: `The COO asks you to confirm the CPS 230 position. What do you tell her?`,
             choices: [
-              { id: `a`, label: `Clear exposure: the provider is listed as material, CPS 230 requires tested fallback, the listed mitigation doesn\'t meet that standard. Proactive disclosure is likely the right approach.`, quality: `good`,
+              { id: `a`, label: `Clear exposure: the provider is listed as material, CPS 230 requires tested fallback, the listed mitigation doesn't meet that standard. Proactive disclosure is likely the right approach.`, quality: `good`,
                 note: `Accurate, specific, and includes a recommendation on next steps. The COO needs the clear picture and a direction, not a hedged analysis.` },
-              { id: `b`, label: `Potential exposure depending on APRA\'s interpretation of "tested" — recommend legal review before confirming`, quality: `partial`,
-                note: `Legal review may be appropriate for complex questions. "Tested fallback arrangements" for a material service provider is not a complex interpretive question — it\'s a clear requirement.` },
-              { id: `c`, label: `The outage may not cross APRA\'s materiality threshold — 4 hours is relatively short`, quality: `poor`,
-                note: `The issue isn\'t the outage duration — it\'s the absence of a tested fallback for a listed material service provider. That gap existed before the outage and is the CPS 230 issue.` },
+              { id: `b`, label: `Potential exposure depending on APRA's interpretation of "tested" — recommend legal review before confirming`, quality: `partial`,
+                note: `Legal review may be appropriate for complex questions. "Tested fallback arrangements" for a material service provider is not a complex interpretive question — it's a clear requirement.` },
+              { id: `c`, label: `The outage may not cross APRA's materiality threshold — 4 hours is relatively short`, quality: `poor`,
+                note: `The issue isn't the outage duration — it's the absence of a tested fallback for a listed material service provider. That gap existed before the outage and is the CPS 230 issue.` },
             ],
           },
           branches: { a: `n2_clear_position`, b: `n2_legal_hedge`, c: `n2_materiality` },
@@ -434,7 +434,7 @@ export const scenario = {
         n2_clear_position: {
           scene:       `office-briefing`,
           caption:     `The COO accepts your analysis. She asks: what does the remediation look like, and what should the APRA notification say?`,
-          sub_caption: `You\'ve confirmed the exposure. Now you need to help resolve it.`,
+          sub_caption: `You've confirmed the exposure. Now you need to help resolve it.`,
           decision: {
             prompt: `What do you recommend for the APRA notification?`,
             choices: [
@@ -449,15 +449,15 @@ export const scenario = {
 
         n2_legal_hedge: {
           scene:       `desk-working`,
-          caption:     `Legal responds in 2 hours: "Tested fallback arrangements" is a clear CPS 230 requirement. "Monitor provider status" does not meet the standard. The COO asks why you didn\'t confirm this yourself.`,
+          caption:     `Legal responds in 2 hours: "Tested fallback arrangements" is a clear CPS 230 requirement. "Monitor provider status" does not meet the standard. The COO asks why you didn't confirm this yourself.`,
           sub_caption: `Two hours added to the analysis for a conclusion you already knew.`,
           decision: {
             prompt: `How do you respond?`,
             choices: [
               { id: `a`, label: `Acknowledge the hedge was unnecessary — the standard is clear and you had the information to confirm it directly`, quality: `good`,
-                note: `Honest. The COO\'s question is fair. Two hours on a clear regulatory question delayed the response unnecessarily.` },
+                note: `Honest. The COO's question is fair. Two hours on a clear regulatory question delayed the response unnecessarily.` },
               { id: `b`, label: `Maintain that legal confirmation was appropriate given the regulatory stakes`, quality: `partial`,
-                note: `Legal confirmation has value for genuinely ambiguous questions. This wasn\'t one. Defending the hedge when it cost two hours during a live incident doesn\'t serve anyone.` },
+                note: `Legal confirmation has value for genuinely ambiguous questions. This wasn't one. Defending the hedge when it cost two hours during a live incident doesn't serve anyone.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -465,7 +465,7 @@ export const scenario = {
 
         n2_materiality: {
           scene:       `office-meeting`,
-          caption:     `The COO reads the CPS 230 requirement directly: "tested fallback arrangements for material service arrangements." She asks whether the AI provider is a material service arrangement. It\'s on the register. You listed it yourself.`,
+          caption:     `The COO reads the CPS 230 requirement directly: "tested fallback arrangements for material service arrangements." She asks whether the AI provider is a material service arrangement. It's on the register. You listed it yourself.`,
           sub_caption: `The materiality question has answered itself.`,
           decision: {
             prompt: `The CPS 230 position is now clear regardless of your initial analysis. What do you tell the COO?`,
@@ -491,21 +491,21 @@ export const scenario = {
         outcome_good: {
           heading: `Correct position confirmed, notification made`,
           tone:    `good`,
-          result:  `The regulatory position was eventually confirmed clearly. Notification was made. APRA\'s response was standard. The remediation was completed. The timeline was slightly longer than the fastest path due to the hedge or the partial recommendation. The outcome was the same.`,
-          learning: `Regulatory analysis that\'s accurate but late or hedged still produces the right outcome — just more slowly. When speed matters, clarity matters.`,
+          result:  `The regulatory position was eventually confirmed clearly. Notification was made. APRA's response was standard. The remediation was completed. The timeline was slightly longer than the fastest path due to the hedge or the partial recommendation. The outcome was the same.`,
+          learning: `Regulatory analysis that's accurate but late or hedged still produces the right outcome — just more slowly. When speed matters, clarity matters.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Late confirmation, response delayed`,
           tone:    `warn`,
-          result:  `The regulatory position was confirmed two hours after it could have been. The notification was made on time. APRA\'s response included a note that the organisation\'s internal compliance process had added unnecessary delay to the confirmation. The fallback architecture was built and the matter was closed, but the process observation stayed on the record.`,
-          learning: `In regulatory analysis, the cost of hedging a clear question is time — and time has a cost during a live incident. Legal review is right for ambiguous questions. Clear standards don\'t need legal cover.`,
+          result:  `The regulatory position was confirmed two hours after it could have been. The notification was made on time. APRA's response included a note that the organisation's internal compliance process had added unnecessary delay to the confirmation. The fallback architecture was built and the matter was closed, but the process observation stayed on the record.`,
+          learning: `In regulatory analysis, the cost of hedging a clear question is time — and time has a cost during a live incident. Legal review is right for ambiguous questions. Clear standards don't need legal cover.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Wrong analysis held, exposure extended`,
           tone:    `bad`,
-          result:  `The materiality and outage duration framing delayed the regulatory response by 90 minutes. The COO eventually overrode the analysis and directed notification. APRA\'s response noted the delay and requested an explanation of the internal compliance process. The explanation did not reflect well on the technology risk function.`,
+          result:  `The materiality and outage duration framing delayed the regulatory response by 90 minutes. The COO eventually overrode the analysis and directed notification. APRA's response noted the delay and requested an explanation of the internal compliance process. The explanation did not reflect well on the technology risk function.`,
           learning: `Regulatory exposure analysis has to start from the regulation, not from an outcome you prefer. "The outage might not be material" is a conclusion in search of support. The question is what the regulation requires — and on this one, it was clear.`,
           score:   5,
         },

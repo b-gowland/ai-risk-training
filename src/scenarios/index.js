@@ -31,14 +31,6 @@ import { scenario as a4 } from './a4-explainability.js';
 import { scenario as e2 } from './e2-harmful-content.js';
 import { scenario as e3 } from './e3-misinformation.js';
 
-const stub = (id, riskRef, title, domain, difficulty, hasBusinessUser = false) => ({
-  id, risk_ref: riskRef, title, domain, difficulty,
-  stub: true,
-  has_business_user: hasBusinessUser,
-  kb_url: 'https://library.airiskpractice.org/docs/how-to-use',
-  estimated_minutes: null,
-});
-
 // Business User available for F2, C4, A1, E1 only
 export const scenarios = [
   a1,

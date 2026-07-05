@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
+import { useReducer, useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getScenario } from './scenarios/index.js';
 import {

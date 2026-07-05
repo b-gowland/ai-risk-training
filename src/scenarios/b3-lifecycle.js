@@ -86,10 +86,10 @@ export const scenario = {
 
         n_bu_unravel: {
           scene:       `office-meeting`,
-          caption:     `The vendor joins the call and gives a generic account — \"a routine model update, performance should be comparable.\" It explains nothing your team saw: the tone shifts, the wrong answers, the queries that started failing three weeks ago. The COO turns to you.`,
+          caption:     `The vendor joins the call and gives a generic account — "a routine model update, performance should be comparable." It explains nothing your team saw: the tone shifts, the wrong answers, the queries that started failing three weeks ago. The COO turns to you.`,
           sub_caption: `Only your team has the operational detail. You tried to hand it to the vendor.`,
           decision: {
-            prompt: `\"You flagged this weeks ago. What did you actually see?\" the COO asks.`,
+            prompt: `"You flagged this weeks ago. What did you actually see?" the COO asks.`,
             choices: [
               { id: 'a', label: `Give the specifics your team logged: which query types changed, old versus new responses, and the three-week timeline.`, quality: 'good',
                 note: `The operational account is the part the vendor cannot provide. Your logs are the spine of the investigation.` },
@@ -105,7 +105,7 @@ export const scenario = {
         n_bu_dig: {
           scene:       `desk-focused`,
           caption:     `The COO is still waiting. Your team's log is open on your screen — the examples are right there.`,
-          sub_caption: `\"I need the operational picture, and you're the one who has it.\"`,
+          sub_caption: `"I need the operational picture, and you're the one who has it."`,
           decision: {
             prompt: `What do you do?`,
             choices: [
@@ -251,7 +251,7 @@ export const scenario = {
 
         n_exec_dig: {
           scene:       `boardroom-agm`,
-          caption:     `The committee chair cuts in. \"Blake — is the system still running on a model we haven't tested?\"`,
+          caption:     `The committee chair cuts in. "Blake — is the system still running on a model we haven't tested?"`,
           sub_caption: `The answer is yes, and everyone knows it.`,
           decision: {
             prompt: `What do you do?`,
@@ -398,7 +398,7 @@ export const scenario = {
 
         n_pm_dig: {
           scene:       `desk-focused`,
-          caption:     `The COO has the contract and your monitoring roadmap side by side. \"Whose job was it to catch this?\"`,
+          caption:     `The COO has the contract and your monitoring roadmap side by side. "Whose job was it to catch this?"`,
           sub_caption: `Both documents point at the product owner.`,
           decision: {
             prompt: `What do you say?`,

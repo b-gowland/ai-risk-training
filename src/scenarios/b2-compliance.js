@@ -86,7 +86,7 @@ export const scenario = {
 
         n_bu_unravel: {
           scene:       `desk-colleague`,
-          caption:     `The auditor moves on. An hour later your colleague tells the auditor she remembers you flagging the shortlist patterns a month ago. The auditor returns — your \"nothing unusual\" no longer matches the record.`,
+          caption:     `The auditor moves on. An hour later your colleague tells the auditor she remembers you flagging the shortlist patterns a month ago. The auditor returns — your "nothing unusual" no longer matches the record.`,
           sub_caption: `She is not annoyed. She is just waiting.`,
           decision: {
             prompt: `She asks again, gently: did you notice anything about the shortlists?`,
@@ -105,7 +105,7 @@ export const scenario = {
         n_bu_dig: {
           scene:       `desk-focused`,
           caption:     `The auditor lays it out plainly: your colleague's account, the shortlist data, and your two denials.`,
-          sub_caption: `\"I want to give you a clear chance to put this right.\"`,
+          sub_caption: `"I want to give you a clear chance to put this right."`,
           decision: {
             prompt: `What do you do?`,
             choices: [
@@ -233,7 +233,7 @@ export const scenario = {
 
         n_exec_unravel: {
           scene:       `boardroom-crisis`,
-          caption:     `Your \"check if a sign-off was filed somewhere\" instruction comes back empty. IT confirms in writing: no compliance sign-off was ever created. The auditor has noted the search activity — and that it began only after they arrived.`,
+          caption:     `Your "check if a sign-off was filed somewhere" instruction comes back empty. IT confirms in writing: no compliance sign-off was ever created. The auditor has noted the search activity — and that it began only after they arrived.`,
           sub_caption: `Legal advises full disclosure, now.`,
           decision: {
             prompt: `The auditor asks directly why there is no sign-off. What do you say?`,
@@ -251,7 +251,7 @@ export const scenario = {
 
         n_exec_dig: {
           scene:       `boardroom-agm`,
-          caption:     `The Chair has read the audit note about the document search. \"Morgan — was there ever a sign-off, or not?\"`,
+          caption:     `The Chair has read the audit note about the document search. "Morgan — was there ever a sign-off, or not?"`,
           sub_caption: `The board is watching how you answer.`,
           decision: {
             prompt: `How do you respond?`,
@@ -399,7 +399,7 @@ export const scenario = {
         n_pm_dig: {
           scene:       `desk-focused`,
           caption:     `The auditor places the vendor statement and the checklist side by side. The compliance line is initialled by you.`,
-          sub_caption: `\"I'll ask directly. Was a compliance sign-off obtained before go-live?\"`,
+          sub_caption: `"I'll ask directly. Was a compliance sign-off obtained before go-live?"`,
           decision: {
             prompt: `What do you say?`,
             choices: [

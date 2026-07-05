@@ -254,7 +254,7 @@ export const scenario = {
 
         n_exec_dig: {
           scene:       `boardroom-agm`,
-          caption:     `The committee chair asks the question directly. \"Is client data still going to that external model right now?\"`,
+          caption:     `The committee chair asks the question directly. "Is client data still going to that external model right now?"`,
           sub_caption: `It is.`,
           decision: {
             prompt: `What do you do?`,
@@ -398,7 +398,7 @@ export const scenario = {
               { id: 'a', label: `Concede it wasn't: a DPA and SOC 2 don't surface model hosting or sub-processors, and I'll rebuild the DDQ with AI-specific questions.`, quality: 'good',
                 note: `Naming the gap in your own process is what lets you lead the portfolio remediation rather than defend a questionnaire that missed the risk.` },
               { id: 'b', label: `Defend the DDQ as standard practice but accept it needs an AI addendum.`, quality: 'partial',
-                note: `Half-ownership. \"Standard\" is exactly the problem — an AI vendor needed questions the standard didn't include.` },
+                note: `Half-ownership. "Standard" is exactly the problem — an AI vendor needed questions the standard didn't include.` },
               { id: 'c', label: `Maintain that DPA plus SOC 2 is the accepted onboarding bar and was met.`, quality: 'poor',
                 note: `Insisting the bar was met, when the exposure ran straight through what the bar didn't ask, defends the process at the cost of the lesson.` },
             ],
@@ -409,7 +409,7 @@ export const scenario = {
         n_pm_dig: {
           scene:       `desk-focused`,
           caption:     `The CRO lays the DDQ next to the incident summary. The questionnaire has no line for model hosting or sub-processors.`,
-          sub_caption: `\"Did our onboarding ever ask where the data actually goes?\"`,
+          sub_caption: `"Did our onboarding ever ask where the data actually goes?"`,
           decision: {
             prompt: `What do you say?`,
             choices: [
@@ -556,14 +556,14 @@ export const scenario = {
         n_analyst_dig: {
           scene:       `desk-focused`,
           caption:     `The CISO has your traffic logs open. The external endpoint connections are unambiguous.`,
-          sub_caption: `\"You had this two days ago. Why am I hearing it now?\"`,
+          sub_caption: `"You had this two days ago. Why am I hearing it now?"`,
           decision: {
             prompt: `What do you say?`,
             choices: [
               { id: 'a', label: `Brief it fully now — the evidence, the timeline, the exposure — and own the delay.`, quality: 'partial',
                 note: `A late but complete escalation that lets leadership act; the two-day gap is now part of the record.` },
               { id: 'b', label: `Maintain that escalating before the vendor confirmed would have been premature.`, quality: 'poor',
-                note: `Calling a documented, ongoing external data flow \"premature\" to escalate is the exact judgement error that delayed the response.` },
+                note: `Calling a documented, ongoing external data flow "premature" to escalate is the exact judgement error that delayed the response.` },
             ],
           },
           branches: { a: 'n4_thirty_days', b: 'outcome_bad' },
