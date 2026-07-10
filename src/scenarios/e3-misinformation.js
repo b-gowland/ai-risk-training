@@ -33,16 +33,16 @@ export const scenario = {
       role:      `Recruitment Coordinator`,
       character: `Sam`,
       icon:      `◇`,
-      framing:   `You\'ve screened 140 applications for a senior analyst role. 40 cover letters are suspiciously similar in structure and phrasing. When you look closer, several contain job titles and companies that don\'t match LinkedIn profiles.`,
-      premise:   `You're coordinating recruitment for a Senior Data Analyst role. 140 applications arrived in the first 48 hours. As you work through them, you notice something: around 40 cover letters follow an almost identical structure — same opening line pattern, same claim format, same closing. Several of these applications list employer names and roles that, when you search LinkedIn, don't match the candidate's actual profile. One application lists a research publication that doesn't appear to exist. You haven\'t been given any guidance on how to handle AI-generated applications. You\'re not sure if this is against the rules. But something is clearly wrong.`,
+      framing:   `You've screened 140 applications for a senior analyst role. 40 cover letters are suspiciously similar in structure and phrasing. When you look closer, several contain job titles and companies that don't match LinkedIn profiles.`,
+      premise:   `You're coordinating recruitment for a Senior Data Analyst role. 140 applications arrived in the first 48 hours. As you work through them, you notice something: around 40 cover letters follow an almost identical structure — same opening line pattern, same claim format, same closing. Several of these applications list employer names and roles that, when you search LinkedIn, don't match the candidate's actual profile. One application lists a research publication that doesn't appear to exist. You haven't been given any guidance on how to handle AI-generated applications. You're not sure if this is against the rules. But something is clearly wrong.`,
     },
     executive: {
       label:     `Executive`,
       role:      `Chief People Officer`,
       character: `Morgan`,
       icon:      `◈`,
-      framing:   `Two candidates made the final shortlist for a senior role. Post-offer checks have revealed both submitted substantially fabricated applications — AI-generated cover letters and embellished CVs. The offers haven\'t been accepted yet. The recruitment process has no policy on AI-generated applications.`,
-      premise:   `You\'ve just been briefed by HR. Two of the four final shortlisted candidates for the Senior Data Analyst role have applications that, on reference and credential check, contain significant fabrications. One candidate claimed a research publication that doesn\'t exist. The other listed a senior role at a previous employer that HR verification found to be a junior contract position. Both used cover letters that appear to be AI-generated — same structural patterns as dozens of other applications in the same batch. The offers haven\'t been signed. You need to decide what to do about these two candidates and, separately, what the organisation\'s policy on AI-generated applications should be going forward.`,
+      framing:   `Two candidates made the final shortlist for a senior role. Post-offer checks have revealed both submitted substantially fabricated applications — AI-generated cover letters and embellished CVs. The offers haven't been accepted yet. The recruitment process has no policy on AI-generated applications.`,
+      premise:   `You've just been briefed by HR. Two of the four final shortlisted candidates for the Senior Data Analyst role have applications that, on reference and credential check, contain significant fabrications. One candidate claimed a research publication that doesn't exist. The other listed a senior role at a previous employer that HR verification found to be a junior contract position. Both used cover letters that appear to be AI-generated — same structural patterns as dozens of other applications in the same batch. The offers haven't been signed. You need to decide what to do about these two candidates and, separately, what the organisation's policy on AI-generated applications should be going forward.`,
     },
     pm: {
       lead:      `Project Manager`,
@@ -50,8 +50,8 @@ export const scenario = {
       role:      `HR Systems Lead`,
       character: `Priya`,
       icon:      `◎`,
-      framing:   `The ATS (Applicant Tracking System) the firm uses doesn\'t have AI content detection. Nobody asked for it when the system was procured two years ago. The question now is what a detection-capable process looks like.`,
-      premise:   `You manage the HR technology systems including the ATS. The Chief People Officer has asked you to assess what capability exists — or could be added — to detect AI-generated application materials. The current ATS can keyword-match, rank by qualification, and flag duplicates. It has no AI content detection. The vendor\'s roadmap includes an AI detection module launching next quarter. The question is whether to wait for the vendor module, deploy a third-party detection tool in the interim, or design a human-review process for detecting synthetic content. The CPO needs a recommendation within a week.`,
+      framing:   `The ATS (Applicant Tracking System) the firm uses doesn't have AI content detection. Nobody asked for it when the system was procured two years ago. The question now is what a detection-capable process looks like.`,
+      premise:   `You manage the HR technology systems including the ATS. The Chief People Officer has asked you to assess what capability exists — or could be added — to detect AI-generated application materials. The current ATS can keyword-match, rank by qualification, and flag duplicates. It has no AI content detection. The vendor's roadmap includes an AI detection module launching next quarter. The question is whether to wait for the vendor module, deploy a third-party detection tool in the interim, or design a human-review process for detecting synthetic content. The CPO needs a recommendation within a week.`,
     },
     analyst: {
       label:     `Analyst`,
@@ -87,33 +87,16 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `40 job applications with suspiciously similar cover letters. Several with credentials you can't verify. An AI writing tool could explain the similarity — but fabricated credentials are a different problem.`,
-          decision: {
-            prompt: `What is the difference between AI-assisted application writing and AI-fabricated credentials?`,
-            choices: [
-              { id: `a`, label: `AI-assisted writing helps a candidate express genuine experience more effectively — fabricated credentials are false claims about qualifications that don't exist`, quality: `good`,
-                note: `The critical distinction. Similar phrasing across applications may reflect AI writing assistance, which is ethically ambiguous but not inherently dishonest. Fabricated credentials are fraud. They require different handling.` },
-              { id: `b`, label: `Both are forms of misrepresentation — if AI wrote any part of the application, the candidate is misrepresenting their abilities`, quality: `poor`,
-                note: `This conflates presentation assistance with factual fabrication. A candidate who uses AI to articulate genuine experience is not misrepresenting their abilities. A candidate who claims a degree they don't have is. The distinction matters for the response.` },
-              { id: `c`, label: `The similarity pattern is the problem regardless of cause — similar applications should be deprioritised`, quality: `poor`,
-                note: `Deprioritising based on similarity penalises candidates for using the same legitimate tools. The relevant filter is whether the credentials are accurate — not whether the writing style is similar.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
-          caption:     `40 applications with suspiciously similar cover letters. Several with credentials that don\'t match LinkedIn. One with a publication that doesn\'t exist.`,
+          caption:     `40 applications with suspiciously similar cover letters. Several with credentials that don't match LinkedIn. One with a publication that doesn't exist.`,
           decision: {
-            prompt: `You\'ve identified a pattern that looks like widespread use of AI-generated and potentially fabricated application materials. What do you do?`,
+            prompt: `You've identified a pattern that looks like widespread use of AI-generated and potentially fabricated application materials. What do you do?`,
             choices: [
               { id: `a`, label: `Flag it to HR management immediately with your specific observations — the structural patterns, the LinkedIn mismatches, the non-existent publication`, quality: `good`,
                 note: `HR management needs to know this is happening before the shortlisting process advances further. Your specific observations give them something concrete to act on.` },
               { id: `b`, label: `Continue screening, note the suspicious applications separately, and raise it at the end-of-week team meeting`, quality: `partial`,
                 note: `Noting them separately is right. But waiting until end-of-week means the shortlisting process advances on potentially fabricated materials. Earlier is better.` },
-              { id: `c`, label: `Reject all 40 applications with the similar cover letters — if they used AI, they don\'t deserve consideration`, quality: `poor`,
+              { id: `c`, label: `Reject all 40 applications with the similar cover letters — if they used AI, they don't deserve consideration`, quality: `poor`,
                 note: `Rejecting applications without a defined policy, and based on an assumption about AI use, creates its own risk — legitimate candidates using AI assistance may be unfairly excluded.` },
             ],
           },
@@ -154,15 +137,15 @@ export const scenario = {
 
         n2_rejects: {
           scene:       `office-meeting`,
-          caption:     `Your manager reviews the batch and asks why 40 applications were rejected. You explain your reasoning. She notes that the rejection reason can\'t be "used AI" without a policy — and that some of the rejected applications may have been legitimate candidates who used AI assistance appropriately.`,
+          caption:     `Your manager reviews the batch and asks why 40 applications were rejected. You explain your reasoning. She notes that the rejection reason can't be "used AI" without a policy — and that some of the rejected applications may have been legitimate candidates who used AI assistance appropriately.`,
           sub_caption: `The rejections need to be reviewed. Some may need to be reinstated.`,
           decision: {
-            prompt: `Your manager asks you to work with HR to review the 40 rejected applications and identify which ones have verifiable discrepancies versus those that were just AI-assisted. What\'s your approach?`,
+            prompt: `Your manager asks you to work with HR to review the 40 rejected applications and identify which ones have verifiable discrepancies versus those that were just AI-assisted. What's your approach?`,
             choices: [
               { id: `a`, label: `Focus the review on factual verifiability: credentials, employers, publications — not on whether the writing style appears AI-generated`, quality: `good`,
-                note: `Verifiable discrepancies are the defensible basis for rejection. Writing style alone isn\'t — AI-assisted writing is not inherently deceptive.` },
+                note: `Verifiable discrepancies are the defensible basis for rejection. Writing style alone isn't — AI-assisted writing is not inherently deceptive.` },
               { id: `b`, label: `Reinstate all 40 applications and start the screening over`, quality: `partial`,
-                note: `Full reinstatement is the safe legal option. But it doesn\'t distinguish between applications with genuine fabrications and those that were just AI-assisted. The factual verification approach is more targeted.` },
+                note: `Full reinstatement is the safe legal option. But it doesn't distinguish between applications with genuine fabrications and those that were just AI-assisted. The factual verification approach is more targeted.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -174,7 +157,7 @@ export const scenario = {
           heading: `Pattern escalated early, specific evidence documented`,
           tone:    `good`,
           result:  `Your early escalation paused the shortlisting process before candidates with fabricated credentials reached the shortlist. Your specific per-application documentation gave HR the evidence base to reject applications with verifiable fabrications while retaining legitimate candidates who had used AI assistance for writing. The two candidates with the most significant fabrications were identified before any offers were made.`,
-          learning: `When application materials contain specific verifiable discrepancies — credentials that don\'t match LinkedIn, publications that don\'t exist — that\'s the escalation trigger. The evidence is factual and actionable, not a judgment about AI use generally.`,
+          learning: `When application materials contain specific verifiable discrepancies — credentials that don't match LinkedIn, publications that don't exist — that's the escalation trigger. The evidence is factual and actionable, not a judgment about AI use generally.`,
           score:   100,
         },
         outcome_good: {
@@ -223,32 +206,15 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
-          caption:     `Two shortlisted finalists. Both with substantially fabricated applications — employment history that doesn't match, qualifications that can't be verified. Offers not yet made.`,
-          decision: {
-            prompt: `What are your obligations when you identify credential fabrication in the recruitment process?`,
-            choices: [
-              { id: `a`, label: `Withdraw both from the process — fabricated credentials are grounds for disqualification regardless of how strong the candidate otherwise appears`, quality: `good`,
-                note: `Correct. Credential fabrication is a material misrepresentation that goes to the integrity of the application. It's grounds for disqualification at any stage. The candidate's other qualities don't offset a deliberate false statement.` },
-              { id: `b`, label: `Give the candidates an opportunity to explain the discrepancies before withdrawing — there may be a legitimate explanation`, quality: `partial`,
-                note: `Reasonable in principle, but the threshold matters. Credentials that simply don't exist don't have a legitimate explanation.` },
-              { id: `c`, label: `Complete the process and make it a condition of the offer that credentials are verified before start date`, quality: `poor`,
-                note: `This keeps fabricating candidates in the process and creates an offer conditional on the very thing that should have disqualified them.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `boardroom-agm`,
           caption:     `Two finalists. Both with substantially fabricated applications. Offers not yet signed. No policy on AI-generated applications.`,
           decision: {
             prompt: `What do you do about the two shortlisted candidates?`,
             choices: [
               { id: `a`, label: `Withdraw both from the process — the fabricated credentials are disqualifying regardless of interview performance`, quality: `good`,
-                note: `Fabricated credentials — not AI-assisted writing, but actual factual misrepresentation — are a disqualifying integrity failure. Interview performance doesn\'t override that.` },
+                note: `Fabricated credentials — not AI-assisted writing, but actual factual misrepresentation — are a disqualifying integrity failure. Interview performance doesn't override that.` },
               { id: `b`, label: `Give both candidates the opportunity to respond to the specific discrepancies before a final decision`, quality: `partial`,
-                note: `A right of response is procedurally fair. But factual discrepancies — a publication that doesn\'t exist, a seniority that\'s been inflated — aren\'t ambiguous. A response opportunity may be appropriate but shouldn\'t change the outcome.` },
+                note: `A right of response is procedurally fair. But factual discrepancies — a publication that doesn't exist, a seniority that's been inflated — aren't ambiguous. A response opportunity may be appropriate but shouldn't change the outcome.` },
               { id: `c`, label: `Keep one candidate whose fabrications were less significant and withdraw the other`, quality: `poor`,
                 note: `Degree of fabrication is a murky distinction. Both candidates misrepresented their credentials. Continuing with either creates an integrity risk in the role.` },
             ],
@@ -261,12 +227,12 @@ export const scenario = {
           caption:     `Both candidates withdrawn. Now the policy question. AI-generated applications will only increase in prevalence. The organisation needs a position.`,
           sub_caption: `The policy needs to distinguish AI-assisted writing from AI-fabricated credentials.`,
           decision: {
-            prompt: `What does the organisation\'s policy on AI-generated applications say?`,
+            prompt: `What does the organisation's policy on AI-generated applications say?`,
             choices: [
               { id: `a`, label: `AI assistance in writing is acceptable and does not require disclosure. Factual accuracy is required and will be verified. Misrepresentation of credentials, employers, or publications is grounds for immediate disqualification.`, quality: `good`,
                 note: `This is the right distinction. AI-assisted writing is not inherently deceptive. Fabricated facts are. The policy focuses enforcement where the actual harm is.` },
               { id: `b`, label: `All use of AI in application materials must be disclosed. Undisclosed AI use is grounds for disqualification.`, quality: `partial`,
-                note: `Disclosure requirements are defensible. But enforcement is difficult — AI detection tools are probabilistic. A policy that depends on detection you can\'t reliably perform is harder to apply consistently.` },
+                note: `Disclosure requirements are defensible. But enforcement is difficult — AI detection tools are probabilistic. A policy that depends on detection you can't reliably perform is harder to apply consistently.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -274,7 +240,7 @@ export const scenario = {
 
         n2_right_of_response: {
           scene:       `desk-focused`,
-          caption:     `Both candidates respond. One acknowledges the publication was "forthcoming" rather than published — it doesn\'t exist. The other says their previous role title reflects their responsibilities rather than their formal title.`,
+          caption:     `Both candidates respond. One acknowledges the publication was "forthcoming" rather than published — it doesn't exist. The other says their previous role title reflects their responsibilities rather than their formal title.`,
           sub_caption: `The responses confirm the fabrications. Both need to be withdrawn.`,
           decision: {
             prompt: `The responses confirm the fabrications. The withdrawals are now straightforward. What is your policy position going forward?`,
@@ -282,7 +248,7 @@ export const scenario = {
               { id: `a`, label: `Policy focused on factual accuracy and verification, not AI use per se`, quality: `good`,
                 note: `Correct policy direction regardless of how you arrived here. The right of response added a week but the outcome and the policy are the same.` },
               { id: `b`, label: `Require AI disclosure going forward — the right of response process was too slow for a competitive recruitment`, quality: `partial`,
-                note: `Speed concern is legitimate. But an AI disclosure requirement doesn\'t actually solve the fabrication problem — it adds a process without improving factual verification.` },
+                note: `Speed concern is legitimate. But an AI disclosure requirement doesn't actually solve the fabrication problem — it adds a process without improving factual verification.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -290,15 +256,15 @@ export const scenario = {
 
         n2_partial: {
           scene:       `office-meeting`,
-          caption:     `The candidate you retained was offered the role. During onboarding, a background check surfaces that their listed employer doesn\'t match their P60s. The offer has to be withdrawn at the onboarding stage — significantly more disruptive than withdrawal from the shortlist.`,
-          sub_caption: `The degree-of-fabrication distinction didn\'t hold.`,
+          caption:     `The candidate you retained was offered the role. During onboarding, a background check surfaces that their listed employer doesn't match their P60s. The offer has to be withdrawn at the onboarding stage — significantly more disruptive than withdrawal from the shortlist.`,
+          sub_caption: `The degree-of-fabrication distinction didn't hold.`,
           decision: {
             prompt: `The onboarding withdrawal is awkward and has cost the team several weeks. The policy question needs to be resolved. What do you put in place?`,
             choices: [
               { id: `a`, label: `Policy: factual accuracy required, verified at shortlist stage. Any misrepresentation of employers, credentials, or publications is disqualifying — regardless of degree.`, quality: `good`,
                 note: `The incident demonstrated that degree-of-fabrication distinctions are unworkable. Clear, binary policy on factual accuracy is more consistent and more enforceable.` },
               { id: `b`, label: `Enhanced reference checking at shortlist stage before any offers are made`, quality: `partial`,
-                note: `Enhanced checking is useful. But it\'s a process improvement, not a policy. The policy question — what level of fabrication is acceptable — still needs to be answered.` },
+                note: `Enhanced checking is useful. But it's a process improvement, not a policy. The policy question — what level of fabrication is acceptable — still needs to be answered.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -317,7 +283,7 @@ export const scenario = {
           heading: `Correct outcome, one week delay`,
           tone:    `good`,
           result:  `Both candidates were eventually withdrawn. The right of response process added a week. The policy was developed based on the factual accuracy principle. The process for the next recruitment round was cleaner.`,
-          learning: `A right of response for clearly documented factual discrepancies is procedurally careful but typically doesn\'t change the outcome. The policy development is the more important lesson from the incident.`,
+          learning: `A right of response for clearly documented factual discrepancies is procedurally careful but typically doesn't change the outcome. The policy development is the more important lesson from the incident.`,
           score:   65,
         },
         outcome_warn: {
@@ -359,34 +325,17 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
-          caption:     `Your ATS does keyword matching, qualification ranking, and duplicate detection. It doesn't detect AI-generated content or verify credentials. The CPO is asking what to do.`,
-          decision: {
-            prompt: `What should determine whether credential verification belongs in the ATS or elsewhere in the process?`,
-            choices: [
-              { id: `a`, label: `Whether the ATS is the right place to do it — credential verification may be better placed at offer stage by a specialist process rather than built into screening`, quality: `good`,
-                note: `Correct framing. Verification at screening is expensive and premature. The right control point for credential verification is post-shortlist or pre-offer, which keeps it outside the ATS and in a process designed for it.` },
-              { id: `b`, label: `The ATS should be upgraded to include AI content detection — if the problem came through the ATS, the fix belongs there`, quality: `partial`,
-                note: `ATS upgrades are one option, but AI content detection doesn't detect fabricated credentials — it detects AI-generated writing, which is a different problem.` },
-              { id: `c`, label: `Credential verification should be added as a screening step — candidates who can't verify credentials at application stage are filtered out`, quality: `poor`,
-                note: `Verification at application stage creates significant friction that disadvantages legitimate candidates and won't necessarily stop determined fabricators.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-reading`,
           caption:     `ATS capability: keyword matching, qualification ranking, duplicate detection. AI content detection: none. Vendor AI detection module: launching next quarter. The CPO needs a recommendation within a week.`,
           decision: {
             prompt: `What do you recommend to the CPO?`,
             choices: [
-              { id: `a`, label: `Don\'t wait for the vendor module — deploy a third-party AI detection tool now for the current recruitment, then evaluate the vendor module when it launches`, quality: `good`,
+              { id: `a`, label: `Don't wait for the vendor module — deploy a third-party AI detection tool now for the current recruitment, then evaluate the vendor module when it launches`, quality: `good`,
                 note: `The current recruitment has already been affected. Waiting a quarter for the vendor module means all roles recruited in the interim are unprotected. Third-party tools are available now.` },
-              { id: `b`, label: `Wait for the vendor module — it\'ll be integrated and supported, which is better than a third-party tool bolted on`, quality: `partial`,
+              { id: `b`, label: `Wait for the vendor module — it'll be integrated and supported, which is better than a third-party tool bolted on`, quality: `partial`,
                 note: `Integration and support are real advantages. But "next quarter" means an unknown number of additional recruitment rounds without detection capability. The interim exposure is the cost of waiting.` },
               { id: `c`, label: `Design a human-review process — a trained reviewer can identify AI-generated writing patterns without technology`, quality: `partial`,
-                note: `Human review is reliable for skilled reviewers but doesn\'t scale. At 140+ applications per role, a human-review-only approach is likely to miss cases or create unsustainable workload.` },
+                note: `Human review is reliable for skilled reviewers but doesn't scale. At 140+ applications per role, a human-review-only approach is likely to miss cases or create unsustainable workload.` },
             ],
           },
           branches: { a: `n2_third_party`, b: `n2_wait`, c: `n2_human` },
@@ -400,7 +349,7 @@ export const scenario = {
             prompt: `What limitations do you disclose?`,
             choices: [
               { id: `a`, label: `Three: false positive rate (legitimate writing flagged as AI), false negative rate (AI content not detected), and rapid obsolescence as generation models improve. Detection should be used as a flag for human review, not as a determinative rejection trigger.`, quality: `good`,
-                note: `Complete and honest. The CPO needs to understand that AI detection is decision-support, not a pass/fail system. The policy consequences of detection results need to reflect the tool\'s probabilistic nature.` },
+                note: `Complete and honest. The CPO needs to understand that AI detection is decision-support, not a pass/fail system. The policy consequences of detection results need to reflect the tool's probabilistic nature.` },
               { id: `b`, label: `Detection accuracy varies — recommend treating results as indicative rather than definitive`, quality: `partial`,
                 note: `Correct direction. More specific disclosure of false positive/negative rates and obsolescence helps the CPO calibrate expectations more precisely.` },
             ],
@@ -411,14 +360,14 @@ export const scenario = {
         n2_wait: {
           scene:       `desk-waiting`,
           caption:     `The vendor module launches in 11 weeks. During that period, two more recruitment rounds are affected by AI-generated and fabricated applications. Both require significant post-shortlist remediation.`,
-          sub_caption: `The integration advantage didn\'t outweigh the 11-week gap.`,
+          sub_caption: `The integration advantage didn't outweigh the 11-week gap.`,
           decision: {
             prompt: `The vendor module is about to launch. The CPO asks what implementation looks like and what the limitations are.`,
             choices: [
               { id: `a`, label: `Implement immediately with full limitations disclosure — and acknowledge the 11-week delay was a cost worth recognising`, quality: `good`,
                 note: `Acknowledging the cost of the decision helps the CPO calibrate future technology timing decisions. The implementation and the limitations disclosure are both needed.` },
               { id: `b`, label: `Implement and note the limitations without reflecting on the timing decision`, quality: `partial`,
-                note: `Implementation is right. The timing reflection helps the organisation learn from the interim period — it\'s worth including.` },
+                note: `Implementation is right. The timing reflection helps the organisation learn from the interim period — it's worth including.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -426,7 +375,7 @@ export const scenario = {
 
         n2_human: {
           scene:       `office-briefing`,
-          caption:     `The human-review process is implemented. After two weeks, the reviewer reports that at 150+ applications per role, it\'s unsustainable at the level of scrutiny needed. They\'re reviewing cover letters at speed and likely missing cases.`,
+          caption:     `The human-review process is implemented. After two weeks, the reviewer reports that at 150+ applications per role, it's unsustainable at the level of scrutiny needed. They're reviewing cover letters at speed and likely missing cases.`,
           sub_caption: `Human review scales poorly at application volumes common in competitive recruitment.`,
           decision: {
             prompt: `The human-review approach has hit a scaling limit. What do you recommend now?`,
@@ -495,23 +444,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
-          caption:     `140 applications. No AI detection tool. You need to assess the scale of potential fabrication and identify affected applications using only the data you have.`,
-          decision: {
-            prompt: `What signals in application data can indicate potential credential fabrication without an AI detection tool?`,
-            choices: [
-              { id: `a`, label: `Credential inconsistencies — dates that don't add up, qualifications from institutions that don't offer them, employment overlaps that are implausible`, quality: `good`,
-                note: `The most reliable signals. Fabricated credentials often contain internal inconsistencies: graduation years that don't match the claimed qualification duration, certifications the issuing body doesn't record, employment periods that overlap implausibly. These are checkable without AI tools.` },
-              { id: `b`, label: `Linguistic similarity across applications — AI-generated content tends to use similar phrasing and structure`, quality: `partial`,
-                note: `Linguistic similarity flags AI-assisted writing, which isn't the same as fabricated credentials. It's a useful signal for the writing question but not directly for the credential verification question.` },
-              { id: `c`, label: `Application timing — applications submitted very quickly may indicate AI assistance`, quality: `poor`,
-                note: `Submission timing doesn't indicate fabrication and penalises candidates who apply promptly. It's not a meaningful signal for the credential verification question.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-typing`,
           caption:     `140 applications. No AI detection tool. You need to assess the scale and identify the patterns. Your methodology will determine how accurate the picture is.`,
           decision: {
@@ -519,8 +451,8 @@ export const scenario = {
             choices: [
               { id: `a`, label: `Three-signal approach: (1) structural similarity across cover letters using text comparison, (2) factual verifiability of specific claims, (3) stylistic consistency within each application`, quality: `good`,
                 note: `Three independent signals are stronger than one. Structural similarity identifies patterns; factual verifiability identifies fabrication; stylistic consistency distinguishes AI-generated uniform style from genuine varied expression.` },
-              { id: `b`, label: `Focus on factual verifiability only — credentials, employers, publications. That\'s the actionable signal.`, quality: `partial`,
-                note: `Factual verifiability is the most actionable signal. But structural similarity helps scope the problem — it tells you whether you\'re looking at an isolated incident or a systematic pattern.` },
+              { id: `b`, label: `Focus on factual verifiability only — credentials, employers, publications. That's the actionable signal.`, quality: `partial`,
+                note: `Factual verifiability is the most actionable signal. But structural similarity helps scope the problem — it tells you whether you're looking at an isolated incident or a systematic pattern.` },
               { id: `c`, label: `Use a free AI detection tool online to scan cover letters for AI probability scores`, quality: `partial`,
                 note: `Free AI detection tools provide a signal. Their accuracy and reliability are variable. Treat results as one input alongside human analysis, not as a determinative score.` },
             ],
@@ -546,12 +478,12 @@ export const scenario = {
 
         n2_factual_only: {
           scene:       `desk-working`,
-          caption:     `Factual verification of all 140 applications: 12 with unverifiable or contradicted claims. You have the actionable finding. But you don\'t know the structural scale of the AI-generated application problem.`,
+          caption:     `Factual verification of all 140 applications: 12 with unverifiable or contradicted claims. You have the actionable finding. But you don't know the structural scale of the AI-generated application problem.`,
           sub_caption: `The 12 are identified. The broader pattern — how many are AI-generated but factually accurate — is unknown.`,
           decision: {
-            prompt: `The CPO asks whether these 12 are an isolated cluster or the tip of a larger pattern. You haven\'t done the structural analysis. What do you tell her?`,
+            prompt: `The CPO asks whether these 12 are an isolated cluster or the tip of a larger pattern. You haven't done the structural analysis. What do you tell her?`,
             choices: [
-              { id: `a`, label: `Acknowledge the structural analysis hasn\'t been done — you focused on factual verification. Offer to complete it within the day.`, quality: `good`,
+              { id: `a`, label: `Acknowledge the structural analysis hasn't been done — you focused on factual verification. Offer to complete it within the day.`, quality: `good`,
                 note: `Honest account of the analysis scope, with a clear path to completing the picture. Better than speculating about the broader pattern.` },
               { id: `b`, label: `Note that the 12 are the confirmed fabrications — whether the pattern is broader is a separate question for the policy, not the current recruitment`, quality: `partial`,
                 note: `The distinction is fair but the CPO is asking a legitimate question that your analysis can answer. Offer to complete it.` },
@@ -562,15 +494,15 @@ export const scenario = {
 
         n2_free_tool: {
           scene:       `desk-colleague`,
-          caption:     `Free AI detection tool results: 67 applications flagged with >50% AI probability. The tool flagged 2 of the 12 confirmed fabricated applications — and flagged 65 others you haven\'t verified.`,
+          caption:     `Free AI detection tool results: 67 applications flagged with >50% AI probability. The tool flagged 2 of the 12 confirmed fabricated applications — and flagged 65 others you haven't verified.`,
           sub_caption: `The tool produced a signal. Its accuracy on this batch is unknown. You have 65 unverified flagged applications and 10 confirmed fabrications the tool missed.`,
           decision: {
-            prompt: `The free tool\'s results are unreliable for definitive decisions. How do you design the follow-on analysis?`,
+            prompt: `The free tool's results are unreliable for definitive decisions. How do you design the follow-on analysis?`,
             choices: [
               { id: `a`, label: `Use the free tool output as a prioritisation guide — verify the 67 flagged applications factually, and also verify the unflagged applications on structural similarity patterns`, quality: `good`,
-                note: `Technology as prioritisation tool, human verification as determination. This architecture handles the tool\'s unreliability while still benefiting from its signal.` },
+                note: `Technology as prioritisation tool, human verification as determination. This architecture handles the tool's unreliability while still benefiting from its signal.` },
               { id: `b`, label: `Present the 67 flagged applications to HR and note the tool has variable accuracy`, quality: `poor`,
-                note: `Presenting 67 applications flagged by an unreliable tool without factual verification puts HR in a difficult position — they can\'t act fairly on a probabilistic flag without supporting evidence.` },
+                note: `Presenting 67 applications flagged by an unreliable tool without factual verification puts HR in a difficult position — they can't act fairly on a probabilistic flag without supporting evidence.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_bad` },
@@ -589,7 +521,7 @@ export const scenario = {
           heading: `Factual finding complete, scale added`,
           tone:    `good`,
           result:  `The factual finding was complete and accurate. The structural scale was added subsequently. The CPO had both for the policy development. The actionable decisions were made on the factual finding. The timing of the structural analysis was a minor efficiency gap.`,
-          learning: `The factual verifiability analysis is always the most important output for a recruitment context — it\'s the basis for defensible decisions. The structural scale analysis is valuable context but doesn\'t hold up the action.`,
+          learning: `The factual verifiability analysis is always the most important output for a recruitment context — it's the basis for defensible decisions. The structural scale analysis is valuable context but doesn't hold up the action.`,
           score:   65,
         },
         outcome_warn: {

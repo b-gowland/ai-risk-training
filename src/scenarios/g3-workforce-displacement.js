@@ -46,7 +46,7 @@ export const scenario = {
       role:      `Transformation Programme Lead`,
       character: `Priya`,
       icon:      `◎`,
-      framing:   `You led the AI deployment. You knew about the headcount impact for three months. The communication plan was HR\'s responsibility. You assumed it was under control.`,
+      framing:   `You led the AI deployment. You knew about the headcount impact for three months. The communication plan was HR's responsibility. You assumed it was under control.`,
       premise:   `You've been running the mortgage automation programme for eight months. The AI system went live four weeks ago — on time, under budget, exceeding performance targets. Three months ago, the workforce impact assessment confirmed 25 roles would be affected. You flagged it to HR and assumed the communication planning was in hand. You didn't check. This morning's article has named the programme explicitly. Journalists have your LinkedIn profile. HR is in crisis mode. The CEO wants to know why affected staff weren't told before the press was.`,
     },
     analyst: {
@@ -68,23 +68,6 @@ export const scenario = {
           scene:       `news-leak`,
           caption:     `25 roles. Your team. You found out from a news article. Management hasn't said a word. Your colleagues are asking in Slack if anyone knows more.`,
           sub_caption: `The information is public. The internal communication hasn't happened. That's backwards.`,
-          decision: {
-            prompt: `What obligation does an organisation have to communicate workforce changes to affected employees before those changes become public?`,
-            choices: [
-              { id: `a`, label: `In most jurisdictions, consultation obligations require affected employees to be informed before decisions are finalised — learning from media is a failure of both legal obligation and basic dignity`, quality: `good`,
-                note: `Correct. Fair Work Act consultation obligations in Australia require that affected employees are informed and genuinely consulted before redundancy decisions are made, not after.` },
-              { id: `b`, label: `The organisation may have been legally required to notify the ASX before notifying employees — continuous disclosure obligations can create this sequence`, quality: `partial`,
-                note: `ASX continuous disclosure applies to material information affecting share price. Consultation obligations to employees don't become optional because of investor disclosure requirements.` },
-              { id: `c`, label: `Media leaks are outside the organisation's control — the communication failure is the leak, not the absence of prior internal communication`, quality: `poor`,
-                note: `The employees should already have been informed through a proper consultation process before this point. The leak may be a separate failure.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `news-leak`,
-          caption:     `25 roles. Your team. You found out from a news article. Management hasn't said a word. Your colleagues are asking in Slack if anyone knows more.`,
           decision: {
             prompt: `What obligation does an organisation have to communicate workforce changes to affected employees before those changes become public?`,
             choices: [
@@ -126,7 +109,7 @@ export const scenario = {
               { id: `a`, label: `Ask your manager what the process looks like from here — what should you expect and when`, quality: `good`,
                 note: `Understanding the process gives you something concrete to hold onto. It also signals to your manager that you want to engage constructively, which matters.` },
               { id: `b`, label: `Ask your manager directly whether your role is one of the 25`, quality: `partial`,
-                note: `Completely understandable. But your manager almost certainly doesn\'t know yet — and putting them in that position without HR guidance may not get you useful information.` },
+                note: `Completely understandable. But your manager almost certainly doesn't know yet — and putting them in that position without HR guidance may not get you useful information.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -141,8 +124,8 @@ export const scenario = {
             choices: [
               { id: `a`, label: `Post in the channel that official communication is coming and suggest people direct questions to their manager directly`, quality: `good`,
                 note: `You can help contain the situation without asking people to simply accept the silence. Directing to managers is more productive than a group speculation thread.` },
-              { id: `b`, label: `Tell your manager you can\'t ask people to wait — they found out from a newspaper`, quality: `partial`,
-                note: `Fair point, and not wrong. But declining to help without offering an alternative leaves the channel to escalate further, which doesn\'t serve you or your colleagues.` },
+              { id: `b`, label: `Tell your manager you can't ask people to wait — they found out from a newspaper`, quality: `partial`,
+                note: `Fair point, and not wrong. But declining to help without offering an alternative leaves the channel to escalate further, which doesn't serve you or your colleagues.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -156,7 +139,7 @@ export const scenario = {
             prompt: `The all-hands is in an hour. How do you approach it?`,
             choices: [
               { id: `a`, label: `Attend and ask directly: why did staff find out from the press before management told us?`, quality: `good`,
-                note: `A legitimate question that deserves a direct answer. Asking it in the meeting is appropriate — it\'s what most of the room wants to know.` },
+                note: `A legitimate question that deserves a direct answer. Asking it in the meeting is appropriate — it's what most of the room wants to know.` },
               { id: `b`, label: `Attend and say nothing — wait to see what they tell you before reacting`, quality: `partial`,
                 note: `Reasonable approach. But if everyone takes this position, the all-hands becomes a broadcast without the feedback the organisation needs to hear.` },
             ],
@@ -176,14 +159,14 @@ export const scenario = {
         outcome_good: {
           heading: `Direct question, process clarity`,
           tone:    `good`,
-          result:  `Your manager didn\'t have the answer to your specific question but confirmed the consultation process would clarify individual positions. The all-hands followed two hours later. You had more context than most of your colleagues when it started.`,
+          result:  `Your manager didn't have the answer to your specific question but confirmed the consultation process would clarify individual positions. The all-hands followed two hours later. You had more context than most of your colleagues when it started.`,
           learning: `Asking your manager directly is always the right first move after significant news like this. They may not have all the answers — but they have more than the Slack channel.`,
           score:   75,
         },
         outcome_warn: {
           heading: `Channel escalated, situation harder`,
           tone:    `warn`,
-          result:  `The Slack channel became a significant issue for management — HR tracked it carefully and it was referenced in the post-incident review as evidence of how damaging the communication failure was. You were mentioned by name as an early contributor. Your individual outcome was the same as everyone else\'s — but your association with the channel\'s escalation coloured the early consultation conversations.`,
+          result:  `The Slack channel became a significant issue for management — HR tracked it carefully and it was referenced in the post-incident review as evidence of how damaging the communication failure was. You were mentioned by name as an early contributor. Your individual outcome was the same as everyone else's — but your association with the channel's escalation coloured the early consultation conversations.`,
           learning: `In a high-stakes communication failure, the Slack channel is not a good place to process uncertainty collectively. It feels supportive but it amplifies anxiety and creates a record that outlasts the moment.`,
           score:   35,
         },
@@ -191,7 +174,7 @@ export const scenario = {
           heading: `Passive response, three hours of uncertainty absorbed`,
           tone:    `bad`,
           result:  `You processed applications for three hours while your colleagues speculated around you. When the all-hands came, you had no information and no clarity. The consultation process that followed was the same for everyone — but you spent three hours in unnecessary uncertainty that a single message to your manager would have partially resolved.`,
-          learning: `Finding out about major changes from the press is a serious governance failure — but it doesn\'t change your ability to seek information through the right channels. Waiting passively maximises the time you spend in uncertainty.`,
+          learning: `Finding out about major changes from the press is a serious governance failure — but it doesn't change your ability to seek information through the right channels. Waiting passively maximises the time you spend in uncertainty.`,
           score:   20,
         },
       },
@@ -219,34 +202,17 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
-          caption:     `40 people read about their potential redundancy in a newspaper. No internal communication had been sent. The CEO wants to know what you're doing in the next hour.`,
-          decision: {
-            prompt: `What does an effective immediate response to a workforce communication failure require?`,
-            choices: [
-              { id: `a`, label: `Acknowledge the failure directly to affected employees, provide accurate information about what is and isn't decided, and initiate the consultation process that should have started before the article ran`, quality: `good`,
-                note: `The right sequence. Affected employees need to hear from the organisation directly and promptly. Anything that looks like spin will compound the damage.` },
-              { id: `b`, label: `Find out who leaked the information — the priority is preventing further media exposure while the response is prepared`, quality: `poor`,
-                note: `Leak investigation is a secondary question. The 40 people who read about their jobs in the newspaper are the immediate priority.` },
-              { id: `c`, label: `Issue a company-wide statement that the article is speculative and that no decisions have been finalised`, quality: `poor`,
-                note: `If decisions have been substantially progressed, this is misleading. A company-wide statement is not a substitute for direct communication with the 40 affected employees.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-working`,
           caption:     `40 people read about their potential redundancy in a newspaper. The internal communication was planned for Thursday. It is Tuesday. Your CEO is on the phone.`,
           decision: {
-            prompt: `You\'re on with the CEO. She asks what you\'re doing in the next 60 minutes. What do you tell her?`,
+            prompt: `You're on with the CEO. She asks what you're doing in the next 60 minutes. What do you tell her?`,
             choices: [
               { id: `a`, label: `Convene an emergency all-hands for the affected team within the hour — they need to hear from leadership now, not Thursday`, quality: `good`,
                 note: `Every minute the team spends with the newspaper story as their only information source makes the trust damage worse. The Thursday plan is obsolete. This needs to happen now.` },
               { id: `b`, label: `Get HR to send an immediate email acknowledging the article and confirming official communication is coming`, quality: `partial`,
-                note: `Better than silence. But an email from HR is not leadership communication — it confirms management knows but isn\'t engaging directly with the impact on people.` },
+                note: `Better than silence. But an email from HR is not leadership communication — it confirms management knows but isn't engaging directly with the impact on people.` },
               { id: `c`, label: `Find out who leaked the story before doing anything else`, quality: `poor`,
-                note: `The leak investigation matters — but not in the next 60 minutes. 40 people are sitting in uncertainty right now. The leak is a yesterday problem. This is today\'s problem.` },
+                note: `The leak investigation matters — but not in the next 60 minutes. 40 people are sitting in uncertainty right now. The leak is a yesterday problem. This is today's problem.` },
             ],
           },
           branches: { a: `n2_allhands`, b: `n2_email`, c: `n2_leak_hunt` },
@@ -254,15 +220,15 @@ export const scenario = {
 
         n2_allhands: {
           scene:       `office-meeting`,
-          caption:     `You\'re in front of the team within 45 minutes. The room is quiet in a way that makes clear people are angry, not calm.`,
-          sub_caption: `You don\'t have all the answers. You do have a room full of people who need to hear something true.`,
+          caption:     `You're in front of the team within 45 minutes. The room is quiet in a way that makes clear people are angry, not calm.`,
+          sub_caption: `You don't have all the answers. You do have a room full of people who need to hear something true.`,
           decision: {
             prompt: `What do you lead with?`,
             choices: [
-              { id: `a`, label: `An apology — finding out from the press is not acceptable. Then what you know, what you don\'t, and exactly what happens next`, quality: `good`,
-                note: `The apology has to come first. It doesn\'t fix what happened but it\'s the only honest way to open. Then substance: facts, timeline, process. In that order.` },
+              { id: `a`, label: `An apology — finding out from the press is not acceptable. Then what you know, what you don't, and exactly what happens next`, quality: `good`,
+                note: `The apology has to come first. It doesn't fix what happened but it's the only honest way to open. Then substance: facts, timeline, process. In that order.` },
               { id: `b`, label: `What you know about the programme — the business rationale, the AI performance, the investment in the technology`, quality: `poor`,
-                note: `This is the wrong sequence entirely. The room doesn\'t need a technology briefing. They need acknowledgement that how this happened was wrong, and then clarity on what it means for them.` },
+                note: `This is the wrong sequence entirely. The room doesn't need a technology briefing. They need acknowledgement that how this happened was wrong, and then clarity on what it means for them.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_warn` },
@@ -271,9 +237,9 @@ export const scenario = {
         n2_email: {
           scene:       `office-briefing-urgent`,
           caption:     `HR sends the email at 9:15am. By 9:30am, three union reps have called. Two employment lawyers have been contacted by staff. The Fair Work question is now on the table.`,
-          sub_caption: `The email acknowledged the article. It didn\'t say anything that materially helped anyone.`,
+          sub_caption: `The email acknowledged the article. It didn't say anything that materially helped anyone.`,
           decision: {
-            prompt: `The email hasn\'t stopped the escalation. What now?`,
+            prompt: `The email hasn't stopped the escalation. What now?`,
             choices: [
               { id: `a`, label: `Get in front of the team personally — the email was a holding measure, not a response`, quality: `good`,
                 note: `Correct pivot. The email bought a small amount of time. Use it to get a real communication together. The team needs you in the room, not another email.` },
@@ -287,14 +253,14 @@ export const scenario = {
         n2_leak_hunt: {
           scene:       `boardroom-crisis`,
           caption:     `Legal is investigating. The leak almost certainly came from the board paper distribution. That investigation will take days. Meanwhile, the mortgage processing team has now been in uncertainty for 90 minutes.`,
-          sub_caption: `You\'ve spent 90 minutes on the wrong problem.`,
+          sub_caption: `You've spent 90 minutes on the wrong problem.`,
           decision: {
             prompt: `Legal has the leak investigation. The team is still waiting. What now?`,
             choices: [
               { id: `a`, label: `Get in front of the team now — 90 minutes late is better than waiting for the leak investigation to conclude`, quality: `good`,
-                note: `Correct. The leak investigation doesn\'t change what the team needs to hear. Go now.` },
+                note: `Correct. The leak investigation doesn't change what the team needs to hear. Go now.` },
               { id: `b`, label: `Send the Thursday communication today — the content is ready, just move it forward`, quality: `partial`,
-                note: `Moving Thursday\'s communication to today is better than waiting. But a document prepared for a managed process is not the same as a genuine leadership response to a trust crisis.` },
+                note: `Moving Thursday's communication to today is better than waiting. But a document prepared for a managed process is not the same as a genuine leadership response to a trust crisis.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -305,14 +271,14 @@ export const scenario = {
         outcome_great: {
           heading: `Immediate honest communication, trust partially restored`,
           tone:    `good`,
-          result:  `The all-hands was hard but it happened. Your apology was received with silence, then questions. You answered what you could and were honest about what you didn\'t know. The formal consultation process began the following day. Two staff subsequently told HR it was the first time they\'d seen senior leadership own a mistake directly. The Fair Work exposure was real — but the consultation process, once started, was genuine.`,
+          result:  `The all-hands was hard but it happened. Your apology was received with silence, then questions. You answered what you could and were honest about what you didn't know. The formal consultation process began the following day. Two staff subsequently told HR it was the first time they'd seen senior leadership own a mistake directly. The Fair Work exposure was real — but the consultation process, once started, was genuine.`,
           learning: `When a communication failure of this magnitude occurs, the first response has to be personal, direct, and honest. An apology followed by substance is the only credible path. Everything else extends the damage.`,
           score:   100,
         },
         outcome_good: {
           heading: `Late response, right direction`,
           tone:    `good`,
-          result:  `The in-person communication happened — later than it should have, and after an email that didn\'t help. Trust was partially restored. The consultation process was genuine. The Fair Work exposure was managed. The post-incident review noted that the email created a window where escalation happened that direct leadership communication would have prevented.`,
+          result:  `The in-person communication happened — later than it should have, and after an email that didn't help. Trust was partially restored. The consultation process was genuine. The Fair Work exposure was managed. The post-incident review noted that the email created a window where escalation happened that direct leadership communication would have prevented.`,
           learning: `In a workforce communication crisis, email is a holding measure at best. Leadership presence is what rebuilds trust. The sooner it happens, the less damage accumulates.`,
           score:   65,
         },
@@ -320,7 +286,7 @@ export const scenario = {
           heading: `Wrong sequence, trust damage extended`,
           tone:    `warn`,
           result:  `The all-hands happened but led with the wrong content. The apology came eventually — at the end, after the business rationale. By then the room had hardened. Several staff formally engaged union representatives during the meeting. The consultation process that followed was adversarial rather than constructive. The Fair Work exposure was managed but at significant cost.`,
-          learning: `In a communication failure involving people\'s livelihoods, the sequence matters as much as the content. Business rationale before apology tells people that the organisation\'s interests come before theirs. That perception, once formed, is hard to shift.`,
+          learning: `In a communication failure involving people's livelihoods, the sequence matters as much as the content. Business rationale before apology tells people that the organisation's interests come before theirs. That perception, once formed, is hard to shift.`,
           score:   30,
         },
         outcome_bad: {
@@ -355,34 +321,17 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `The AI programme delivered. 25 people found out about their potential redundancy in the newspaper. The consultation process wasn't running before the article. You managed the programme.`,
-          decision: {
-            prompt: `What is the difference between a programme that delivers AI capability and one that manages workforce transition?`,
-            choices: [
-              { id: `a`, label: `Delivering AI capability is a technology outcome — managing workforce transition requires a parallel people workstream with consultation, reskilling, and communication running from the start of the programme`, quality: `good`,
-                note: `The complete scope of an AI deployment programme that affects roles. Technology delivery and workforce transition need to run in parallel from programme initiation, because consultation obligations begin when displacement becomes foreseeable.` },
-              { id: `b`, label: `Workforce transition is an HR responsibility — programme management delivers the technical solution, and HR manages the people impact`, quality: `poor`,
-                note: `Accountability separation doesn't remove programme responsibility. If the programme is delivering capability that displaces roles, the programme plan needs to include the people workstream.` },
-              { id: `c`, label: `The programme should have flagged the consultation requirement to the steering committee — it's a governance decision, not a programme management one`, quality: `partial`,
-                note: `Escalation is part of it, but the steering committee can only govern what the programme surfaces. If the programme plan didn't include a workforce transition workstream, the steering committee didn't have what it needed to govern.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
           caption:     `The programme delivered. The AI is working. 25 people found out about their potential redundancy from a journalist. The workforce impact assessment you commissioned three months ago recommended consultation start six weeks before go-live.`,
           decision: {
-            prompt: `The COO asks why the consultation process wasn\'t running before go-live. What do you tell them?`,
+            prompt: `The COO asks why the consultation process wasn't running before go-live. What do you tell them?`,
             choices: [
-              { id: `a`, label: `You flagged the workforce impact three months ago and handed it to HR. You should have confirmed it was actioned — you didn\'t. That\'s a gap in your programme governance.`, quality: `good`,
+              { id: `a`, label: `You flagged the workforce impact three months ago and handed it to HR. You should have confirmed it was actioned — you didn't. That's a gap in your programme governance.`, quality: `good`,
                 note: `Accurate and complete. The handoff to HR was right. The failure to confirm it was actioned was yours. Owning that is the honest account.` },
               { id: `b`, label: `HR was responsible for the communication plan. You delivered your part — the impact assessment. The communication failure is theirs.`, quality: `partial`,
-                note: `HR did own the communication plan. But the consultation timeline was a dependency of your programme — if it wasn\'t met, the programme had a governance gap. You were the programme lead.` },
+                note: `HR did own the communication plan. But the consultation timeline was a dependency of your programme — if it wasn't met, the programme had a governance gap. You were the programme lead.` },
               { id: `c`, label: `The programme had a hard delivery deadline. Delaying go-live for the consultation process would have cost the programme its business case.`, quality: `poor`,
-                note: `This answer prioritises the programme\'s commercial success over the legal and ethical obligation to consult. That\'s not a defence — it\'s the problem.` },
+                note: `This answer prioritises the programme's commercial success over the legal and ethical obligation to consult. That's not a defence — it's the problem.` },
             ],
           },
           branches: { a: `n2_owns`, b: `n2_deflects`, c: `n2_justifies` },
@@ -390,15 +339,15 @@ export const scenario = {
 
         n2_owns: {
           scene:       `office-bright`,
-          caption:     `The COO accepts the account. She asks what you would change in the programme governance structure to ensure this can\'t happen again.`,
-          sub_caption: `She\'s not asking for an apology. She\'s asking for a fix.`,
+          caption:     `The COO accepts the account. She asks what you would change in the programme governance structure to ensure this can't happen again.`,
+          sub_caption: `She's not asking for an apology. She's asking for a fix.`,
           decision: {
             prompt: `What do you recommend?`,
             choices: [
               { id: `a`, label: `Workforce consultation completion should be a hard dependency gate before any AI programme go-live — same as legal sign-off or security sign-off. Not an HR workstream running in parallel.`, quality: `good`,
-                note: `This is the structural fix. Treating consultation as a parallel workstream means it can slip without blocking delivery. Making it a gate means it can\'t.` },
+                note: `This is the structural fix. Treating consultation as a parallel workstream means it can slip without blocking delivery. Making it a gate means it can't.` },
               { id: `b`, label: `A weekly cross-functional check-in between programme management and HR for any deployment with workforce impact`, quality: `partial`,
-                note: `Better than nothing. But a check-in can be missed or deprioritised. A gate is technically enforced — the programme can\'t close without evidence consultation is complete.` },
+                note: `Better than nothing. But a check-in can be missed or deprioritised. A gate is technically enforced — the programme can't close without evidence consultation is complete.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -411,10 +360,10 @@ export const scenario = {
           decision: {
             prompt: `How do you respond?`,
             choices: [
-              { id: `a`, label: `Acknowledge you were aware the timeline had slipped and didn\'t escalate it — that was the governance failure`, quality: `good`,
+              { id: `a`, label: `Acknowledge you were aware the timeline had slipped and didn't escalate it — that was the governance failure`, quality: `good`,
                 note: `Correct. Knowing the timeline had slipped and not escalating it is the specific failure. Acknowledging it is the professional response.` },
-              { id: `b`, label: `Maintain that the consultation process was HR\'s responsibility and outside your programme governance scope`, quality: `poor`,
-                note: `The consultation timeline was specified in your impact assessment. You knew it was slipping. The COO has the document. This position isn\'t tenable.` },
+              { id: `b`, label: `Maintain that the consultation process was HR's responsibility and outside your programme governance scope`, quality: `poor`,
+                note: `The consultation timeline was specified in your impact assessment. You knew it was slipping. The COO has the document. This position isn't tenable.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_bad` },
@@ -422,8 +371,8 @@ export const scenario = {
 
         n2_justifies: {
           scene:       `office-meeting-hearing`,
-          caption:     `The COO says: "The business case doesn\'t override the Fair Work Act." Legal has confirmed a potential consultation obligation breach. The question is now the organisation\'s legal exposure, not the programme delivery timeline.`,
-          sub_caption: `The programme\'s commercial success is no longer the relevant measure.`,
+          caption:     `The COO says: "The business case doesn't override the Fair Work Act." Legal has confirmed a potential consultation obligation breach. The question is now the organisation's legal exposure, not the programme delivery timeline.`,
+          sub_caption: `The programme's commercial success is no longer the relevant measure.`,
           decision: {
             prompt: `The framing has shifted entirely. What is your contribution to the response?`,
             choices: [
@@ -442,14 +391,14 @@ export const scenario = {
           heading: `Root cause owned, structural fix proposed`,
           tone:    `good`,
           result:  `Your recommendation — workforce consultation as a hard programme gate — was adopted as a requirement for all AI deployments with workforce impact. The post-incident review noted that the programme governance framework lacked this gate, and that adding it was the specific fix. The three future AI programmes in your portfolio all had consultation gates built into their schedules from day one.`,
-          learning: `Workforce consultation isn\'t an HR workstream — it\'s a programme dependency. When it can slip without blocking delivery, it will. Making it a gate is the only reliable fix.`,
+          learning: `Workforce consultation isn't an HR workstream — it's a programme dependency. When it can slip without blocking delivery, it will. Making it a gate is the only reliable fix.`,
           score:   100,
         },
         outcome_good: {
           heading: `Accountability taken, partial fix`,
           tone:    `good`,
           result:  `The check-in mechanism was implemented. It improved coordination. Two subsequent programmes had their consultation timelines actively tracked as a result. Neither was as clean as a hard gate would have been — one required a schedule adjustment when the check-in surfaced a consultation delay — but both went better than the mortgage programme.`,
-          learning: `A check-in is a softer version of a gate. It improves coordination but doesn\'t prevent slippage with the same certainty. The structural fix is the gate.`,
+          learning: `A check-in is a softer version of a gate. It improves coordination but doesn't prevent slippage with the same certainty. The structural fix is the gate.`,
           score:   65,
         },
         outcome_warn: {
@@ -462,8 +411,8 @@ export const scenario = {
         outcome_bad: {
           heading: `Accountability avoided, trust and standing lost`,
           tone:    `bad`,
-          result:  `The legal investigation identified the impact assessment timeline clearly. The record showed you knew the consultation had slipped and hadn\'t escalated it. The post-incident review was not kind. The programme governance changes were made — without your input. Your next programme had significantly more oversight from the COO\'s office than you had previously experienced.`,
-          learning: `Programme accountability includes the dependencies you flag and don\'t follow up. Knowing a critical dependency has slipped and not escalating it is a governance failure — regardless of whose workstream it technically belongs to.`,
+          result:  `The legal investigation identified the impact assessment timeline clearly. The record showed you knew the consultation had slipped and hadn't escalated it. The post-incident review was not kind. The programme governance changes were made — without your input. Your next programme had significantly more oversight from the COO's office than you had previously experienced.`,
+          learning: `Programme accountability includes the dependencies you flag and don't follow up. Knowing a critical dependency has slipped and not escalating it is a governance failure — regardless of whose workstream it technically belongs to.`,
           score:   5,
         },
       },
@@ -491,34 +440,17 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-focused`,
-          caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum. The programme proceeded without initiating consultation. Legal is asking whether the organisation has a Fair Work Act exposure.`,
-          decision: {
-            prompt: `What is the legal significance of a workforce impact assessment that identified consultation requirements that weren't followed?`,
-            choices: [
-              { id: `a`, label: `It establishes that the organisation knew the obligation existed — which removes any argument that non-compliance was inadvertent and potentially aggravates any regulatory exposure`, quality: `good`,
-                note: `Correct. A documented assessment that identified the consultation requirement demonstrates organisational awareness. Regulators and courts treat known-but-ignored obligations differently from genuinely unanticipated ones.` },
-              { id: `b`, label: `The assessment is an internal document — legal privilege may apply, and it may not be discoverable`, quality: `partial`,
-                note: `Privilege is a legal question, but it's not a strategy. If the assessment identifies an obligation that wasn't met, the exposure exists regardless of whether the document is discoverable.` },
-              { id: `c`, label: `The assessment was advisory — it identified a risk, not a certainty. Non-compliance with an advisory assessment isn't automatically a legal exposure`, quality: `poor`,
-                note: `The Fair Work Act consultation obligations are statutory, not advisory. The assessment identified what the law requires. Characterising it as advisory doesn't change the statutory obligation.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-working`,
           caption:     `Your workforce impact assessment said: consultation required, eight weeks minimum, must begin six weeks before go-live. The system went live four weeks ago. Consultation never started. You are now being asked to confirm the Fair Work Act exposure.`,
           decision: {
             prompt: `Legal asks you to confirm whether the organisation has a Fair Work Act consultation obligation exposure. What do you tell them?`,
             choices: [
-              { id: `a`, label: `Yes — the assessment identified a consultation obligation. The required timeline wasn\'t met. That creates a prima facie exposure.`, quality: `good`,
+              { id: `a`, label: `Yes — the assessment identified a consultation obligation. The required timeline wasn't met. That creates a prima facie exposure.`, quality: `good`,
                 note: `Accurate and complete. Legal needs to know the exposure clearly stated, not softened. Your job here is to be accurate, not to protect the programme.` },
-              { id: `b`, label: `Possibly — the obligation depends on enterprise agreement terms and whether the change meets the threshold. You\'d want legal to confirm.`, quality: `partial`,
+              { id: `b`, label: `Possibly — the obligation depends on enterprise agreement terms and whether the change meets the threshold. You'd want legal to confirm.`, quality: `partial`,
                 note: `Appropriately cautious about legal conclusions. But "possibly" undersells what your assessment already found. Lead with the finding, then add the caveat about legal confirmation.` },
-              { id: `c`, label: `The consultation obligation was HR\'s to manage — your assessment flagged it, your role ends there`, quality: `poor`,
-                note: `Legal is asking you to confirm what your assessment found. Declining to engage with the question because the obligation was HR\'s doesn\'t answer what they\'re asking.` },
+              { id: `c`, label: `The consultation obligation was HR's to manage — your assessment flagged it, your role ends there`, quality: `poor`,
+                note: `Legal is asking you to confirm what your assessment found. Declining to engage with the question because the obligation was HR's doesn't answer what they're asking.` },
             ],
           },
           branches: { a: `n2_clear_finding`, b: `n2_cautious`, c: `n2_deflects` },
@@ -526,15 +458,15 @@ export const scenario = {
 
         n2_clear_finding: {
           scene:       `desk-review`,
-          caption:     `Legal confirms the exposure is real. They\'re now asking what a remediation path looks like — can the consultation obligation be partially met through a genuine process starting today?`,
+          caption:     `Legal confirms the exposure is real. They're now asking what a remediation path looks like — can the consultation obligation be partially met through a genuine process starting today?`,
           sub_caption: `The damage is done. The question is whether it can be limited.`,
           decision: {
             prompt: `What does your assessment say about remediation options?`,
             choices: [
               { id: `a`, label: `A genuine consultation process started today, with the full required content and real opportunity for staff input, partially mitigates the failure — courts look at whether consultation was genuine, not just whether timing was perfect`, quality: `good`,
                 note: `Accurate and useful. The Fair Work Act looks at the substance of consultation, not just the timing. Starting a genuine process now is the best available remediation.` },
-              { id: `b`, label: `The timeline breach is the breach — remediation isn\'t possible after the fact`, quality: `partial`,
-                note: `The timeline breach is real. But courts do consider whether the organisation made genuine efforts to consult once the failure was identified. "Nothing can be done" isn\'t accurate and doesn\'t help legal build a response.` },
+              { id: `b`, label: `The timeline breach is the breach — remediation isn't possible after the fact`, quality: `partial`,
+                note: `The timeline breach is real. But courts do consider whether the organisation made genuine efforts to consult once the failure was identified. "Nothing can be done" isn't accurate and doesn't help legal build a response.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -547,10 +479,10 @@ export const scenario = {
           decision: {
             prompt: `Legal asks you to confirm your finding directly. What do you say?`,
             choices: [
-              { id: `a`, label: `Confirm it clearly: the assessment identified a consultation obligation, the timeline wasn\'t met, there is a prima facie exposure`, quality: `good`,
+              { id: `a`, label: `Confirm it clearly: the assessment identified a consultation obligation, the timeline wasn't met, there is a prima facie exposure`, quality: `good`,
                 note: `The document already says this. Confirming it directly is the honest and useful response.` },
               { id: `b`, label: `Note that the assessment was a recommendation, not a legal opinion — legal should make the exposure determination`, quality: `partial`,
-                note: `Fair caveat. But you can still confirm what the assessment found without claiming to make a legal determination. The two aren\'t mutually exclusive.` },
+                note: `Fair caveat. But you can still confirm what the assessment found without claiming to make a legal determination. The two aren't mutually exclusive.` },
             ],
           },
           branches: { a: `n2_clear_finding`, b: `outcome_good` },
@@ -558,7 +490,7 @@ export const scenario = {
 
         n2_deflects: {
           scene:       `office-meeting`,
-          caption:     `Legal reads your assessment. The consultation obligation is explicitly on page 3. They ask why you\'re characterising your role as ending at the flag.`,
+          caption:     `Legal reads your assessment. The consultation obligation is explicitly on page 3. They ask why you're characterising your role as ending at the flag.`,
           sub_caption: `Your document is the evidence. Your engagement with it is now part of the record.`,
           decision: {
             prompt: `How do you respond?`,
@@ -566,7 +498,7 @@ export const scenario = {
               { id: `a`, label: `Acknowledge the deflection was unhelpful and confirm the exposure clearly`, quality: `good`,
                 note: `Correcting the deflection and engaging directly is the right move. Legal needs accurate information — give it to them.` },
               { id: `b`, label: `Maintain that legal determination is outside your scope — you flag, legal confirms`, quality: `poor`,
-                note: `Legal is asking you to confirm what your document says. That\'s within your scope. This position creates an unhelpful standoff with the people trying to protect the organisation.` },
+                note: `Legal is asking you to confirm what your document says. That's within your scope. This position creates an unhelpful standoff with the people trying to protect the organisation.` },
             ],
           },
           branches: { a: `n2_clear_finding`, b: `outcome_bad` },
@@ -578,27 +510,27 @@ export const scenario = {
           heading: `Clear finding, actionable remediation path`,
           tone:    `good`,
           result:  `Legal had a clear picture and a remediation path within an hour of your conversation. The genuine consultation process was started the same day. The Fair Work matter was not pursued by staff representatives, in part because the consultation that followed was substantive and the redundancy process was handled respectfully. Your assessment was cited in the post-incident review as the document that should have been a programme gate, not an HR workstream input.`,
-          learning: `A workforce impact assessment that identifies a legal obligation is only useful if the obligation is met. When it isn\'t, the most important thing you can do is give legal an accurate picture and a useful path forward — not protect the people who didn\'t act on it.`,
+          learning: `A workforce impact assessment that identifies a legal obligation is only useful if the obligation is met. When it isn't, the most important thing you can do is give legal an accurate picture and a useful path forward — not protect the people who didn't act on it.`,
           score:   100,
         },
         outcome_good: {
           heading: `Correct finding, cautious framing`,
           tone:    `good`,
           result:  `Legal confirmed the exposure from the document. Your caution about legal determinations was appropriate — but it cost time. The remediation process started later than it would have with a clearer initial answer. The outcome was the same; the path was slower.`,
-          learning: `Distinguishing between your analytical finding and a legal determination is correct. But you can state what your assessment found clearly while still noting that legal confirmation is appropriate. The distinction doesn\'t require hedging the core finding.`,
+          learning: `Distinguishing between your analytical finding and a legal determination is correct. But you can state what your assessment found clearly while still noting that legal confirmation is appropriate. The distinction doesn't require hedging the core finding.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Deflection corrected, trust in your analysis reduced`,
           tone:    `warn`,
-          result:  `Legal eventually got the clear picture they needed. But the initial deflection meant they spent time going around you rather than with you. Your assessment was accurate and useful. Your initial response to questions about it wasn\'t. That gap was noted.`,
-          learning: `The value of an accurate assessment depends on your willingness to stand behind it when it becomes inconvenient. An assessment you hedge when it matters is worth less than one you don\'t.`,
+          result:  `Legal eventually got the clear picture they needed. But the initial deflection meant they spent time going around you rather than with you. Your assessment was accurate and useful. Your initial response to questions about it wasn't. That gap was noted.`,
+          learning: `The value of an accurate assessment depends on your willingness to stand behind it when it becomes inconvenient. An assessment you hedge when it matters is worth less than one you don't.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Assessment accurate, analyst unhelpful`,
           tone:    `bad`,
-          result:  `Legal worked around your position and confirmed the exposure directly from your document. Your assessment was accurate. Your contribution to the legal response was zero. The post-incident review noted a gap between the quality of the analytical work and the analyst\'s engagement with its consequences.`,
+          result:  `Legal worked around your position and confirmed the exposure directly from your document. Your assessment was accurate. Your contribution to the legal response was zero. The post-incident review noted a gap between the quality of the analytical work and the analyst's engagement with its consequences.`,
           learning: `Producing a good assessment and then declining to engage with its findings when they become uncomfortable is a contradiction. The assessment is only as useful as the person willing to own what it says.`,
           score:   5,
         },

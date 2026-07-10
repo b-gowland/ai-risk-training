@@ -87,23 +87,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-review`,
-          caption:     `You've finished the registry. Eight agents. Three risk chains identified. Each chain runs through multiple agents to an external endpoint with no human checkpoint.`,
-          decision: {
-            prompt: `What makes a risk chain different from an individual agent acting outside its permissions?`,
-            choices: [
-              { id: `a`, label: `Each agent in the chain is acting within its own permissions — the problem is that the combined sequence reaches an outcome that no human explicitly authorised`, quality: `good`,
-                note: `The correct framing. Risk chains don't require any single agent to misbehave. Each agent does what it's permitted to do. The risk emerges from the combination — a chain is the gap.` },
-              { id: `b`, label: `The external endpoint access is the problem — that's where the boundary should have been`, quality: `partial`,
-                note: `The external platform access is one place to break the chain, but framing it as 'the problem' misses the systemic point. The governance question is how to identify and control all chains, not just this one.` },
-              { id: `c`, label: `The agents are sharing data without consent controls — the risk is a data protection failure`, quality: `partial`,
-                note: `Data protection may be implicated, but the excessive agency risk is broader. Even if consent controls were perfect, the question of whether humans should have a checkpoint before external execution is independent of consent.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-reading`,
           caption:     `You've finished the registry. Eight agents. Three risk chains. The findings are technically accurate — but you're a junior analyst presenting to the CRO in two hours.`,
           decision: {
@@ -257,23 +240,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
-          caption:     `Eight agents. Three risk chains. The governance analyst's briefing is on your desk. You need to decide the immediate organisational response.`,
-          decision: {
-            prompt: `What is the difference between suspending agents with risk chains and implementing controls on those chains?`,
-            choices: [
-              { id: `a`, label: `Suspension stops all activity immediately but also stops legitimate value — controls (human checkpoints, chain breaks) address the specific risk while preserving the agent's intended function`, quality: `good`,
-                note: `The right framing for the decision. Suspension is the conservative option for high-consequence chains. Controls are appropriate where the chain risk can be addressed without suspending the agent's legitimate function.` },
-              { id: `b`, label: `Suspend everything until a full audit is complete — the risk of leaving chains active outweighs the operational disruption`, quality: `partial`,
-                note: `Defensible for high-consequence chains, but potentially disproportionate across all eight agents. A risk-tiered response is more proportionate.` },
-              { id: `c`, label: `Implement controls immediately — suspension creates operational disruption and the chains haven't caused harm yet`, quality: `poor`,
-                note: `'Hasn't caused harm yet' isn't a safety argument. Risk chains that reach external systems or irreversible actions are worth suspending precisely because the harm from one execution may be significant.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `boardroom-agm`,
           caption:     `The governance analyst's briefing is on your desk. Eight agents. Three risk chains. No enterprise policy. Forty-five days to the regulatory examination.`,
           decision: {
@@ -409,23 +375,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `You've been coordinating AI deployments for 18 months. You tracked timelines and budgets. You didn't track inter-agent dependencies or what combinations of agents could reach.`,
-          decision: {
-            prompt: `What does an AI agent registry need to capture that a project tracking tool doesn't?`,
-            choices: [
-              { id: `a`, label: `Inter-agent dependencies, shared data sources, combined action reach, and human checkpoint requirements — the registry needs to support chain analysis, not just individual agent records`, quality: `good`,
-                note: `The complete specification. A project tracking tool records what each agent does independently. A registry that supports agency risk governance needs to record how agents relate to each other.` },
-              { id: `b`, label: `Agent performance metrics — if each agent is performing well individually, the combination risks are manageable`, quality: `poor`,
-                note: `Individual performance doesn't predict combination risk. Two well-performing agents can create an unacceptable chain.` },
-              { id: `c`, label: `The business owner for each agent — accountability mapping ensures someone is responsible if something goes wrong`, quality: `partial`,
-                note: `Accountability mapping is necessary but not sufficient. Knowing who is accountable after a chain executes doesn't prevent the chain from executing.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-typing`,
           caption:     `You've been coordinating AI deployments for 18 months. You tracked timelines. You didn't track capability sets. The registry the analyst built shows what you missed.`,
           decision: {
@@ -546,23 +495,6 @@ export const scenario = {
           scene:       `analyst-desk`,
           caption:     `You approved three of the eight AI agent deployments. One of them is in a risk chain. Your approval record shows individual agent assessment. No inter-agent analysis was performed.`,
           sub_caption: `You assessed what each agent could do. You didn't assess what they could do together.`,
-          decision: {
-            prompt: `What analysis methodology identifies risk chains that individual agent assessment misses?`,
-            choices: [
-              { id: `a`, label: `Graph analysis of agent interactions — mapping agents as nodes and data flows or action triggers as edges, then identifying paths that reach high-consequence endpoints without human checkpoints`, quality: `good`,
-                note: `The correct methodology. Risk chains are a graph problem: nodes are agents, edges are interactions, and the risk question is whether any path from input to consequence lacks a human checkpoint.` },
-              { id: `b`, label: `Reviewing the data sharing agreements between agents — if data sharing is controlled, chain risks are controlled`, quality: `poor`,
-                note: `Data sharing controls address data governance, not action governance. An agent chain can create excessive agency risk through action sequences that don't involve improper data sharing.` },
-              { id: `c`, label: `Asking each agent's business owner to identify dependencies — owners know their agents' integrations best`, quality: `partial`,
-                note: `Owner knowledge is a useful input but not a reliable methodology. Owners may not know all the ways their agent's outputs are consumed by other agents.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk`,
-          caption:     `You approved three of the eight AI agent deployments. One of them is in a risk chain. Your approval record shows individual agent assessment. No inter-agent analysis was performed.`,
           decision: {
             prompt: `What analysis methodology identifies risk chains that individual agent assessment misses?`,
             choices: [

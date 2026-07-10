@@ -27,17 +27,20 @@ function formatDate(d) {
 export function Certificate({ scenario, outcome, persona, onDismiss }) {
   const ref = useRef(null);
   const isBundle = BUNDLE_SCENARIOS.includes(scenario.id);
-  if (!isBundle) return null;
-
-  const outcomeScore = outcome.score ?? 0;
+  const outcomeScore = outcome?.score ?? 0;
   const band = scoreBand(outcomeScore);
-  const date = formatDate(new Date());
 
-  // Fire once on mount — certificate was opened
+  // Fire once on mount — certificate was opened.
+  // Hooks must run unconditionally, so this sits above the early return.
   React.useEffect(() => {
+    if (!isBundle) return;
     trackCertificateGenerated(scenario.id, band.label);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!isBundle) return null;
+
+  const date = formatDate(new Date());
   const personaData = scenario.personas[persona];
   const scenarioMeta = BUNDLE_LABELS[scenario.id];
 

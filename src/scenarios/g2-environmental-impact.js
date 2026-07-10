@@ -83,23 +83,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the sustainability team's emissions inventory. A board briefing on AI strategy goes out next week.`,
-          decision: {
-            prompt: `What is the risk of an AI emissions gap in a sustainability disclosure?`,
-            choices: [
-              { id: `a`, label: `A material category of emissions is missing from the disclosure — if discovered, it creates regulatory, reputational, and investor credibility risk`, quality: `good`,
-                note: `Correct. Sustainability disclosures are increasingly subject to assurance requirements. A material omission — AI infrastructure energy consumption that the organisation knows about — is not a gap that can be defended as oversight once the organisation is aware of it.` },
-              { id: `b`, label: `The risk is reputational — if investors or media notice the gap, it looks like greenwashing even if the emissions are modest`, quality: `partial`,
-                note: `Reputational risk is real, but it's downstream of the regulatory and disclosure risk. Many jurisdictions now treat material sustainability disclosure gaps as regulatory issues.` },
-              { id: `c`, label: `AI infrastructure emissions are hard to measure accurately — the gap reflects measurement difficulty, not evasion`, quality: `partial`,
-                note: `Measurement difficulty doesn't justify omission. The standard response to measurement uncertainty is to use estimates with stated methodology and uncertainty ranges — not to exclude the category.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-typing`,
           caption:     `GPU clusters, data centre expansion, cloud inference spend. None of it was in the net-zero model. The AGM is in two weeks.`,
           decision: {
@@ -219,23 +202,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom-agm`,
-          caption:     `An institutional investor — 4.2% of shares — has the microphone at the AGM. 'Is the AI compute included in your Scope 2 emissions?' You don't know the answer.`,
-          decision: {
-            prompt: `What does an institutional investor's question about AI compute emissions signal about investor expectations?`,
-            choices: [
-              { id: `a`, label: `That sophisticated investors are now tracking AI infrastructure emissions as a material disclosure item — this is no longer a peripheral ESG question`, quality: `good`,
-                note: `Correct. Institutional investors with significant holdings monitor sustainability disclosures carefully. A direct question about AI compute at an AGM signals that this investor considers it material and has noticed the gap.` },
-              { id: `b`, label: `That this particular investor has an activist ESG agenda — the question may not reflect broader investor sentiment`, quality: `poor`,
-                note: `An investor with 4.2% of shares asking a specific, technically informed question about a known disclosure gap is not a fringe position. It reflects an emerging standard expectation.` },
-              { id: `c`, label: `That the organisation should proactively publish an AI sustainability report — getting ahead of investor questions`, quality: `partial`,
-                note: `Proactive disclosure is the right direction, but the immediate question is how to answer this investor now.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `boardroom`,
           caption:     `An institutional investor. 4.2% of shares. Microphone in hand. "Is the AI compute investment included in your net-zero pathway modelling?" You and the CDO exchange a look.`,
           decision: {
@@ -294,7 +260,7 @@ export const scenario = {
               { id: `a`, label: `Step back in: "We'll provide a complete written response within 48 hours — that's the appropriate way to give you an accurate and detailed answer."`, quality: `good`,
                 note: `Recovering the situation with a clear commitment is better than extending the uncomfortable exchange. The room will respect the pivot.` },
               { id: `b`, label: `Let the CDO continue — stepping back in will make the uncertainty more visible`, quality: `poor`,
-                note: `The uncertainty is already visible. Continuing to let the CDO field a question they can\'t answer makes it worse, not better.` },
+                note: `The uncertainty is already visible. Continuing to let the CDO field a question they can't answer makes it worse, not better.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -340,23 +306,6 @@ export const scenario = {
           scene:       `desk-review`,
           caption:     `Your cost model has detailed energy projections for the AI infrastructure. The sustainability team's inventory has none of it. The CDO needs the numbers in an hour.`,
           sub_caption: `The data exists. It's in a different team's system. The gap is organisational, not technical.`,
-          decision: {
-            prompt: `What does the gap between the cost model and the sustainability inventory tell you about how AI projects are governed?`,
-            choices: [
-              { id: `a`, label: `AI projects are being assessed for financial costs without sustainability impacts being routed to the teams that need them — the governance process doesn't connect the two`, quality: `good`,
-                note: `The structural diagnosis. Cost modelling and sustainability accounting happen in separate processes. If AI project approvals don't require sustainability impact assessment, the inventory gap is a predictable outcome.` },
-              { id: `b`, label: `The sustainability team should have been included in the AI project steering — the gap reflects a stakeholder management failure`, quality: `partial`,
-                note: `Stakeholder inclusion is one mechanism, but the more durable fix is process-level: AI project approvals that require sustainability impact assessment and route the data to the inventory.` },
-              { id: `c`, label: `The gap is the sustainability team's responsibility — they should have identified AI infrastructure as a new emissions category and asked for the data`, quality: `poor`,
-                note: `This reverses the accountability. The teams generating the emissions data are responsible for ensuring it reaches the teams that need it.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-review`,
-          caption:     `Your cost model has detailed energy projections for the AI infrastructure. The sustainability team's inventory has none of it. The CDO needs the numbers in an hour.`,
           decision: {
             prompt: `What does the gap between the cost model and the sustainability inventory tell you about how AI projects are governed?`,
             choices: [
@@ -429,8 +378,8 @@ export const scenario = {
             choices: [
               { id: `a`, label: `Offer to review the analysis against your model for accuracy before it goes to the board`, quality: `good`,
                 note: `The right response to having caused a delay is to actively help close the gap it created.` },
-              { id: `b`, label: `The analysis is the sustainability team\'s responsibility — they have the data now`, quality: `poor`,
-                note: `The delay was yours. The rushed analysis is a consequence you can help fix. Stepping back at this point doesn\'t reflect well.` },
+              { id: `b`, label: `The analysis is the sustainability team's responsibility — they have the data now`, quality: `poor`,
+                note: `The delay was yours. The rushed analysis is a consequence you can help fix. Stepping back at this point doesn't reflect well.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -442,27 +391,27 @@ export const scenario = {
           heading: `Data shared immediately, mitigation options provided`,
           tone:    `good`,
           result:  `The sustainability team had accurate data with methodology within the hour. Your three mitigation options — renewable cloud regions, workload scheduling, smaller model evaluation — were modelled and two were included in the investor response. The CDO cited the programme's proactive response in the board briefing as an example of responsible AI deployment.`,
-          learning: `When an AI programme creates an environmental impact, owning the numbers and offering specific mitigations is the responsible response. The gap between the programme and the sustainability team shouldn\'t have existed — but once it did, the speed and completeness of the data handoff determined the quality of the outcome.`,
+          learning: `When an AI programme creates an environmental impact, owning the numbers and offering specific mitigations is the responsible response. The gap between the programme and the sustainability team shouldn't have existed — but once it did, the speed and completeness of the data handoff determined the quality of the outcome.`,
           score:   100,
         },
         outcome_good: {
           heading: `Data eventually complete, gap closed`,
           tone:    `good`,
-          result:  `The full model arrived in time for the board briefing. The methodology questions caused a 30-minute delay but the analysis was completed accurately. The investor response was on time and substantive. The CDO asked the programme to be added to the sustainability team\'s stakeholder map for future AI deployments.`,
-          learning: `Sending complete data with methodology upfront is faster than sending headlines and answering follow-up questions. The sustainability team can\'t assess confidence without the methodology.`,
+          result:  `The full model arrived in time for the board briefing. The methodology questions caused a 30-minute delay but the analysis was completed accurately. The investor response was on time and substantive. The CDO asked the programme to be added to the sustainability team's stakeholder map for future AI deployments.`,
+          learning: `Sending complete data with methodology upfront is faster than sending headlines and answering follow-up questions. The sustainability team can't assess confidence without the methodology.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Data late, analysis partially accurate`,
           tone:    `warn`,
-          result:  `The format delay and partial data handoff meant the board briefing had a confidence caveat that could have been avoided. The investor received an accurate response but the internal process was noted as a coordination failure in the post-AGM review. The programme was added to the sustainability team\'s stakeholder map with a note about data sharing expectations.`,
+          result:  `The format delay and partial data handoff meant the board briefing had a confidence caveat that could have been avoided. The investor received an accurate response but the internal process was noted as a coordination failure in the post-AGM review. The programme was added to the sustainability team's stakeholder map with a note about data sharing expectations.`,
           learning: `In a time-critical governance situation, format and process questions should never delay sending data. The data goes first in whatever format it exists.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Delay caused, responsibility not taken`,
           tone:    `bad`,
-          result:  `The rushed analysis had an error in the Scope 3 cloud inference estimate. The investor\'s written response had to be corrected 24 hours after it was sent. The post-AGM review identified the programme as a contributing factor to both the original gap and the analysis quality issue. The CDO mandated joint planning between the AI infrastructure programme and sustainability for all future phases.`,
+          result:  `The rushed analysis had an error in the Scope 3 cloud inference estimate. The investor's written response had to be corrected 24 hours after it was sent. The post-AGM review identified the programme as a contributing factor to both the original gap and the analysis quality issue. The CDO mandated joint planning between the AI infrastructure programme and sustainability for all future phases.`,
           learning: `When a programme causes a governance gap through poor data sharing, the response needs to be active engagement — not stepping back once the data is eventually transferred.`,
           score:   5,
         },
@@ -491,23 +440,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `drift-dashboard`,
-          caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total: ~4.4MW. Board briefing in four hours. None of this is in the current sustainability disclosure.`,
-          decision: {
-            prompt: `How should a material emissions gap be characterised in a board briefing?`,
-            choices: [
-              { id: `a`, label: `As a known gap with a quantified estimate, clear methodology, stated uncertainty range, and a remediation timeline — not as a discovery but as something the organisation now needs to address`, quality: `good`,
-                note: `The correct approach. Presenting the gap honestly — here's what we know, here's how we estimated it, here's the uncertainty, here's what we're doing — is more defensible than either minimising it or presenting it as a crisis.` },
-              { id: `b`, label: `As preliminary data pending full measurement — caveat everything to avoid committing to numbers that may change`, quality: `partial`,
-                note: `Caveating uncertain estimates is appropriate, but excessive caveating that avoids communicating the scale of the gap doesn't serve the board's decision-making needs.` },
-              { id: `c`, label: `As a disclosure risk — frame it as a legal and reputational issue rather than an environmental one`, quality: `poor`,
-                note: `The disclosure risk is real and worth naming, but framing it exclusively as a legal/reputational issue inverts the priorities. The board needs to understand both dimensions.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `analyst-desk`,
           caption:     `GPU clusters: 2.4MW. Cooling: 0.8MW. Cloud inference: ~1.2MW equivalent. Total addition: ~4.4MW annually. Current baseline: ~37MW. That's a 12% step increase.`,
           decision: {
@@ -516,9 +448,9 @@ export const scenario = {
               { id: `a`, label: `Lead with the material finding clearly: the AI investment adds ~12% to energy consumption and was not in the net-zero pathway model — then present pathway options`, quality: `good`,
                 note: `The board needs the clear finding first, then the options. A finding buried after context and caveats makes the decision harder, not easier.` },
               { id: `b`, label: `Frame it as a pathway adjustment — the target is still achievable with additional efficiency measures, and lead with that`, quality: `partial`,
-                note: `If the efficiency measures are identified and costed, this framing is appropriate. If they\'re speculative, leading with "still achievable" before the board has seen the gap is premature optimism.` },
+                note: `If the efficiency measures are identified and costed, this framing is appropriate. If they're speculative, leading with "still achievable" before the board has seen the gap is premature optimism.` },
               { id: `c`, label: `Present the raw numbers without interpretation and let the board decide what they mean`, quality: `poor`,
-                note: `The board needs analysis, not raw data. Raw numbers without interpretation require the board to do the analyst\'s job in the room — that\'s not what the briefing is for.` },
+                note: `The board needs analysis, not raw data. Raw numbers without interpretation require the board to do the analyst's job in the room — that's not what the briefing is for.` },
             ],
           },
           branches: { a: `n2_clear_finding`, b: `n2_optimistic`, c: `n2_raw_data` },
@@ -527,7 +459,7 @@ export const scenario = {
         n2_clear_finding: {
           scene:       `office-briefing`,
           caption:     `The board has the clear finding. The CSO asks: what are the pathway options and what do they cost?`,
-          sub_caption: `You\'ve modelled three scenarios.`,
+          sub_caption: `You've modelled three scenarios.`,
           decision: {
             prompt: `Which framing best serves the board's decision?`,
             choices: [
@@ -545,12 +477,12 @@ export const scenario = {
           caption:     `The CSO asks: "What efficiency measures are you proposing to compensate?" You haven't identified specific measures yet — the framing assumed they were achievable but the modelling isn't complete.`,
           sub_caption: `The optimistic framing has run ahead of the analysis.`,
           decision: {
-            prompt: `The efficiency measures weren\'t modelled before the briefing. How do you recover?`,
+            prompt: `The efficiency measures weren't modelled before the briefing. How do you recover?`,
             choices: [
-              { id: `a`, label: `Acknowledge the measures haven\'t been modelled yet and provide three candidate options you can model within 24 hours`, quality: `good`,
+              { id: `a`, label: `Acknowledge the measures haven't been modelled yet and provide three candidate options you can model within 24 hours`, quality: `good`,
                 note: `Acknowledging the gap and providing a credible path to completing the analysis is the honest and constructive response.` },
               { id: `b`, label: `Identify the three most common efficiency measures in the industry and present them as the likely pathway`, quality: `partial`,
-                note: `Industry examples provide context but aren\'t a substitute for costed analysis of your specific situation. Make clear these are indicative, not modelled.` },
+                note: `Industry examples provide context but aren't a substitute for costed analysis of your specific situation. Make clear these are indicative, not modelled.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -566,7 +498,7 @@ export const scenario = {
               { id: `a`, label: `Answer each question directly and clearly — provide the interpretation the briefing should have contained`, quality: `good`,
                 note: `Better late than never. Answer the questions clearly and commit to providing a properly framed briefing document within the day.` },
               { id: `b`, label: `Note that interpretation requires additional analysis and recommend a second briefing`, quality: `poor`,
-                note: `You have the data and you can interpret it now. Deferring to a second briefing when you can answer the questions in the room wastes everyone\'s time.` },
+                note: `You have the data and you can interpret it now. Deferring to a second briefing when you can answer the questions in the room wastes everyone's time.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -577,14 +509,14 @@ export const scenario = {
         outcome_great: {
           heading: `Clear finding, three-scenario analysis`,
           tone:    `good`,
-          result:  `The board had the finding and three options with costs and timelines in a single briefing. They approved scenario 3 — renewable sourcing for AI infrastructure — within the session and asked for the revised pathway to be modelled. The investor response was delivered within 48 hours with specific commitments. The advisory firm rated it as one of the more substantive ESG responses they\'d received in the sector.`,
-          learning: `ESG analysis for a board needs the finding, the options, and the costs — in that order. A board can make a good decision with good analysis. They can\'t make a good decision with raw numbers.`,
+          result:  `The board had the finding and three options with costs and timelines in a single briefing. They approved scenario 3 — renewable sourcing for AI infrastructure — within the session and asked for the revised pathway to be modelled. The investor response was delivered within 48 hours with specific commitments. The advisory firm rated it as one of the more substantive ESG responses they'd received in the sector.`,
+          learning: `ESG analysis for a board needs the finding, the options, and the costs — in that order. A board can make a good decision with good analysis. They can't make a good decision with raw numbers.`,
           score:   100,
         },
         outcome_good: {
           heading: `Sound analysis, single recommendation`,
           tone:    `good`,
-          result:  `The board received clear analysis with a recommendation. They accepted it, with one director noting they\'d have liked to see the alternative scenarios costed. The investor response was on time and credible. The recommendation was implemented within the committed timeline.`,
+          result:  `The board received clear analysis with a recommendation. They accepted it, with one director noting they'd have liked to see the alternative scenarios costed. The investor response was on time and credible. The recommendation was implemented within the committed timeline.`,
           learning: `A recommendation supported by analysis is useful. On material ESG questions, showing the alternatives and their tradeoffs is more valuable to the board than a single recommendation — it demonstrates the analysis was thorough.`,
           score:   70,
         },
@@ -592,14 +524,14 @@ export const scenario = {
           heading: `Optimistic framing, analysis incomplete`,
           tone:    `warn`,
           result:  `The optimistic framing was partially recoverable. The 24-hour extension was granted. The modelled efficiency measures were achievable and the pathway was updated. But the board and the CSO both noted that the briefing had been framed ahead of the analysis — a credibility issue for future briefings.`,
-          learning: `Analytical framing should follow the analysis, not precede it. Leading with an optimistic conclusion before the supporting analysis is complete risks the finding when the analysis doesn\'t support it.`,
+          learning: `Analytical framing should follow the analysis, not precede it. Leading with an optimistic conclusion before the supporting analysis is complete risks the finding when the analysis doesn't support it.`,
           score:   35,
         },
         outcome_bad: {
           heading: `Raw data presented, board did the analysis`,
           tone:    `bad`,
-          result:  `The board spent 40 minutes doing analysis that should have been in the briefing. The CSO was visibly frustrated. The investor response was delayed by 24 hours while the proper analysis was completed. The post-AGM review noted that the ESG data analyst\'s briefing had not met the standard expected for board-level reporting.`,
-          learning: `A board briefing is not a data dump. The analyst\'s job is to interpret the data so the board can make decisions, not to present raw numbers and expect the board to do the interpretation.`,
+          result:  `The board spent 40 minutes doing analysis that should have been in the briefing. The CSO was visibly frustrated. The investor response was delayed by 24 hours while the proper analysis was completed. The post-AGM review noted that the ESG data analyst's briefing had not met the standard expected for board-level reporting.`,
+          learning: `A board briefing is not a data dump. The analyst's job is to interpret the data so the board can make decisions, not to present raw numbers and expect the board to do the interpretation.`,
           score:   5,
         },
       },

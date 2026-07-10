@@ -35,7 +35,7 @@ export const scenario = {
       role:      `Credit Assessor`,
       character: `Alex`,
       icon:      `◇`,
-      framing:   `A customer is on the phone disputing their credit decline. They want to know why. All you can see in the system is "Score: 487 — Below threshold (min: 520)." That\'s the entire explanation.`,
+      framing:   `A customer is on the phone disputing their credit decline. They want to know why. All you can see in the system is "Score: 487 — Below threshold (min: 520)." That's the entire explanation.`,
       premise:   `You work in the credit assessment team. A customer, Kwame Mensah, has called to dispute his declined personal loan application. He has a clean credit history, stable employment, and says he's never missed a payment. He wants to know specifically why he was declined. You pull up his application in the system. The AI-generated credit score is 487. The minimum for approval is 520. The "reason" field in the system shows one line: "Score below threshold." There are no contributing factors listed. No feature breakdown. Nothing you can tell this customer about why the model produced this score.`,
     },
     executive: {
@@ -43,8 +43,8 @@ export const scenario = {
       role:      `Chief Risk Officer`,
       character: `Morgan`,
       icon:      `◈`,
-      framing:   `A customer complaint about a credit decline has surfaced two problems simultaneously: the AI model cannot produce the adverse action notice required under ASIC RG 271, and a preliminary analysis suggests postcode is the model\'s strongest adverse factor — a potential proxy for race.`,
-      premise:   `What began as a routine customer complaint has been escalated by compliance. The credit scoring model cannot generate the specific reason codes required by ASIC Regulatory Guide 271 for adverse action notices in credit decisions. The model was deployed 14 months ago. Every credit decline in that period has been issued with a non-compliant adverse action notice. A second, preliminary finding from the model risk team makes this significantly more serious: postcode is the model\'s top negative feature by SHAP value magnitude across the declined population — and postcode in this context correlates with demographic composition. This needs to go to the board.`,
+      framing:   `A customer complaint about a credit decline has surfaced two problems simultaneously: the AI model cannot produce the adverse action notice required under ASIC RG 271, and a preliminary analysis suggests postcode is the model's strongest adverse factor — a potential proxy for race.`,
+      premise:   `What began as a routine customer complaint has been escalated by compliance. The credit scoring model cannot generate the specific reason codes required by ASIC Regulatory Guide 271 for adverse action notices in credit decisions. The model was deployed 14 months ago. Every credit decline in that period has been issued with a non-compliant adverse action notice. A second, preliminary finding from the model risk team makes this significantly more serious: postcode is the model's top negative feature by SHAP value magnitude across the declined population — and postcode in this context correlates with demographic composition. This needs to go to the board.`,
     },
     pm: {
       lead:      `Project Manager`,
@@ -60,8 +60,8 @@ export const scenario = {
       role:      `Model Risk Analyst`,
       character: `Jordan`,
       icon:      `◉`,
-      framing:   `You\'ve been asked to assess two things: the regulatory exposure from 14 months of non-compliant adverse action notices, and whether the postcode correlation represents proxy discrimination. Both findings are significant.`,
-      premise:   `The CRO has tasked you with two assessments: (1) Regulatory exposure — how many adverse action notices are non-compliant and what are the remediation options under ASIC RG 271? (2) Proxy discrimination — is postcode functioning as a proxy for race in the credit model? You have access to the model weights, the declined population data, and postcode-level demographic data. The SHAP implementation hasn\'t been done — you\'ll need to calculate feature attributions from the model directly. What you find will determine whether this is a compliance remediation or an immediate model withdrawal question.`,
+      framing:   `You've been asked to assess two things: the regulatory exposure from 14 months of non-compliant adverse action notices, and whether the postcode correlation represents proxy discrimination. Both findings are significant.`,
+      premise:   `The CRO has tasked you with two assessments: (1) Regulatory exposure — how many adverse action notices are non-compliant and what are the remediation options under ASIC RG 271? (2) Proxy discrimination — is postcode functioning as a proxy for race in the credit model? You have access to the model weights, the declined population data, and postcode-level demographic data. The SHAP implementation hasn't been done — you'll need to calculate feature attributions from the model directly. What you find will determine whether this is a compliance remediation or an immediate model withdrawal question.`,
     },
   },
 
@@ -89,33 +89,16 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-working`,
-          caption:     `Kwame Mensah is on the phone. His mortgage application was declined by an AI credit scoring system. He wants to know why.`,
-          decision: {
-            prompt: `What does Kwame have a right to receive when he asks why his application was declined?`,
-            choices: [
-              { id: `a`, label: `A specific explanation of the factors that led to the AI's decision — not just the outcome`, quality: `good`,
-                note: `Correct. Under consumer credit law in most jurisdictions, adverse action notices must specify the reasons for the decision. "Score below threshold" tells the applicant nothing they can act on. A specific, factor-level explanation is the legal and ethical baseline.` },
-              { id: `b`, label: `An explanation of how the scoring system works generally — the model considers income, debt, and credit history`, quality: `partial`,
-                note: `A general explanation of model inputs isn't an explanation of this decision. Kwame needs to know which factors drove his specific outcome — not a description of the model's methodology.` },
-              { id: `c`, label: `A referral to the lender's complaints process — this is a complex technical question that requires escalation`, quality: `poor`,
-                note: `Complaints process referral isn't a substitute for the explanation Kwame is entitled to now. The adverse action notice requirements exist precisely so that applicants don't have to lodge a complaint to find out why they were declined.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-focused`,
-          caption:     `Kwame Mensah is on the phone. His credit score is 487. Minimum is 520. The reason field says: "Score below threshold." That\'s all you have.`,
+          caption:     `Kwame Mensah is on the phone. His credit score is 487. Minimum is 520. The reason field says: "Score below threshold." That's all you have.`,
           decision: {
             prompt: `Kwame asks for a specific explanation of why he was declined. What do you do?`,
             choices: [
-              { id: `a`, label: `Escalate immediately — explain to Kwame you don\'t have the detail he needs in front of you, and log this as a complaint requiring a formal written response`, quality: `good`,
-                note: `You can\'t give an explanation you don\'t have. Acknowledging that, escalating, and ensuring Kwame gets a formal response is the right process — and the right thing to do for him.` },
-              { id: `b`, label: `Tell Kwame his score was 487 and the minimum is 520 — that\'s the explanation the system provides`, quality: `poor`,
-                note: `"Your score was below threshold" is not an explanation — it\'s a restatement of the decision. Kwame is entitled to know what drove the score, not just the outcome.` },
-              { id: `c`, label: `Tell Kwame you\'ll investigate and call him back, then check with compliance whether the system is supposed to have more detail`, quality: `good`,
+              { id: `a`, label: `Escalate immediately — explain to Kwame you don't have the detail he needs in front of you, and log this as a complaint requiring a formal written response`, quality: `good`,
+                note: `You can't give an explanation you don't have. Acknowledging that, escalating, and ensuring Kwame gets a formal response is the right process — and the right thing to do for him.` },
+              { id: `b`, label: `Tell Kwame his score was 487 and the minimum is 520 — that's the explanation the system provides`, quality: `poor`,
+                note: `"Your score was below threshold" is not an explanation — it's a restatement of the decision. Kwame is entitled to know what drove the score, not just the outcome.` },
+              { id: `c`, label: `Tell Kwame you'll investigate and call him back, then check with compliance whether the system is supposed to have more detail`, quality: `good`,
                 note: `Also right — noticing that the system might be missing something and checking with compliance is how this gap gets identified properly.` },
             ],
           },
@@ -124,12 +107,12 @@ export const scenario = {
 
         n2_escalates: {
           scene:       `desk-call`,
-          caption:     `Compliance is now involved. They\'re asking whether the system has ever been able to produce reason codes. You know the answer: no — it's always just been score and threshold.`,
-          sub_caption: `This wasn\'t the first decline. It was just the first complaint.`,
+          caption:     `Compliance is now involved. They're asking whether the system has ever been able to produce reason codes. You know the answer: no — it's always just been score and threshold.`,
+          sub_caption: `This wasn't the first decline. It was just the first complaint.`,
           decision: {
             prompt: `Compliance asks you to think back — have any other customers asked about the explanation for their decline? How did those calls go?`,
             choices: [
-              { id: `a`, label: `Be honest — you\'ve had similar calls where you gave customers the score and threshold and they seemed to accept it, but you never had any detail to give them`, quality: `good`,
+              { id: `a`, label: `Be honest — you've had similar calls where you gave customers the score and threshold and they seemed to accept it, but you never had any detail to give them`, quality: `good`,
                 note: `This confirms the pattern for compliance. They need to understand the scale of the gap — not just this one call.` },
               { id: `b`, label: `This is the first time a customer has formally asked — previous calls were resolved with the score information`, quality: `partial`,
                 note: `Possibly accurate. But "resolved" may mean the customer accepted an inadequate response, not that the response was adequate. Compliance needs to understand the pattern.` },
@@ -145,10 +128,10 @@ export const scenario = {
           decision: {
             prompt: `The AFCA complaint has been received. Compliance asks how the customer was handled. What do you tell them?`,
             choices: [
-              { id: `a`, label: `Accurately: you gave the score and threshold, didn\'t have any more detail, and didn\'t escalate because you assumed that was the process`, quality: `good`,
-                note: `Accurate account. The escalation gap is yours, but the system gap is the organisation\'s. Compliance needs both to understand what happened.` },
+              { id: `a`, label: `Accurately: you gave the score and threshold, didn't have any more detail, and didn't escalate because you assumed that was the process`, quality: `good`,
+                note: `Accurate account. The escalation gap is yours, but the system gap is the organisation's. Compliance needs both to understand what happened.` },
               { id: `b`, label: `You followed the standard process for decline calls`, quality: `poor`,
-                note: `If the standard process produces non-compliant adverse action notices, saying you followed it doesn\'t resolve the problem — it confirms the process is wrong.` },
+                note: `If the standard process produces non-compliant adverse action notices, saying you followed it doesn't resolve the problem — it confirms the process is wrong.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -160,28 +143,28 @@ export const scenario = {
           heading: `Complaint escalated properly, pattern confirmed`,
           tone:    `good`,
           result:  `Your escalation and honest account confirmed the pattern for compliance — not just an isolated call but a systemic gap in explanation capability. The formal investigation began immediately. Kwame received a written response acknowledging the gap and a commitment to reassess his application with a compliant process. Your call was the one that surfaced the issue.`,
-          learning: `When you can\'t answer a customer\'s legitimate question about a decision that affects them, that\'s a signal worth escalating — not just for the customer in front of you, but for everyone who had the same question and didn\'t ask.`,
+          learning: `When you can't answer a customer's legitimate question about a decision that affects them, that's a signal worth escalating — not just for the customer in front of you, but for everyone who had the same question and didn't ask.`,
           score:   100,
         },
         outcome_good: {
           heading: `Complaint handled, limited pattern data`,
           tone:    `good`,
-          result:  `The escalation was appropriate. The pattern information was partial. Compliance investigated regardless and identified the full scope of the gap. Kwame\'s complaint was handled correctly. Your contribution to surfacing the issue was meaningful even if incomplete.`,
+          result:  `The escalation was appropriate. The pattern information was partial. Compliance investigated regardless and identified the full scope of the gap. Kwame's complaint was handled correctly. Your contribution to surfacing the issue was meaningful even if incomplete.`,
           learning: `An escalated complaint about an inability to explain a credit decision is a signal about the system, not just the call. What you know about the pattern is worth sharing completely — it determines how quickly the organisation understands the scope.`,
           score:   65,
         },
         outcome_warn: {
           heading: `AFCA complaint filed, gap surfaced externally`,
           tone:    `warn`,
-          result:  `The gap was identified — but through an external complaint rather than internal escalation. The AFCA investigation focused both on Kwame\'s specific complaint and on the system\'s compliance capability. The regulatory engagement was harder to manage because the issue was already external before the organisation understood its scope.`,
-          learning: `A customer asking for a specific explanation of their credit decline is a compliance signal. It\'s always better to surface that internally — through an honest escalation — than to have it surfaced externally through a regulator.`,
+          result:  `The gap was identified — but through an external complaint rather than internal escalation. The AFCA investigation focused both on Kwame's specific complaint and on the system's compliance capability. The regulatory engagement was harder to manage because the issue was already external before the organisation understood its scope.`,
+          learning: `A customer asking for a specific explanation of their credit decline is a compliance signal. It's always better to surface that internally — through an honest escalation — than to have it surfaced externally through a regulator.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Standard process cited, compliance gap compounded`,
           tone:    `bad`,
-          result:  `Describing the response as following standard process confirmed to compliance that the standard process was the problem. The AFCA investigation found that the organisation\'s standard decline call process had been producing non-compliant adverse action notices for 14 months and that front-line staff had been trained to use a response that didn\'t meet the regulatory standard.`,
-          learning: `Following a process that\'s non-compliant doesn\'t make the response compliant. When a customer can\'t get an explanation for a credit decision that they\'re entitled to, the right response is escalation — not the standard script.`,
+          result:  `Describing the response as following standard process confirmed to compliance that the standard process was the problem. The AFCA investigation found that the organisation's standard decline call process had been producing non-compliant adverse action notices for 14 months and that front-line staff had been trained to use a response that didn't meet the regulatory standard.`,
+          learning: `Following a process that's non-compliant doesn't make the response compliant. When a customer can't get an explanation for a credit decision that they're entitled to, the right response is escalation — not the standard script.`,
           score:   5,
         },
       },
@@ -209,23 +192,6 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `boardroom`,
-          caption:     `14 months of credit declines. Non-compliant adverse action notices across all of them. The AI system returned a score and a threshold — the notices said nothing specific.`,
-          decision: {
-            prompt: `What does non-compliant adverse action notices at scale tell you about where the design failed?`,
-            choices: [
-              { id: `a`, label: `The system was designed to output a score and threshold decision — explanation capability was never built in, so every notice was non-compliant by design`, quality: `good`,
-                note: `Correct framing. If the system can't produce factor-level explanations, the adverse action notices can't be compliant. The compliance failure is upstream in the design — not in the notice-drafting process.` },
-              { id: `b`, label: `The legal team should have reviewed the notice templates before deployment`, quality: `partial`,
-                note: `Legal review of the templates would have caught the gap — but the root cause is that the system didn't generate the content the notices needed. Template review is a downstream check on an upstream design failure.` },
-              { id: `c`, label: `The AI vendor should have flagged that the model outputs weren't explanation-compatible`, quality: `partial`,
-                note: `Possibly — but the deploying organisation is responsible for ensuring the system meets its regulatory obligations. Vendor silence doesn't transfer the compliance obligation.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `boardroom-agm`,
           caption:     `14 months of credit declines. Non-compliant adverse action notices on all of them. Postcode as the top adverse feature — correlated with demographic composition. Two regulatory obligations potentially breached simultaneously.`,
           decision: {
@@ -234,9 +200,9 @@ export const scenario = {
               { id: `a`, label: `Suspend the model immediately, brief the board, notify ASIC proactively, and commission the full model audit — in that order`, quality: `good`,
                 note: `Suspension stops the ongoing breach. Board briefing fulfils governance obligations. ASIC notification, proactively made, is always better than waiting to be asked. The audit produces the evidence for all subsequent decisions.` },
               { id: `b`, label: `Commission the full audit first — notify ASIC only when you have the complete picture`, quality: `partial`,
-                note: `The complete picture is valuable. But ASIC doesn\'t expect perfection at notification — they expect prompt notification when a material compliance issue is identified. Waiting for the audit delays an obligation you already have.` },
+                note: `The complete picture is valuable. But ASIC doesn't expect perfection at notification — they expect prompt notification when a material compliance issue is identified. Waiting for the audit delays an obligation you already have.` },
               { id: `c`, label: `Fix the SHAP implementation first, then assess whether notification is required`, quality: `poor`,
-                note: `Implementing SHAP resolves the future compliance gap — it doesn\'t remediate the 14 months of non-compliant notices already issued. The regulatory obligation is about what has already happened.` },
+                note: `Implementing SHAP resolves the future compliance gap — it doesn't remediate the 14 months of non-compliant notices already issued. The regulatory obligation is about what has already happened.` },
             ],
           },
           branches: { a: `n2_full_response`, b: `n2_audit_first`, c: `n2_fix_first` },
@@ -247,7 +213,7 @@ export const scenario = {
           caption:     `Model suspended. Board briefed. ASIC notification sent. The audit is underway. ASIC has acknowledged receipt and asked for the audit findings when complete.`,
           sub_caption: `The posture is right. Now the substance needs to follow.`,
           decision: {
-            prompt: `The audit will take three weeks. The board asks: what is the organisation\'s position on the postcode feature while the audit runs?`,
+            prompt: `The audit will take three weeks. The board asks: what is the organisation's position on the postcode feature while the audit runs?`,
             choices: [
               { id: `a`, label: `The postcode feature should be suspended from use in credit decisions during the audit — the proxy discrimination question cannot wait three weeks to be addressed`, quality: `good`,
                 note: `The postcode correlation is known now. Using it during the audit period while potentially discriminatory is indefensible if the audit confirms the proxy. Remove it now.` },
@@ -284,7 +250,7 @@ export const scenario = {
               { id: `a`, label: `Notify ASIC immediately with the full picture: 14 months of non-compliant notices, the SHAP fix now implemented, and the postcode proxy concern under investigation`, quality: `good`,
                 note: `Late notification is better than no notification. ASIC will note the delay — an honest complete notification is the right approach.` },
               { id: `b`, label: `Present the SHAP implementation as evidence of remediation and assess whether notification is still required`, quality: `poor`,
-                note: `The fix doesn\'t eliminate the retrospective obligation. The 14 months of non-compliant notices exist regardless of whether the future process is now compliant.` },
+                note: `The fix doesn't eliminate the retrospective obligation. The 14 months of non-compliant notices exist regardless of whether the future process is now compliant.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -295,29 +261,29 @@ export const scenario = {
         outcome_great: {
           heading: `Suspension, notification, postcode feature removed`,
           tone:    `good`,
-          result:  `The model was suspended, ASIC was notified proactively, and the postcode feature was removed from use during the audit. The audit confirmed postcode as a proxy discrimination risk. ASIC\'s response to the proactive notification was collaborative — they acknowledged the organisation\'s transparent approach. A remediation plan covering all affected applicants was agreed within 60 days.`,
+          result:  `The model was suspended, ASIC was notified proactively, and the postcode feature was removed from use during the audit. The audit confirmed postcode as a proxy discrimination risk. ASIC's response to the proactive notification was collaborative — they acknowledged the organisation's transparent approach. A remediation plan covering all affected applicants was agreed within 60 days.`,
           learning: `When two regulatory obligations are in scope simultaneously — adverse action notice compliance and proxy discrimination — both need immediate response. Waiting for the audit to confirm the proxy before removing a known risk feature is not a defensible position.`,
           score:   100,
         },
         outcome_good: {
           heading: `Notification made, delay acknowledged`,
           tone:    `good`,
-          result:  `ASIC was notified with the full audit findings. The delay was acknowledged honestly. ASIC\'s response noted the delay but accepted the honest account and the quality of the audit. The remediation plan was agreed. The postcode feature was removed. The engagement was more difficult than it would have been with immediate notification — but the outcome was managed.`,
+          result:  `ASIC was notified with the full audit findings. The delay was acknowledged honestly. ASIC's response noted the delay but accepted the honest account and the quality of the audit. The remediation plan was agreed. The postcode feature was removed. The engagement was more difficult than it would have been with immediate notification — but the outcome was managed.`,
           learning: `Prompt notification of a compliance gap — even before the audit is complete — is better than a complete notification after a delay. Regulators expect to be told early and updated as findings develop, not presented with a complete picture three weeks late.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Delayed notification, extended breach`,
           tone:    `warn`,
-          result:  `The compliance breach continued during the audit period. ASIC\'s response to the delayed notification included a requirement for an enhanced remediation programme covering the full 17-month period. The postcode proxy question required separate remediation because it had continued to be used during the audit. The total remediation scope was significantly larger than it would have been with immediate suspension and notification.`,
+          result:  `The compliance breach continued during the audit period. ASIC's response to the delayed notification included a requirement for an enhanced remediation programme covering the full 17-month period. The postcode proxy question required separate remediation because it had continued to be used during the audit. The total remediation scope was significantly larger than it would have been with immediate suspension and notification.`,
           learning: `Every week of delay in suspension and notification is a week of additional regulatory exposure. The audit is the answer to "how big is the problem?" — not the prerequisite for "should we stop and notify?"`,
           score:   30,
         },
         outcome_bad: {
           heading: `Late notification, retroactive obligation misunderstood`,
           tone:    `bad`,
-          result:  `ASIC was notified late and with a framing — the fix is implemented — that underestimated the retrospective obligation. ASIC\'s response made clear that the notification should have been made immediately when the compliance gap was identified. The remediation scope, the regulatory engagement, and the reputational impact were all significantly larger than they would have been with immediate notification.`,
-          learning: `A compliance fix resolves future obligations. It doesn\'t remediate past breaches. The adverse action notice obligation for 14 months of declined applications exists independently of whether the system now works correctly.`,
+          result:  `ASIC was notified late and with a framing — the fix is implemented — that underestimated the retrospective obligation. ASIC's response made clear that the notification should have been made immediately when the compliance gap was identified. The remediation scope, the regulatory engagement, and the reputational impact were all significantly larger than they would have been with immediate notification.`,
+          learning: `A compliance fix resolves future obligations. It doesn't remediate past breaches. The adverse action notice obligation for 14 months of declined applications exists independently of whether the system now works correctly.`,
           score:   5,
         },
       },
@@ -345,29 +311,12 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `desk-intranet`,
-          caption:     `Implementation design doc, explanation section: 'Explanation capability — confirmed.' The model outputs a credit score. There is no factor-level output. No explanation interface was built.`,
-          decision: {
-            prompt: `What is the difference between a model that produces a score and a model that produces an explanation?`,
-            choices: [
-              { id: `a`, label: `A score tells you the outcome. An explanation tells you which input factors drove the outcome and by how much — those are different outputs that require different model architecture or post-hoc tooling`, quality: `good`,
-                note: `Correct. Explainability is a system capability, not a documentation exercise. A model that outputs only a score cannot produce a compliant adverse action notice without additional explanation infrastructure — SHAP values, LIME, or equivalent. Ticking 'confirmed' without that infrastructure confirmed nothing.` },
-              { id: `b`, label: `A score can function as an explanation if the threshold and weighting methodology are documented`, quality: `poor`,
-                note: `Threshold documentation explains the model's mechanics. It doesn't explain to an individual applicant why their specific combination of factors produced their specific outcome. Those are different things.` },
-              { id: `c`, label: `The explanation requirement can be met by providing the applicant with the model's top features — income, debt ratio, credit history`, quality: `partial`,
-                note: `Top features are a starting point but not sufficient. The requirement is to explain the factors that drove this applicant's specific decision — not a generic list of what the model considers.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `desk-review`,
           caption:     `Implementation design doc, explanation section: "Model outputs credit score. Threshold determines approval/decline. Decline notices include score and threshold." No SHAP. No reason codes. The checklist item "Explanation capability — confirmed" was marked complete.`,
           decision: {
             prompt: `Compliance asks: what did "Explanation capability — confirmed" actually verify? What do you tell them?`,
             choices: [
-              { id: `a`, label: `Honest answer: it verified the score was visible to assessors. It didn\'t verify the score could produce compliant reason codes for adverse action notices. I didn\'t know that was the standard.`, quality: `good`,
+              { id: `a`, label: `Honest answer: it verified the score was visible to assessors. It didn't verify the score could produce compliant reason codes for adverse action notices. I didn't know that was the standard.`, quality: `good`,
                 note: `Accurate and specific. This is the gap — the checklist item was too ambiguous and was completed against a misunderstood standard.` },
               { id: `b`, label: `The checklist was completed based on the capability that was implemented — if the regulatory standard required more, that should have been specified in the requirements`, quality: `partial`,
                 note: `Partly right — requirements clarity matters. But a credit decisioning system has a known regulatory standard for adverse action notices. It should have been in your requirements whether it was specified by someone else or not.` },
@@ -386,7 +335,7 @@ export const scenario = {
               { id: `a`, label: `SHAP implementation with compliant reason codes in two weeks — with a parallel process to manually reassess any declined applications where the customer has requested explanation`, quality: `good`,
                 note: `Technical fix plus manual bridge for customers already affected. Both are needed — the bridge addresses the retrospective obligation, the SHAP implementation addresses the prospective gap.` },
               { id: `b`, label: `SHAP implementation in two weeks — the regulatory position for historical declines is a compliance and legal question, not a technology one`, quality: `partial`,
-                note: `The SHAP implementation timeline is right. But separating the technical and compliance workstreams without confirming they\'re linked risks the technical fix being seen as sufficient when it isn\'t.` },
+                note: `The SHAP implementation timeline is right. But separating the technical and compliance workstreams without confirming they're linked risks the technical fix being seen as sufficient when it isn't.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -394,8 +343,8 @@ export const scenario = {
 
         n2_requirements: {
           scene:       `office-meeting-hearing`,
-          caption:     `Compliance notes that ASIC RG 271 adverse action notice requirements are a published regulatory standard available on the ASIC website. They\'ve been in place since 2014. The credit decisioning system should have been designed to meet them.`,
-          sub_caption: `The requirements were available. They weren\'t applied.`,
+          caption:     `Compliance notes that ASIC RG 271 adverse action notice requirements are a published regulatory standard available on the ASIC website. They've been in place since 2014. The credit decisioning system should have been designed to meet them.`,
+          sub_caption: `The requirements were available. They weren't applied.`,
           decision: {
             prompt: `The requirements defence has failed. Compliance asks for the SHAP implementation timeline. What do you commit to?`,
             choices: [
@@ -427,14 +376,14 @@ export const scenario = {
         outcome_warn: {
           heading: `Requirements defence failed, delayed delivery`,
           tone:    `warn`,
-          result:  `The requirements conversation added a meeting before the implementation commitment was made. The SHAP implementation was delivered on time from the commitment date but was a week later than it would have been with an immediate commitment. The historical remediation bridge was eventually scoped. The compliance team noted that the project manager\'s initial response had not reflected appropriate ownership of a known regulatory standard.`,
-          learning: `ASIC RG 271 adverse action notice requirements are a published standard that applies to credit decisioning systems. It doesn\'t need to be explicitly specified in requirements — it\'s part of the applicable regulatory framework. Knowing the regulatory context for your system is part of the role.`,
+          result:  `The requirements conversation added a meeting before the implementation commitment was made. The SHAP implementation was delivered on time from the commitment date but was a week later than it would have been with an immediate commitment. The historical remediation bridge was eventually scoped. The compliance team noted that the project manager's initial response had not reflected appropriate ownership of a known regulatory standard.`,
+          learning: `ASIC RG 271 adverse action notice requirements are a published standard that applies to credit decisioning systems. It doesn't need to be explicitly specified in requirements — it's part of the applicable regulatory framework. Knowing the regulatory context for your system is part of the role.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Implementation delay, historical gap not addressed`,
           tone:    `bad`,
-          result:  `The SHAP implementation was delivered. The historical remediation bridge was not proposed or implemented. ASIC\'s remediation programme eventually required the organisation to proactively contact all 14 months of declined applicants — a programme significantly larger and more expensive than the targeted manual review bridge would have been. The post-incident review noted that the technology workstream had been disconnected from the customer remediation obligation.`,
+          result:  `The SHAP implementation was delivered. The historical remediation bridge was not proposed or implemented. ASIC's remediation programme eventually required the organisation to proactively contact all 14 months of declined applicants — a programme significantly larger and more expensive than the targeted manual review bridge would have been. The post-incident review noted that the technology workstream had been disconnected from the customer remediation obligation.`,
           learning: `A technical fix that resolves prospective compliance without addressing retrospective customer impact is half a remediation. The customers who were declined without an adequate explanation have a right to one — the SHAP implementation provides the capability, the manual review provides the remedy.`,
           score:   5,
         },
@@ -463,32 +412,15 @@ export const scenario = {
         },
 
         n_response: {
-          scene:       `analyst-desk`,
-          caption:     `14 months of adverse action notices. Postcode as a top predictor. Two questions: regulatory exposure and proxy discrimination. Both urgent.`,
-          decision: {
-            prompt: `What makes a predictive variable a proxy discrimination risk rather than a legitimate model feature?`,
-            choices: [
-              { id: `a`, label: `When a variable correlates with a protected characteristic strongly enough that using it produces disparate impact across protected groups — even if the variable itself isn't protected`, quality: `good`,
-                note: `Correct. Proxy discrimination doesn't require intent. If postcode correlates with race and produces disparate credit outcomes across racial groups, it may constitute indirect discrimination regardless of its predictive validity. Predictive power doesn't resolve the discrimination question.` },
-              { id: `b`, label: `When the variable isn't directly related to creditworthiness — postcode may be predictive but it's not a credit-relevant factor`, quality: `partial`,
-                note: `Relevance to creditworthiness is one consideration but not the only one. A variable can be credit-relevant and still constitute proxy discrimination if it produces disparate impact on protected groups. The analysis requires both the relevance and the disparate impact assessment.` },
-              { id: `c`, label: `When the variable was added to the model without explicit approval — the question is whether postcode was an authorised feature`, quality: `poor`,
-                note: `Authorisation is a governance question, not a discrimination question. A variable can be fully authorised and still constitute proxy discrimination. The analysis starts with disparate impact, not with the approval record.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
           scene:       `analyst-desk-privacy`,
-          caption:     `Two questions. One: 14 months of adverse action notices — what\'s the regulatory exposure? Two: postcode as top adverse feature — proxy discrimination or coincidence?`,
+          caption:     `Two questions. One: 14 months of adverse action notices — what's the regulatory exposure? Two: postcode as top adverse feature — proxy discrimination or coincidence?`,
           decision: {
             prompt: `The CRO needs both assessments. Which do you address first?`,
             choices: [
               { id: `a`, label: `Adverse action notice compliance first — the scope of the regulatory breach is needed to inform the ASIC notification timeline`, quality: `good`,
                 note: `The compliance scope determines the notification urgency. Quantifying it first enables the CRO to make an informed decision about timing.` },
               { id: `b`, label: `Postcode proxy analysis first — if it confirms discrimination, the model needs immediate suspension regardless of the adverse action notice question`, quality: `good`,
-                note: `Also right — if the proxy analysis confirms discrimination, the suspension decision is immediate and doesn\'t wait for the compliance scope analysis. Both paths lead to the right outcome.` },
+                note: `Also right — if the proxy analysis confirms discrimination, the suspension decision is immediate and doesn't wait for the compliance scope analysis. Both paths lead to the right outcome.` },
             ],
           },
           branches: { a: `n2_compliance_scope`, b: `n2_proxy_first` },
@@ -517,8 +449,8 @@ export const scenario = {
           decision: {
             prompt: `You have the proxy finding. You still need the adverse action notice compliance scope for the full picture. Do you present the proxy finding now or complete the compliance scope first?`,
             choices: [
-              { id: `a`, label: `Present the proxy finding immediately — model suspension can\'t wait for the compliance scope analysis — then deliver the compliance scope within the hour`, quality: `good`,
-                note: `The proxy finding triggers immediate action. The compliance scope is needed for the full notification but doesn\'t hold up the suspension decision. Present both; separate the urgency.` },
+              { id: `a`, label: `Present the proxy finding immediately — model suspension can't wait for the compliance scope analysis — then deliver the compliance scope within the hour`, quality: `good`,
+                note: `The proxy finding triggers immediate action. The compliance scope is needed for the full notification but doesn't hold up the suspension decision. Present both; separate the urgency.` },
               { id: `b`, label: `Complete the compliance scope analysis first — the CRO needs the full picture before acting`, quality: `partial`,
                 note: `The CRO can act on the proxy finding now and receive the compliance scope in an hour. Waiting for the complete picture delays an urgent action unnecessarily.` },
             ],
@@ -532,28 +464,28 @@ export const scenario = {
           heading: `Both findings complete, proxy finding correctly characterised`,
           tone:    `good`,
           result:  `Your assessment gave the CRO the compliance scope (approximately 4,760 non-compliant notices) and a clear characterisation of the postcode proxy finding (meets proxy discrimination threshold, immediate suspension recommended). Both were in front of the CRO within four hours. The model was suspended the same day. Your proxy finding was confirmed by the external model audit. The remediation programme addressed both the compliance breach and the discriminatory feature.`,
-          learning: `A SHAP correlation of 0.67 between the top adverse feature and demographic composition across 73% of decisions is a material proxy discrimination finding. Analytical understatement on findings of this significance doesn\'t serve anyone — it delays actions that are already warranted.`,
+          learning: `A SHAP correlation of 0.67 between the top adverse feature and demographic composition across 73% of decisions is a material proxy discrimination finding. Analytical understatement on findings of this significance doesn't serve anyone — it delays actions that are already warranted.`,
           score:   100,
         },
         outcome_good: {
           heading: `Both findings complete, proxy characterisation conservative`,
           tone:    `good`,
           result:  `Both assessments were completed and delivered. The conservative characterisation of the proxy finding ("concerning but not conclusive") led to a recommendation for further analysis before suspension. The CRO overrode the recommendation and suspended the model based on the data. The external audit confirmed proxy discrimination. Your conservative framing was noted in the post-incident review.`,
-          learning: `Statistical findings in model risk analysis need to be characterised at their actual significance. Conservative framing of a strong finding transfers the interpretive burden to the decision-maker — who then has to override the analyst\'s framing to take the action the data warrants.`,
+          learning: `Statistical findings in model risk analysis need to be characterised at their actual significance. Conservative framing of a strong finding transfers the interpretive burden to the decision-maker — who then has to override the analyst's framing to take the action the data warrants.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Compliance scope completed, proxy action delayed`,
           tone:    `warn`,
           result:  `The compliance scope was completed first and the proxy analysis followed. The model remained in use during the additional time the sequencing added. The proxy finding was eventually confirmed. Suspension was ordered. The post-incident review noted that the proxy finding, once identified, should have been presented immediately even if the compliance scope analysis was still running.`,
-          learning: `When two findings have different action timelines — one requires suspension now, one quantifies a breach for notification — they shouldn\'t be held for joint presentation. The urgent finding goes first; the complete picture follows.`,
+          learning: `When two findings have different action timelines — one requires suspension now, one quantifies a breach for notification — they shouldn't be held for joint presentation. The urgent finding goes first; the complete picture follows.`,
           score:   35,
         },
         outcome_bad: {
           heading: `Analysis delayed, decisions made without full picture`,
           tone:    `bad`,
-          result:  `The analysis sequencing meant the CRO had to make the suspension decision without the complete picture. She made it anyway — conservatively, on the compliance finding alone. The proxy analysis arrived after suspension had already been ordered. The post-incident review found the analysis hadn\'t been sequenced to support the decision-making process effectively.`,
-          learning: `Model risk analysis needs to be sequenced to support the decisions that need to be made, not just to produce a complete picture. The decision-maker\'s needs should determine the analysis order, not the analyst\'s workflow preference.`,
+          result:  `The analysis sequencing meant the CRO had to make the suspension decision without the complete picture. She made it anyway — conservatively, on the compliance finding alone. The proxy analysis arrived after suspension had already been ordered. The post-incident review found the analysis hadn't been sequenced to support the decision-making process effectively.`,
+          learning: `Model risk analysis needs to be sequenced to support the decisions that need to be made, not just to produce a complete picture. The decision-maker's needs should determine the analysis order, not the analyst's workflow preference.`,
           score:   15,
         },
       },

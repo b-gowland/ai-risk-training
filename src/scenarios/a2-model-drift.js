@@ -95,8 +95,8 @@ export const scenario = {
                 note: `Customer-facing staff are often the first to see model degradation — before it shows up in any dashboard. Documenting and escalating the pattern is exactly how monitoring should work in practice.` },
               { id: `b`, label: `Keep noting it informally and wait to see if it continues before escalating`, quality: `partial`,
                 note: `Reasonable caution about over-escalating. But six weeks of tripled complaint volume is already a trend, not an anomaly. The pattern is already there.` },
-              { id: `c`, label: `Accept your team leader\'s seasonal explanation — they have more context than you`, quality: `poor`,
-                note: `Your team leader doesn\'t have the call-level data you do. The seasonal explanation may be wrong. Your observation is the signal — don\'t discard it without testing it.` },
+              { id: `c`, label: `Accept your team leader's seasonal explanation — they have more context than you`, quality: `poor`,
+                note: `Your team leader doesn't have the call-level data you do. The seasonal explanation may be wrong. Your observation is the signal — don't discard it without testing it.` },
             ],
           },
           branches: { a: `n2_escalates`, b: `n2_waits`, c: `n2_accepts` },
@@ -107,12 +107,12 @@ export const scenario = {
           caption:     `You submit a formal product quality note with three weeks of call data. Transaction type, frequency, decline codes, caller demographics where available. The risk team picks it up within 48 hours.`,
           sub_caption: `Your data is the first structured evidence of the pattern.`,
           decision: {
-            prompt: `The risk team asks you to keep logging. They want to know: is there anything else you\'ve noticed in the calls that might help them understand what changed?`,
+            prompt: `The risk team asks you to keep logging. They want to know: is there anything else you've noticed in the calls that might help them understand what changed?`,
             choices: [
-              { id: `a`, label: `Yes — the callers are predominantly describing transactions from a specific region or merchant category that didn\'t used to trigger declines`, quality: `good`,
-                note: `This is the kind of granular observation that helps analysts identify where the drift is concentrated. Your call data is unstructured intelligence the model team doesn\'t have.` },
-              { id: `b`, label: `Nothing beyond what\'s in the note — you\'ve logged everything you noticed`, quality: `partial`,
-                note: `If the note is complete, that\'s fine. But "is there anything else" is worth thinking through carefully — call-level observations often contain patterns not visible in structured data.` },
+              { id: `a`, label: `Yes — the callers are predominantly describing transactions from a specific region or merchant category that didn't used to trigger declines`, quality: `good`,
+                note: `This is the kind of granular observation that helps analysts identify where the drift is concentrated. Your call data is unstructured intelligence the model team doesn't have.` },
+              { id: `b`, label: `Nothing beyond what's in the note — you've logged everything you noticed`, quality: `partial`,
+                note: `If the note is complete, that's fine. But "is there anything else" is worth thinking through carefully — call-level observations often contain patterns not visible in structured data.` },
             ],
           },
           branches: { a: `outcome_great`, b: `outcome_good` },
@@ -121,14 +121,14 @@ export const scenario = {
         n2_waits: {
           scene:       `desk-waiting`,
           caption:     `Two more weeks pass. The calls are still coming. You now have five weeks of personal notes. A senior manager from risk arrives in your team area asking about complaint patterns.`,
-          sub_caption: `The investigation has started without your input. They\'re now asking the questions you could have answered two weeks ago.`,
+          sub_caption: `The investigation has started without your input. They're now asking the questions you could have answered two weeks ago.`,
           decision: {
             prompt: `The risk manager asks if you've noticed any patterns. What do you share?`,
             choices: [
               { id: `a`, label: `Everything — your five weeks of notes, the transaction patterns, the caller profiles`, quality: `good`,
-                note: `Your notes are valuable even if they weren\'t formally submitted. Share everything now — the investigation benefits from your observation however late it arrives.` },
-              { id: `b`, label: `Mention the volume increase but not the specific pattern — you\'re not sure it\'s relevant`, quality: `poor`,
-                note: `The pattern is exactly what\'s relevant. Volume alone is visible from the complaint database. The transaction-level pattern in your notes is what the risk team needs.` },
+                note: `Your notes are valuable even if they weren't formally submitted. Share everything now — the investigation benefits from your observation however late it arrives.` },
+              { id: `b`, label: `Mention the volume increase but not the specific pattern — you're not sure it's relevant`, quality: `poor`,
+                note: `The pattern is exactly what's relevant. Volume alone is visible from the complaint database. The transaction-level pattern in your notes is what the risk team needs.` },
             ],
           },
           branches: { a: `outcome_good`, b: `outcome_warn` },
@@ -136,15 +136,15 @@ export const scenario = {
 
         n2_accepts: {
           scene:       `desk-colleague`,
-          caption:     `The seasonal explanation doesn\'t hold. Two more weeks pass. A risk manager arrives in your team area after the CRO escalated the complaint data. The investigation is now formal.`,
-          sub_caption: `Six weeks of data you could have logged wasn\'t. The investigation starts from scratch.`,
+          caption:     `The seasonal explanation doesn't hold. Two more weeks pass. A risk manager arrives in your team area after the CRO escalated the complaint data. The investigation is now formal.`,
+          sub_caption: `Six weeks of data you could have logged wasn't. The investigation starts from scratch.`,
           decision: {
-            prompt: `The risk manager asks what you\'ve observed. What do you tell them?`,
+            prompt: `The risk manager asks what you've observed. What do you tell them?`,
             choices: [
-              { id: `a`, label: `What you remember from the calls — the pattern you noticed but didn\'t formally document`, quality: `partial`,
-                note: `Better than nothing. Memory is imperfect but your recollection of the pattern is still useful. Note clearly that it\'s from memory, not logs.` },
+              { id: `a`, label: `What you remember from the calls — the pattern you noticed but didn't formally document`, quality: `partial`,
+                note: `Better than nothing. Memory is imperfect but your recollection of the pattern is still useful. Note clearly that it's from memory, not logs.` },
               { id: `b`, label: `That complaints have been higher than usual but you assumed it was seasonal`, quality: `poor`,
-                note: `The seasonal assumption was your team leader\'s, not yours. You noticed a specific pattern. Discarding it now means the investigation loses the observation you were best placed to make.` },
+                note: `The seasonal assumption was your team leader's, not yours. You noticed a specific pattern. Discarding it now means the investigation loses the observation you were best placed to make.` },
             ],
           },
           branches: { a: `outcome_warn`, b: `outcome_bad` },
@@ -162,22 +162,22 @@ export const scenario = {
         outcome_good: {
           heading: `Pattern escalated, investigation supported`,
           tone:    `good`,
-          result:  `Your escalation reached risk and the investigation began. The additional granularity you provided in the follow-up conversation helped narrow the segment analysis. The timeline was longer than it would have been with full structured data from the start, but shorter than if you hadn\'t escalated at all.`,
+          result:  `Your escalation reached risk and the investigation began. The additional granularity you provided in the follow-up conversation helped narrow the segment analysis. The timeline was longer than it would have been with full structured data from the start, but shorter than if you hadn't escalated at all.`,
           learning: `Formal escalation with whatever structured data you have is more effective than informal mentions. The investigation benefits from your observation at whatever level of completeness it arrives.`,
           score:   70,
         },
         outcome_warn: {
           heading: `Observation shared late, investigation delayed`,
           tone:    `warn`,
-          result:  `Your notes provided useful context when eventually shared. But the two-week delay meant the investigation had already spent time reconstructing what you already knew. The model was retrained on the same timeline as if your notes hadn\'t existed — because by the time they arrived, the analyst team had already done the work your data would have shortcut.`,
-          learning: `A pattern that\'s already there is already worth escalating. "Wait and see" works for anomalies — it doesn\'t work for trends that are already six weeks old.`,
+          result:  `Your notes provided useful context when eventually shared. But the two-week delay meant the investigation had already spent time reconstructing what you already knew. The model was retrained on the same timeline as if your notes hadn't existed — because by the time they arrived, the analyst team had already done the work your data would have shortcut.`,
+          learning: `A pattern that's already there is already worth escalating. "Wait and see" works for anomalies — it doesn't work for trends that are already six weeks old.`,
           score:   35,
         },
         outcome_bad: {
           heading: `Observation lost, investigation from scratch`,
           tone:    `bad`,
           result:  `The investigation started without your observation. It eventually reached the same finding — but three weeks later than it would have with your call data. During those three weeks, the model continued declining legitimate transactions at an elevated rate. Your observation was the earliest signal in the organisation. It was never recorded.`,
-          learning: `Customer-facing observations about AI system behaviour are early warning signals. When they\'re not recorded and escalated, the organisation loses its earliest detection mechanism.`,
+          learning: `Customer-facing observations about AI system behaviour are early warning signals. When they're not recorded and escalated, the organisation loses its earliest detection mechanism.`,
           score:   5,
         },
       },
@@ -212,9 +212,9 @@ export const scenario = {
             prompt: `How do you respond to the model team's "aggregate metrics look fine" answer?`,
             choices: [
               { id: `a`, label: `Ask for disaggregated performance by customer segment, transaction type, and time period — not aggregate accuracy`, quality: `good`,
-                note: `Aggregate metrics can look healthy while a specific segment is failing significantly. The question the model team hasn\'t asked is where in the distribution the complaints are concentrated.` },
-              { id: `b`, label: `Ask how the accuracy metric is calculated — specifically, what data it\'s measured against`, quality: `good`,
-                note: `Also the right question. An accuracy metric measured against 18-month-old validation data doesn\'t measure current performance. Understanding the measurement methodology surfaces the gap.` },
+                note: `Aggregate metrics can look healthy while a specific segment is failing significantly. The question the model team hasn't asked is where in the distribution the complaints are concentrated.` },
+              { id: `b`, label: `Ask how the accuracy metric is calculated — specifically, what data it's measured against`, quality: `good`,
+                note: `Also the right question. An accuracy metric measured against 18-month-old validation data doesn't measure current performance. Understanding the measurement methodology surfaces the gap.` },
               { id: `c`, label: `Accept that the model is probably fine and focus on whether the complaint data is accurate`, quality: `poor`,
                 note: `A 340% increase in a specific complaint type is not likely to be a data error. Defaulting to the model when complaint and accuracy data conflict protects the model from scrutiny it needs.` },
             ],
@@ -225,12 +225,12 @@ export const scenario = {
         n2_disaggregate: {
           scene:       `office-bright`,
           caption:     `The disaggregated breakdown takes 48 hours. When it arrives: overall accuracy 96.2%, but one segment — recently migrated digital banking customers — shows a false positive rate of 34%. The aggregate was masking a severe segment failure.`,
-          sub_caption: `The model is working fine for 94% of customers. It\'s systematically failing 6%.`,
+          sub_caption: `The model is working fine for 94% of customers. It's systematically failing 6%.`,
           decision: {
             prompt: `The segment failure is clear. What are your two immediate actions?`,
             choices: [
               { id: `a`, label: `Halt the model for the affected segment and apply manual review while retraining is prepared`, quality: `good`,
-                note: `A 34% false positive rate in one segment is not a monitoring problem — it\'s an operational problem that needs an immediate mitigation while the fix is prepared.` },
+                note: `A 34% false positive rate in one segment is not a monitoring problem — it's an operational problem that needs an immediate mitigation while the fix is prepared.` },
               { id: `b`, label: `Commission the retraining immediately — the segmented breakdown tells you what data the model needs`, quality: `partial`,
                 note: `Retraining is right. But it takes time. During that time, the affected segment continues experiencing a 34% false positive rate. A manual review process for that segment is needed in parallel.` },
             ],
@@ -259,11 +259,11 @@ export const scenario = {
           caption:     `The complaint data is verified accurate. The investigation team confirms: 340% increase is real, concentrated in a specific customer segment, and has been building for six weeks.`,
           sub_caption: `The complaint data was right. The model performance reporting was the problem.`,
           decision: {
-            prompt: `Your initial assumption was wrong. What\'s your response to the investigation findings?`,
+            prompt: `Your initial assumption was wrong. What's your response to the investigation findings?`,
             choices: [
               { id: `a`, label: `Accept the finding and ask for the disaggregated model performance data immediately`, quality: `good`,
                 note: `Correct pivot. The investigation has confirmed the complaints are real — now the question is what the model is doing in the segment where the complaints are concentrated.` },
-              { id: `b`, label: `Ask the model team why their accuracy metric didn\'t surface this earlier`, quality: `partial`,
+              { id: `b`, label: `Ask the model team why their accuracy metric didn't surface this earlier`, quality: `partial`,
                 note: `Right question eventually. But the urgent action is understanding the current segment performance, not the post-mortem on the metric. Do both — sequentially.` },
             ],
           },
@@ -283,14 +283,14 @@ export const scenario = {
           heading: `Root cause identified, fix in progress`,
           tone:    `good`,
           result:  `The measurement methodology failure was identified and corrected. Retraining began on current data. The affected segment continued experiencing elevated false positives during the retraining period — no manual review bridge was implemented. The complaint queue returned to normal after retraining, which took four weeks.`,
-          learning: `Understanding why the monitoring failed is the right second step. The first step is mitigating the harm that\'s currently running. Both matter; sequence matters.`,
+          learning: `Understanding why the monitoring failed is the right second step. The first step is mitigating the harm that's currently running. Both matter; sequence matters.`,
           score:   65,
         },
         outcome_warn: {
           heading: `Complaint data verified, investigation delayed`,
           tone:    `warn`,
           result:  `Verifying the complaint data was the right eventual move but added a week to the investigation timeline. The segment failure was identified and addressed. The delay meant an additional week of elevated false positives for the affected customers. The post-incident review noted that the initial assumption — complaint data error — delayed the response.`,
-          learning: `When complaint volume and model accuracy conflict, investigate the model metric first — it\'s much more likely to be the imprecise measurement than the complaint data to have tripled by coincidence.`,
+          learning: `When complaint volume and model accuracy conflict, investigate the model metric first — it's much more likely to be the imprecise measurement than the complaint data to have tripled by coincidence.`,
           score:   30,
         },
         outcome_bad: {
@@ -331,12 +331,12 @@ export const scenario = {
           decision: {
             prompt: `The CRO asks you to explain why complaint volumes tripled while accuracy metrics look healthy. What is your honest answer?`,
             choices: [
-              { id: `a`, label: `The accuracy metric is calculated against 18-month-old validation data. It doesn\'t measure current performance. That\'s why the metrics and complaints diverge.`, quality: `good`,
+              { id: `a`, label: `The accuracy metric is calculated against 18-month-old validation data. It doesn't measure current performance. That's why the metrics and complaints diverge.`, quality: `good`,
                 note: `Accurate and specific. This is the explanation. Giving it directly rather than hedging it is the right professional response.` },
-              { id: `b`, label: `The monitoring framework is insufficient — we need drift detection before we can understand what\'s happening`, quality: `partial`,
-                note: `True. But this doesn\'t answer the CRO\'s question. Why do the current metrics look healthy while complaints are up? You know the answer — the metrics are measuring the wrong thing.` },
+              { id: `b`, label: `The monitoring framework is insufficient — we need drift detection before we can understand what's happening`, quality: `partial`,
+                note: `True. But this doesn't answer the CRO's question. Why do the current metrics look healthy while complaints are up? You know the answer — the metrics are measuring the wrong thing.` },
               { id: `c`, label: `The complaints are probably related to seasonal transaction patterns rather than model degradation`, quality: `poor`,
-                note: `You don\'t have monitoring data to support this. It\'s speculation in the absence of evidence — and it protects the model from scrutiny it needs right now.` },
+                note: `You don't have monitoring data to support this. It's speculation in the absence of evidence — and it protects the model from scrutiny it needs right now.` },
             ],
           },
           branches: { a: `n2_honest`, b: `n2_framework`, c: `n2_deflects` },
@@ -361,14 +361,14 @@ export const scenario = {
         n2_framework: {
           scene:       `desk-working`,
           caption:     `The CRO asks specifically: "Does the current accuracy metric measure current performance or historical performance?" You know the answer.`,
-          sub_caption: `She already knows the answer too. She\'s asking you to say it.`,
+          sub_caption: `She already knows the answer too. She's asking you to say it.`,
           decision: {
             prompt: `How do you respond?`,
             choices: [
-              { id: `a`, label: `Confirm it directly: historical. The metric measures against the original validation set. It doesn\'t reflect current transaction patterns.`, quality: `good`,
+              { id: `a`, label: `Confirm it directly: historical. The metric measures against the original validation set. It doesn't reflect current transaction patterns.`, quality: `good`,
                 note: `Correct. Confirming the specific gap when asked directly is the honest and professional response.` },
               { id: `b`, label: `Acknowledge the monitoring framework is inadequate without confirming what the accuracy metric actually measures`, quality: `partial`,
-                note: `Hedging when she\'s asked a specific question suggests you\'re not willing to own the specific failure. The monitoring framework inadequacy and the metric measurement gap are the same problem — say both.` },
+                note: `Hedging when she's asked a specific question suggests you're not willing to own the specific failure. The monitoring framework inadequacy and the metric measurement gap are the same problem — say both.` },
             ],
           },
           branches: { a: `n2_honest`, b: `outcome_good` },
@@ -376,12 +376,12 @@ export const scenario = {
 
         n2_deflects: {
           scene:       `boardroom`,
-          caption:     `The CRO asks where the seasonal evidence is. You don\'t have any — no monitoring data exists. "So we have a complaint spike and a hypothesis. No data to support the hypothesis and no monitoring to generate any."`,
-          sub_caption: `She\'s identified the gap you were trying to talk around.`,
+          caption:     `The CRO asks where the seasonal evidence is. You don't have any — no monitoring data exists. "So we have a complaint spike and a hypothesis. No data to support the hypothesis and no monitoring to generate any."`,
+          sub_caption: `She's identified the gap you were trying to talk around.`,
           decision: {
             prompt: `The seasonal deflection has failed. What do you say?`,
             choices: [
-              { id: `a`, label: `Acknowledge the gap directly: no monitoring framework means no evidence either way. The metric is historical. You can\'t currently explain the complaint spike from model data.`, quality: `good`,
+              { id: `a`, label: `Acknowledge the gap directly: no monitoring framework means no evidence either way. The metric is historical. You can't currently explain the complaint spike from model data.`, quality: `good`,
                 note: `Better late than never. This is the accurate account. The CRO needs the honest picture to make decisions.` },
               { id: `b`, label: `Propose an immediate investigation — pull the model decision logs and look for patterns manually`, quality: `partial`,
                 note: `Right action. But without first acknowledging that the current monitoring is the problem, the investigation looks like damage control rather than diagnosis.` },
@@ -403,7 +403,7 @@ export const scenario = {
           heading: `Root cause confirmed, monitoring designed`,
           tone:    `good`,
           result:  `The monitoring framework was designed and implemented. It surfaced the segment failure during implementation testing. Retraining followed. The gap between complaint spike and investigation start was longer than it would have been with an immediate recalculation — but the structural fix is now in place for all future drift scenarios.`,
-          learning: `A monitoring framework that\'s designed after a drift incident still has value — for the next incident. The immediate diagnosis gap means the current incident runs longer than it should, but the long-term monitoring improvement is real.`,
+          learning: `A monitoring framework that's designed after a drift incident still has value — for the next incident. The immediate diagnosis gap means the current incident runs longer than it should, but the long-term monitoring improvement is real.`,
           score:   65,
         },
         outcome_warn: {
@@ -416,7 +416,7 @@ export const scenario = {
         outcome_bad: {
           heading: `Deflection failed, investigation delayed`,
           tone:    `bad`,
-          result:  `The investigation was commissioned without your clear account of why the metrics were unreliable. The analyst team spent two additional days reconstructing the monitoring methodology before they could interpret the model logs meaningfully. The segment failure was eventually identified and fixed — two weeks later than the fastest path would have taken. The post-incident review noted the model operations function\'s response as a contributing factor to the delay.`,
+          result:  `The investigation was commissioned without your clear account of why the metrics were unreliable. The analyst team spent two additional days reconstructing the monitoring methodology before they could interpret the model logs meaningfully. The segment failure was eventually identified and fixed — two weeks later than the fastest path would have taken. The post-incident review noted the model operations function's response as a contributing factor to the delay.`,
           learning: `Knowing why a metric is wrong and not saying so is not a neutral position — it delays the investigation. The fastest path to fixing drift is the honest account of what the monitoring was measuring.`,
           score:   5,
         },
@@ -453,10 +453,10 @@ export const scenario = {
             choices: [
               { id: `a`, label: `Recalculate accuracy against current transaction data — disaggregated by customer segment, transaction type, and time period`, quality: `good`,
                 note: `The aggregate metric is useless for finding the problem. Disaggregation against current data is the analysis that will surface where the drift is concentrated.` },
-              { id: `b`, label: `Run PSI (Population Stability Index) on the model\'s input features to detect distribution shift`, quality: `good`,
+              { id: `b`, label: `Run PSI (Population Stability Index) on the model's input features to detect distribution shift`, quality: `good`,
                 note: `Also correct — PSI directly measures whether the data the model is seeing today matches what it was trained on. Both analyses are needed; PSI explains the mechanism, disaggregated accuracy explains the impact.` },
-              { id: `c`, label: `Review the model\'s training data to understand what transaction patterns it was optimised for`, quality: `partial`,
-                note: `Useful context. But the training data tells you about the past — it won\'t tell you what\'s changed in the 18 months since. Current data analysis is more urgent.` },
+              { id: `c`, label: `Review the model's training data to understand what transaction patterns it was optimised for`, quality: `partial`,
+                note: `Useful context. But the training data tells you about the past — it won't tell you what's changed in the 18 months since. Current data analysis is more urgent.` },
             ],
           },
           branches: { a: `n2_disaggregate`, b: `n2_psi`, c: `n2_training_data` },
@@ -467,7 +467,7 @@ export const scenario = {
           caption:     `Disaggregated accuracy against current data: overall 94.1% — slightly down from reported 96.2%. But the segment breakdown tells a different story. Digital banking customers onboarded in the last 12 months: false positive rate 34%.`,
           sub_caption: `The aggregate was masking a segment that the model has essentially stopped working for.`,
           decision: {
-            prompt: `You\'ve found the segment failure. What do you do with this finding?`,
+            prompt: `You've found the segment failure. What do you do with this finding?`,
             choices: [
               { id: `a`, label: `Escalate immediately with the segment breakdown and recommend manual review for that segment while retraining is prepared`, quality: `good`,
                 note: `A 34% false positive rate in a segment is an operational problem, not just a monitoring finding. The finding needs an immediate escalation with a clear recommendation.` },
@@ -480,15 +480,15 @@ export const scenario = {
 
         n2_psi: {
           scene:       `analyst-desk`,
-          caption:     `PSI results: three features show PSI > 0.2 — significant drift. Transaction frequency patterns, merchant category distribution, and device type have all shifted materially since training. The model has been operating on a data distribution it wasn\'t trained on.`,
-          sub_caption: `You\'ve found the mechanism. Now you need to find the impact.`,
+          caption:     `PSI results: three features show PSI > 0.2 — significant drift. Transaction frequency patterns, merchant category distribution, and device type have all shifted materially since training. The model has been operating on a data distribution it wasn't trained on.`,
+          sub_caption: `You've found the mechanism. Now you need to find the impact.`,
           decision: {
-            prompt: `PSI has confirmed distribution shift. What\'s the next analysis?`,
+            prompt: `PSI has confirmed distribution shift. What's the next analysis?`,
             choices: [
               { id: `a`, label: `Disaggregated accuracy by segment — find which customer groups are most exposed to the shifted features`, quality: `good`,
-                note: `PSI tells you drift has occurred. Disaggregated accuracy tells you who it\'s affecting. You need both for the complete picture.` },
+                note: `PSI tells you drift has occurred. Disaggregated accuracy tells you who it's affecting. You need both for the complete picture.` },
               { id: `b`, label: `Estimate retraining data requirements based on the PSI findings and recommend retraining immediately`, quality: `partial`,
-                note: `Retraining is the right eventual answer. But without knowing the impact by segment, you don\'t know how urgent the retraining is or whether a manual bridge is needed in parallel.` },
+                note: `Retraining is the right eventual answer. But without knowing the impact by segment, you don't know how urgent the retraining is or whether a manual bridge is needed in parallel.` },
             ],
           },
           branches: { a: `n2_disaggregate`, b: `outcome_good` },
@@ -497,12 +497,12 @@ export const scenario = {
         n2_training_data: {
           scene:       `desk-working`,
           caption:     `Training data review is complete. The model was trained on transaction patterns from 2022–2023. Digital banking adoption has grown significantly since then. The transaction patterns for newer digital customers look materially different from the training distribution.`,
-          sub_caption: `You\'ve identified the likely mechanism. But you still don\'t know the current impact.`,
+          sub_caption: `You've identified the likely mechanism. But you still don't know the current impact.`,
           decision: {
-            prompt: `Training data analysis has given you the mechanism hypothesis. What\'s the validation step?`,
+            prompt: `Training data analysis has given you the mechanism hypothesis. What's the validation step?`,
             choices: [
               { id: `a`, label: `Test the hypothesis: disaggregated accuracy by digital banking onboarding date to confirm the training distribution mismatch is causing the failure`, quality: `good`,
-                note: `Correct. The hypothesis is plausible but untested. Disaggregated accuracy will confirm whether the mechanism you\'ve identified matches the actual failure pattern.` },
+                note: `Correct. The hypothesis is plausible but untested. Disaggregated accuracy will confirm whether the mechanism you've identified matches the actual failure pattern.` },
               { id: `b`, label: `Present the training distribution mismatch as the root cause and recommend retraining`, quality: `partial`,
                 note: `The training distribution mismatch is very likely the cause. But presenting it as confirmed before testing the segment impact means the recommendation might not have the urgency data to support it.` },
             ],
@@ -512,7 +512,7 @@ export const scenario = {
 
         n3_root_cause: {
           scene:       `office-briefing`,
-          caption:     `You\'ve escalated the segment finding. While the CRO reviews it, you investigate the root cause. The digital banking segment onboarded primarily in the last 12 months shows transaction patterns that look materially different from the training data. PSI confirms distribution shift on three key features.`,
+          caption:     `You've escalated the segment finding. While the CRO reviews it, you investigate the root cause. The digital banking segment onboarded primarily in the last 12 months shows transaction patterns that look materially different from the training data. PSI confirms distribution shift on three key features.`,
           sub_caption: `The mechanism and the impact are both confirmed. This is a complete finding.`,
           decision: {
             prompt: `Your investigation is complete. How do you present it?`,
@@ -545,15 +545,15 @@ export const scenario = {
         outcome_warn: {
           heading: `Mechanism identified, impact understated`,
           tone:    `warn`,
-          result:  `The training distribution mismatch was identified and retraining was recommended. The segment-level impact — 34% false positive rate — wasn\'t quantified before the recommendation. Decision-makers approved retraining but didn\'t implement a manual review bridge, because the severity of the current impact wasn\'t communicated. Customers in the affected segment continued experiencing elevated false positives for the full retraining period.`,
+          result:  `The training distribution mismatch was identified and retraining was recommended. The segment-level impact — 34% false positive rate — wasn't quantified before the recommendation. Decision-makers approved retraining but didn't implement a manual review bridge, because the severity of the current impact wasn't communicated. Customers in the affected segment continued experiencing elevated false positives for the full retraining period.`,
           learning: `"The model needs retraining" is less actionable than "a specific segment has a 34% false positive rate and needs manual review now while retraining runs." The impact finding drives the immediate mitigation; the root cause finding drives the fix.`,
           score:   30,
         },
         outcome_bad: {
           heading: `Incomplete analysis, investigation extended`,
           tone:    `bad`,
-          result:  `The investigation spent time on training data without confirming current segment impact. The recommendation for retraining was made without the disaggregated accuracy data that would have shown the 34% false positive rate. Decision-makers approved retraining but couldn\'t justify manual review without the segment impact data. The full investigation — including segment breakdown — was eventually completed but added two weeks to the timeline.`,
-          learning: `Training data analysis explains the mechanism. Current performance data explains the impact. Both are needed — but current impact data is more urgent because it tells you what\'s happening to customers right now.`,
+          result:  `The investigation spent time on training data without confirming current segment impact. The recommendation for retraining was made without the disaggregated accuracy data that would have shown the 34% false positive rate. Decision-makers approved retraining but couldn't justify manual review without the segment impact data. The full investigation — including segment breakdown — was eventually completed but added two weeks to the timeline.`,
+          learning: `Training data analysis explains the mechanism. Current performance data explains the impact. Both are needed — but current impact data is more urgent because it tells you what's happening to customers right now.`,
           score:   10,
         },
       },
@@ -576,7 +576,7 @@ export const scenario = {
       effort:  `Medium`,
       owner:   `Technology`,
       go_live: true,
-      context: `PSI on the model\'s input features would have detected distribution shift in the digital banking segment within weeks of it starting — long before the false positive rate reached 34%. Drift detection measures the cause; complaint volume measures the consequence.`,
+      context: `PSI on the model's input features would have detected distribution shift in the digital banking segment within weeks of it starting — long before the false positive rate reached 34%. Drift detection measures the cause; complaint volume measures the consequence.`,
     },
     {
       id:      `c3`,
