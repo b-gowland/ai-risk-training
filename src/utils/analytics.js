@@ -12,7 +12,13 @@
 
 import Plausible from 'plausible-tracker';
 
-const { trackEvent } = Plausible({ trackLocalhost: false });
+// LMS/SCORM packages must not transmit anything off-host: build-scorm.mjs
+// sets VITE_LMS_BUILD=1, which turns every tracker call into a no-op.
+// Web deploys are unaffected (flag unset).
+const LMS_BUILD = import.meta.env?.VITE_LMS_BUILD === '1';
+const trackEvent = LMS_BUILD
+  ? () => {}
+  : Plausible({ trackLocalhost: false }).trackEvent;
 
 const safe = (fn) => {
   try { fn(); } catch { /* never throw — analytics must not break the app */ }
