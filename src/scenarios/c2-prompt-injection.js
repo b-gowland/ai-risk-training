@@ -16,6 +16,8 @@ export const scenario = {
   estimated_minutes: 13,
   has_business_user: false,
 
+  regulatory_tags: [`owasp-llm-01`, `eu-ai-act-article-15`, `jurisdiction-global`],
+
   personas: {
     executive: {
       label:     'Executive',

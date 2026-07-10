@@ -16,6 +16,8 @@ export const scenario = {
   estimated_minutes: 12,
   has_business_user: false,
 
+  regulatory_tags: [`owasp-llm-10`, `nist-ai-rmf-govern-6`, `jurisdiction-global`],
+
   personas: {
     executive: {
       label:     'Executive',

@@ -13,6 +13,8 @@ export const scenario = {
   estimated_minutes: 10,
   has_business_user: true,
 
+  regulatory_tags: [`eu-ai-act-article-26`, `nist-ai-rmf-govern-2`, `jurisdiction-au`, `jurisdiction-eu`],
+
   personas: {
     business_user: {
       label: 'Business User',

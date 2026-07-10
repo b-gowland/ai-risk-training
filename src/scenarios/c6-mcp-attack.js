@@ -30,6 +30,8 @@ export const scenario = {
   estimated_minutes: 13,
   has_business_user: true,
 
+  regulatory_tags: [`owasp-llm-08`, `nist-ai-rmf-govern-1`, `jurisdiction-global`],
+
   personas: {
     business_user: {
       label:     `Business User`,
