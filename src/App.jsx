@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useState, useRef } from 'react';
+import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getScenario } from './scenarios/index.js';
 import {
@@ -15,6 +15,7 @@ import {
   trackKbLinkClicked,
 } from './utils/analytics.js';
 import { Certificate } from './components/Certificate/Certificate.jsx';
+import { scormInit, scormComplete, scormTerminate } from './utils/scorm.js';
 
 // ── Feedback generation ──────────────────────────────────────────
 // Uses the scenario's authored 'note' field for each choice.
@@ -1673,12 +1674,23 @@ function ScenarioPlayer({ scenario }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.feedbackLoading]);
 
+  // SCORM lifecycle — no-ops entirely when not launched from an LMS.
+  useEffect(() => {
+    scormInit();
+    window.addEventListener('pagehide', scormTerminate);
+    return () => window.removeEventListener('pagehide', scormTerminate);
+  }, []);
+
   // Track scenario completion — fires once when outcome is reached
   useEffect(() => {
     if (state.state !== STATES.OUTCOME || !state.outcomeId) return;
     const outcome = getOutcome(scenario, state.persona, state.outcomeId);
     if (!outcome) return;
     trackScenarioCompleted(scenario.id, state.outcomeId, outcome.tone, state.persona, outcome.score, playCount.current);
+    scormComplete({
+      scenarioId: scenario.id, outcomeId: state.outcomeId,
+      tone: outcome.tone, persona: state.persona, score: outcome.score,
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.state, state.outcomeId]);
 
