@@ -42,13 +42,24 @@ rmSync(join(root, 'dist-scorm'), { recursive: true, force: true });
 mkdirSync(stage, { recursive: true });
 cpSync(join(root, 'dist'), stage, { recursive: true });
 
-// LMS packages must not phone home: strip the Plausible analytics script.
-// (Web-deploy builds are untouched — this edit is stage-only.)
+// LMS packages must not phone home: strip the Plausible analytics scripts —
+// both the external loader tag and the inline bootstrap stub that queues
+// calls for it. (Web-deploy builds are untouched — this edit is stage-only.)
 {
   const idx = join(stage, 'index.html');
   const { readFileSync } = await import('node:fs');
-  const html = readFileSync(idx, 'utf8')
-    .replace(/\s*<script[^>]*plausible\.io[^>]*><\/script>/g, '');
+  // Applied to a fixpoint: single-pass tag-stripping regexes can be defeated
+  // by nested input (CodeQL js/incomplete-multi-character-sanitization).
+  // Input here is our own vite build output, but the loop costs nothing and
+  // keeps the code-scanning baseline at zero.
+  let html = readFileSync(idx, 'utf8');
+  let prev;
+  do {
+    prev = html;
+    html = html
+      .replace(/\s*<script[^>]*plausible\.io[^>]*><\/script>/g, '')
+      .replace(/\s*<script>[^<]*window\.plausible[^<]*<\/script>/g, '');
+  } while (html !== prev);
   writeFileSync(idx, html);
 }
 
