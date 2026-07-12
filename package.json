@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "build:scorm": "node scripts/build-scorm.mjs",
-    "test:scorm": "node scripts/test-scorm.mjs"
+    "test:scorm": "node scripts/test-scorm.mjs",
+    "test:unit-loop": "node scripts/test-unit-loop.mjs"
   },
   "dependencies": {
     "plausible-tracker": "^0.3.9",

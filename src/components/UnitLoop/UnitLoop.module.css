@@ -1,0 +1,182 @@
+/* Unit Loop beat screens — Recall / Brief / Debrief.
+   Uses only the existing global tokens (index.css --c-* / --font-*) so the
+   queued register-migration session restyles these screens together with
+   the rest of the app. No new colour values are introduced here. */
+
+.beatWrap {
+  max-width: 640px;
+  margin: 0 auto;
+  animation: fadeUp .4s ease-out;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Eyebrow — beat label with amber rule (design-system motif) ── */
+.eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 20px;
+}
+.eyebrowRule { width: 24px; height: 1px; background: var(--c-accent); }
+.eyebrowMeta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: .08em;
+  color: var(--c-text-tertiary);
+  text-transform: none;
+}
+
+.beatHeading {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 700; line-height: 1.15;
+  color: var(--c-ink);
+  margin-bottom: 18px; letter-spacing: -.015em;
+}
+.beatIntro {
+  font-family: var(--font-body);
+  font-size: 15px; line-height: 1.75; color: var(--c-ink);
+  border-left: 3px solid var(--c-accent);
+  padding-left: 22px;
+  margin-bottom: 28px;
+}
+
+/* ── Brief sections ── */
+.briefSection {
+  border: 1.5px solid var(--c-border);
+  border-radius: 7px;
+  background: var(--c-surface-2);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.briefSectionHeading {
+  font-family: var(--font-sans);
+  font-size: 14px; font-weight: 600; color: var(--c-ink);
+  margin-bottom: 8px;
+}
+.briefSectionBody {
+  font-family: var(--font-body);
+  font-size: 14px; line-height: 1.7; color: var(--c-text-secondary);
+}
+.briefSource {
+  font-family: var(--font-sans);
+  font-size: 12px; margin: 6px 0 24px;
+}
+.briefSource a { color: var(--c-accent); font-weight: 500; text-decoration: none; }
+.briefSource a:hover { text-decoration: underline; }
+
+/* ── Recall items ── */
+.recallProgress {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: .08em;
+  color: var(--c-text-tertiary);
+  margin-bottom: 14px;
+}
+.recallPrompt {
+  font-family: var(--font-display);
+  font-size: 21px; font-weight: 700; line-height: 1.25;
+  color: var(--c-ink);
+  margin-bottom: 18px; letter-spacing: -.01em;
+}
+.recallChoices { display: flex; flex-direction: column; gap: 9px; margin-bottom: 16px; }
+.recallChoiceBtn {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; padding: 14px 18px;
+  border: 1.5px solid var(--c-border); border-radius: 7px;
+  background: var(--c-surface-2);
+  cursor: pointer; text-align: left;
+  font-family: var(--font-sans); font-size: 14px; color: var(--c-ink);
+  transition: border-color .15s, background .15s, transform .12s;
+}
+.recallChoiceBtn:hover:not(:disabled) {
+  border-color: var(--c-ink); background: var(--c-bg);
+  transform: translateX(3px);
+}
+.recallChoiceBtn:disabled { cursor: default; opacity: .55; }
+.recallChoiceSelected,
+.recallChoiceSelected:disabled { opacity: 1; border-color: var(--c-ink); }
+
+/* Recall answer note — reuses the app's quality colour system */
+.recallNote {
+  border: 1.5px solid var(--c-border);
+  border-radius: 7px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  font-family: var(--font-body);
+  font-size: 14px; line-height: 1.65; color: var(--c-ink);
+}
+.recallNoteGood    { background: var(--c-good-bg); border-color: var(--c-good-border); }
+.recallNotePartial { background: var(--c-warn-bg); border-color: var(--c-warn-border); }
+.recallNotePoor    { background: var(--c-bad-bg);  border-color: var(--c-bad-border); }
+.recallNoteLabel {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.recallNoteGood    .recallNoteLabel { color: var(--c-good); }
+.recallNotePartial .recallNoteLabel { color: var(--c-warn); }
+.recallNotePoor    .recallNoteLabel { color: var(--c-bad); }
+
+/* ── Debrief blocks ── */
+.debriefOutcomeChip {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1.5px solid var(--c-border); border-radius: 7px;
+  padding: 8px 14px; margin-bottom: 24px;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+  color: var(--c-ink); background: var(--c-surface);
+}
+.debriefTone {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+}
+.debriefToneGood { color: var(--c-good); }
+.debriefToneWarn { color: var(--c-warn); }
+.debriefToneBad  { color: var(--c-bad); }
+
+.debriefBlock {
+  border: 1.5px solid var(--c-border);
+  border-radius: 7px;
+  background: var(--c-surface-2);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.debriefBlockLabel {
+  font-family: var(--font-sans);
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--c-accent);
+  margin-bottom: 8px;
+}
+.debriefBlockBody {
+  font-family: var(--font-body);
+  font-size: 14px; line-height: 1.7; color: var(--c-ink);
+}
+
+/* ── Shared navigation ── */
+.beatNav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 28px; }
+.primaryBtn {
+  background: var(--c-ink); color: #fff;
+  border: none; border-radius: 7px;
+  padding: 12px 22px;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s, transform .12s;
+}
+.primaryBtn:hover { opacity: .84; transform: translateX(2px); }
+.secondaryBtn {
+  background: none; color: var(--c-text-secondary);
+  border: 1.5px solid var(--c-border); border-radius: 7px;
+  padding: 11px 18px;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.secondaryBtn:hover { border-color: var(--c-ink); color: var(--c-ink); }
+.accentLink {
+  color: var(--c-accent); font-family: var(--font-sans);
+  font-size: 13px; font-weight: 500; text-decoration: none;
+}
+.accentLink:hover { text-decoration: underline; }

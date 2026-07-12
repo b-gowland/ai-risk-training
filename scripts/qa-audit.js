@@ -7,6 +7,8 @@
 // COVERAGE:
 //   Layer 1 — Data integrity    (branch refs, outcome existence)
 //   Layer 2 — Path completeness (all personas reach valid outcomes)
+//   Layer 2e — Unit Loop        (optional unit field: recall/brief/debrief
+//                                structure + flow, backward-compat routing)
 //   Layer 3 — Content quality   (dangling refs, tone, length)
 //   Layer 4 — Transition safety (state machine edge cases the browser
 //                                can hit but Node simulation misses)
@@ -568,6 +570,233 @@ if (!scenario.state_schema) {
   }
 }
 
+
+
+// ═══════════════════════════════════════════════════════════════════
+// LAYER 2e — Unit Loop validation
+// Validates the optional `unit` field (Recall/Brief/Debrief beats) when
+// present, and proves backward-compatible routing when absent.
+// Skipped-with-pass for all scenarios without a unit (all existing).
+// ═══════════════════════════════════════════════════════════════════
+console.log('\n══ Layer 2e: Unit Loop validation ══');
+
+const RECALL_NOTE_MIN_WORDS = 8;
+const RECALL_ITEMS_SOFT_MAX = 5;   // ~2–3 minute beat budget
+const BRIEF_SECTIONS_SOFT_MAX = 5; // coherence principle — lean teach layer
+
+if (!scenario.unit) {
+  pass('No unit — skipping (all existing scenarios expected)');
+  // Backward-compat proof: SELECT_PERSONA must land on PREMISE, with unit
+  // flags all false and recallAnswers empty. Runs on every scenario in CI.
+  let bcState = createInitialState(scenario);
+  const flags = bcState.unitFlags || {};
+  if (flags.hasRecall || flags.hasBrief || flags.hasDebrief) {
+    p1('unitFlags not all false on a scenario with no unit');
+  }
+  if (!Array.isArray(bcState.recallAnswers) || bcState.recallAnswers.length !== 0) {
+    p1('recallAnswers not initialised to an empty array');
+  }
+  bcState = reducer(bcState, { type: 'SELECT_PERSONA', payload: Object.keys(scenario.personas)[0] });
+  if (bcState.state !== STATES.PREMISE) {
+    p1(`SELECT_PERSONA routed to "${bcState.state}" instead of PREMISE on a scenario with no unit`);
+  } else {
+    pass('Backward compat: SELECT_PERSONA routes to PREMISE (no unit)');
+  }
+} else {
+  const unit = scenario.unit;
+  let unitIssues = 0;
+
+  if (!unit.recall && !unit.brief && !unit.debrief) {
+    p1('unit is present but has none of recall/brief/debrief');
+    unitIssues++;
+  }
+
+  // ── recall ──
+  if (unit.recall) {
+    const items = unit.recall.items;
+    if (!Array.isArray(items) || items.length === 0) {
+      p1('unit.recall.items must be a non-empty array');
+      unitIssues++;
+    } else {
+      if (items.length > RECALL_ITEMS_SOFT_MAX) {
+        warn(`unit.recall has ${items.length} items — beat budget is ~2–3 min (soft max ${RECALL_ITEMS_SOFT_MAX})`);
+      }
+      const seenItemIds = new Set();
+      for (const item of items) {
+        const ref = `unit.recall item "${item.id || '?'}"`;
+        if (!item.id || typeof item.id !== 'string') { p1(`${ref} — missing string id`); unitIssues++; }
+        else if (seenItemIds.has(item.id)) { p1(`${ref} — duplicate item id`); unitIssues++; }
+        else seenItemIds.add(item.id);
+        if (!item.prompt || typeof item.prompt !== 'string') { p1(`${ref} — missing prompt`); unitIssues++; }
+        else if (!item.prompt.includes('?')) warn(`${ref} — prompt is not a question`);
+        const choices = item.choices;
+        if (!Array.isArray(choices) || choices.length < 2) {
+          p1(`${ref} — needs at least 2 choices`); unitIssues++;
+          continue;
+        }
+        if (choices.length > 4) warn(`${ref} — ${choices.length} choices (max 4 recommended)`);
+        const seenChoiceIds = new Set();
+        let hasGood = false;
+        for (const choice of choices) {
+          const cref = `${ref} choice "${choice.id || '?'}"`;
+          if (!choice.id) { p1(`${cref} — missing id`); unitIssues++; }
+          else if (seenChoiceIds.has(choice.id)) { p1(`${cref} — duplicate choice id`); unitIssues++; }
+          else seenChoiceIds.add(choice.id);
+          if (!choice.label || !String(choice.label).trim()) { p1(`${cref} — empty label`); unitIssues++; }
+          if (!['good', 'partial', 'poor'].includes(choice.quality)) {
+            p1(`${cref} — invalid quality: "${choice.quality}"`); unitIssues++;
+          }
+          if (choice.quality === 'good') hasGood = true;
+          const noteWords = (choice.note || '').split(/\s+/).filter(Boolean).length;
+          if (noteWords < RECALL_NOTE_MIN_WORDS) {
+            p1(`${cref} — note too short (${noteWords}w, min ${RECALL_NOTE_MIN_WORDS})`); unitIssues++;
+          }
+        }
+        if (!hasGood) warn(`${ref} — no 'good' choice available`);
+      }
+    }
+  }
+
+  // ── brief ──
+  if (unit.brief) {
+    const sections = unit.brief.sections;
+    if (!Array.isArray(sections) || sections.length === 0) {
+      p1('unit.brief.sections must be a non-empty array');
+      unitIssues++;
+    } else {
+      if (sections.length > BRIEF_SECTIONS_SOFT_MAX) {
+        warn(`unit.brief has ${sections.length} sections — lean teach layer (soft max ${BRIEF_SECTIONS_SOFT_MAX})`);
+      }
+      sections.forEach((s, i) => {
+        if (!s.heading || !String(s.heading).trim()) { p1(`unit.brief.sections[${i}] — missing heading`); unitIssues++; }
+        if (!s.body || !String(s.body).trim()) { p1(`unit.brief.sections[${i}] — missing body`); unitIssues++; }
+      });
+    }
+    if (unit.brief.kb_url && !String(unit.brief.kb_url).startsWith('https://library.airiskpractice.org/')) {
+      warn(`unit.brief.kb_url does not point at the knowledge base: "${unit.brief.kb_url}"`);
+    }
+  }
+
+  // ── debrief ──
+  if (unit.debrief) {
+    const d = unit.debrief;
+    if (!d.reflection_prompt && !d.transfer_prompt && !d.expert_reasoning) {
+      p1('unit.debrief has none of reflection_prompt/transfer_prompt/expert_reasoning');
+      unitIssues++;
+    }
+    for (const field of ['reflection_prompt', 'transfer_prompt']) {
+      if (d[field] !== undefined && (typeof d[field] !== 'string' || !d[field].trim())) {
+        p1(`unit.debrief.${field} must be a non-empty string when present`); unitIssues++;
+      }
+    }
+    if (d.expert_reasoning) {
+      for (const [personaKey, byOutcome] of Object.entries(d.expert_reasoning)) {
+        if (!scenario.trees[personaKey]) {
+          p1(`unit.debrief.expert_reasoning["${personaKey}"] — persona has no tree in this scenario`);
+          unitIssues++;
+          continue;
+        }
+        const treeOutcomes = scenario.trees[personaKey].outcomes;
+        for (const [outcomeId, text] of Object.entries(byOutcome)) {
+          if (!treeOutcomes[outcomeId]) {
+            p1(`unit.debrief.expert_reasoning["${personaKey}"]["${outcomeId}"] — outcome does not exist in that tree`);
+            unitIssues++;
+          }
+          if (typeof text !== 'string' || !text.trim()) {
+            p1(`unit.debrief.expert_reasoning["${personaKey}"]["${outcomeId}"] — must be a non-empty string`);
+            unitIssues++;
+          }
+        }
+        // Coverage advisory — the debrief renders without an expert block,
+        // but authored coverage is the point of the beat.
+        const missing = Object.keys(treeOutcomes).filter(id => !byOutcome[id]);
+        if (missing.length > 0) {
+          warn(`unit.debrief.expert_reasoning["${personaKey}"] — no reasoning for: ${missing.join(', ')}`);
+        }
+      }
+    }
+  }
+
+  if (unitIssues === 0) pass('unit structure valid');
+
+  // ── Flow simulation through the real reducer ──
+  const firstPersona = Object.keys(scenario.personas).find(p => scenario.trees[p]);
+  if (firstPersona) {
+    let st = createInitialState(scenario);
+    st = reducer(st, { type: 'SELECT_PERSONA', payload: firstPersona });
+    const expectedEntry = unit.recall ? STATES.RECALL : unit.brief ? STATES.BRIEF : STATES.PREMISE;
+    if (st.state !== expectedEntry) {
+      p1(`SELECT_PERSONA routed to "${st.state}" — expected "${expectedEntry}"`);
+    } else {
+      pass(`SELECT_PERSONA routes to ${expectedEntry.toUpperCase()}`);
+    }
+    if (unit.recall && Array.isArray(unit.recall.items)) {
+      for (const item of unit.recall.items) {
+        const choice = item.choices?.[0];
+        if (!choice) continue;
+        st = reducer(st, { type: 'ANSWER_RECALL', payload: { itemId: item.id, choiceId: choice.id, quality: choice.quality } });
+        // Idempotence: a duplicate answer must not record twice.
+        st = reducer(st, { type: 'ANSWER_RECALL', payload: { itemId: item.id, choiceId: choice.id, quality: choice.quality } });
+      }
+      if (st.recallAnswers.length !== unit.recall.items.length) {
+        p1(`recallAnswers recorded ${st.recallAnswers.length} answers for ${unit.recall.items.length} items (duplicate guard or recording broken)`);
+      } else {
+        pass('Recall answers recorded once per item (duplicate-answer guard holds)');
+      }
+      st = reducer(st, { type: 'CONTINUE_FROM_RECALL' });
+      const afterRecall = unit.brief ? STATES.BRIEF : STATES.PREMISE;
+      if (st.state !== afterRecall) {
+        p1(`CONTINUE_FROM_RECALL routed to "${st.state}" — expected "${afterRecall}"`);
+      }
+    }
+    if (unit.brief && st.state === STATES.BRIEF) {
+      st = reducer(st, { type: 'CONTINUE_FROM_BRIEF' });
+      if (st.state !== STATES.PREMISE) {
+        p1(`CONTINUE_FROM_BRIEF routed to "${st.state}" — expected PREMISE`);
+      }
+    }
+    if (st.state === STATES.PREMISE) {
+      pass('Unit beats reach PREMISE; Decide flow unchanged from here');
+    }
+    if (unit.debrief) {
+      // Walk a first-choice path to an outcome, then prove SHOW_DEBRIEF works
+      // and preserves the recall record.
+      const answersBefore = st.recallAnswers.length;
+      st = reducer(st, { type: 'START_SCENARIO' });
+      let steps = 0;
+      while (st.state !== STATES.OUTCOME && steps < 30) {
+        steps++;
+        if (st.state === STATES.NODE) {
+          const node = getCurrentNode(scenario, st.persona, st.currentNodeId);
+          if (!node) break;
+          if (!node.decision) {
+            st = reducer(st, { type: 'AUTO_ADVANCE', payload: { nextNodeId: node.branches.auto, node } });
+          } else {
+            const choice = node.decision.choices[0];
+            st = reducer(st, { type: 'SELECT_CHOICE', payload: { choice, nextNodeId: resolveNext(node, choice.id), node } });
+            st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+            st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+          }
+        } else if (st.state === STATES.FEEDBACK) {
+          st = reducer(st, { type: 'FEEDBACK_LOADED', payload: 'test' });
+          st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+        }
+      }
+      if (st.state === STATES.OUTCOME) {
+        st = reducer(st, { type: 'SHOW_DEBRIEF' });
+        if (st.state !== STATES.DEBRIEF) {
+          p1(`SHOW_DEBRIEF from OUTCOME routed to "${st.state}" — expected DEBRIEF`);
+        } else if (st.recallAnswers.length !== answersBefore) {
+          p1('recallAnswers changed during the Decide walk — record must persist to the debrief');
+        } else {
+          pass('SHOW_DEBRIEF reaches DEBRIEF with the recall record intact');
+        }
+      } else {
+        warn('Could not reach an outcome on the first-choice path to test SHOW_DEBRIEF');
+      }
+    }
+  }
+}
 
 
 // ═══════════════════════════════════════════════════════════════════

@@ -4,7 +4,7 @@
 //
 // PLAUSIBLE GOAL SETUP (one-time, in Plausible dashboard):
 // Goals → Add goal → Custom event for each of:
-//   Practitioner track: 'Scenario Started', 'Decision Made', 'Scenario Completed', 'Card Shared', 'Replay Chosen', 'KB Link Clicked'
+//   Practitioner track: 'Scenario Started', 'Decision Made', 'Scenario Completed', 'Card Shared', 'Replay Chosen', 'KB Link Clicked', 'Recall Answered', 'Debrief Viewed'
 //   Fork (everyday) track: 'Fork Started', 'Fork Decision', 'Fork Completed', 'Fork Card Shared', 'Fork Replayed'
 //
 // Fork events include: scenario (which of 3), node (which decision point), choice_quality, outcome, score.
@@ -34,6 +34,19 @@ export const trackScenarioStarted = (scenarioId, scenarioTitle) =>
 export const trackDecisionMade = (scenarioId, nodeId, choiceQuality) =>
   safe(() => trackEvent('Decision Made', {
     props: { scenario_id: scenarioId, node_id: nodeId, choice_quality: choiceQuality },
+  }));
+
+// Unit Loop — recall items are part of the same decision-quality record as
+// scenario choices ("the decisions are the assessment"). Anonymous, Layer-1.
+export const trackRecallAnswered = (scenarioId, itemId, choiceQuality) =>
+  safe(() => trackEvent('Recall Answered', {
+    props: { scenario_id: scenarioId, item_id: itemId, choice_quality: choiceQuality },
+  }));
+
+// Unit Loop — fired when a learner opens the debrief from the outcome screen.
+export const trackDebriefViewed = (scenarioId, outcomeId) =>
+  safe(() => trackEvent('Debrief Viewed', {
+    props: { scenario_id: scenarioId, outcome_id: outcomeId },
   }));
 
 export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona, score, playNumber) =>

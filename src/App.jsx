@@ -13,8 +13,13 @@ import {
   trackScenarioCompleted,
   trackReplayChosen,
   trackKbLinkClicked,
+  trackRecallAnswered,
+  trackDebriefViewed,
 } from './utils/analytics.js';
 import { Certificate } from './components/Certificate/Certificate.jsx';
+import { Recall } from './components/UnitLoop/Recall.jsx';
+import { Brief } from './components/UnitLoop/Brief.jsx';
+import { Debrief } from './components/UnitLoop/Debrief.jsx';
 import { scormInit, scormComplete, scormTerminate } from './utils/scorm.js';
 
 // ── Feedback generation ──────────────────────────────────────────
@@ -1548,7 +1553,7 @@ const FOUNDATION_BUNDLE = new Set(['f2-shadow-ai', 'c5-ai-cyber-attacks', 'a1-ha
 // ── Outcome ──────────────────────────────────────────────────────
 const TONE_CLASS = { good: styles.outcomeGood, warn: styles.outcomeWarn, bad: styles.outcomeBad };
 
-function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
+function OutcomeScreen({ outcome, scenario, persona, onRestart, onDebrief }) {
   const toneClass = TONE_CLASS[outcome.tone] || TONE_CLASS.warn;
   const [showCert, setShowCert] = useState(false);
   const isBundle = FOUNDATION_BUNDLE.has(scenario.id);
@@ -1624,6 +1629,9 @@ function OutcomeScreen({ outcome, scenario, persona, onRestart }) {
       )}
 
       <div className={styles.outcomeActions}>
+        {onDebrief && (
+          <button className={styles.primaryBtn} onClick={onDebrief}>Review the debrief →</button>
+        )}
         <button className={styles.secondaryBtn} onClick={() => onRestart('persona')}>Try another role</button>
         <button className={styles.secondaryBtn} onClick={() => onRestart('start')}>Play again</button>
         <Link to="/" className={styles.accentLink}>All scenarios →</Link>
@@ -1697,6 +1705,16 @@ function ScenarioPlayer({ scenario }) {
   const currentNode = getCurrentNode(scenario, state.persona, state.currentNodeId);
   const currentOutcome = getOutcome(scenario, state.persona, state.outcomeId);
 
+  // Shared by OutcomeScreen and Debrief (both offer replay actions).
+  const handleRestart = mode => {
+    trackReplayChosen(scenario.id);
+    playCount.current += 1;
+    dispatch({
+      type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
+      payload: scenario,
+    });
+  };
+
   return (
     <div className={styles.app}>
       <header className={styles.header}>
@@ -1716,6 +1734,24 @@ function ScenarioPlayer({ scenario }) {
         {state.state === STATES.PERSONA_SELECT && (
           <PersonaSelect scenario={scenario}
             onSelect={p => dispatch({ type: 'SELECT_PERSONA', payload: p })} />
+        )}
+        {state.state === STATES.RECALL && scenario.unit?.recall && (
+          <Recall
+            recall={scenario.unit.recall}
+            answers={state.recallAnswers}
+            onAnswer={(item, choice) => {
+              trackRecallAnswered(scenario.id, item.id, choice.quality);
+              dispatch({
+                type: 'ANSWER_RECALL',
+                payload: { itemId: item.id, choiceId: choice.id, quality: choice.quality },
+              });
+            }}
+            onContinue={() => dispatch({ type: 'CONTINUE_FROM_RECALL' })} />
+        )}
+        {state.state === STATES.BRIEF && scenario.unit?.brief && (
+          <Brief
+            brief={scenario.unit.brief}
+            onContinue={() => dispatch({ type: 'CONTINUE_FROM_BRIEF' })} />
         )}
         {state.state === STATES.PREMISE && (
           <Premise scenario={scenario} persona={state.persona}
@@ -1748,14 +1784,19 @@ function ScenarioPlayer({ scenario }) {
         )}
         {state.state === STATES.OUTCOME && currentOutcome && (
           <OutcomeScreen outcome={currentOutcome} scenario={scenario} persona={state.persona}
-            onRestart={mode => {
-              trackReplayChosen(scenario.id);
-              playCount.current += 1;
-              dispatch({
-                type: mode === 'persona' ? 'CHANGE_PERSONA' : 'RESTART',
-                payload: scenario,
-              });
-            }} />
+            onRestart={handleRestart}
+            onDebrief={state.unitFlags?.hasDebrief ? () => {
+              trackDebriefViewed(scenario.id, state.outcomeId);
+              dispatch({ type: 'SHOW_DEBRIEF' });
+            } : undefined} />
+        )}
+        {state.state === STATES.DEBRIEF && scenario.unit?.debrief && currentOutcome && (
+          <Debrief
+            debrief={scenario.unit.debrief}
+            persona={state.persona}
+            outcome={currentOutcome}
+            outcomeId={state.outcomeId}
+            onRestart={handleRestart} />
         )}
       </main>
 

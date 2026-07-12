@@ -1,9 +1,12 @@
 export const STATES = {
   PERSONA_SELECT: 'persona_select',
+  RECALL:         'recall',    // Unit Loop beat — spaced retrieval (optional, scenario.unit.recall)
+  BRIEF:          'brief',     // Unit Loop beat — teach layer (optional, scenario.unit.brief)
   PREMISE:        'premise',
   NODE:           'node',
   FEEDBACK:       'feedback',
   OUTCOME:        'outcome',
+  DEBRIEF:        'debrief',   // Unit Loop beat — consequence review (optional, scenario.unit.debrief)
 };
 
 // Internal helper — clamps a numeric value to schema min/max when declared.
@@ -22,6 +25,10 @@ export function createInitialState(scenario) {
   const stateVars = schema
     ? Object.fromEntries(Object.entries(schema).map(([k, def]) => [k, def.initial]))
     : null;
+  // Unit Loop flags — derived once here because SELECT_PERSONA cannot see the
+  // scenario object (same constraint that shaped stateSchema stashing, May 31).
+  // All false when scenario.unit is absent → behaviour identical to before.
+  const unit = scenario.unit || null;
   return {
     scenarioId:      scenario.id,
     state:           STATES.PERSONA_SELECT,
@@ -35,6 +42,15 @@ export function createInitialState(scenario) {
     nextNodeId:      null,   // ← always initialised, never undefined
     stateVars,               // null when scenario has no state_schema
     stateSchema:     schema, // null when scenario has no state_schema
+    unitFlags: {
+      hasRecall:  !!(unit && unit.recall),
+      hasBrief:   !!(unit && unit.brief),
+      hasDebrief: !!(unit && unit.debrief),
+    },
+    // Recall answers are part of the decision-quality record (Unit Loop:
+    // "the decisions are the assessment"). Kept as a compact array so a
+    // future SCORM suspend_data breadcrumb stays well inside the 64k limit.
+    recallAnswers:   [],
   };
 }
 
@@ -58,19 +74,55 @@ export function applyStateChanges(stateVars, stateSchema, stateChanges, choiceId
 export function reducer(state, action) {
   switch (action.type) {
 
-    case 'SELECT_PERSONA':
+    case 'SELECT_PERSONA': {
+      // Unit Loop routing: RECALL → BRIEF → PREMISE, skipping absent beats.
+      // unitFlags are always initialised by createInitialState; the guard is
+      // defensive only. All existing scenarios (no unit) land on PREMISE.
+      const { hasRecall, hasBrief } = state.unitFlags || {};
       return {
         ...state,
         persona:         action.payload,
-        state:           STATES.PREMISE,
+        state:           hasRecall ? STATES.RECALL
+                       : hasBrief  ? STATES.BRIEF
+                       : STATES.PREMISE,
         currentNodeId:   'start',
         history:         [],
+        recallAnswers:   [],
         selectedChoice:  null,
         feedbackText:    null,
         feedbackLoading: false,
         outcomeId:       null,
         nextNodeId:      null,
       };
+    }
+
+    case 'ANSWER_RECALL': {
+      // Records one recall item answer. Idempotent per item — a double-tap
+      // cannot record twice. Answers persist through the scenario run so the
+      // outcome/debrief layer (and future evidence export) can read them.
+      const { itemId, choiceId, quality } = action.payload || {};
+      if (!itemId || !choiceId) return state;
+      if (state.recallAnswers.some(a => a.itemId === itemId)) return state;
+      return {
+        ...state,
+        recallAnswers: [...state.recallAnswers, { itemId, choiceId, quality }],
+      };
+    }
+
+    case 'CONTINUE_FROM_RECALL':
+      return {
+        ...state,
+        state: (state.unitFlags || {}).hasBrief ? STATES.BRIEF : STATES.PREMISE,
+      };
+
+    case 'CONTINUE_FROM_BRIEF':
+      return { ...state, state: STATES.PREMISE };
+
+    case 'SHOW_DEBRIEF':
+      // Only meaningful from a reached outcome on a scenario with a debrief.
+      if (state.state !== STATES.OUTCOME || !state.outcomeId) return state;
+      if (!(state.unitFlags || {}).hasDebrief) return state;
+      return { ...state, state: STATES.DEBRIEF };
 
     case 'START_SCENARIO':
       return { ...state, state: STATES.NODE, currentNodeId: 'start' };
