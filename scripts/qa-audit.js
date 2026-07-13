@@ -1088,6 +1088,27 @@ console.log(`     See BROWSER CHECKLIST at the top of this file.`);
 console.log('\n══ Persona completeness ══');
 
 const EXPECTED = ['business_user', 'executive', 'pm', 'analyst'];
+
+// Declared-persona consistency — applies to every scenario shape.
+// Any persona declared without a tree (or tree without a persona) is P1.
+for (const p of Object.keys(scenario.personas)) {
+  if (!scenario.trees[p]) p1(`${p}: persona declared but has no tree`);
+}
+for (const p of Object.keys(scenario.trees)) {
+  if (!scenario.personas[p]) p1(`${p}: tree present but persona not declared`);
+}
+
+// Corpus-shape completeness. Multi-persona scenarios (the 32-scenario open
+// corpus) must carry the full standard persona set. A scenario that declares
+// exactly one persona is the role-track unit shape (role differentiation
+// happens at the unit level — see UnitLoop README) and is exempt from the
+// full-set requirement; its declared persona is still fully validated above
+// and throughout Layers 1–3.
+const declaredCount = Object.keys(scenario.personas).length;
+const singlePersona = declaredCount === 1;
+if (singlePersona) {
+  pass(`single-persona scenario (role-track unit shape) — full persona set not required`);
+}
 for (const p of EXPECTED) {
   const hasPersona = !!scenario.personas[p];
   const hasTree    = !!scenario.trees[p];
@@ -1095,6 +1116,8 @@ for (const p of EXPECTED) {
 
   if (!hasPersona && p === 'business_user' && !scenario.has_business_user) {
     pass(`business_user: not required for this scenario`);
+  } else if (singlePersona && !hasPersona) {
+    continue; // role-track shape — absence of the standard set is expected
   } else if (!hasPersona || !hasTree) {
     const fn = buRequired ? p1 : warn;
     fn(`${p}: persona=${hasPersona ? 'yes' : 'NO'}, tree=${hasTree ? 'yes' : 'NO'}`);
