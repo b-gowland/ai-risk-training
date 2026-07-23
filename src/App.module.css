@@ -288,6 +288,21 @@
 
 /* ── Controls section ── */
 .controlsSection { margin-bottom:28px; }
+.controlsToggle {
+  width:100%; display:flex; justify-content:space-between; align-items:center;
+  gap:12px; padding:14px 16px; margin-bottom:8px;
+  border:1px solid var(--c-border); border-radius:7px;
+  background:var(--c-surface-2); cursor:pointer;
+  font-family:var(--font-sans); text-align:left;
+}
+.controlsToggle:hover { border-color:var(--c-text-tertiary); }
+.controlsToggleLabel {
+  font-size:12px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--c-text-secondary);
+}
+.controlsToggleMeta {
+  font-size:11px; color:var(--c-text-tertiary); text-align:right;
+}
 .sectionTitle {
   font-size:10px; font-weight:600; text-transform:uppercase;
   letter-spacing:.14em; color:var(--c-text-tertiary);

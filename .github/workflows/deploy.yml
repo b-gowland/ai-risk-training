@@ -13,7 +13,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # Keyed per ref so a batch of PRs (e.g. a stacked contributor series) does
+  # not cancel its own siblings. Real deploys all run on refs/heads/main and
+  # still serialise — the property this block exists for. Mirrors the
+  # Jul 23 2026 ai-risk-kb fix (b45b9ae).
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:

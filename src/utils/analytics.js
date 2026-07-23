@@ -81,6 +81,15 @@ export const trackKbLinkClicked = (scenarioId, riskRef) =>
     props: { scenario_id: scenarioId, risk_ref: riskRef },
   }));
 
+// Fires only when a learner opens the collapsed controls register on the
+// outcome screen (default-collapsed since Jul 2026 — ARTICLE4_HERO_DESIGN
+// v2.0 §10). Measures whether the register earns its place for open-hub
+// learners; informs the role-gating thesis quietly.
+export const trackControlsExpanded = (scenarioId, outcomeTone) =>
+  safe(() => trackEvent('Controls Expanded', {
+    props: { scenario_id: scenarioId, outcome_tone: outcomeTone },
+  }));
+
 // ── Fork (everyday) track ────────────────────────────────────────
 // Distinct event names so Fork metrics are filterable separately in Plausible.
 // scenario values: 'p1-deepfake', 'p2-hallucination', 'p3-employment'

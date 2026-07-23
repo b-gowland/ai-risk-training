@@ -13,6 +13,7 @@ import {
   trackScenarioCompleted,
   trackReplayChosen,
   trackKbLinkClicked,
+  trackControlsExpanded,
   trackRecallAnswered,
   trackDebriefViewed,
 } from './utils/analytics.js';
@@ -1556,7 +1557,16 @@ const TONE_CLASS = { good: styles.outcomeGood, warn: styles.outcomeWarn, bad: st
 function OutcomeScreen({ outcome, scenario, persona, onRestart, onDebrief }) {
   const toneClass = TONE_CLASS[outcome.tone] || TONE_CLASS.warn;
   const [showCert, setShowCert] = useState(false);
+  // Controls register is collapsed by default for every track — the outcome
+  // screen leads with consequence + learning; the register is reference
+  // material for the minority who want it (ARTICLE4_HERO_DESIGN v2.0 §10).
+  const [showControls, setShowControls] = useState(false);
   const isBundle = FOUNDATION_BUNDLE.has(scenario.id);
+
+  const handleToggleControls = () => {
+    if (!showControls) trackControlsExpanded(scenario.id, outcome.tone);
+    setShowControls(v => !v);
+  };
 
   return (
     <div className={styles.outcomeWrap}>
@@ -1580,7 +1590,20 @@ function OutcomeScreen({ outcome, scenario, persona, onRestart, onDebrief }) {
 
       {scenario.controls_summary?.length > 0 && (
       <div className={styles.controlsSection}>
-        <div className={styles.sectionTitle}>Controls this scenario demonstrates</div>
+        <button
+          type="button"
+          className={styles.controlsToggle}
+          aria-expanded={showControls}
+          onClick={handleToggleControls}
+        >
+          <span className={styles.controlsToggleLabel}>
+            {showControls ? 'Hide the controls' : 'See the controls'}
+          </span>
+          <span className={styles.controlsToggleMeta}>
+            {scenario.controls_summary.length} control{scenario.controls_summary.length === 1 ? '' : 's'} this scenario demonstrates {showControls ? '▴' : '▾'}
+          </span>
+        </button>
+        {showControls && (
         <div className={styles.controlsList}>
           {scenario.controls_summary.map(c => (
             <div key={c.id} className={styles.controlItem}>
@@ -1596,6 +1619,7 @@ function OutcomeScreen({ outcome, scenario, persona, onRestart, onDebrief }) {
             </div>
           ))}
         </div>
+        )}
       </div>
       )}
 
