@@ -667,10 +667,40 @@ if (!scenario.unit) {
       if (sections.length > BRIEF_SECTIONS_SOFT_MAX) {
         warn(`unit.brief has ${sections.length} sections — lean teach layer (soft max ${BRIEF_SECTIONS_SOFT_MAX})`);
       }
+      let checkCount = 0;
+      const checkIds = new Set();
       sections.forEach((s, i) => {
         if (!s.heading || !String(s.heading).trim()) { p1(`unit.brief.sections[${i}] — missing heading`); unitIssues++; }
         if (!s.body || !String(s.body).trim()) { p1(`unit.brief.sections[${i}] — missing body`); unitIssues++; }
+        if (s.check !== undefined) {
+          checkCount++;
+          const c = s.check;
+          const cref = `unit.brief.sections[${i}].check`;
+          if (!c || typeof c !== 'object') { p1(`${cref} — must be an object`); unitIssues++; return; }
+          if (!c.id || !String(c.id).trim()) { p1(`${cref} — missing id`); unitIssues++; }
+          else if (checkIds.has(c.id)) { p1(`${cref} — duplicate check id "${c.id}"`); unitIssues++; }
+          else checkIds.add(c.id);
+          if (!c.prompt || !String(c.prompt).trim()) { p1(`${cref} — missing prompt`); unitIssues++; }
+          else if (!String(c.prompt).trim().endsWith('?')) { warn(`${cref} — prompt should end in ?`); }
+          if (!Array.isArray(c.choices) || c.choices.length < 2 || c.choices.length > 4) {
+            p1(`${cref} — choices must be an array of 2–4`); unitIssues++;
+          } else {
+            let hasGood = false;
+            c.choices.forEach((ch, j) => {
+              if (!ch.id) { p1(`${cref}.choices[${j}] — missing id`); unitIssues++; }
+              if (!ch.label || !String(ch.label).trim()) { p1(`${cref}.choices[${j}] — missing label`); unitIssues++; }
+              if (!['good', 'partial', 'poor'].includes(ch.quality)) { p1(`${cref}.choices[${j}] — quality must be good/partial/poor`); unitIssues++; }
+              if (ch.quality === 'good') hasGood = true;
+              const words = String(ch.note || '').trim().split(/\s+/).filter(Boolean).length;
+              if (words < 8) { p1(`${cref}.choices[${j}] — note under 8 words`); unitIssues++; }
+            });
+            if (!hasGood) warn(`${cref} — no 'good' choice available`);
+          }
+        }
       });
+      if (checkCount > 2) {
+        warn(`unit.brief has ${checkCount} checks — anti-padding soft max is 2 per brief`);
+      }
     }
     if (unit.brief.kb_url && !String(unit.brief.kb_url).startsWith('https://library.airiskpractice.org/')) {
       warn(`unit.brief.kb_url does not point at the knowledge base: "${unit.brief.kb_url}"`);
@@ -687,6 +717,35 @@ if (!scenario.unit) {
     for (const field of ['reflection_prompt', 'transfer_prompt']) {
       if (d[field] !== undefined && (typeof d[field] !== 'string' || !d[field].trim())) {
         p1(`unit.debrief.${field} must be a non-empty string when present`); unitIssues++;
+      }
+    }
+    if (d.takeaways !== undefined) {
+      if (!Array.isArray(d.takeaways) || d.takeaways.length === 0) {
+        p1('unit.debrief.takeaways must be a non-empty array when present'); unitIssues++;
+      } else {
+        if (d.takeaways.length > 3) warn(`unit.debrief has ${d.takeaways.length} takeaways — the scannable close is ≤3`);
+        d.takeaways.forEach((t, i) => {
+          if (typeof t !== 'string' || !t.trim()) { p1(`unit.debrief.takeaways[${i}] — must be a non-empty string`); unitIssues++; }
+        });
+      }
+    }
+    if (d.commit !== undefined) {
+      const c = d.commit;
+      if (!c || typeof c !== 'object') { p1('unit.debrief.commit — must be an object'); unitIssues++; }
+      else {
+        if (!c.prompt || !String(c.prompt).trim()) { p1('unit.debrief.commit — missing prompt'); unitIssues++; }
+        if (!Array.isArray(c.options) || c.options.length < 2 || c.options.length > 4) {
+          p1('unit.debrief.commit.options must be an array of 2–4 (the skip option is rendered automatically — never author one)'); unitIssues++;
+        } else {
+          const ids = new Set();
+          c.options.forEach((o, i) => {
+            if (!o.id || !String(o.id).trim()) { p1(`unit.debrief.commit.options[${i}] — missing id`); unitIssues++; }
+            else if (o.id === 'skip') { p1(`unit.debrief.commit.options[${i}] — 'skip' is reserved (rendered automatically)`); unitIssues++; }
+            else if (ids.has(o.id)) { p1(`unit.debrief.commit.options[${i}] — duplicate id "${o.id}"`); unitIssues++; }
+            else ids.add(o.id);
+            if (!o.label || !String(o.label).trim()) { p1(`unit.debrief.commit.options[${i}] — missing label`); unitIssues++; }
+          });
+        }
       }
     }
     if (d.expert_reasoning) {

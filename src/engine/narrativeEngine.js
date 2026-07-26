@@ -51,6 +51,11 @@ export function createInitialState(scenario) {
     // "the decisions are the assessment"). Kept as a compact array so a
     // future SCORM suspend_data breadcrumb stays well inside the 64k limit.
     recallAnswers:   [],
+    // Learner-selected action from the Debrief beat (Unit Loop). A single
+    // compact id — part of the same decision record as recallAnswers, and
+    // sized for the same SCORM suspend_data budget. Null when the unit has
+    // no commit block or the learner skipped.
+    commitment:      null,
   };
 }
 
@@ -88,6 +93,7 @@ export function reducer(state, action) {
         currentNodeId:   'start',
         history:         [],
         recallAnswers:   [],
+        commitment:      null,
         selectedChoice:  null,
         feedbackText:    null,
         feedbackLoading: false,
@@ -123,6 +129,17 @@ export function reducer(state, action) {
       if (state.state !== STATES.OUTCOME || !state.outcomeId) return state;
       if (!(state.unitFlags || {}).hasDebrief) return state;
       return { ...state, state: STATES.DEBRIEF };
+
+    case 'SELECT_COMMITMENT': {
+      // Records the learner-selected action from the Debrief commit block.
+      // Last-write-wins by design — changing your mind before leaving the
+      // debrief is legitimate. 'skip' is a valid recorded value: an explicit
+      // "none of these fits" is a signal, not an absence.
+      if (state.state !== STATES.DEBRIEF) return state;
+      const commitmentId = (action.payload || {}).commitmentId;
+      if (!commitmentId) return state;
+      return { ...state, commitment: commitmentId };
+    }
 
     case 'START_SCENARIO':
       return { ...state, state: STATES.NODE, currentNodeId: 'start' };

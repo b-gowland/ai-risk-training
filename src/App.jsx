@@ -1775,6 +1775,7 @@ function ScenarioPlayer({ scenario }) {
         {state.state === STATES.BRIEF && scenario.unit?.brief && (
           <Brief
             brief={scenario.unit.brief}
+            scenarioId={scenario.id}
             onContinue={() => dispatch({ type: 'CONTINUE_FROM_BRIEF' })} />
         )}
         {state.state === STATES.PREMISE && (
@@ -1820,6 +1821,8 @@ function ScenarioPlayer({ scenario }) {
             persona={state.persona}
             outcome={currentOutcome}
             outcomeId={state.outcomeId}
+            scenarioId={scenario.id}
+            onCommit={(id) => dispatch({ type: 'SELECT_COMMITMENT', payload: { commitmentId: id } })}
             onRestart={handleRestart} />
         )}
       </main>

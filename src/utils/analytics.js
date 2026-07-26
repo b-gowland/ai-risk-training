@@ -144,3 +144,25 @@ export const trackForkReplayed = (scenarioId) =>
   safe(() => trackEvent('Fork Replayed', {
     props: { scenario: forkScenarioKey(scenarioId) },
   }));
+
+// Unit Loop — Debrief action picker. Fires once per selection change; the
+// commitment id is a content-defined key ('c1'…'c4' or 'skip'), never text.
+// An explicit skip is a recorded signal, not an absence.
+export const trackCommitmentSelected = (scenarioId, commitmentId) =>
+  safe(() => trackEvent('Commitment Selected', {
+    props: {
+      scenario:   forkScenarioKey(scenarioId),
+      commitment: commitmentId,
+    },
+  }));
+
+// Unit Loop — Brief micro-check. Fires on first answer per check only.
+// Measures whether the worked-Brief mechanic is actually worked.
+export const trackBriefCheckAnswered = (scenarioId, checkId, quality) =>
+  safe(() => trackEvent('Brief Check Answered', {
+    props: {
+      scenario: forkScenarioKey(scenarioId),
+      check:    checkId,
+      quality:  quality || '',
+    },
+  }));

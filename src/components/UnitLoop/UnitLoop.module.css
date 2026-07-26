@@ -180,3 +180,46 @@
   font-size: 13px; font-weight: 500; text-decoration: none;
 }
 .accentLink:hover { text-decoration: underline; }
+
+/* ── Debrief: takeaways + action picker ─────────────────────────── */
+.takeawaysList { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:10px; }
+.takeawayItem { font-size:15px; line-height:1.55; color:var(--c-text); }
+
+.commitBlock {
+  margin-bottom:24px; padding:20px;
+  border:1px solid var(--c-border); border-radius:8px;
+  background:var(--c-surface-2);
+}
+.commitPrompt { font-size:15px; line-height:1.55; color:var(--c-text); margin:10px 0 16px; }
+.commitOptions { display:flex; flex-direction:column; gap:10px; }
+.commitOption {
+  display:flex; flex-direction:column; gap:4px; text-align:left;
+  padding:14px 16px; border:1px solid var(--c-border); border-radius:7px;
+  background:var(--c-surface); cursor:pointer; font-family:var(--font-sans);
+}
+.commitOption:hover { border-color:var(--c-text-tertiary); }
+.commitOptionPicked { border-color:var(--c-accent); box-shadow:0 0 0 1px var(--c-accent); }
+.commitOptionLabel { font-size:14px; font-weight:600; color:var(--c-text); line-height:1.45; }
+.commitOptionDetail { font-size:13px; color:var(--c-text-secondary); line-height:1.5; }
+.commitOptionSkip .commitOptionLabel { font-weight:400; color:var(--c-text-secondary); }
+.commitConfirm { min-height:22px; margin-top:12px; font-size:13px; font-style:italic; color:var(--c-text-secondary); }
+
+/* ── Brief: applied micro-checks ────────────────────────────────── */
+.briefCheck {
+  margin-top:14px; padding:14px 16px;
+  border-left:3px solid var(--c-accent); border-radius:0 7px 7px 0;
+  background:var(--c-surface-2);
+}
+.briefCheckPrompt { font-size:14px; font-weight:600; color:var(--c-text); line-height:1.5; margin-bottom:10px; }
+.briefCheckChoices { display:flex; flex-direction:column; gap:8px; }
+.briefCheckChoice {
+  text-align:left; padding:10px 14px; font-size:13.5px; line-height:1.45;
+  border:1px solid var(--c-border); border-radius:6px;
+  background:var(--c-surface); cursor:pointer; font-family:var(--font-sans);
+  color:var(--c-text);
+}
+.briefCheckChoice:hover { border-color:var(--c-text-tertiary); }
+.briefCheckChoicePicked { border-color:var(--c-accent); box-shadow:0 0 0 1px var(--c-accent); }
+.briefCheckNote { margin-top:10px; font-size:13.5px; line-height:1.55; padding:10px 12px; border-radius:6px; }
+.briefCheckNoteGood { background:var(--c-good-bg, #eef6ee); color:var(--c-text); }
+.briefCheckNoteOther { background:var(--c-warn-bg, #f9f3e8); color:var(--c-text); }

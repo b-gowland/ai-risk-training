@@ -180,5 +180,34 @@ const briefOnlyScenario = {
   assert(st.state === STATES.PREMISE, 'brief-only: CONTINUE_FROM_BRIEF → PREMISE');
 }
 
+// ── SELECT_COMMITMENT — Debrief-only, last-write-wins, skip is a value ──
+{
+  let st = createInitialState(fullUnitScenario);
+  st = reducer(st, { type: 'SELECT_PERSONA', payload: 'business_user' });
+  // Not in DEBRIEF yet — must be a no-op
+  let early = reducer(st, { type: 'SELECT_COMMITMENT', payload: { commitmentId: 'c1' } });
+  assert(early.commitment === null, 'commitment: no-op outside DEBRIEF');
+  // Drive to an outcome, then debrief
+  st = reducer(st, { type: 'CONTINUE_FROM_RECALL' });
+  st = reducer(st, { type: 'CONTINUE_FROM_BRIEF' });
+  st = reducer(st, { type: 'START_SCENARIO' });
+  while (st.state === STATES.NODE) {
+    const node = fullUnitScenario.trees.business_user.nodes[st.currentNodeId];
+    const choice = node.decision.choices[0];
+    st = reducer(st, { type: 'SELECT_CHOICE', payload: { choice, nextNodeId: node.branches[choice.id], node } });
+    st = reducer(st, { type: 'CONTINUE_FROM_FEEDBACK' });
+  }
+  st = reducer(st, { type: 'SHOW_DEBRIEF' });
+  assert(st.state === STATES.DEBRIEF, 'commitment: reached DEBRIEF');
+  st = reducer(st, { type: 'SELECT_COMMITMENT', payload: { commitmentId: 'c2' } });
+  assert(st.commitment === 'c2', 'commitment: records id in DEBRIEF');
+  st = reducer(st, { type: 'SELECT_COMMITMENT', payload: { commitmentId: 'skip' } });
+  assert(st.commitment === 'skip', 'commitment: last-write-wins, skip is a valid value');
+  st = reducer(st, { type: 'SELECT_COMMITMENT', payload: {} });
+  assert(st.commitment === 'skip', 'commitment: empty payload is a no-op');
+  const reset = reducer(st, { type: 'RESTART', payload: 'persona' });
+  assert(reset.commitment === null, 'commitment: cleared on restart');
+}
+
 console.log(failures === 0 ? 'PASS — Unit Loop engine flows correct' : `${failures} failure(s)`);
 process.exit(failures === 0 ? 0 : 1);
