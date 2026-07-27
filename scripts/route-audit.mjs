@@ -87,7 +87,10 @@ for (const f of codeFiles) {
   // Absolute-path anchors. This is the footer-Privacy-404 class: href="/privacy"
   // on a HashRouter app served from Pages resolves to a server path that does
   // not exist, so it is a hard 404 rather than a client-side route.
-  for (const m of body.matchAll(/href="(\/[^"#][^"]*)"/g)) {
+  // NB the trailing-content class must allow a bare href="/" — the first
+  // version of this check required a character after the slash and therefore
+  // missed exactly that case, which was live in a dead component.
+  for (const m of body.matchAll(/href="(\/(?:[^"#][^"]*)?)"/g)) {
     err(
       'routes',
       `${f}: href="${m[1]}" is a server-absolute path in a HashRouter app — it will 404. Use <Link to="…"> or href="#${m[1]}".`
