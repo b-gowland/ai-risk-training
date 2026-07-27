@@ -31,6 +31,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - name: Route audit — cross-surface integrity
+        run: node scripts/route-audit.mjs
       - name: QA audit — every practitioner scenario
         run: |
           for f in src/scenarios/*.js; do

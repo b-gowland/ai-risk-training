@@ -102,7 +102,8 @@ export function Certificate({ scenario, outcome, persona, onDismiss }) {
               This training scenario addresses Article 4 of EU Regulation 2024/1689 (EU AI Act),
               which requires organisations to ensure their staff possess sufficient AI literacy to
               understand the capabilities, limitations, and risks of AI systems they use or oversee.
-              Enforcement: August 2, 2026.
+              Article 4 has applied since 2 February 2025; supervision and
+              enforcement began 2 August 2026.
             </p>
             <div className={styles.bundleRow}>
               <span className={styles.bundleLabel}>Foundation Bundle scenarios:</span>

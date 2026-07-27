@@ -41,9 +41,12 @@ function ScenarioCard({ scenario }) {
 
       <div className={styles.personaRow}>
         {personas.map(key => {
+          // A stub has no playable tree for anyone, so no pip is available.
+          // Previously the business_user pip followed has_business_user even on
+          // stubs, which advertised a perspective that could not be played.
           const available = isLive
             ? (key === 'business_user' ? scenario.has_business_user : true)
-            : (key === 'business_user' ? scenario.has_business_user : false);
+            : false;
           const p = PERSONA_ICONS[key];
           return (
             <span key={key}
@@ -181,7 +184,8 @@ export function Homepage() {
               with AI systems have sufficient AI literacy to understand AI capabilities,
               limitations, and risks. These three scenarios address the risk categories most
               relevant to that obligation. Completing each generates a printable record for
-              your training files. Enforcement: August 2, 2026.
+              your training files. Article 4 has applied since 2 February 2025;
+              supervision and enforcement began 2 August 2026.
             </p>
             <div className={styles.bundleScenarios}>
               <span className={styles.bundleScen}>F2 Shadow AI</span>
@@ -193,7 +197,7 @@ export function Homepage() {
           </div>
           <div className={styles.bundleRight}>
             <div className={styles.bundleRegRef}>EU AI Act Art. 4</div>
-            <div className={styles.bundleDeadline}>Enforcement: Aug 2, 2026</div>
+            <div className={styles.bundleDeadline}>EU AI Act Article 4 — in force</div>
           </div>
         </div>
       </div>
@@ -245,7 +249,7 @@ export function Homepage() {
         <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Library ↗</a>
         <a href="https://baseline.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Governance Baseline ↗</a>
-        <span className={styles.footerMid}>Scenarios are fictional · No personal data collected · <a href="/privacy">Privacy</a></span>
+        <span className={styles.footerMid}>Scenarios are fictional · No personal data collected · <Link to="/privacy">Privacy</Link></span>
         <span className={styles.footerRight}>Taxonomy: MIT AI Risk Repository (CC BY 4.0) · NIST AI RMF · OWASP LLM Top 10</span>
       </footer>
     </div>

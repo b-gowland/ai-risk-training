@@ -23,10 +23,10 @@ const DOMAIN_TAGS = {
 function Header() {
   return (
     <div className={styles.header}>
-      <div className={styles.headerBrand}>
+      <Link to="/" className={styles.headerBrand} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div className={styles.headerMark}>FORK_</div>
         <div className={styles.headerBy}>by <span>AI Risk Practice</span></div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -35,6 +35,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <span className={styles.footerBrand}>FORK_ by <span>AI Risk Practice</span></span>
+      <Link to="/">AI risk at work</Link>
       <a href="https://baseline.airiskpractice.org/" target="_blank" rel="noopener noreferrer">Governance Baseline ↗</a>
       <Link to="/privacy">Privacy</Link>
       <a href="mailto:hello@airiskpractice.org">Contact</a>
