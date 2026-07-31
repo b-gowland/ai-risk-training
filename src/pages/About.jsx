@@ -31,10 +31,10 @@ export default function About() {
         <section className={s.section}>
           <h2 className={s.h2}>What it is</h2>
           <p className={s.p}>
-            Nine — soon more — branching scenarios about AI going wrong, split across two doors:
-            one for personal life, one for work. You are the person it is happening to. You make
-            the calls with incomplete information and some time pressure, and then you see what
-            followed. Nothing is scored. There is no login and nothing to install.
+            This v2 build has nine core branching scenarios about AI going wrong, split across
+            two doors: one for personal life, one for work. You are the person it is happening to.
+            You make the calls with incomplete information and some time pressure, and then you see
+            what followed. Nothing is scored. There is no login and nothing to install.
           </p>
           <p className={s.p}>
             It is a <em>choose-your-own-adventure</em> on purpose. People remember decisions they
@@ -63,6 +63,25 @@ export default function About() {
             certification, not legal or security advice, and it makes no claim to make anyone
             &ldquo;compliant.&rdquo; It is a place to practise the decision before you have to make
             it for real.
+          </p>
+        </section>
+
+        <section className={s.section}>
+          <h2 className={s.h2}>How it was made — and remade</h2>
+          <p className={s.p}>
+            This is built with AI, and it feels right to be plain about that in a project about
+            AI risk. The code and much of the first-draft writing were produced by working with
+            an AI model, and then reviewed and approved by a human. AI is a genuinely useful tool
+            when you check its work — which is, more or less, the whole point of this site.
+          </p>
+          <p className={s.p}>
+            The version you are looking at is the second attempt. The first was built mainly with
+            corporate training in mind — 32 scenarios, four personas each. With feedback we found
+            it was too technical and suited to only a small slice of people, so we have tried to
+            both simplify it and focus on the core AI risks that might resonate with a broader
+            audience. At the same time we leaned harder into what works in training design, so the
+            setup, flow and wrap-up are all better than they were. We are always looking to
+            improve — so please send any feedback below, or help us build this better.
           </p>
         </section>
 
