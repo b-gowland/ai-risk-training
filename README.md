@@ -3,36 +3,39 @@
 Interactive scenario-based AI risk training — a companion to [ai-risk-kb](https://github.com/b-gowland/ai-risk-kb).
 
 **Live:** https://app.airiskpractice.org/
-**Everyday track (Fork):** https://app.airiskpractice.org/#/everyday
 
 ---
 
 ## What it is
 
-Choose-your-own-adventure scenarios that teach AI risk through consequence rather than compliance slides.
+One training app with two doors. **At home** covers personal AI risk — scams,
+chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job,
+from general staff through practitioners. The split is situational, not
+identity-based: the same person uses both.
 
-- **Four personas per scenario** — Business User, Executive, Project Manager, Security Analyst
-- **4–5 branching decisions** per scenario — your first choice shapes what happens next
-- **Real consequences** — including the ones that are darkly funny
-- **Links to the knowledge base** — every outcome points to the full risk reference at [library.airiskpractice.org](https://library.airiskpractice.org/)
+You are dropped into a situation, you make the calls, and you see what
+follows. Nothing is scored, nothing is saved, and there is no login.
 
-All scenario characters and organisations are fictional. Incidents referenced in the knowledge base are real and cited.
+- **One perspective per scenario**, chosen as the most instructive vantage
+  point on that risk. No identity gate before you are shown anything.
+- **Artefacts** — the message, the email, the model output, the transcript.
+  If a decision turns on seeing something, you see it.
+- **A debrief that does the work** — what pulled you, what happened, what made
+  it look legitimate, and one sentence worth passing on.
+- **Links to the reference layer** at
+  [library.airiskpractice.org](https://library.airiskpractice.org/)
+
+All characters and organisations are fictional. Incidents referenced in the
+knowledge base are real and cited.
 
 ## Scenarios
 
-All 32 practitioner scenarios are live across 7 risk domains, plus 3 everyday public-facing scenarios.
+The app is mid-rebuild to a four-beat scenario schema (Setup → Decide →
+Debrief → Close). Scenarios are registered in `src/scenarios/index.js` as each
+is migrated; files present but unregistered are not reachable in the app and
+are reported by `npm run route-audit`.
 
-| Domain | Scenarios |
-|--------|-----------|
-| A — Technical | A1 Hallucination · A2 Model Drift · A3 Robustness · A4 Explainability |
-| B — Governance | B1 Accountability · B2 Compliance · B3 Lifecycle · B4 Supply Chain · B5 Agentic Logging |
-| C — Security | C1 Data Poisoning · C2 Prompt Injection · C3 Model Theft · C4 Deepfakes · C5 AI Cyber Attacks · C6 MCP Attack Surface · C7 Multi-Agent Trust · C8 Computer-Use Hijacking |
-| D — Data | D1 Data Quality · D2 Privacy · D3 IP & Copyright |
-| E — Fairness | E1 Algorithmic Bias · E2 Harmful Content · E3 Misinformation |
-| F — Deployment | F1 Automation Bias · F2 Shadow AI · F3 Scope Creep · F4 Irreversibility |
-| G — Systemic | G1 Concentration Risk · G2 Environmental Impact · G3 Workforce Displacement · G4 AI Safety · G5 Excessive Agency |
-
-**Fork — everyday track:** Three public-facing scenarios on deepfake voice scams, AI hallucination, and algorithmic hiring. Designed for anyone, not just practitioners. Takes 4–5 minutes each.
+Schema reference: `src/scenarios/README.md`.
 
 ## Stack
 

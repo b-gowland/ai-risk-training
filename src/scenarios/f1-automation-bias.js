@@ -1,589 +1,300 @@
-// F1 — Trust the Machine
-// Automation Bias & Overreliance
+// f1-automation-bias.js — Trust the Machine
+// At Work. Migrated to the four-beat schema (FREE_PRODUCT §4) July 2026.
+// Perspective: the radiologist reading scan 75 of the day — a staff decision
+// about whether to exercise judgement against a confident AI, under real time
+// pressure.
 //
-// Setting: Radiology department. AI diagnostic aid flags a chest X-ray as normal.
-// The radiologist's own reading suggests a small abnormality but they defer to the AI.
-// Three months later a follow-up scan confirms early-stage lung cancer — visible on the original.
-//
-// Differentiation from other live scenarios:
-//   C5: External attacker manipulates a human via AI-generated content.
-//   F1: Internal overreliance — the AI is doing exactly what it was designed to do,
-//       the risk is the human deferring to it inappropriately. No bad actor. The
-//       system worked; the human-AI interaction failed.
-//   Key tension: Time pressure is real (80 scans/day). Deferring to the AI is the
-//   efficient choice and usually correct. The scenario explores what happens when
-//   efficiency and safety diverge — and how systems should be designed so they don't.
+// Discrimination rule (CONTENT_STYLE_GUIDE): the AI is right about 94% of the
+// time, and deferring to it is normally the efficient, correct choice. The
+// scenario is not "never trust AI" — it is about the specific moment your own
+// reading diverges from a confident output, and how a system should be built
+// so that divergence gets acted on rather than swallowed.
 
 export const scenario = {
-  id:                `f1-automation-bias`,
-  risk_ref:          `F1`,
-  title:             `Trust the Machine`,
-  subtitle:          `Automation Bias & Overreliance`,
-  domain:            `F — Deployment & Operations`,
-  difficulty:        `Intermediate`,
-  kb_url:            `https://library.airiskpractice.org/docs/domain-f-deployment/f1-automation-bias`,
-  estimated_minutes: 13,
-  has_business_user: true,
+  id: `f1-automation-bias`,
+  door: `work`,
+  risk_ref: `F1`,
+  title: `Trust the Machine`,
+  shelfLine: `The AI flags the scan as normal. Your own eye caught something. You have six more to read.`,
+  hook: `The AI says the scan is normal, 91% confidence. Your eye caught something. You have six more to read.`,
+  scene: `xray-ai`,
+  determinacy: `open`,
 
-  regulatory_tags: [`eu-ai-act-article-14`, `nist-ai-rmf-map-1`, `owasp-llm-09`, `jurisdiction-global`],
+  kb_url: `https://library.airiskpractice.org/docs/domain-f-operational/f1-automation-bias`,
+  regulatory_tags: [`eu-ai-act-article-14`, `eu-ai-act-annex-iii`, `jurisdiction-eu`, `jurisdiction-global`],
+  mit_subdomain: `mit-4.2`,
 
-  personas: {
-    business_user: {
-      label:     `Business User`,
-      role:      `Radiologist`,
-      character: `Dr. Sam Chen`,
-      icon:      `◇`,
-      framing:   `It's 4pm. You've reviewed 74 chest X-rays today. The AI flags the next one as normal. Your eye catches something — but it's subtle, and the AI is usually right.`,
-      premise:   `You are Dr. Sam Chen, a radiologist at a busy public hospital. Your AI diagnostic aid has a 94% accuracy rate on chest X-rays — well above the departmental average before it was introduced. Scan 75 of today's batch: the AI returns a normal finding with 91% confidence. But as you scan the image yourself, something in the lower right lobe catches your attention. It's subtle — possibly just an artefact. The AI didn't flag it. You have six more scans before end of shift and a waiting room full of patients depending on fast turnaround.`,
+  coldOpen: [
+    `Scan 75 of 80 for the day. The AI diagnostic aid returns its result before you've finished your own read: Normal, 91% confidence.`,
+    `But your eye caught something in the lower right lobe. Subtle. Probably nothing. The AI has been right all week, and it's over-ruled your hesitation three times already.`,
+    `91% is not 100%. And the AI has seen 74 scans today. You've seen all 75.`,
+  ],
+
+  standing: `Radiologist, mid-career, in a department that runs AI-assisted reads`,
+  authority: `You can flag a scan, request a second opinion, and raise a process concern. You can't redesign the tool or change department workflow on your own.`,
+  ending: `You find out whether your own judgement gets exercised in the one moment it matters — and whether the system that nearly buried it gets fixed.`,
+
+  entry: `start`,
+
+  nodes: {
+    start: {
+      prose: [
+        `The AI's confidence score is sitting there at 91%, and it's doing something to your certainty. You've been over-ruled by it three times this week, each time correctly.`,
+        `Before you decide what to do with this scan, it's worth being clear about what that 91% actually tells you.`,
+      ],
+      artefact: {
+        type: `system_output`,
+        source: `RadAssist AI — scan 75`,
+        lines: [
+          `Result: NORMAL`,
+          `Confidence: 91%`,
+          `Regions flagged: none`,
+          `Model accuracy (validation): 94%`,
+        ],
+        note: `The confidence score reflects how well this scan matches the model's training distribution — not the probability that the result is correct.`,
+      },
+      decision: {
+        prompt: `What does a high AI confidence score tell you about whether your own judgement still matters?`,
+        choices: [
+          { id: `a`, label: `Nothing decisive — high confidence means a good training-distribution match, not that it's right. Your judgement still applies`, quality: `good`,
+            consequence: `The distinction is the whole scenario. A confident score on an abnormal scan means the model is confidently wrong, and your read is not made redundant by it.` },
+          { id: `b`, label: `91% is strong evidence it's right — over-ruling a high-confidence result is riskier than accepting it`, quality: `poor`,
+            consequence: `That's automation bias stated as a principle. High confidence amplifies the pull to defer, and confident AI outputs have been wrong in documented, consequential cases.` },
+          { id: `c`, label: `The AI has seen far more scans than you — its pattern recognition at scale beats one radiologist on one scan`, quality: `partial`,
+            consequence: `Scale helps on common patterns and hurts on the rare presentation the training data under-covered. Your judgement earns its keep precisely where the AI's scale advantage runs out.` },
+        ],
+      },
+      branches: { a: `n_response`, b: `n_response`, c: `n_response` },
     },
-    executive: {
-      label:     `Executive`,
-      role:      `Chief Medical Officer`,
-      character: `Dr. Morgan`,
-      icon:      `◈`,
-      framing:   `A patient's cancer was missed on an X-ray three months ago. The AI said normal. The radiologist signed off on it. The system worked as designed. That's the problem.`,
-      premise:   `A patient presented last week with advanced lung cancer. A follow-up investigation traced the original missed finding to a chest X-ray taken three months ago — one of 847 scans reviewed that day using the AI diagnostic aid. The AI returned a normal finding. The radiologist signed off. No flag was raised. The review board wants to understand whether this was individual error, system failure, or both. As CMO you have to give them an answer — and a response.`,
+
+    n_response: {
+      prose: [
+        `The finding is still there when you look again. Subtle, in the lower right lobe. It could be an artefact. The AI says normal, and there are five scans behind this one.`,
+      ],
+      decision: {
+        prompt: `The AI says normal. Your instinct says look again. What do you do?`,
+        choices: [
+          { id: `a`, label: `Flag it for closer review — document the concern and request a second opinion before signing off`, quality: `good`,
+            consequence: `Your judgement exists for exactly this moment. A 94% model is wrong on 6% of scans, and the divergence between your read and its result is the signal, not the noise.` },
+          { id: `b`, label: `Spend another two minutes on the image yourself before deciding`, quality: `partial`,
+            consequence: `Better than accepting immediately. Without documenting the concern or getting a second read, though, the whole thing still rests on you alone under a clock.` },
+          { id: `c`, label: `Accept the AI result — 91% confidence, and six more to get through`, quality: `poor`,
+            consequence: `This is automation bias in its clearest form. The AI's score didn't change; your reading did — and time pressure made its answer feel more reliable than it is.` },
+        ],
+      },
+      branches: { a: `n2_flagged`, b: `n2_reviewed`, c: `n2_accepted` },
     },
-    pm: {
-      label:     `Project Manager`,
-      role:      `Clinical Systems Lead`,
-      character: `Priya`,
-      icon:      `◎`,
-      framing:   `You deployed the AI diagnostic aid eight months ago. The implementation was a success — scan throughput up 40%. Now a missed diagnosis has been traced to a scan reviewed using your system.`,
-      premise:   `You led the deployment of the AI diagnostic aid. It went live eight months ago. Radiologist throughput increased 40%. Clinician satisfaction scores were excellent. Three months into deployment, this scan. The review has surfaced a design decision you made during implementation: the AI result was displayed first, prominently, before the radiologist's own review. You optimised for efficiency. The question now is whether that design created the conditions for automation bias — and what you should have built instead.`,
+
+    n2_flagged: {
+      prose: [
+        `You flag it and request a second opinion. A senior colleague reviews it cold — she sees the same thing in the lower right lobe, and orders a follow-up CT.`,
+        `The CT confirms a small, operable lesion. Early stage, good prognosis. It was caught.`,
+      ],
+      decision: {
+        prompt: `The patient is fine. But you're thinking about the other 74 scans, and the design that nearly buried this one. What do you do with that?`,
+        choices: [
+          { id: `a`, label: `Raise it formally — the AI result displays before your own read, which primes you to accept it`, quality: `good`,
+            consequence: `This is the systemic fix. Your vigilance caught this scan; the display order determines whether the next radiologist catches the next one.` },
+          { id: `b`, label: `Note it in your own records as a reminder to be more careful`, quality: `partial`,
+            consequence: `Personal discipline is real and it protects no one else, and not you on a busier day. The bias is in the workflow, not your character.` },
+        ],
+      },
+      branches: { a: `n_others`, b: `n_others` },
     },
-    analyst: {
-      label:     `Analyst`,
-      role:      `Clinical Data Analyst`,
-      character: `Jordan`,
-      icon:      `◉`,
-      framing:   `You've been asked to analyse eight months of AI-assisted scan reviews to find out whether the missed diagnosis was an isolated event or a pattern.`,
-      premise:   `The CMO has asked you to audit the eight months of scan data since the AI diagnostic aid went live. Specifically: are there other cases where the AI returned a normal finding and the radiologist signed off quickly, but subsequent clinical outcomes suggest the finding may have been incorrect? You have the scan metadata, the AI confidence scores, the radiologist sign-off timestamps, and the follow-up clinical data. What you find will determine whether this is one missed diagnosis or the tip of a larger problem.`,
+
+    n2_reviewed: {
+      prose: [
+        `Two more minutes. The finding is still there — subtle but real, and you're now fairly sure it isn't an artefact.`,
+        `You've spent the time. Now you have to do something with what you can see.`,
+      ],
+      decision: {
+        prompt: `Your extended review has firmed up the concern. Now what?`,
+        choices: [
+          { id: `a`, label: `Flag for a second opinion — the review resolved the ambiguity`, quality: `good`,
+            consequence: `The extra time did its job. A second read on a discrepancy this significant is the robust call.` },
+          { id: `b`, label: `Over-ride the AI yourself and document your finding — no second opinion needed`, quality: `partial`,
+            consequence: `Over-riding beats deferring. A second read on a scan where you and the AI disagree is stronger still, especially for a finding that matters this much.` },
+          { id: `c`, label: `It's 91% confidence and your read could still be wrong — accept normal`, quality: `poor`,
+            consequence: `Spending the time to look harder and then deferring anyway is the worst of both. The extended review was the right instinct; this abandons it at the last step.` },
+        ],
+      },
+      branches: { a: `n_others`, b: `n_others`, c: `outcome_bad` },
+    },
+
+    n2_accepted: {
+      prose: [
+        `You sign it off as normal. Twelve seconds on scan 75 of 80.`,
+        `Three months later the patient returns with symptoms. A new scan confirms early-stage lung cancer, and the original X-ray is pulled for review. The lesion was visible. The AI missed it, and so did your sign-off.`,
+      ],
+      decision: {
+        prompt: `The review board asks whether anything on the original scan gave you pause. What do you tell them?`,
+        choices: [
+          { id: `a`, label: `The truth — you noticed something, the AI said normal, and you deferred under time pressure`, quality: `partial`,
+            consequence: `Transparency is right professionally and personally, and it gives the board the accurate information it needs to find the systemic cause.` },
+          { id: `b`, label: `That the AI result was normal and your review confirmed it`, quality: `poor`,
+            consequence: `Your review didn't confirm it — you deferred without completing your own read, and the record shows a twelve-second sign-off. That distinction matters clinically and legally.` },
+        ],
+      },
+      branches: { a: `n_board`, b: `outcome_bad` },
+    },
+
+    n_design: {
+      prose: [
+        `The immediate scan is handled. What's still live is the thing you noticed about the workflow: the AI's answer lands before your own read is done, so every scan starts from its conclusion rather than yours.`,
+        `The department lead asks what would actually change that.`,
+      ],
+      decision: {
+        prompt: `What do you recommend?`,
+        choices: [
+          { id: `a`, label: `Reverse the display order: radiologist completes their own read before the AI result is shown`, quality: `good`,
+            consequence: `This removes the anchor rather than asking people to resist it. It costs some throughput and it fixes the actual mechanism.` },
+          { id: `b`, label: `Add a mandatory second opinion on every AI-normal finding`, quality: `partial`,
+            consequence: `It catches cases and it's expensive, and it treats the symptom. The anchor is still there priming every first read; you've added a net under it rather than removing it.` },
+          { id: `c`, label: `Roll out extra training on automation bias and an attestation checkbox`, quality: `poor`,
+            consequence: `A checkbox on top of a biased display isn't a control — it's documentation that the department knew. Training didn't stop this and won't stop the next one, because the pull isn't a knowledge gap.` },
+        ],
+      },
+      branches: { a: `n_tradeoff`, b: `n_tradeoff`, c: `outcome_warn` },
+    },
+
+    n_tradeoff: {
+      prose: [
+        `Your recommendation lands on a real objection. Reversing the display order, or adding second reads, costs throughput — and the department is already measured on scans per day.`,
+        `The lead is sympathetic and under pressure: "I can take this up, but I'll be asked what it costs us."`,
+      ],
+      decision: {
+        prompt: `How do you frame the trade-off so it survives that conversation?`,
+        choices: [
+          { id: `a`, label: `Name it plainly: a small throughput cost against a missed-cancer risk, and let clinical governance weigh it`, quality: `good`,
+            consequence: `Framing it as a safety-versus-efficiency trade-off for governance to own is what gets it decided at the right level, rather than quietly dropped at yours.` },
+          { id: `b`, label: `Downplay the cost to get it approved — say the throughput hit is negligible`, quality: `partial`,
+            consequence: `Understating it gets a yes that unravels the first busy week, when the real cost shows up and the fix gets blamed for it.` },
+        ],
+      },
+      branches: { a: `outcome_great`, b: `outcome_good` },
+    },
+
+    n_board: {
+      prose: [
+        `You gave the board a straight account. The lesion was diagnosed later than it should have been, and your honesty is what lets the review find the real cause rather than stopping at your sign-off.`,
+        `They ask you directly: what would have made the difference?`,
+      ],
+      decision: {
+        prompt: `What do you tell them was the real problem?`,
+        choices: [
+          { id: `a`, label: `The AI-first display anchored a twelve-second read — it's a design failure, not just my error`, quality: `good`,
+            consequence: `True, and hard to say when your name is on the sign-off. It's also the finding that fixes the department rather than just recording a mistake.` },
+          { id: `b`, label: `That I should have been more careful — I'll be more vigilant going forward`, quality: `partial`,
+            consequence: `Owning it is decent and it lets the department off the hook. "Be more careful" is what everyone was already doing; it leaves the next radiologist facing the same anchored screen.` },
+        ],
+      },
+      branches: { a: `n_others`, b: `n_others` },
+    },
+
+    n_others: {
+      prose: [
+        `Whether this scan was caught or missed, the same uncomfortable thought lands: you've already read 74 scans today the same way, at the same pace, with the AI's answer showing first each time.`,
+        `Some of them were AI-normal reads you signed off quickly.`,
+      ],
+      decision: {
+        prompt: `What do you do about the reads you've already done under the same conditions?`,
+        choices: [
+          { id: `a`, label: `Ask for the day's AI-normal sign-offs to be re-checked, starting with the fastest ones`, quality: `good`,
+            consequence: `Uncomfortable and correct. If the anchor affected this scan, it plausibly affected others, and the fast sign-offs are where to look first.` },
+          { id: `b`, label: `Assume the rest were fine — this was the one that happened to catch your eye`, quality: `partial`,
+            consequence: `It caught your eye because you happened to glance. The others had no such luck built in, which is not the same as them being right.` },
+          { id: `c`, label: `Say nothing about the others — reopening them invites scrutiny of your whole day`, quality: `poor`,
+            consequence: `The scrutiny is the point, not the thing to avoid. A quiet gap in a day's reads is exactly what a later audit surfaces, with worse framing.` },
+        ],
+      },
+      branches: { a: `n_design`, b: `n_design`, c: `n_design` },
     },
   },
 
-  trees: {
-
-    // ── BUSINESS USER — Dr. Sam Chen ──────────────────────────────────
-    business_user: {
-      nodes: {
-        start: {
-          scene:       `xray-ai`,
-          caption:     `Scan 75 of the day. AI result: Normal — 91% confidence. Your eye caught something in the lower lobe. You've been over-ridden by the AI three times this week already.`,
-          sub_caption: `91% confidence is not 100%. And the AI has seen 74 scans today. You've seen all 75.`,
-          decision: {
-            prompt: `What does a high AI confidence score tell you about whether your own clinical judgment is still relevant?`,
-            choices: [
-              { id: `a`, label: `Nothing — high confidence means the AI is certain about its training distribution match, not that it's right. Clinical judgment remains relevant and should be exercised`, quality: `good`,
-                note: `Correct. AI confidence scores reflect how well the input matches the training distribution — not certainty of the correct answer. A high confidence score on an abnormal scan means the model is confidently wrong. Clinical judgment is not made redundant by a confident AI output.` },
-              { id: `b`, label: `A 91% confidence score is strong evidence the AI is right — the risk of over-riding a high-confidence result is higher than the risk of accepting it`, quality: `poor`,
-                note: `This is automation bias in action. High confidence amplifies the tendency to defer — but confident AI outputs have been wrong in documented cases.` },
-              { id: `c`, label: `The AI has seen more scans than any individual radiologist — its pattern recognition at scale is more reliable than individual judgment on a single scan`, quality: `partial`,
-                note: `Training scale is an advantage for the AI on common patterns. It's a disadvantage on rare presentations the training data didn't cover well. Clinical judgment adds value precisely in the cases where the AI's scale advantage doesn't apply.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-review`,
-          caption:     `Scan 75. AI result: Normal — 91% confidence. Your eye caught something in the lower right lobe. Subtle. Could be nothing.`,
-          decision: {
-            prompt: `The AI says normal. Your instinct says look again. What do you do?`,
-            choices: [
-              { id: `a`, label: `Flag this scan for closer review — document your concern and request a second opinion before signing off`, quality: `good`,
-                note: `Your clinical judgement exists for exactly this moment. The AI's 94% accuracy means it is wrong on 6% of scans. When your reading diverges from the AI, that divergence is the signal.` },
-              { id: `b`, label: `Spend another two minutes reviewing the image yourself before making a decision`, quality: `partial`,
-                note: `Better than accepting the AI result immediately. But without documenting your concern or requesting a second opinion, the decision still rests on your individual review under time pressure.` },
-              { id: `c`, label: `Accept the AI result. It has 91% confidence and you have six more scans to get through.`, quality: `poor`,
-                note: `This is automation bias in its clearest form. The AI's confidence score didn't change — your reading did. Efficiency pressure made the AI's answer feel more reliable than it was.` },
-            ],
-          },
-          branches: { a: `n2_flagged`, b: `n2_reviewed`, c: `n2_accepted` },
-        },
-
-        n2_flagged: {
-          scene:       `office-meeting`,
-          caption:     `You flag the scan and request a second opinion from a senior colleague. She reviews it independently — she also sees something in the lower right lobe. She orders a follow-up CT.`,
-          sub_caption: `The CT confirms a small but operable lesion. Early stage. Good prognosis.`,
-          decision: {
-            prompt: `The patient outcome is good. But you're thinking about the other 74 scans today and the system design that almost made you miss this. What do you do with that?`,
-            choices: [
-              { id: `a`, label: `Raise the design concern formally — the AI result displays before your own review, which primes you to accept it`, quality: `good`,
-                note: `This is the systemic fix. Individual vigilance caught this one. Process design determines whether the next radiologist catches the next one.` },
-              { id: `b`, label: `Document it in your personal notes as a reminder to be more careful`, quality: `partial`,
-                note: `Personal discipline has value. But it doesn't protect the next radiologist, or you on a harder day.` },
-            ],
-          },
-          branches: { a: `outcome_great`, b: `outcome_good` },
-        },
-
-        n2_reviewed: {
-          scene:       `desk-focused`,
-          caption:     `Two more minutes of review. The finding is still there — subtle but real. You're now fairly confident this isn't an artefact.`,
-          sub_caption: `You've spent the time. Now you have to decide what to do with what you see.`,
-          decision: {
-            prompt: `Your extended review has increased your concern. What now?`,
-            choices: [
-              { id: `a`, label: `Flag for second opinion — your extended review has confirmed your initial concern`, quality: `good`,
-                note: `The additional review time did what it was supposed to do — it resolved the ambiguity. Second opinion now is the right call.` },
-              { id: `b`, label: `Override the AI result yourself and document your finding — no second opinion needed`, quality: `partial`,
-                note: `Overriding the AI is better than deferring to it. But a second opinion on a discrepancy between your reading and the AI's is the more robust path — especially for a finding this significant.` },
-              { id: `c`, label: `The AI result is 91% confidence. Your extended review could still be wrong. Accept normal.`, quality: `poor`,
-                note: `Spending more time looking and then deferring to the AI anyway is the worst of both worlds. The extended review was the right impulse — follow it through.` },
-            ],
-          },
-          branches: { a: `outcome_great`, b: `outcome_good`, c: `outcome_bad` },
-        },
-
-        n2_accepted: {
-          scene:       `desk-working`,
-          caption:     `You sign off the scan as normal. Three months later, the patient returns with symptoms. A new scan confirms early-stage lung cancer. The original X-ray is reviewed.`,
-          sub_caption: `The lesion was visible. The AI missed it. So did your sign-off.`,
-          decision: {
-            prompt: `The review board asks whether you saw anything on the original scan that gave you pause. What do you tell them?`,
-            choices: [
-              { id: `a`, label: `Be transparent — you noticed something, the AI said normal, and you deferred to it under time pressure`, quality: `partial`,
-                note: `Transparency with the review board is the right thing professionally and personally. It also gives the board accurate information to identify the systemic issue.` },
-              { id: `b`, label: `State that the AI result was normal and your review confirmed it`, quality: `poor`,
-                note: `This is inaccurate. Your review didn't confirm it — you deferred to the AI without completing your own assessment. The distinction matters clinically and legally.` },
-            ],
-          },
-          branches: { a: `outcome_warn`, b: `outcome_bad` },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: `Clinical judgement exercised, systemic concern raised`,
-          tone:    `good`,
-          result:  `The lesion was caught early. The patient had a good outcome. Your formal concern about the AI-first display design was reviewed by the clinical systems team — the interface was redesigned to require radiologists to complete their own assessment before the AI result is shown. Early-stage catch rates improved over the following quarter.`,
-          learning: `Automation bias is a design problem as much as a behaviour problem. When the AI result displays first, it anchors the human reviewer's assessment. Reversing that sequence — human first, AI second — reduces bias without reducing the AI's contribution.`,
-          score:   100,
-        },
-        outcome_good: {
-          heading: `Good patient outcome, systemic issue not escalated`,
-          tone:    `good`,
-          result:  `The lesion was caught and the patient outcome was good. The interface design concern was noted personally but not escalated. Twelve months later, an audit identified a pattern of rapid sign-offs on AI-normal findings. The interface redesign that could have followed from your observation happened eventually — but later, and after more scans had gone through the same process.`,
-          learning: `Individual vigilance caught this case. But automation bias is systemic — it affects every radiologist using the system, every day. When you identify a design flaw that creates bias, escalating it is part of your professional responsibility.`,
-          score:   75,
-        },
-        outcome_warn: {
-          heading: `Missed diagnosis, transparent account given`,
-          tone:    `warn`,
-          result:  `The patient's cancer was diagnosed at a later stage than it would have been. Your transparent account to the review board was the right professional choice — it gave the board accurate information to identify the interface design as a contributing factor. The investigation found the AI-first display was a systemic issue affecting the whole department, not an individual error.`,
-          learning: `Automation bias under time pressure is a foreseeable and documented failure mode. The review board's job is to identify the systemic cause, not to assign individual blame. Transparency gives them what they need to do that.`,
-          score:   35,
-        },
-        outcome_bad: {
-          heading: `Missed diagnosis, inaccurate account given`,
-          tone:    `bad`,
-          result:  `The patient's cancer was diagnosed late. Your account to the review board was inaccurate — you described a review that didn't happen. The medical records showed a 12-second sign-off on scan 75 of 80 that day. The discrepancy between your account and the records became the focus of the investigation, rather than the interface design that contributed to the original decision.`,
-          learning: `Automation bias is a known, documented, foreseeable failure mode in AI-assisted clinical workflows. The professional and ethical path after a missed diagnosis is transparency — it's also the path that leads to systemic improvement rather than individual accountability.`,
-          score:   5,
-        },
-      },
+  outcomes: {
+    outcome_great: {
+      heading: `Judgement exercised, and the anchor removed`,
+      tone: `good`,
+      score: 100,
+      reaction: `Flagging a scan the AI called normal, on the 75th read of the day, is exactly the kind of small friction that time pressure is designed to erode. You held it.`,
+      description: [
+        `The lesion was caught early and the patient did well. And the design concern you raised got acted on: the interface was rebuilt so radiologists complete their own read before the AI result appears.`,
+        `Early-stage catch rates improved over the following quarter. The next radiologist starts from their own eyes, not the machine's conclusion.`,
+      ],
+      judgement: `Automation bias is a design problem at least as much as a discipline problem. When the AI result displays first, it anchors the human read — and the fix is to reverse the sequence, not to ask tired people to resist an anchor 80 times a day. You did both halves: caught the case, and closed the mechanism that nearly buried it.`,
     },
 
-    // ── EXECUTIVE — Dr. Morgan ────────────────────────────────────────
-    executive: {
-      nodes: {
-        start: {
-          scene:       `boardroom-agm`,
-          caption:     `An adverse outcome linked to an AI-assisted diagnostic that a radiologist over-rode their own concern to accept. The review board wants to know: individual error, system failure, or both?`,
-          sub_caption: `Automation bias isn't a character flaw. It's a documented human response to confident AI outputs.`,
-          decision: {
-            prompt: `What is automation bias and why does interface design affect it?`,
-            choices: [
-              { id: `a`, label: `Automation bias is the tendency to over-weight AI outputs relative to human judgment — interface design affects it because how the AI result is presented influences how much cognitive authority it's given`, quality: `good`,
-                note: `The correct framing. Automation bias is well-documented in human factors research. Interface design that presents AI outputs prominently, first, or with confidence indicators amplifies the tendency to defer. Design choices are not neutral — they shape clinical behaviour.` },
-              { id: `b`, label: `Automation bias is an individual failure of critical thinking — the right response is training radiologists to maintain independence`, quality: `poor`,
-                note: `Training addresses awareness but not the structural driver. If the interface design continues to prime deference, training effects degrade over time. Systemic bias requires systemic intervention — interface redesign, not just individual remediation.` },
-              { id: `c`, label: `It's a regulatory question — the system should require sign-off on AI outputs before they're shown to the clinician`, quality: `partial`,
-                note: `Process controls are one lever. But sign-off before display changes the sequence, not the cognitive authority of the AI output once shown.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `boardroom`,
-          caption:     `The review board wants to know: was this individual error, system failure, or both? The AI said normal. The radiologist signed off. No protocol was broken.`,
-          decision: {
-            prompt: `How do you frame your response to the review board?`,
-            choices: [
-              { id: `a`, label: `Systemic issue: the interface design created conditions for automation bias — this needs to be investigated and fixed`, quality: `good`,
-                note: `Automation bias is a documented, foreseeable consequence of displaying AI results before human review under time pressure. Framing it as systemic is accurate and leads to the right remediation.` },
-              { id: `b`, label: `Individual error: the radiologist had a professional obligation to complete an independent review`, quality: `partial`,
-                note: `The radiologist did have that obligation. But placing this entirely on the individual ignores the design conditions that made deferral the path of least resistance. The remediation will be inadequate.` },
-              { id: `c`, label: `AI system failure: the tool returned an incorrect result and the vendor needs to answer for it`, quality: `poor`,
-                note: `The AI performed within its documented accuracy range. A 94% accurate system will be wrong on 6% of scans. The failure was in the human-AI interaction design, not the AI's performance.` },
-            ],
-          },
-          branches: { a: `n2_systemic`, b: `n2_individual`, c: `n2_vendor` },
-        },
-
-        n2_systemic: {
-          scene:       `office-bright`,
-          caption:     `The board accepts the systemic framing. They want a remediation plan within 30 days. The clinical systems team flags that the AI-first display was a deliberate design choice — optimised for throughput.`,
-          sub_caption: `The efficiency gains were real. So was the bias it introduced.`,
-          decision: {
-            prompt: `The core remediation question: do you modify the interface design or do you add a verification requirement on top of the existing design?`,
-            choices: [
-              { id: `a`, label: `Redesign the interface — radiologist completes their own assessment before the AI result is shown`, quality: `good`,
-                note: `This addresses the root cause. Anchoring bias can't occur if the anchor isn't present during the primary review. Throughput impact is real but manageable.` },
-              { id: `b`, label: `Add a mandatory second opinion requirement for all AI-normal findings`, quality: `partial`,
-                note: `More robust than the current design but operationally expensive. A second opinion on every normal finding (the vast majority) is not sustainable. A targeted approach — second opinion where AI and radiologist readings diverge — is more proportionate.` },
-            ],
-          },
-          branches: { a: `outcome_great`, b: `outcome_good` },
-        },
-
-        n2_individual: {
-          scene:       `office-meeting`,
-          caption:     `The board accepts the individual framing. Additional training is mandated for all radiologists using AI diagnostic aids. The interface design is not reviewed.`,
-          sub_caption: `Three months later, a second missed diagnosis is traced to the same interface design.`,
-          decision: {
-            prompt: `The second incident has made the interface design question unavoidable. How do you respond?`,
-            choices: [
-              { id: `a`, label: `Commission an immediate interface design review — the pattern makes the systemic cause clear`, quality: `good`,
-                note: `Two incidents with the same mechanism is a pattern, not a coincidence. The systemic response is now overdue.` },
-              { id: `b`, label: `Increase the training requirement and add a mandatory attestation checkbox before sign-off`, quality: `partial`,
-                note: `A checkbox adds friction but doesn't address the anchoring bias created by seeing the AI result first. Users will tick it without it changing their review behaviour.` },
-            ],
-          },
-          branches: { a: `outcome_warn`, b: `outcome_bad` },
-        },
-
-        n2_vendor: {
-          scene:       `desk-working`,
-          caption:     `The vendor points to the documented 94% accuracy rate. The AI performed within specification. Legal reviews the contract. The warranty clause covers within-specification performance.`,
-          sub_caption: `The vendor isn't liable. The board is back to the original question.`,
-          decision: {
-            prompt: `The vendor framing has failed. The board is asking what you should have identified earlier. What is your revised response?`,
-            choices: [
-              { id: `a`, label: `Acknowledge the interface design as the systemic cause and present a remediation plan`, quality: `good`,
-                note: `Better late than never. The board needs a credible path forward, not a defence of the original framing.` },
-              { id: `b`, label: `Accept that the AI accuracy rate should have been higher before deployment`, quality: `poor`,
-                note: `94% accuracy is good performance. The problem was never the AI's accuracy — it was the design that made radiologists defer to the AI when their own reading diverged.` },
-            ],
-          },
-          branches: { a: `outcome_warn`, b: `outcome_bad` },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: `Systemic cause identified, interface redesigned`,
-          tone:    `good`,
-          result:  `The interface was redesigned within 30 days. Radiologists complete their own assessment before seeing the AI result. Throughput decreased 8% — accepted as the appropriate tradeoff. An audit six months later found no similar missed diagnoses. The department became a reference case for responsible AI deployment in clinical settings.`,
-          learning: `Human oversight of AI is a design problem. Designing a system that makes the AI result visible first, to time-pressured reviewers, is designing for automation bias. The fix is architectural, not behavioural.`,
-          score:   100,
-        },
-        outcome_good: {
-          heading: `Correct diagnosis, proportionate remediation`,
-          tone:    `good`,
-          result:  `Mandatory second opinions on AI-normal findings were implemented. The process is operationally expensive but caught two further cases in the following six months. An interface redesign was added to the medium-term roadmap. The approach is more robust than what existed before, but more costly than it needed to be.`,
-          learning: `The most proportionate control for automation bias is human-first review design — it addresses the cause. Secondary controls like mandatory second opinions address the symptom. Both work; the former is more efficient.`,
-          score:   70,
-        },
-        outcome_warn: {
-          heading: `Second incident forced the right response`,
-          tone:    `warn`,
-          result:  `The interface redesign happened — but after a second missed diagnosis. Two patients had worse outcomes than they should have. The first incident contained enough information to identify the systemic cause. The delay cost two patients a better prognosis.`,
-          learning: `A pattern of two incidents with the same mechanism is not required to identify a systemic cause. The first incident, accurately framed, contained all the information needed. Systemic causes require systemic remediation — not more training.`,
-          score:   30,
-        },
-        outcome_bad: {
-          heading: `Root cause unaddressed, pattern continued`,
-          tone:    `bad`,
-          result:  `The training and attestation approach did not change radiologist behaviour on AI-normal findings. The interface design remained unchanged. Over the following year, three further missed diagnoses were traced to the same pattern. A regulatory review found the hospital had identified the design issue and chosen not to address it.`,
-          learning: `An attestation checkbox on top of a biased design is not a control — it is documentation that the organisation knew about the risk. The remediation must address the root cause.`,
-          score:   5,
-        },
-      },
+    outcome_good: {
+      heading: `Caught it; reached for the net, not the cause`,
+      tone: `good`,
+      score: 72,
+      reaction: `A mandatory second opinion on every AI-normal read would genuinely catch cases. It's also the expensive way to solve a problem whose actual cause is a screen layout.`,
+      description: [
+        `The lesion was caught and the patient outcome was good. The safeguard you recommended — a second read on every AI-normal finding — went in, and it did catch two further cases over six months.`,
+        `It's more robust than what existed before, and more costly than it needed to be, because it nets everything downstream of an anchor that's still there.`,
+      ],
+      judgement: `The difference between this and the cleanest ending is where the fix sits relative to the cause. Reversing the display order removes the anchoring; a mandatory second opinion catches what the anchor lets through. Both work, and one addresses the mechanism while the other pays, per scan, forever, to compensate for leaving it in place.`,
     },
 
-    // ── PROJECT MANAGER — Priya ───────────────────────────────────────
-    pm: {
-      nodes: {
-        start: {
-          scene:       `desk-review`,
-          caption:     `The AI diagnostic aid shows its result first, prominently, with a confidence percentage. Throughput is up 40%. The interface was designed to maximise efficiency. An adverse outcome review is now asking about it.`,
-          sub_caption: `Efficiency and safety are not always aligned. The interface optimised for one.`,
-          decision: {
-            prompt: `What is the conflict between an interface designed for throughput and one designed to preserve clinical independence?`,
-            choices: [
-              { id: `a`, label: `A throughput-optimised interface presents AI results prominently to speed decision-making — a clinical-independence interface would present the AI result after the clinician has formed their own view, to avoid anchoring`, quality: `good`,
-                note: `Exactly the tension. Presenting the AI result first anchors the clinician's judgment before they've independently assessed the scan. That's efficient but it structurally primes automation bias.` },
-              { id: `b`, label: `The conflict is manageable — radiologists are trained to exercise independent judgment regardless of interface design`, quality: `poor`,
-                note: `Training intent doesn't override interface effect. Human factors research consistently shows that how information is presented shapes how it's weighted, regardless of training.` },
-              { id: `c`, label: `The 40% throughput improvement justifies the interface design — the aggregate benefit outweighs the individual risk`, quality: `poor`,
-                note: `This trades individual patient safety for system efficiency. That trade-off requires explicit clinical governance sign-off and monitoring — it can't be made implicitly in an interface design decision.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `desk-reading`,
-          caption:     `You deployed the AI diagnostic aid. Throughput up 40%. Satisfaction scores excellent. Now a missed diagnosis has been traced to a scan reviewed using your system — and a design decision you made.`,
-          decision: {
-            prompt: `The CMO asks you to explain the interface design rationale. How do you respond?`,
-            choices: [
-              { id: `a`, label: `Acknowledge the design decision and its likely contribution — and propose a redesign`, quality: `good`,
-                note: `Owning the design decision is professionally correct and gives the CMO accurate information. Coming with a proposed fix makes the conversation constructive.` },
-              { id: `b`, label: `Explain that AI-first display was industry standard at the time of deployment`, quality: `partial`,
-                note: `It may have been common practice. But automation bias from AI-first display was documented in the research literature before your deployment. Common practice doesn't mean best practice.` },
-              { id: `c`, label: `Argue that the radiologist had a professional obligation to override the AI if they disagreed`, quality: `poor`,
-                note: `Technically true. But you designed the system. Designing it in a way that made the AI result the path of least resistance was a design choice — and its consequences are partly your responsibility.` },
-            ],
-          },
-          branches: { a: `n2_owns`, b: `n2_industry`, c: `n2_deflects` },
-        },
-
-        n2_owns: {
-          scene:       `office-bright`,
-          caption:     `The CMO appreciates the honesty. She asks what the redesign would look like and what the throughput impact would be.`,
-          sub_caption: `You've done the rough numbers. Displaying human assessment first, AI second, adds approximately 90 seconds per scan.`,
-          decision: {
-            prompt: `What do you recommend?`,
-            choices: [
-              { id: `a`, label: `Human-first display with AI result available on demand — radiologist completes their own review before seeing the AI output`, quality: `good`,
-                note: `This is the design that addresses the root cause. The 90-second overhead is the cost of genuine human oversight. Worth quantifying precisely and presenting to the CMO with the tradeoff explicit.` },
-              { id: `b`, label: `Keep AI-first display but add a mandatory 60-second minimum review timer before sign-off is available`, quality: `partial`,
-                note: `Time friction has some value but doesn't address anchoring bias. A radiologist who has already seen the AI result will spend 60 seconds looking at an image they are already anchored to accept.` },
-            ],
-          },
-          branches: { a: `outcome_great`, b: `outcome_good` },
-        },
-
-        n2_industry: {
-          scene:       `office-meeting`,
-          caption:     `The CMO notes that the research literature on automation bias in AI-assisted radiology was published before your deployment. She asks whether it was reviewed during design.`,
-          sub_caption: `It wasn't. The procurement checklist didn't include a review of human factors literature.`,
-          decision: {
-            prompt: `How do you respond?`,
-            choices: [
-              { id: `a`, label: `Acknowledge the gap and propose adding human factors review to the procurement checklist for future AI deployments`, quality: `good`,
-                note: `Constructive response. The gap is real — and it's a gap in the process, not just this deployment. Fixing the process prevents the same mistake on the next system.` },
-              { id: `b`, label: `Note that the procurement process was followed correctly — the gap is in the process, not your implementation`, quality: `partial`,
-                note: `Accurate but incomplete. The process gap is real and worth raising. But you're the clinical systems lead — flagging process gaps is part of your role, not a defence.` },
-            ],
-          },
-          branches: { a: `outcome_good`, b: `outcome_warn` },
-        },
-
-        n2_deflects: {
-          scene:       `boardroom`,
-          caption:     `The CMO points out that you reviewed the human factors literature for the procurement decision — it's in your project file. Automation bias from AI-first display was a documented risk. You were aware of it.`,
-          sub_caption: `The deflection has made the conversation significantly harder.`,
-          decision: {
-            prompt: `The documentation contradicts your position. What do you do?`,
-            choices: [
-              { id: `a`, label: `Acknowledge the error — you were aware of the risk, the design decision was made for throughput reasons, and you should have escalated the tradeoff`, quality: `good`,
-                note: `This is the honest account. It's professionally difficult but it gives the CMO accurate information and demonstrates you understand what went wrong.` },
-              { id: `b`, label: `Argue that the literature was reviewed but the throughput requirement took precedence — a legitimate business decision`, quality: `poor`,
-                note: `A throughput decision that trades patient safety for efficiency is not a routine business decision — it's a risk decision that should have been escalated, not made at implementation level.` },
-            ],
-          },
-          branches: { a: `outcome_warn`, b: `outcome_bad` },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: `Design flaw acknowledged, root cause fix proposed`,
-          tone:    `good`,
-          result:  `The human-first display redesign was approved and implemented within 30 days. The 90-second throughput overhead was accepted. Your transparent account and proactive redesign proposal were noted in the CMO's review. The incident became the basis for a new human factors requirement in the hospital's AI procurement checklist.`,
-          learning: `AI deployment decisions are design decisions with safety consequences. The design of how AI outputs are presented to human reviewers determines whether human oversight is genuine or theatrical.`,
-          score:   100,
-        },
-        outcome_good: {
-          heading: `Partial fix implemented, process improved`,
-          tone:    `good`,
-          result:  `The time-friction approach was implemented. It provided some improvement but the interface redesign was flagged as the more effective fix on the six-month review. The procurement checklist was updated to include human factors review. Both changes were improvements — one addressed a symptom, one addressed the cause.`,
-          learning: `Time friction on an anchored decision is a weaker control than removing the anchor. Both are better than nothing. The best outcome requires addressing the root cause.`,
-          score:   65,
-        },
-        outcome_warn: {
-          heading: `Process gap identified, personal accountability deflected`,
-          tone:    `warn`,
-          result:  `The process gap was acknowledged and the procurement checklist was updated. The interface design was eventually reviewed — but the framing shifted the focus to process rather than the specific design decision. Fixing the checklist helps future deployments. It didn't help this one.`,
-          learning: `Process improvement and personal accountability are not mutually exclusive. Acknowledging the design decision was wrong, while also improving the process, is the complete response.`,
-          score:   35,
-        },
-        outcome_bad: {
-          heading: `Documented risk, unescalated tradeoff`,
-          tone:    `bad`,
-          result:  `The CMO's review found that the automation bias risk had been identified, documented, and set aside in favour of throughput targets. The decision had not been escalated for clinical governance sign-off. The incident resulted in a formal review of your role. The interface design remained unchanged for a further three months while the review ran.`,
-          learning: `When a deployment decision trades a documented safety risk against an efficiency target, that tradeoff must be escalated. It is not a decision that can be made at implementation level — regardless of commercial pressure.`,
-          score:   5,
-        },
-      },
+    outcome_warn: {
+      heading: `Handled, but the fix stopped at the person`,
+      tone: `warn`,
+      score: 35,
+      reaction: `"I'll be more careful" and "more training" both feel responsible, and both quietly locate the problem in the human rather than the screen that primed them.`,
+      description: [
+        `Whether the case was caught or missed, the response landed on vigilance — a checkbox, a reminder, a resolution to concentrate harder. The AI-first display stayed exactly as it was.`,
+        `Which means the next radiologist meets the same screen, on their own 75th scan, with the same twelve seconds. The mechanism is untouched.`,
+      ],
+      judgement: `Automation bias is not a carefulness deficit, so carefulness is not the control. The people here were skilled and trying, on scan 75 of 80. What primed the error was the workflow showing the AI's answer first, and an attestation checkbox on top of that is documentation that the risk was known, not a fix for it. The root cause is architectural.`,
     },
 
-    // ── ANALYST — Jordan ──────────────────────────────────────────────
-    analyst: {
-      nodes: {
-        start: {
-          scene:       `analyst-desk`,
-          caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and outcome data. You need to find evidence of systematic automation bias.`,
-          sub_caption: `Automation bias leaves a statistical signature: over-ride rates fall as AI confidence rises, even when over-riding would have been correct.`,
-          decision: {
-            prompt: `What pattern in the data would confirm systematic automation bias rather than appropriate deference to a reliable AI?`,
-            choices: [
-              { id: `a`, label: `Over-ride rate decreasing as AI confidence increases, combined with adverse outcomes concentrated in high-confidence AI-normal cases — that pattern shows deference where it was wrong`, quality: `good`,
-                note: `The correct analysis. If radiologists appropriately deferred to a reliable AI, adverse outcomes should be evenly distributed regardless of confidence level. If adverse outcomes concentrate in high-confidence cases where the AI was wrong, that's the automation bias signature.` },
-              { id: `b`, label: `Over-ride rate below industry benchmark — if radiologists are over-riding less than peers, they're showing automation bias`, quality: `partial`,
-                note: `Benchmarking is useful context but not the primary signal. The question is whether deference correlates with AI confidence in a way that predicts worse outcomes.` },
-              { id: `c`, label: `Time-per-scan decreasing over time — faster decisions indicate less independent review`, quality: `partial`,
-                note: `Time data is a proxy but can reflect efficiency gains from legitimate AI assistance as much as automation bias. It needs to be combined with outcome data to be meaningful.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk-privacy`,
-          caption:     `Eight months of scan data. AI confidence scores, radiologist sign-off timestamps, and follow-up clinical outcomes. The CMO wants to know if the missed diagnosis was isolated or part of a pattern.`,
-          decision: {
-            prompt: `What is the most informative analysis to run first?`,
-            choices: [
-              { id: `a`, label: `Correlate AI-normal findings with short sign-off times — then cross-reference with follow-up clinical outcomes`, quality: `good`,
-                note: `Short sign-off time on an AI-normal finding is the behavioural signal of automation bias. Cross-referencing with outcomes tells you whether those rapid sign-offs had clinical consequences.` },
-              { id: `b`, label: `Review the AI system's overall accuracy rate since deployment`, quality: `partial`,
-                note: `Useful context. But the question isn't whether the AI is accurate — it's whether radiologists are overriding their own judgement when the AI says normal. Accuracy rate alone doesn't answer that.` },
-              { id: `c`, label: `Pull all cases where the AI returned a low-confidence result to find other potential misses`, quality: `partial`,
-                note: `Low confidence cases are worth reviewing, but the original missed diagnosis was returned with 91% confidence. The pattern you're looking for may be in high-confidence normals, not low-confidence ones.` },
-            ],
-          },
-          branches: { a: `n2_right_analysis`, b: `n2_accuracy`, c: `n2_low_confidence` },
-        },
-
-        n2_right_analysis: {
-          scene:       `desk-focused`,
-          caption:     `The data is striking. Sign-off times on AI-normal findings average 23 seconds. Sign-off times when the AI flags an abnormality average 4 minutes 12 seconds. The AI-normal rapid sign-offs cluster in the last two hours of shift.`,
-          sub_caption: `You cross-reference with follow-up clinical data. Three other cases show concerning patterns.`,
-          decision: {
-            prompt: `You have a pattern. How do you present it to the CMO?`,
-            choices: [
-              { id: `a`, label: `Present the full analysis: sign-off time distribution, end-of-shift clustering, and the three cases with concerning outcomes — with the caveat that follow-up data is incomplete`, quality: `good`,
-                note: `Complete, honest, appropriately caveated. The CMO needs the full picture — including the uncertainty — to make a decision about the scope of the response.` },
-              { id: `b`, label: `Present only the confirmed case to avoid raising concerns about unconfirmed cases`, quality: `poor`,
-                note: `Withholding the pattern because the additional cases aren't confirmed means the CMO makes a decision without knowing it might be bigger than one case. That's not a judgment call you should make unilaterally.` },
-            ],
-          },
-          branches: { a: `n3_full_picture`, b: `outcome_bad` },
-        },
-
-        n2_accuracy: {
-          scene:       `desk-working`,
-          caption:     `Overall AI accuracy since deployment: 93.7% — within the documented 94% range. No degradation. The AI is performing as expected.`,
-          sub_caption: `But the CMO's question wasn't about the AI's accuracy. It was about whether radiologists are overriding their own judgement when the AI says normal.`,
-          decision: {
-            prompt: `The accuracy analysis doesn't answer the actual question. What do you run next?`,
-            choices: [
-              { id: `a`, label: `Sign-off time analysis on AI-normal findings, correlated with follow-up clinical outcomes`, quality: `good`,
-                note: `This is the analysis that was needed from the start. Better late than never — and the accuracy context you've established is useful framing.` },
-              { id: `b`, label: `Present the accuracy finding to the CMO — the AI is working correctly, the issue must be individual behaviour`, quality: `poor`,
-                note: `The accuracy finding doesn't address the automation bias question. Presenting it as the answer to that question gives the CMO incorrect framing for the investigation.` },
-            ],
-          },
-          branches: { a: `n2_right_analysis`, b: `outcome_bad` },
-        },
-
-        n2_low_confidence: {
-          scene:       `desk-working`,
-          caption:     `Low-confidence AI results: 4.2% of scans. Sign-off times on low-confidence results are long — radiologists are careful when the AI expresses uncertainty. The original missed diagnosis was 91% confidence. It wasn't in this group.`,
-          sub_caption: `You've confirmed that radiologists respond well to AI uncertainty signals. The problem is when the AI is confidently wrong.`,
-          decision: {
-            prompt: `Your low-confidence analysis has revealed a useful finding but not answered the main question. What next?`,
-            choices: [
-              { id: `a`, label: `Run the sign-off time analysis on high-confidence AI-normal findings — that's where the automation bias risk sits`, quality: `good`,
-                note: `Correct pivot. The pattern you're looking for is: AI says normal with high confidence → radiologist signs off quickly → follow-up suggests the AI was wrong.` },
-              { id: `b`, label: `Report the low-confidence finding to the CMO as a positive: radiologists are engaging with uncertainty signals`, quality: `partial`,
-                note: `It is a positive finding worth reporting. But it's not the answer to the CMO's question. Include it in the full analysis, not as the conclusion.` },
-            ],
-          },
-          branches: { a: `n2_right_analysis`, b: `outcome_warn` },
-        },
-
-        n3_full_picture: {
-          scene:       `office-briefing`,
-          caption:     `The CMO reviews your analysis. She asks whether the three additional cases are enough to conclude there's a systemic pattern — or whether this could be chance clustering.`,
-          sub_caption: `It's a fair question. Four cases in eight months. You have a view.`,
-          decision: {
-            prompt: `What is your analytical conclusion?`,
-            choices: [
-              { id: `a`, label: `The pattern is consistent with documented automation bias — end-of-shift clustering and 23-second sign-offs are not random. Recommend immediate interface review without waiting for more cases.`, quality: `good`,
-                note: `The pattern has a mechanistic explanation — it matches the documented literature on automation bias exactly. Waiting for statistical significance on patient safety signals is not the right bar.` },
-              { id: `b`, label: `Four cases is insufficient for statistical significance — recommend extending the review period before concluding`, quality: `partial`,
-                note: `Statistical rigour matters. But waiting for more cases to confirm a pattern that already has a mechanistic explanation delays a fix that costs nothing to implement now.` },
-            ],
-          },
-          branches: { a: `outcome_great`, b: `outcome_good` },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: `Pattern identified, acted on without delay`,
-          tone:    `good`,
-          result:  `Your analysis identified the automation bias pattern clearly and you recommended action without waiting for further cases. The interface was redesigned within 30 days. The three additional cases were reviewed by a senior clinician — two required follow-up. Your analysis directly improved outcomes for those patients.`,
-          learning: `A pattern with a mechanistic explanation does not need to wait for statistical significance before action. When the explanation is clear and the fix is low-cost, the calculus favours acting on the pattern.`,
-          score:   100,
-        },
-        outcome_good: {
-          heading: `Pattern identified, response slightly delayed`,
-          tone:    `good`,
-          result:  `The extended review period added six weeks before the interface redesign was approved. No additional adverse outcomes occurred during that period. Your analysis was thorough and the statistical caution was reasonable — the delay was a conservative choice, not a wrong one.`,
-          learning: `Statistical rigour and patient safety urgency can both be right simultaneously. When the fix is low-cost, the precautionary case for acting on an incomplete pattern is strong.`,
-          score:   70,
-        },
-        outcome_warn: {
-          heading: `Partial analysis presented, main question unanswered`,
-          tone:    `warn`,
-          result:  `The CMO received a finding about low-confidence response behaviour but not the automation bias pattern in high-confidence normal findings. The full analysis was eventually completed after the CMO asked a second time. The delay added two weeks to the investigation. The additional cases were identified but the interface response was slower than it needed to be.`,
-          learning: `A finding that doesn't answer the question asked should be included in the analysis but not presented as the conclusion. The CMO's question was specific — the analysis needed to be specific in return.`,
-          score:   35,
-        },
-        outcome_bad: {
-          heading: `Wrong analysis presented, pattern missed`,
-          tone:    `bad`,
-          result:  `The CMO received either an accuracy finding or a partial picture that didn't capture the automation bias pattern. The three additional cases were not identified until a second, externally commissioned review three months later. By that point, two of the three cases had progressed beyond the optimal intervention window.`,
-          learning: `In patient safety analysis, the question you're asked determines the analysis you need to run. AI accuracy and human automation bias are different questions. Answering the wrong one with correct data is still the wrong answer.`,
-          score:   5,
-        },
-      },
+    outcome_bad: {
+      heading: `Deferred, then described a read that didn't happen`,
+      tone: `bad`,
+      score: 5,
+      reaction: `Reaching for "my review confirmed it" after a missed diagnosis is a very human flinch. It's also the move that makes the investigation about you instead of the design.`,
+      description: [
+        `The cancer was diagnosed late. The account given to the review board described a review that the records contradict — a twelve-second sign-off on scan 75 of 80.`,
+        `The gap between the account and the record became the focus, instead of the AI-first display that anchored the original decision. The design that caused it stayed in place while the review ran.`,
+      ],
+      judgement: `Automation bias under time pressure is a known, foreseeable failure mode, and a review board's job is to find the systemic cause, not to hang one radiologist. Transparency is both the ethical path and the one that leads to a fix. An inaccurate account converts a design failure the board could have corrected into a personal-conduct problem it can't.`,
     },
+  },
 
-  }, // end trees
+  debrief: {
+    frame: [
+      `Nothing in this scenario involved the AI malfunctioning. It did exactly what it was built to do: read a scan and return a result with a confidence score. It was even right most of the time — around 94% — which is precisely what makes the 6% dangerous. A tool that was usually wrong would be easy to distrust. A tool that's usually right trains you, scan by scan, to stop looking.`,
+      `And the specific mechanism was the display order. The AI's answer arrived before your own read was finished, so every scan started from its conclusion and asked you to argue your way back out under a clock. That's an anchor, and anchors don't respond to willpower or training — they respond to being removed. The durable version of "human oversight" here isn't a more vigilant human; it's a workflow where the human reads first and the AI second, so the oversight is real rather than a rubber stamp on an answer you were shown before you looked.`,
+    ],
+  },
+
+  recall: {
+    id: `f1-recall`,
+    prompt: `A different team defends their AI-first workflow: "our staff are trained professionals — they're told to use their own judgement and not just defer to the AI." Is that a sufficient safeguard?`,
+    options: [
+      { id: `a`, quality: `poor`, label: `Yes — trained professionals told to use their judgement will catch the AI's errors`,
+        note: `This is exactly the position this scenario refutes. The radiologist here was a trained professional using their judgement, and the AI-first display still anchored a twelve-second sign-off on scan 75 of 80. Instructing people to resist an anchor is not the same as removing it.` },
+      { id: `b`, quality: `good`, label: `No — telling people to resist an anchor doesn't remove it; the display order is the fix`,
+        note: `Right. Automation bias is a predictable effect of showing a confident answer first, under time pressure — not a training gap. The safeguard that works is architectural: human read first, AI second, so the oversight is genuine.` },
+      { id: `c`, quality: `partial`, label: `Partly — training helps, but a second-opinion requirement would make it safer`,
+        note: `Training helps a little and a second opinion catches cases, and both sit downstream of the anchor. The most effective fix removes the anchor by reversing the display order; everything else is compensating for leaving it in.` },
+    ],
+  },
+
+  act: [
+    { id: `a1`, label: `If you use an AI aid, notice whether its answer shows before or after your own assessment` },
+    { id: `a2`, label: `Next time your read diverges from an AI's, treat the divergence as a signal, not an error to explain away` },
+    { id: `a3`, label: `Ask whether "human oversight" in your workflow is genuine or a rubber stamp on an answer shown first` },
+  ],
 
   controls_summary: [
-    {
-      id:      `c1`,
-      label:   `Human-first display design`,
-      effort:  `Medium`,
-      owner:   `Technology`,
-      go_live: true,
-      context: `The AI result displayed before the radiologist's own review anchored their assessment and made the AI's normal finding the path of least resistance. Reversing the sequence — human review first, AI result available on demand — removes the anchoring effect without removing the AI's contribution.`,
-    },
-    {
-      id:      `c2`,
-      label:   `Uncertainty communication in AI interfaces`,
-      effort:  `Low`,
-      owner:   `Technology`,
-      go_live: true,
-      context: `The AI returned 91% confidence on a finding it got wrong. The interface presented this as a strong normal result. Calibrated confidence display — with visual distinction for cases where the model is less certain — gives reviewers a signal to modulate their scrutiny.`,
-    },
-    {
-      id:      `c3`,
-      label:   `Audit spot-checking of AI-assisted decisions`,
-      effort:  `Low`,
-      owner:   `Risk`,
-      go_live: false,
-      context: `Eight months of sign-off data showed a clear automation bias pattern. This was only discovered after an adverse outcome triggered a review. Periodic spot-checking of sign-off times on AI-normal findings would have surfaced the pattern earlier.`,
-    },
+    { id: `c1`, label: `Human-first display: complete the assessment before the AI result shows`, effort: `Medium`, owner: `Clinical systems`, go_live: true,
+      context: `Removes the anchor rather than asking people to resist it. It's the fix every good ending here names.` },
+    { id: `c2`, label: `Divergence protocol: a human/AI disagreement triggers a second read`, effort: `Medium`, owner: `Department lead`, go_live: true,
+      context: `When your read and the AI's differ, that's the signal. Make it route somewhere rather than resting on one tired judgement.` },
+    { id: `c3`, label: `Human-factors review in AI procurement`, effort: `Low`, owner: `Procurement`, go_live: false,
+      context: `How an AI output is presented to a time-pressured reviewer decides whether oversight is real. Check it before buying, not after an incident.` },
   ],
+
+  tell: `A confident AI answer shown before you've formed your own is an anchor, not a second opinion — the fix is to look first.`,
 };

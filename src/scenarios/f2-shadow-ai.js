@@ -1,790 +1,507 @@
-// F2 Shadow AI — full branching scenario with 4 personas
-// Schema: each persona has its own opening, panels, and decision tree
-// Decisions chain: choice at node N unlocks specific node at N+1
+// f2-shadow-ai.js — The Shortcut
+// At Work. Rebuilt July 2026 to the four-beat schema (FREE_PRODUCT §4).
+// Perspective: the person who pastes, not the person who investigates.
 
 export const scenario = {
-  id: 'f2-shadow-ai',
-  risk_ref: 'F2',
-  title: 'The Shortcut',
-  subtitle: 'Shadow AI & Data Exposure',
-  domain: 'F — HCI & Deployment',
-  difficulty: 'Foundational',
-  kb_url: 'https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai',
-  estimated_minutes: 10,
-  has_business_user: true,
+  id: `f2-shadow-ai`,
+  door: `work`,
+  risk_ref: `F2`,
+  title: `The Shortcut`,
+  shelfLine: `A colleague tells you to paste the client brief into a free AI tool.`,
+  hook: `It's four o'clock. Your colleague says just put the client brief through an AI tool.`,
+  doorScene: `door-work`,
+  scene: `desk-casual`,
+  determinacy: `open`,
 
+  kb_url: `https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai`,
   regulatory_tags: [`eu-ai-act-article-26`, `nist-ai-rmf-govern-2`, `jurisdiction-au`, `jurisdiction-eu`],
+  mit_subdomain: `mit-2.1`,
 
-  personas: {
-    business_user: {
-      label: 'Business User',
-      role: 'Marketing Team',
-      character: 'Jamie',
-      icon: '◇',
-      framing: 'You work in marketing. Someone just told you to paste the client brief into a free AI tool.',
-      premise: `It's Wednesday afternoon. You've been asked to turn three pages of product notes into a punchy one-pager for tomorrow's client meeting. Your colleague leans over: "Just paste it into an AI tool — takes two minutes." You glance at the notes. They include the client's name, their contract value, and some pricing that hasn't been announced yet.`,
+  coldOpen: [
+    `It is four o'clock on a Wednesday. The client one-pager is due at nine tomorrow, and what you have is three pages of product notes.`,
+    `Your colleague leans across the desk. "Just put it through an AI tool. Two minutes."`,
+    `You look at the notes again. The client's name is in there. So is what they pay you.`,
+  ],
+
+  standing: `Jamie, marketing team, eighteen months in the job`,
+  authority: `You choose what goes into the tool and what doesn't. You can't approve software, rewrite a policy, or move tomorrow's meeting.`,
+  ending: `You find out where the file went, and how the person who has to explain it reads what you did.`,
+
+  entry: `start`,
+
+  nodes: {
+    start: {
+      prose: [
+        `The notes were written for internal use. Nobody expected them to leave the building, so nobody was careful about what went in them.`,
+      ],
+      artefact: {
+        type: `document`,
+        caption: `The file on your screen`,
+        filename: `Q3_product_notes_INTERNAL.docx`,
+        meta: `Last edited by R. Okonkwo · 11 days ago`,
+        lines: [
+          { text: `Northwind Group — renewal positioning`, heading: true },
+          `Account owner: R. Okonkwo. Renewal date 14 Oct.`,
+          `Current contract: $412,000 annual. Northwind have flagged budget pressure twice this quarter.`,
+          `Proposed Q4 pricing (NOT ANNOUNCED — do not circulate): tier 2 moves to $38/seat, tier 3 to $61/seat.`,
+          `Three competitors are believed to be in conversation with them. Positioning should avoid naming any of them.`,
+        ],
+      },
+      decision: {
+        prompt: `What do you do with it?`,
+        choices: [
+          { id: `a`, label: `Paste the lot in and see what comes back`, quality: `poor`,
+            consequence: `It takes about ninety seconds. What comes back is genuinely better than what you would have written at four o'clock on a Wednesday.` },
+          { id: `b`, label: `Ask your colleague whether this is actually allowed`, quality: `partial`,
+            consequence: `She shrugs. "Everyone does it." She has been here four years, which you had been treating as a kind of answer.` },
+          { id: `c`, label: `Look for a policy before you do anything`, quality: `good`,
+            consequence: `You search the intranet for "AI". Eleven results. Nine are about a webinar.` },
+          { id: `d`, label: `Write it yourself and lose the evening`, quality: `good`,
+            consequence: `Forty-five minutes. The one-pager is fine. Nothing about this decision will ever be visible to anyone, which is what most good decisions look like.` },
+        ],
+      },
+      branches: { a: `n2_output`, b: `n2_asked`, c: `n2_policy`, d: `n2_slow` },
     },
-    executive: {
-      label: 'Executive',
-      role: 'Chief Risk Officer',
-      character: 'Alex',
-      icon: '◈',
-      framing: 'You are the CRO. A legal hold notice just landed on your desk and you have no idea why.',
-      premise: `It's Monday morning. External counsel. Legal hold. "All records relating to AI tool usage during Q3 board preparation." Your EA is already asking if she should cancel your 9am. You have no idea what triggered this.`,
+
+    n2_asked: {
+      prose: [
+        `You go back to your screen. The deadline has not moved and neither has the file.`,
+      ],
+      decision: {
+        prompt: `So?`,
+        choices: [
+          { id: `a`, label: `Paste it. She'd know if it were a problem.`, quality: `poor`,
+            consequence: `She wouldn't, as it turns out. Nobody has told her either.` },
+          { id: `b`, label: `Ask your team lead instead`, quality: `good`,
+            consequence: `He does not look annoyed at being asked, which you had half expected.` },
+          { id: `c`, label: `Go and find the policy yourself`, quality: `good`,
+            consequence: `Eleven results for "AI" on the intranet. Nine of them are about a webinar.` },
+        ],
+      },
+      branches: { a: `n2_output`, b: `n3_lead`, c: `n3_lead` },
     },
-    pm: {
-      label: 'Project Manager',
-      role: 'Senior Project Manager',
-      character: 'Priya',
-      icon: '◎',
-      framing: 'You are the PM who pasted the board deck into an unapproved AI tool. Your manager just pinged you.',
-      premise: `You're the one who did it. Last quarter, under deadline pressure, you pasted the Q3 strategy deck into a free public AI tool to polish the board summary. You didn't think it was a big deal. Now your manager has just sent: "Hey — quick question, did you use any external tools during board prep last quarter? IT is asking."`,
+
+    n2_policy: {
+      prose: [
+        `The tenth result is the one. It is not hidden, exactly. It is filed where nothing you have ever needed has been filed.`,
+      ],
+      artefact: {
+        type: `document`,
+        caption: `Intranet › Governance 2022 › Technology`,
+        filename: `Acceptable Use — External Tools and Services`,
+        meta: `Owner: Information Security · Last reviewed March 2022`,
+        lines: [
+          { text: `4.3 Third-party processing of company information`, heading: true },
+          `Company information classified Internal or above must not be entered into external tools or services that have not been assessed and approved by Information Security.`,
+          `An approved-tools register is maintained by Information Security and is available on request.`,
+          { text: `This document was last reviewed in March 2022 and is scheduled for review annually.`, faint: true },
+        ],
+      },
+      decision: {
+        prompt: `The policy predates the tool your colleague is talking about. What now?`,
+        choices: [
+          { id: `a`, label: `It says no. That's enough.`, quality: `good`,
+            consequence: `It is four years old and it did not anticipate any of this. It also says no.` },
+          { id: `b`, label: `Ask Information Security what's on the register`, quality: `good`,
+            consequence: `You send three lines to a shared inbox and go back to the notes while you wait.` },
+          { id: `c`, label: `Treat it as out of date and paste anyway`, quality: `poor`,
+            consequence: `The reasoning holds together. Old policy, new tool, real deadline. Every part of that is true and the file still goes.` },
+        ],
+      },
+      branches: { a: `n3_lead`, b: `n3_lead`, c: `n2_output` },
     },
-    analyst: {
-      label: 'Security Analyst',
-      role: 'InfoSec Analyst',
-      character: 'Marcus',
-      icon: '◉',
-      framing: 'You found something in the logs. Nobody else has noticed yet.',
-      premise: `Three weeks after Q3 board prep, your log review flags an anomaly. Device: CORP-LAP-0482. Destination: free-ai-tool.example. Data transferred: 847KB of text. Your DLP system didn't fire because it was a personal browser session. You are the first person to know this happened.`,
+
+    n2_slow: {
+      prose: [
+        `You send the one-pager at ten past five. It is good enough and it cost you an evening.`,
+        `Across the desk, your colleague is still pasting.`,
+      ],
+      decision: {
+        prompt: `Do you do anything about that?`,
+        choices: [
+          { id: `a`, label: `No. It's not your call to make.`, quality: `partial`,
+            consequence: `Which is true. The pasting continues either way.` },
+          { id: `b`, label: `Mention it to your team lead`, quality: `good`,
+            consequence: `You keep it short and you don't name her. He asks what tool.` },
+          { id: `c`, label: `Ask whether the team is supposed to have a rule about this`, quality: `good`,
+            consequence: `Nobody knows. That answer turns out to be more useful than a yes or a no.` },
+        ],
+      },
+      branches: { a: `n2_slow_b`, b: `n3_lead`, c: `n3_lead` },
+    },
+
+    n2_output: {
+      prose: [
+        `Ninety seconds. It is a good one-pager.`,
+      ],
+      artefact: {
+        type: `assistant_output`,
+        tool: `Brightline AI — Free plan`,
+        prompt: `Turn these product notes into a punchy one-page client summary for a meeting tomorrow. [3 pages pasted]`,
+        response: [
+          `Here is a one-page summary positioned for a renewal conversation:`,
+          `NORTHWIND GROUP — PARTNERSHIP REVIEW. Three years in, Northwind's usage has grown across every tier. As we move into Q4, our pricing has been structured to reward exactly that pattern of growth.`,
+          `I have kept the competitive landscape implicit rather than explicit, and framed the Q4 tier changes as value alignment rather than an increase. Want me to draft a version that opens on the budget question instead?`,
+        ],
+        citations: [
+          `Free plan: conversations may be reviewed to improve our models. Manage in Settings › Data.`,
+        ],
+      },
+      decision: {
+        prompt: `What do you do with the output?`,
+        choices: [
+          { id: `a`, label: `Send it. It's better than yours.`, quality: `poor`,
+            consequence: `You attach it and go home. The meeting goes well. For three weeks, nothing at all happens.` },
+          { id: `b`, label: `Read the line about data first`, quality: `good`,
+            consequence: `Settings › Data. There is a toggle. On the free plan it is fixed on, and there is a link to upgrade underneath it.` },
+          { id: `c`, label: `Delete the conversation, then send it`, quality: `poor`,
+            consequence: `The chat disappears from your history. That is the only place it disappears from.` },
+        ],
+      },
+      branches: { a: `n3_after_send`, b: `n3_terms`, c: `n3_after_send` },
+    },
+
+    n3_terms: {
+      prose: [
+        `The upgrade page is clear in a way the free plan is not.`,
+      ],
+      artefact: {
+        type: `document`,
+        caption: `Brightline AI › Plans`,
+        filename: `Data handling by plan`,
+        lines: [
+          { text: `Free`, heading: true },
+          `Conversations are retained and may be used to improve our models and reviewed by our staff. Deleting a conversation removes it from your history.`,
+          { text: `Business`, heading: true },
+          `Conversations are not used for model training. Retention configurable. Available with a company agreement.`,
+        ],
+      },
+      decision: {
+        prompt: `The file is already in. What now?`,
+        choices: [
+          { id: `a`, label: `Stop, and write the one-pager yourself`, quality: `good`,
+            consequence: `You lose the evening you were trying to save. The pricing is still sitting on someone else's servers and you now know it.` },
+          { id: `b`, label: `It's one document. Send it and move on.`, quality: `poor`,
+            consequence: `You close the tab. It is one document, and that is a true description of it right up until somebody has to count.` },
+        ],
+      },
+      branches: { a: `n4_notice_clean`, b: `n3_hold` },
+    },
+
+    n3_lead: {
+      prose: [
+        `There is a sanctioned tool. It has been available since March, on a company agreement, and the rollout email went to a distribution list you are not on.`,
+      ],
+      decision: {
+        prompt: `He offers to get you access this afternoon. It takes a day to provision.`,
+        choices: [
+          { id: `a`, label: `Take it, and do tomorrow's one-pager by hand`, quality: `good`,
+            consequence: `One evening, once. From Friday you have the tool everyone assumed you already had.` },
+          { id: `b`, label: `A day is a day too long. Use the free one tonight.`, quality: `poor`,
+            consequence: `You already know what the free plan does with what you give it. That is the part that will matter later.` },
+        ],
+      },
+      branches: { a: `n4_notice_clean`, b: `n2_output` },
+    },
+
+    n3_hold: {
+      prose: [
+        `Three weeks pass. Nothing happens, which is what three weeks of nothing happening feels like.`,
+        `Then this lands in the marketing team inbox on a Monday.`,
+      ],
+      artefact: {
+        type: `email`,
+        caption: `Monday, 8:52am`,
+        subject: `Preservation notice — AI tool usage, Q3`,
+        fromName: `Legal Operations`,
+        fromAddress: `legal.ops@ourcompany.example`,
+        to: `Marketing (all)`,
+        date: `Mon 8:52`,
+        body: [
+          `A preservation notice is now in effect covering all records relating to the use of external AI tools in connection with Northwind Group account activity during Q3.`,
+          `Do not delete any material that may fall within scope. This includes browser history, conversation logs in third-party tools, drafts, and attachments.`,
+          `If you believe you hold material within scope, contact Legal Operations directly. You do not need to determine scope yourself.`,
+        ],
+        signature: `Legal Operations`,
+      },
+      decision: {
+        prompt: `You know exactly what this is about.`,
+        choices: [
+          { id: `a`, label: `Say nothing. Nobody knows it was you.`, quality: `poor`,
+            consequence: `You reread the email twice and then archive it. The rest of Monday is difficult in a way you cannot explain to anyone.` },
+          { id: `b`, label: `Tell your manager before lunch`, quality: `good`,
+            consequence: `It takes four minutes and they are worse minutes than you expected. He asks what date and what tool, and writes both down.` },
+          { id: `c`, label: `Contact Legal Operations directly, as the email says`, quality: `good`,
+            consequence: `The reply comes in under an hour and is unremarkable in tone. They ask for the date, the tool, and the plan you were on.` },
+        ],
+      },
+      branches: { a: `n4_silence`, b: `n4_disclose`, c: `n4_disclose` },
+    },
+
+
+    /* ── The clean back half: you did not paste, and the notice lands anyway */
+
+    n2_slow_b: {
+      prose: [
+        `Thursday. Your colleague asks whether you can run hers through the same way you did yours, because the deadline moved again.`,
+        `She means the AI tool. She has assumed all week that is what you used.`,
+      ],
+      decision: {
+        prompt: `What do you say?`,
+        choices: [
+          { id: `a`, label: `Tell her you wrote it by hand, and why`, quality: `good`,
+            consequence: `"You did the whole thing manually?" She is not persuaded, but she stops assuming, and she asks who would actually know.` },
+          { id: `b`, label: `Just say you're busy`, quality: `partial`,
+            consequence: `Which is true. She finds someone else to ask by eleven.` },
+        ],
+      },
+      branches: { a: `n4_notice_clean`, b: `n4_notice_clean` },
+    },
+
+    n4_notice_clean: {
+      prose: [
+        `Three weeks later this lands in the marketing team inbox on a Monday. It goes to everyone, including you.`,
+        `You did not put anything into that tool. You are fairly sure you know who did.`,
+      ],
+      artefact: {
+        type: `email`,
+        caption: `Monday, 8:52am`,
+        subject: `Preservation notice — AI tool usage, Q3`,
+        fromName: `Legal Operations`,
+        fromAddress: `legal.ops@ourcompany.example`,
+        to: `Marketing (all)`,
+        date: `Mon 8:52`,
+        body: [
+          `Please keep anything relating to the use of outside AI tools for Northwind Group work during Q3. That covers chat histories, drafts, attachments and browser history.`,
+          `Do not delete anything, even if you think it is irrelevant. If you think you might have something, contact us and we will work out whether it counts. You do not need to decide that yourself.`,
+        ],
+        signature: `Legal Operations`,
+      },
+      decision: {
+        prompt: `Nothing here is asking you for anything.`,
+        choices: [
+          { id: `a`, label: `Say nothing. It isn't yours to report.`, quality: `partial`,
+            consequence: `Which is a fair reading. It is also the reading that leaves one person deciding alone whether to put their hand up.` },
+          { id: `b`, label: `Tell your colleague the notice covers what she did`, quality: `good`,
+            consequence: `She goes very quiet. Then: "I didn't know it was a thing. Everyone does it." You already know that is true.` },
+          { id: `c`, label: `Tell your team lead what you saw`, quality: `partial`,
+            consequence: `He thanks you and asks whether you have spoken to her. You have not.` },
+        ],
+      },
+      branches: { a: `n5_speak`, b: `n5_speak`, c: `n5_speak` },
+    },
+
+    n5_speak: {
+      prose: [
+        `By Wednesday it is a conversation the whole team is having, badly and in fragments.`,
+        `Nobody knows what is allowed. Two people have been using the same tool since March.`,
+      ],
+      decision: {
+        prompt: `Your team lead asks what would actually help.`,
+        choices: [
+          { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
+            consequence: `It turns out one exists, and has since March. It went to a distribution list none of you are on.` },
+          { id: `b`, label: `Say people just need to be more careful`, quality: `poor`,
+            consequence: `Everyone agrees. Everyone has always agreed. On Friday someone pastes a pricing sheet into a free tool because the deadline moved.` },
+          { id: `c`, label: `Ask what people are supposed to do when a deadline won't move`, quality: `good`,
+            consequence: `That question is harder to answer than the tools one and it is the one the team actually has. He does not have an answer. He writes it down.` },
+        ],
+      },
+      branches: { a: `n6_end`, b: `n6_end`, c: `n6_end` },
+    },
+
+    /* ── The disclosed back half gets the same closing beat ─────────────── */
+
+    n5_after: {
+      prose: [
+        `It is handled, in the sense that the people who needed to know now know.`,
+        `What has not changed is anything about next month.`,
+      ],
+      decision: {
+        prompt: `Your team lead asks what would stop this happening again.`,
+        choices: [
+          { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
+            consequence: `One exists. It has since March, on a company agreement, and the rollout went to a distribution list you are not on.` },
+          { id: `b`, label: `Say you'll be more careful`, quality: `poor`,
+            consequence: `You will be. The two people who have been doing the same thing since March are not in this conversation.` },
+        ],
+      },
+      branches: { a: `outcome_disclosed`, b: `outcome_found` },
+    },
+
+
+    n3_after_send: {
+      prose: [
+        `The meeting is on Thursday and it goes well. Northwind's account manager says the one-pager was the clearest thing they have had from you all year.`,
+        `Nobody asks how it was written. There is no reason anyone would.`,
+      ],
+      decision: {
+        prompt: `You have the whole of Friday to say something, if you were going to.`,
+        choices: [
+          { id: `a`, label: `Mention it to your team lead`, quality: `good`,
+            consequence: `Four minutes on a Friday afternoon, and they are easier minutes than they would have been in three weeks. He asks what tool and writes it down.` },
+          { id: `b`, label: `Nothing happened. Let it go.`, quality: `poor`,
+            consequence: `Nothing has happened. That is a true description of Friday and it stops being one at a date you do not choose.` },
+        ],
+      },
+      branches: { a: `n3_hold`, b: `n3_hold` },
+    },
+
+    n6_end: {
+      prose: [
+        `A fortnight later there is a short item in the team meeting about approved tools, and a link nobody clicks.`,
+        `Your colleague is still on a deadline every Wednesday.`,
+      ],
+      decision: {
+        prompt: `The link goes to a register you now know exists. What do you do with it?`,
+        choices: [
+          { id: `a`, label: `Send it to the two people you know are using something else`, quality: `good`,
+            consequence: `One of them replies within the hour asking whether it does summarising. It does.` },
+          { id: `b`, label: `Bookmark it and get on with your day`, quality: `partial`,
+            consequence: `You are covered. The Wednesday deadline is not yours, and it is still a Wednesday deadline.` },
+        ],
+      },
+      branches: { a: `outcome_route`, b: `outcome_quiet` },
+    },
+
+    n4_silence: {
+      prose: [
+        `It holds for nine days.`,
+      ],
+      artefact: {
+        type: `system_output`,
+        caption: `What the security analyst is looking at`,
+        system: `NetGuard DLP · Retrospective review`,
+        status: `Match`,
+        headline: `Outbound text volume to unapproved domain — 1 device, 1 session`,
+        fields: [
+          { label: `Device`, value: `CORP-LAP-0482` },
+          { label: `Assigned`, value: `J. Mirza, Marketing` },
+          { label: `Destination`, value: `brightline.ai` },
+          { label: `Volume`, value: `847 KB` },
+          { label: `Session`, value: `Wed 16:04 AEST` },
+        ],
+        rationale: `Not blocked at the time. Personal browser profile, outside the managed session, so no inline policy applied.`,
+        trail: [
+          `Flagged during Q3 retrospective review requested by Legal Operations.`,
+          `Device assignment resolved from asset register.`,
+          `Escalated to Information Security lead.`,
+        ],
+      },
+      decision: {
+        prompt: `Your manager asks you to come to a meeting room. What do you say when you get there?`,
+        choices: [
+          { id: `a`, label: `All of it, straight away`, quality: `partial`,
+            consequence: `It is the right answer nine days late. He does not say that and does not have to.` },
+          { id: `b`, label: `That you don't remember the details`, quality: `poor`,
+            consequence: `The session timestamp is on the screen behind him. So is the volume.` },
+        ],
+      },
+      branches: { a: `n5_after`, b: `n5_after` },
+    },
+
+    n4_disclose: {
+      prose: [
+        `By Wednesday it has a shape. One file, one session, one date, and a tool nobody had assessed.`,
+      ],
+      decision: {
+        prompt: `Legal ask whether anything else went the same way.`,
+        choices: [
+          { id: `a`, label: `Check properly before you answer`, quality: `good`,
+            consequence: `Two more, both small, both yours. Adding them to the list is worse for about ten minutes and better for everything after that.` },
+          { id: `b`, label: `Say it was only the one`, quality: `poor`,
+            consequence: `You are fairly sure. Fairly sure is a different thing from checked, and only one of them survives being asked a second time.` },
+        ],
+      },
+      branches: { a: `n5_after`, b: `n5_after` },
     },
   },
 
-  // ── DECISION TREES ─────────────────────────────────────────────
-  // Each persona has an independent branching tree.
-  // nodes[] are sequential beats. Each node has:
-  //   - scene: which SVG illustration to show
-  //   - panel_text: the illustrated story beat
-  //   - caption / sub_caption: caption bar text
-  //   - decision: the choice object (null for pure story beats)
-  //   - branches: maps choice_id → next node_id (or 'outcome_X')
-
-  trees: {
-
-    // ── BUSINESS USER ──────────────────────────────────────────
-    business_user: {
-      nodes: {
-        start: {
-          scene: 'desk-casual',
-          caption: 'Jamie stares at the notes. The deadline is tomorrow. The shortcut is right there.',
-          sub_caption: 'The document includes the client name, contract value, and unannounced pricing.',
-          decision: {
-            prompt: 'Your colleague just said "everyone does it." What do you do?',
-            choices: [
-              { id: 'a', label: 'Just paste it in — it\'ll take two minutes', quality: 'poor',
-                note: 'It does take two minutes. The one-pager is great. The data left the organisation though — and you won\'t find out until three weeks later.' },
-              { id: 'b', label: 'Ask your colleague if it\'s actually okay', quality: 'partial',
-                note: 'They have no idea either. But at least you asked. That counts for something.' },
-              { id: 'c', label: 'Check if there\'s a company policy first', quality: 'good',
-                note: 'There is one. Buried on the intranet under a folder called Governance 2022, last updated before half the team joined. But it exists and it says no.' },
-              { id: 'd', label: 'Do it the slow way yourself', quality: 'good',
-                note: 'Takes 45 minutes. One-pager is fine. You sleep well. Genuinely the correct call.' },
-            ],
-          },
-          branches: { a: 'n2_used_it', b: 'n2_asked', c: 'n2_found_policy', d: 'n2_did_it_slow' },
-        },
-
-        n2_used_it: {
-          scene: 'desk-typing',
-          caption: 'The one-pager is excellent. Your manager loves it. Three weeks pass.',
-          sub_caption: 'Then IT sends a company-wide email asking about "external tool usage last quarter."',
-          decision: {
-            prompt: 'The IT email lands in your inbox. You know what you did. What now?',
-            choices: [
-              { id: 'a', label: 'Reply honestly — you used a free AI tool once for a client doc', quality: 'good',
-                note: 'Uncomfortable. Also the right move. Getting ahead of it is always better.' },
-              { id: 'b', label: 'Ignore it — surely they won\'t track it to you specifically', quality: 'poor',
-                note: 'They have the logs. CORP-LAP-0482 is your laptop. They absolutely will.' },
-              { id: 'c', label: 'Reply "no" — it was just one time, barely anything sensitive', quality: 'poor',
-                note: 'The contract value and unannounced pricing beg to differ.' },
-            ],
-          },
-          branches: { a: 'n3_honest', b: 'n3_ignored', c: 'n3_lied' },
-        },
-
-        n2_asked: {
-          scene: 'desk-colleague',
-          caption: '"I think it\'s fine?" your colleague says. "Everyone does it."',
-          sub_caption: 'Neither of you actually knows. But at least you paused.',
-          decision: {
-            prompt: 'Your colleague shrugged. You still need to make the call. What next?',
-            choices: [
-              { id: 'a', label: 'Decide that if everyone does it, it must be fine', quality: 'poor',
-                note: '"Everyone does it" has never once been a legal defence. Worth filing that away.' },
-              { id: 'b', label: 'Ask your manager before you do anything', quality: 'good',
-                note: 'Your manager pauses, then says "actually, hold off." Crisis quietly averted.' },
-              { id: 'c', label: 'Do it the slow way — the risk doesn\'t feel worth it', quality: 'good',
-                note: 'Solid instinct. You didn\'t need to know the policy to make the right call.' },
-            ],
-          },
-          branches: { a: 'n2_used_it', b: 'n3_manager_saved_it', c: 'n3_clean' },
-        },
-
-        n2_found_policy: {
-          scene: 'desk-intranet',
-          caption: 'You find the policy. It says: "Do not submit confidential client data to external AI tools."',
-          sub_caption: 'Clear. Unambiguous. Also about 14 months out of date, but still.',
-          decision: {
-            prompt: 'Policy says no. But the deadline is tomorrow and your colleague says everyone ignores it.',
-            choices: [
-              { id: 'a', label: 'Follow the policy — do it manually', quality: 'good',
-                note: 'The deadline is tight but you make it. The policy existed for exactly this reason.' },
-              { id: 'b', label: 'Use the free AI tool anyway — the policy looks old and probably doesn\'t apply', quality: 'poor',
-                note: 'The policy is old. It absolutely still applies. Age is not a legal loophole.' },
-              { id: 'c', label: 'Ask your manager to clarify before you do anything', quality: 'good',
-                note: 'Manager gets the policy updated and approves an enterprise tool. You helped fix a gap.' },
-            ],
-          },
-          branches: { a: 'n3_clean', b: 'n2_used_it', c: 'n3_clean' },
-        },
-
-        n2_did_it_slow: {
-          scene: 'desk-focused',
-          caption: 'Forty-five minutes later, the one-pager is done. It\'s good. Not AI-assisted-good, but good.',
-          sub_caption: 'You didn\'t expose any client data. You also didn\'t know that was what you were avoiding.',
-          decision: {
-            prompt: 'Your colleague asks why you didn\'t just use ChatGPT like she suggested.',
-            choices: [
-              { id: 'a', label: 'Say you weren\'t sure if it was okay to share client data', quality: 'good',
-                note: 'Exactly right. That instinct is the whole lesson. You had it without needing training.' },
-              { id: 'b', label: 'Say you just didn\'t think of it', quality: 'partial',
-                note: 'Fine outcome, accidental reasoning. Worth understanding why it was the right call.' },
-            ],
-          },
-          branches: { a: 'n3_clean', b: 'n3_clean' },
-        },
-
-        n3_honest: {
-          scene: 'office-meeting',
-          caption: 'Your manager appreciates the honesty. IT logs confirm it was a one-time thing.',
-          sub_caption: 'The data included client pricing. It shouldn\'t have left the building.',
-          decision: {
-            prompt: 'HR asks if you\'d be willing to share your experience in a team awareness session.',
-            choices: [
-              { id: 'a', label: 'Yes — if it helps others avoid the same mistake', quality: 'good',
-                note: 'You accidentally became the most valuable person in the AI governance rollout.' },
-              { id: 'b', label: 'Hard pass — you\'d rather this just quietly went away', quality: 'partial',
-                note: 'Fair enough. The matter is quietly resolved — written note-to-file, no further action.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-
-        n3_ignored: {
-          scene: 'office-busted',
-          caption: 'IT correlates the log with your device ID. Your manager calls you in.',
-          sub_caption: 'You didn\'t respond to the email. That\'s now also on the list of things to explain.',
-          decision: {
-            prompt: 'You\'re in your manager\'s office. The IT report is on the desk.',
-            choices: [
-              { id: 'a', label: 'Come clean fully — what you did and why you didn\'t respond', quality: 'good',
-                note: 'Late honesty is still honesty. It lands better than you expect.' },
-              { id: 'b', label: 'Claim you never saw the IT email', quality: 'poor',
-                note: 'Read receipts. Email tracking. The IT department is not your ally in this story.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n3_lied: {
-          scene: 'office-busted',
-          caption: 'IT matches the log to your device. Your "no" reply is now in the incident record.',
-          sub_caption: 'You have gone from "data policy issue" to "data policy issue plus false statement."',
-          decision: {
-            prompt: 'Your manager is looking at the log and your email reply simultaneously.',
-            choices: [
-              { id: 'a', label: 'Correct the record immediately — admit you made a mistake', quality: 'partial',
-                note: 'The situation is worse than it needed to be, but correcting it now still helps.' },
-              { id: 'b', label: 'Double down — insist the log must be wrong', quality: 'poor',
-                note: 'The log is not wrong. IT is very sure of this. This is how people become cautionary tales.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n3_manager_saved_it: {
-          scene: 'desk-focused',
-          caption: 'Your manager flagged it to IT. Turns out three others had already done the same thing.',
-          sub_caption: 'Your question triggered a policy review. The approved tool list ships next month.',
-          decision: null,
-          branches: { auto: 'n3_clean' },
-        },
-        n3_clean: {
-          scene: 'desk-working',
-          caption: `You handled your own piece correctly — the client data never went into the tool. But the conversation isn't really about you any more: a few people weren't as careful, and there's still no approved tool and no current policy.`,
-          decision: {
-            prompt: `What do you do with what you've learned?`,
-            choices: [
-              { id: 'a', label: `Flag the real gap — with no approved tool and a stale policy, the next person under deadline takes the same shortcut.`, quality: 'good', note: `Your own good call protected one document. Naming the missing control — an approved tool and a current policy — is what stops it happening again.` },
-              { id: 'b', label: `Note that you personally did the right thing and leave it there.`, quality: 'partial', note: `Staying clean yourself is good, but it leaves the systemic gap in place for the next person under pressure.` },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Quietly heroic',
-          tone: 'good',
-          result: 'You either avoided the problem entirely or asked the right question at the right time. Your manager mentioned you to the CRO as "someone who flagged a governance gap." You didn\'t even know that conversation happened.',
-          learning: 'You don\'t need to be a risk professional to make good decisions. The only question you ever needed was: "Is this data okay to share with a third party?" If you\'re not sure, ask before you share — not after.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Clean exit',
-          tone: 'good',
-          result: 'No data left the building, or you caught it early enough that the impact was contained. Nothing on your file. The policy gets updated partly because of your situation.',
-          learning: 'The right outcome for the right reason is better than the right outcome by accident — but both are better than the wrong one. Understanding why something was risky helps next time.',
-          score: 78,
-        },
-        outcome_warn: {
-          heading: 'Bruised but standing',
-          tone: 'warn',
-          result: 'Note to file. Mandatory awareness training (which you actually find useful). The data exposure was real but limited. Your manager goes out of their way to mention you handled the follow-up well.',
-          learning: 'The mistake was sharing data you weren\'t sure about. The recovery was honesty. Late is always better than never when it comes to coming clean about a data incident.',
-          score: 45,
-        },
-        outcome_bad: {
-          heading: 'The case study nobody wants to be',
-          tone: 'bad',
-          result: 'Formal disciplinary process. The incident gets referenced in the company\'s AI governance training as an anonymised example. You are not told this, but your colleague recognises the story immediately and says nothing.',
-          learning: 'The data mistake was manageable. The cover-up made it unmanageable. In data incidents, the thing that gets people into serious trouble is almost never the original error — it\'s what happens in the 48 hours after.',
-          score: 8,
-        },
-      },
-    }, // end business_user
-
-    // ── EXECUTIVE ──────────────────────────────────────────────
-    executive: {
-      nodes: {
-        start: {
-          scene: 'boardroom',
-          caption: 'The legal hold notice is two pages long. Your EA is hovering.',
-          sub_caption: '"All records relating to AI tool usage during Q3 board preparation." You have no idea what this is about.',
-          decision: {
-            prompt: 'Monday 8:47am. What\'s your first move?',
-            choices: [
-              { id: 'a', label: 'Immediately convene IT, Legal, and the board secretary', quality: 'good',
-                note: 'You have a name and a log within the hour. Painful but contained.' },
-              { id: 'b', label: 'Ask your EA to draft a "we are reviewing" holding response', quality: 'partial',
-                note: 'Buys 48 hours. Legal finds out you delayed. Not a great look, but recoverable.' },
-              { id: 'c', label: 'Forward to your General Counsel and assume it\'s probably nothing', quality: 'poor',
-                note: 'Your GC is in Tuscany. The letter sits in their inbox for four days.' },
-            ],
-          },
-          branches: { a: 'n2_fast_response', b: 'n2_delayed', c: 'n2_tuscany' },
-        },
-
-        n2_fast_response: {
-          scene: 'boardroom-agm',
-          caption: 'IT pulls the logs. Unapproved AI tool. 847KB. Q3 board prep. One employee. The data included M&A target names.',
-          sub_caption: 'Your acceptable use policy was in draft at the time. It had been in draft for six months.',
-          decision: {
-            prompt: 'You now know what happened. How do you frame it for the board?',
-            choices: [
-              { id: 'a', label: 'Present the facts, the gap, and a 30-day remediation plan', quality: 'good',
-                note: 'Board respects the candour. You keep your job. Policy ships within the month.' },
-              { id: 'b', label: 'Emphasise this was one employee acting outside normal practice', quality: 'partial',
-                note: 'Board accepts it. The draft policy detail surfaces in questions. You look slightly evasive.' },
-              { id: 'c', label: 'Blame IT for not having DLP controls in place', quality: 'poor',
-                note: 'The CISO resigns. In the meeting. Via Teams. While still on screen.' },
-            ],
-          },
-          branches: { a: 'n3_good_board', b: 'n3_partial_board', c: 'n3_ciso_gone' },
-        },
-
-        n2_delayed: {
-          scene: 'desk-review',
-          caption: 'The holding response buys 48 hours. Legal returns from a site visit and is not pleased.',
-          sub_caption: '"You received a legal hold and didn\'t call me immediately?" That\'s a direct quote.',
-          decision: {
-            prompt: 'Legal is now involved and annoyed. You still need to get the facts.',
-            choices: [
-              { id: 'a', label: 'Get IT on a call immediately and establish what happened', quality: 'good',
-                note: 'You\'re two days late but the facts are the same. Scope the damage, then fix it.' },
-              { id: 'b', label: 'Let Legal lead from here — this is their problem now', quality: 'poor',
-                note: 'Legal needs facts that only IT has. You\'ve just created a three-way coordination failure.' },
-            ],
-          },
-          branches: { a: 'n2_fast_response', b: 'n3_legal_chaos' },
-        },
-
-        n2_tuscany: {
-          scene: 'desk-colleague',
-          caption: 'Day four. Your GC returns from Tuscany to find a legal hold, four missed escalation emails, and a board chair who has heard about it from external counsel directly.',
-          sub_caption: 'The chair\'s email to you is eleven words long. None of them are positive.',
-          decision: {
-            prompt: 'You are four days behind. The chair wants to talk. Today.',
-            choices: [
-              { id: 'a', label: 'Call the chair before the meeting — get ahead of their questions', quality: 'good',
-                note: 'They\'re still unhappy about the four-day gap. But you called before being summoned — that registers. The conversation is difficult and mercifully brief.' },
-              { id: 'b', label: 'Wait for the scheduled meeting and prepare a full briefing pack', quality: 'partial',
-                note: 'The briefing pack is excellent. The four-day gap is not explained by a briefing pack.' },
-            ],
-          },
-          branches: { a: 'n2_fast_response', b: 'n3_partial_board' },
-        },
-
-        n3_good_board: {
-          scene: 'boardroom',
-          caption: 'The board accepts the briefing. Honest, structured, remediation-led.',
-          sub_caption: 'The chair notes it in the minutes as "management identified and addressed a governance gap."',
-          decision: {
-            prompt: 'The journalist from a tech publication has heard about the legal hold. They want comment.',
-            choices: [
-              { id: 'a', label: 'Prepared statement: acknowledge, remediation steps, forward-looking', quality: 'good',
-                note: 'Story runs as a measured "lessons learned" piece. The industry nods approvingly.' },
-              { id: 'b', label: 'No comment', quality: 'poor',
-                note: '\'Company refuses to comment on AI malpractice scandal.\' The story runs for three days. By day two you are the industry\'s favourite cautionary example. The board meeting on day four is short.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_bad_pr' },
-        },
-
-        n3_partial_board: {
-          scene: 'boardroom',
-          caption: 'The board accepts the briefing but asks pointed questions about the draft policy.',
-          sub_caption: '"If the policy was in draft for six months, whose job was it to finalise it?" Yours, as it turns out.',
-          decision: {
-            prompt: 'The chair wants a governance accountability review. You can shape what that looks like.',
-            choices: [
-              { id: 'a', label: 'Commission an independent review — you want the real picture', quality: 'good',
-                note: 'Review finds three other gaps. You fix them all. Reputation recovers.' },
-              { id: 'b', label: 'Propose an internal review run by your own team', quality: 'partial',
-                note: 'Chair accepts it but notes the independence question. The review is fine. Narrowly.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_warn' },
-        },
-
-        n3_ciso_gone: {
-          scene: 'office-bright',
-          caption: 'The CISO resigned in the meeting. HR is now involved. Legal is now involved. The board chair has questions.',
-          sub_caption: 'The incident is no longer about AI data governance. It\'s about leadership.',
-          decision: {
-            prompt: 'The chair asks you directly: "Did you handle this well?"',
-            choices: [
-              { id: 'a', label: '"No. I made a mistake in how I framed this and I\'m correcting it."', quality: 'good',
-                note: 'Brutal self-assessment. Chair visibly respects it. Your position stabilises.' },
-              { id: 'b', label: 'Defend the decision — the CISO was already a performance concern', quality: 'poor',
-                note: 'HR has the CISO\'s last three reviews. They were all satisfactory. This is now in writing.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n3_legal_chaos: {
-          scene: 'office-briefing-urgent',
-          caption: 'Legal needs facts. IT needs direction. The board needs a briefing. Nobody is talking to each other.',
-          sub_caption: 'External counsel sends a follow-up letter noting the organisation has not responded within the specified timeframe.',
-          decision: {
-            prompt: `The drift is now the problem. What do you do?`,
-            choices: [
-              { id: 'a', label: `Take control — get Legal, IT and the board chair in one room today and put a single owner in charge of the response.`, quality: 'partial', note: `Late, but a single coordinated response stops the chaos compounding. The lost 48 hours still cost you; the drift after that is what you can still fix.` },
-              { id: 'b', label: `Keep fielding it piecemeal — answer each party as they come, there's no time to convene everyone.`, quality: 'poor', note: `Piecemeal handling of a legal hold is how the timeframe gets missed and statements diverge. The absence of a single coordinated response is what external counsel documents.` },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_good: {
-          heading: 'Contained and credited',
-          tone: 'good',
-          result: 'The incident is resolved. The policy ships. External counsel closes the matter with no further action. The board notes in the next committee review that management responded appropriately to a governance gap. Your name is attached to the remediation, not the failure.',
-          learning: 'The incident wasn\'t the problem — the governance gap was. The CRO\'s job isn\'t to prevent every mistake, it\'s to ensure the organisation can detect, respond, and learn. You did all three.',
-          score: 88,
-        },
-        outcome_warn: {
-          heading: 'Survived, not celebrated',
-          tone: 'warn',
-          result: 'The matter is resolved but the board has noted concerns about response time and governance maturity. You keep your role but the next performance review has a pointed section on "AI risk oversight." The policy ships, which is something.',
-          learning: 'Speed of response matters almost as much as quality of response in data incidents. The gap between knowing and acting is where reputations are made or lost.',
-          score: 52,
-        },
-        outcome_bad: {
-          heading: 'The exit package',
-          tone: 'bad',
-          result: 'The board chair requests your resignation at a private meeting the following week. The official reason is "strategic differences." The unofficial reason is in the incident report, the CISO\'s resignation letter, and the external counsel\'s correspondence file.',
-          learning: 'The original data incident was manageable. Each subsequent decision made it less so. The CRO\'s job is to de-escalate crises, not accelerate them.',
-          score: 5,
-        },
-        outcome_bad_pr: {
-          heading: 'Poster child',
-          tone: 'bad',
-          result: 'The story runs for three days. You are referred to as a "leading example of AI governance failure" in an industry newsletter. The board fires you at the next meeting. Your successor\'s first act is to approve the AI acceptable use policy that has been in draft for six months.',
-          learning: '"No comment" is a choice. It just happens to be the choice that maximises negative coverage while giving you zero control over the narrative. Always have a prepared statement.',
-          score: 3,
-        },
-      },
-    }, // end executive
-
-    // ── PROJECT MANAGER ────────────────────────────────────────
-    pm: {
-      nodes: {
-        start: {
-          scene: 'desk-typing',
-          caption: 'The Slack notification sits there. You know exactly what they\'re asking about.',
-          sub_caption: '"Did you use any external tools during board prep last quarter? IT is asking."',
-          decision: {
-            prompt: 'You have about thirty seconds before not-replying becomes suspicious. What do you send?',
-            choices: [
-              { id: 'a', label: '"Yes, I used a free AI tool once for the summary. Happy to explain."', quality: 'good',
-                note: 'Uncomfortable. Also the right move. Getting ahead of it is always better than being found.' },
-              { id: 'b', label: '"I used a few tools — can we talk? Want to make sure I understand what\'s being asked."', quality: 'partial',
-                note: 'Vague enough to buy time. Honest enough not to be a lie. Just.' },
-              { id: 'c', label: '"No, I only used approved tools."', quality: 'poor',
-                note: 'IT has the browser logs. CORP-LAP-0482 is your laptop. You have just lied to your manager. In writing. On Slack. Which is archived.' },
-            ],
-          },
-          branches: { a: 'n2_honest', b: 'n2_vague', c: 'n2_lied' },
-        },
-
-        n2_honest: {
-          scene: 'desk-colleague',
-          caption: 'Your manager and an HR rep are in the room. The tone is serious but not hostile.',
-          sub_caption: 'They want to know: what exactly was in the document, and did you know it was a problem?',
-          decision: {
-            prompt: 'How do you explain the decision you made?',
-            choices: [
-              { id: 'a', label: 'Fully: what you pasted, why, and that you genuinely didn\'t realise it was a problem', quality: 'good',
-                note: 'The policy was in draft. HR notes shared responsibility. Your candour is recorded.' },
-              { id: 'b', label: 'Partially: "It was mostly just the summary, nothing really sensitive"', quality: 'poor',
-                note: 'IT has confirmed M&A targets were in the paste. Minimising now damages your credibility.' },
-            ],
-          },
-          branches: { a: 'n3_systemic', b: 'n3_minimised' },
-        },
-
-        n2_vague: {
-          scene: 'desk-focused',
-          caption: '"Can we talk" led to a meeting. Your manager and HR are both here. The vague reply is now in the record.',
-          sub_caption: 'They\'re giving you a chance to explain. The logs are already pulled.',
-          decision: {
-            prompt: 'The IT report is on the desk. This is the moment.',
-            choices: [
-              { id: 'a', label: 'Come clean fully — what you did and why', quality: 'good',
-                note: 'The vague Slack reply doesn\'t help you but full honesty here does. HR notes the correction.' },
-              { id: 'b', label: 'Maintain the vagueness — "I may have used some tools, I\'d have to check"', quality: 'poor',
-                note: 'They have the logs. "I\'d have to check" about something on your own laptop is not credible.' },
-            ],
-          },
-          branches: { a: 'n3_systemic', b: 'n3_caught' },
-        },
-
-        n2_lied: {
-          scene: 'desk-evidence',
-          caption: 'Your manager has the IT log and your Slack reply open side by side.',
-          sub_caption: 'The log shows an unapproved AI tool. Your message says "only approved tools." This is a problem.',
-          decision: {
-            prompt: 'Your manager asks you to "talk them through your tool usage during Q3 board prep."',
-            choices: [
-              { id: 'a', label: 'Correct the record immediately — you made a mistake and weren\'t honest', quality: 'partial',
-                note: 'Late honesty. The situation is worse than it needed to be but correcting it now still matters.' },
-              { id: 'b', label: 'Double down — maybe the log is wrong', quality: 'poor',
-                note: 'The log is not wrong. IT is extremely confident of this. Doubling down on a false statement in writing is exactly what turns a data incident into a conduct matter.' },
-            ],
-          },
-          branches: { a: 'n3_caught', b: 'n3_pm_exposed' },
-        },
-        n3_pm_exposed: {
-          scene: 'desk-review',
-          caption: `You held your account. But IT confirms the log, and the contradiction between what you said and what happened is now in the incident record alongside the original data issue.`,
-          decision: {
-            prompt: `It's no longer just a data issue. What do you do?`,
-            choices: [
-              { id: 'a', label: `Come clean now — acknowledge the tool use and the false statement, and accept the consequences.`, quality: 'partial', note: `Very late, and the false statement still counts against you — but correcting it is the only thing that stops this getting worse.` },
-              { id: 'b', label: `Hold the line — insist the log must be mistaken.`, quality: 'poor', note: `Maintaining a false statement against a confirmed log is what turns a data-policy incident into a conduct matter with a different ceiling of consequences.` },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n3_systemic: {
-          scene: 'office-meeting',
-          caption: 'While reviewing logs, IT finds two other PMs and a director did the same thing. You\'re not alone.',
-          sub_caption: 'The investigation is quietly reframing from "individual breach" to "systemic governance gap."',
-          decision: {
-            prompt: 'HR asks if you have any thoughts on why this is happening across multiple teams.',
-            choices: [
-              { id: 'a', label: 'The approved tool is slow and nobody knows what the policy is', quality: 'good',
-                note: 'Accurate and useful. HR notes it. The policy and tooling both get fixed.' },
-              { id: 'b', label: 'Point out the approved tool has been broken for months with no fix', quality: 'good',
-                note: 'Also accurate. IT is called in. The root cause gets addressed, not just the symptom.' },
-              { id: 'c', label: 'Say nothing — let the others explain it', quality: 'poor',
-                note: 'The director points at you specifically. Silence bought nothing — you carry the incident alone and lost any chance of reframing it as a systemic issue.' },
-            ],
-          },
-          branches: { a: 'n4_volunteer', b: 'n4_volunteer', c: 'outcome_warn' },
-        },
-
-        n3_minimised: {
-          scene: 'boardroom-crisis',
-          caption: 'HR pulls up the data classification. M&A targets. Projected offer prices. Executive redundancy list.',
-          sub_caption: '"Nothing really sensitive" turns out to be the most sensitive category of data the company holds.',
-          decision: {
-            prompt: 'Your manager asks you to reconsider your characterisation of the data.',
-            choices: [
-              { id: 'a', label: 'Acknowledge you underestimated the sensitivity — fully this time', quality: 'good',
-                note: 'Late but honest. The minimisation note stays on file. The full honesty also stays on file.' },
-              { id: 'b', label: 'Maintain that you didn\'t know it was that sensitive', quality: 'partial',
-                note: 'Plausible. The M&A section was clearly labelled but you can credibly claim you didn\'t register its significance at the time. HR notes the ambiguity.' },
-            ],
-          },
-          branches: { a: 'n3_systemic', b: 'outcome_warn' },
-        },
-
-        n3_caught: {
-          scene: 'desk-working',
-          caption: 'You corrected the record. Late, but you corrected it.',
-          sub_caption: 'The written note reflects the correction. The initial response — vague or false — is also in the record.',
-          decision: {
-            prompt: `The immediate issue is contained. What do you do next?`,
-            choices: [
-              { id: 'a', label: `Push for the systemic fix — the real gap is that there was no approved tool and no clear policy, not just your slip.`, quality: 'good', note: `Turning a personal misstep into the case for a systemic control is the most useful thing you can do from here.` },
-              { id: 'b', label: `Take the warning, keep your head down, and move on.`, quality: 'partial', note: `Understandable, but it leaves the conditions that produced the incident untouched for the next person.` },
-            ],
-          },
-          branches: { a: 'n3_systemic', b: 'outcome_warn' },
-        },
-
-        n4_volunteer: {
-          scene: 'desk-thirty-days',
-          caption: 'The governance review recommends both a policy and an approved tools rollout.',
-          sub_caption: 'Someone needs to help implement the acceptable use training for the PM community.',
-          decision: {
-            prompt: 'HR asks if you\'d be willing to contribute to the rollout given your experience.',
-            choices: [
-              { id: 'a', label: 'Yes — if anyone knows why people reach for these tools, it\'s me', quality: 'good',
-                note: 'You turn a disaster into a genuine career moment. The training references your scenario (anonymised, mostly).' },
-              { id: 'b', label: 'Hard pass — you\'d rather this whole thing quietly disappeared', quality: 'partial',
-                note: 'Understandable. The matter fades without much ceremony — note to file, no further action.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_ok' },
-        },
-      },
-
-      outcomes: {
-        outcome_good: {
-          heading: 'The accidental policy champion',
-          tone: 'good',
-          result: 'You\'re now co-authoring the AI acceptable use training. Your scenario is in there, anonymised as "a senior project manager at a financial services firm." Your colleagues will complete this training in two months. Three of them will recognise the story. None of them will say anything.',
-          learning: 'The mistake was understandable. Shadow AI happens everywhere the approved path is slower than the unapproved one. The correct response to discovering you\'re part of a systemic problem is to help fix the system, not just survive the investigation.',
-          score: 92,
-        },
-        outcome_ok: {
-          heading: 'Quietly resolved',
-          tone: 'good',
-          result: 'Note to file. Mandatory training (you find it somewhat ironic). The policy ships. The approved tool gets fixed. Your manager checks in three months later and explicitly says the matter is closed.',
-          learning: 'Coming clean early, even when it\'s uncomfortable, consistently produces better outcomes than the alternatives. The data was the problem. The honesty was the solution.',
-          score: 70,
-        },
-        outcome_warn: {
-          heading: 'Written warning, lesson learned',
-          tone: 'warn',
-          result: 'Formal written warning. Mandatory retraining. Three months later, you\'re the most scrupulous person in the team about data classification. You check every tool before you use it. Your colleagues find this slightly annoying and also quite useful.',
-          learning: 'The consequence of the warning is real but finite. The consequence of the cover-up would have been worse. Every step away from honesty in a data incident makes the eventual reckoning harder.',
-          score: 38,
-        },
-        outcome_bad: {
-          heading: 'The case study',
-          tone: 'bad',
-          result: 'Disciplinary process. Formal outcome: final written warning, demotion, mandatory retraining. The incident is referenced in the company\'s AI governance training as "Case Study F2-B." You know it\'s you. Your successor on the board prep process asks HR about the history. HR says "it\'s been addressed."',
-          learning: 'The data incident was manageable. The false statement made it a conduct issue. The doubling down made it a case study. At each decision point there was a better path. The cost of not taking it compounded.',
-          score: 6,
-        },
-      },
-    }, // end pm
-
-    // ── ANALYST ───────────────────────────────────────────────
-    analyst: {
-      nodes: {
-        start: {
-          scene: 'analyst-desk',
-          caption: 'Log entry: 14:32:08. CORP-LAP-0482. free-ai-tool.io. 847KB transferred.',
-          sub_caption: 'DLP didn\'t fire. Personal browser session. You\'re the only one who\'s seen this.',
-          decision: {
-            prompt: 'You have twelve other alerts open. Eleven are the printer on floor 3. What do you do with this one?',
-            choices: [
-              { id: 'a', label: 'Cross-reference device ID, confirm the user, classify the data type', quality: 'good',
-                note: 'Twenty minutes of work. You have a name, a date, and a rough data classification. Solid.' },
-              { id: 'b', label: 'Flag low priority — probably a personal project, not a policy issue', quality: 'poor',
-                note: 'Three weeks later you discover it was M&A data. This flag is in your record now.' },
-              { id: 'c', label: 'Close the ticket. You\'ll come back to it.', quality: 'poor',
-                note: 'You don\'t come back to it. Nobody does. The printer gets ticket #13.' },
-            ],
-          },
-          branches: { a: 'n2_investigated', b: 'n2_flagged_low', c: 'n_analyst_fallout' },
-        },
-
-        n2_investigated: {
-          scene: 'analyst-desk-privacy',
-          caption: 'Device registered to: Priya Sharma, Senior PM. Data volume consistent with a full slide deck.',
-          sub_caption: 'You search the Q3 calendar. Board prep. Strategy deck. The timing matches exactly.',
-          decision: {
-            prompt: 'You have enough to escalate. Your manager says "it\'s quarter-end, Marcus — are you sure this is worth it right now?"',
-            choices: [
-              { id: 'a', label: 'Send a formal written incident report immediately, regardless of timing', quality: 'good',
-                note: 'Creates a paper trail. When this becomes a legal matter, you are clearly on the right side of it.' },
-              { id: 'b', label: 'Agree to wait a week but document your recommendation to escalate now', quality: 'partial',
-                note: 'Compromise. Slightly uncomfortable. You protected yourself in writing at least.' },
-              { id: 'c', label: 'Defer to your manager — they\'re probably right that it can wait', quality: 'poor',
-                note: 'External counsel contacts the company four days later. Your manager does not remember this conversation the way you do.' },
-            ],
-          },
-          branches: { a: 'n3_escalated', b: 'n3_delayed_escalation', c: 'n3_too_late' },
-        },
-
-        n2_flagged_low: {
-          scene: 'analyst-desk-privacy',
-          caption: 'Three weeks later, a legal hold notice arrives referencing "AI tool usage during Q3 board preparation."',
-          sub_caption: 'Your low-priority flag on ticket #4471 is now exhibit A in why the organisation didn\'t catch this earlier.',
-          decision: {
-            prompt: 'Legal is asking what InfoSec knew and when. You need to explain ticket #4471.',
-            choices: [
-              { id: 'a', label: 'Pull the ticket and present it accurately — you flagged it but misjudged severity', quality: 'partial',
-                note: 'Honest. The misjudgement is on record. So is the fact that you found it at all.' },
-              { id: 'b', label: 'Quietly update the ticket status before Legal looks at it', quality: 'poor',
-                note: 'Audit logs track ticket modifications. Legal is looking at those too.' },
-            ],
-          },
-          branches: { a: 'n3_escalated', b: 'n3_too_late' },
-        },
-        n_analyst_fallout: {
-          scene: 'desk-focused',
-          caption: `You closed the alert as noise. Three weeks later the legal hold lands — referencing exactly the Q3 AI tool usage you saw first and waved off. Your dismissal is in the ticket history.`,
-          decision: {
-            prompt: `The incident is Legal's now, and you were the first to see it. What do you do?`,
-            choices: [
-              { id: 'a', label: `Escalate everything you have — the original log, the timestamp, the device — and own that you saw it first and misjudged it.`, quality: 'good', note: `Owning the early miss and handing over the full record is what lets the investigation move. The misjudgement stands, but a cover-up doesn't get added to it.` },
-              { id: 'b', label: `Frame the original alert as genuinely ambiguous, so the dismissal looks reasonable.`, quality: 'poor', note: `Reshaping how you describe the alert after the fact, with the timestamps on record, turns a judgement error into a credibility problem.` },
-            ],
-          },
-          branches: { a: 'n3_escalated', b: 'n3_too_late' },
-        },
-
-        n3_escalated: {
-          scene: 'boardroom-crisis',
-          caption: 'Legal is involved. They want to understand what controls InfoSec had and why DLP didn\'t catch this.',
-          sub_caption: '"The personal browser session bypasses our corporate DLP entirely. That\'s the gap."',
-          decision: {
-            prompt: 'Legal asks directly: "Was this a known gap? Had it been flagged?"',
-            choices: [
-              { id: 'a', label: 'Accurate answer: known class of gap, not specifically flagged for this vector', quality: 'good',
-                note: 'Legally precise. Technically honest. Legal notes it as "acknowledged risk, not remediated." That\'s manageable.' },
-              { id: 'b', label: 'Claim you\'d flagged this previously (you hadn\'t)', quality: 'poor',
-                note: 'Legal asks to see the report. There is no report. A false prior claim in an active legal matter puts you in a significantly worse position than the original log anomaly.' },
-            ],
-          },
-          branches: { a: 'n4_gap_analysis', b: 'outcome_bad' },
-        },
-
-        n3_delayed_escalation: {
-          scene: 'office-briefing',
-          caption: 'You escalated a week late. Legal has the original log timestamp and your incident report timestamp.',
-          sub_caption: 'The gap is seven days. Legal notes it. Your documented recommendation to escalate sooner helps.',
-          decision: {
-            prompt: 'The CISO asks why you waited.',
-            choices: [
-              { id: 'a', label: 'Explain the manager pushback honestly — and show the written recommendation', quality: 'good',
-                note: 'The document you created protecting yourself now protects the whole picture. This is why you write things down.' },
-              { id: 'b', label: 'Take responsibility — you should have pushed harder regardless', quality: 'partial',
-                note: 'Noble. Also lets your manager off the hook entirely. The CISO would have found it interesting to know.' },
-            ],
-          },
-          branches: { a: 'n4_gap_analysis', b: 'n4_gap_analysis' },
-        },
-
-        n3_too_late: {
-          scene: 'desk-working',
-          caption: 'External counsel arrived before your incident report. Legal is doing the investigation now, not InfoSec.',
-          sub_caption: 'Your manager is being asked why they advised waiting. They are not mentioning that conversation.',
-          decision: {
-            prompt: 'Legal asks you directly what your recommendation was when you saw the log.',
-            choices: [
-              { id: 'a', label: 'Tell the truth — you recommended escalating, your manager said to wait', quality: 'good',
-                note: 'Uncomfortable. Accurate. Legal notes the management decision. Your position improves.' },
-              { id: 'b', label: 'Cover for your manager — "we decided together to review it the following week"', quality: 'poor',
-                note: 'Your manager is already telling a different story. Your stories now contradict each other.' },
-            ],
-          },
-          branches: { a: 'n4_gap_analysis', b: 'outcome_bad' },
-        },
-
-        n4_gap_analysis: {
-          scene: 'analyst-desk-privacy',
-          caption: 'The CISO wants a gap analysis: what DLP covers, what it doesn\'t, and what closing the gap costs.',
-          sub_caption: 'This is your wheelhouse. This is actually your job.',
-          decision: {
-            prompt: 'You have budget approval for one additional control. Which do you prioritise?',
-            choices: [
-              { id: 'a', label: 'Endpoint DLP that covers personal browser sessions', quality: 'good',
-                note: 'Closes the specific gap. The CISO approves it within the week — a documented incident makes budget conversations considerably easier.' },
-              { id: 'b', label: 'Block unapproved AI tool domains at the network level', quality: 'partial',
-                note: 'Users switch to mobile hotspots within 48 hours. The block gets reversed. You\'re back to square one.' },
-              { id: 'c', label: 'Recommend banning all external AI tools organisation-wide', quality: 'poor',
-                note: 'The CEO uses Copilot for their emails. The ban lasts four hours and generates seventeen complaints.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_warn', c: 'outcome_warn' },
-        },
-      },
-
-      outcomes: {
-        outcome_good: {
-          heading: 'The analyst who caught it',
-          tone: 'good',
-          result: 'The incident report, the escalation, the gap analysis, and the DLP implementation all have your name on them. The CISO presents the remediation to the board and specifically credits "the InfoSec team\'s rapid identification and structured response." The printer on floor 3 generates fourteen more false positives. You close them all.',
-          learning: 'Detective controls only work if someone acts on what they find. You found it, escalated it, explained the gap honestly, and built the fix. That\'s the whole job.',
-          score: 95,
-        },
-        outcome_warn: {
-          heading: 'Incident resolved, gap partially closed',
-          tone: 'warn',
-          result: 'The incident is resolved. The gap analysis is on file. The network block lasted 48 hours before operations reversed it. You submit a revised proposal for endpoint DLP. Budget review is Q2. You have it in writing that the risk is acknowledged and the remediation is pending.',
-          learning: 'Technical controls that create friction without solving the underlying need get bypassed immediately. The right control addresses the behaviour, not just the channel.',
-          score: 55,
-        },
-        outcome_bad: {
-          heading: 'Part of the problem',
-          tone: 'bad',
-          result: 'You are named in the legal hold response as someone who either missed, delayed, or mischaracterised the incident. The CISO\'s review of the InfoSec function includes a recommendation for "improved triage protocols and escalation clarity." Your annual review has a pointed section on "professional judgement under pressure."',
-          learning: 'The log was the evidence. How you handled it after finding it is what determined your outcome. In incident response, the paper trail you create in the first 48 hours is the record that defines everything that follows.',
-          score: 7,
-        },
-      },
-    }, // end analyst
-  }, // end trees
-
-  // Controls summary for outcome screen
-  controls_summary: [
-    {
-      id: 'c1', label: 'Approved AI tools register',
-      effort: 'Low', owner: 'IT / Risk', go_live: true,
-      context: 'Jamie had no way to know what was approved because no list existed. An accessible register — not buried in governance docs — gives staff a real basis for making the right call.',
+  outcomes: {
+    outcome_route: {
+      heading: `You ended up on the tool that was already paid for`,
+      tone: `good`,
+      score: 100,
+      reaction: `The pull here was never laziness. It was a nine o'clock meeting and a colleague who sounded like she knew.`,
+      description: [
+        `You asked before you pasted. The answer came back in an afternoon, and it turned out the company had bought a sanctioned tool in March and told a distribution list you were not on.`,
+        `You lost one evening to doing tomorrow's one-pager by hand. Nothing about Northwind left the building.`,
+      ],
+      judgement: `The thing that worked was not caution. It was asking a question that felt slightly stupid to ask, in an organisation where the answer had been sitting unread since March.`,
     },
-    {
-      id: 'c2', label: 'Acceptable use policy for AI',
-      effort: 'Low', owner: 'Legal / Risk', go_live: true,
-      context: 'The policy existed — buried under "Governance 2022." For it to work, it must be communicated, acknowledged, and kept current. A policy staff cannot find is not a control.',
+
+
+    outcome_quiet: {
+      heading: `You were careful. The team wasn't.`,
+      tone: `warn`,
+      score: 55,
+      reaction: `Not your call to make is a reasonable read of your standing here. You have been in the job eighteen months and you cannot approve a tool.`,
+      description: [
+        `You wrote the one-pager by hand and nothing of yours left the building.`,
+        `Across the desk, the pasting carried on. When the preservation notice arrived three weeks later it did not name you, because it did not need to.`,
+      ],
+      judgement: `An individual being careful does not reduce an organisation's exposure by very much. The question you could have asked — is the team supposed to have a rule about this — sits inside what an eighteen-month marketer can do, and it travels further than your own restraint did.`,
     },
-    {
-      id: 'c3', label: 'Endpoint DLP for personal browser sessions',
-      effort: 'High', owner: 'InfoSec', go_live: false,
-      context: 'IT had the logs. DLP would have flagged the submission at the time — or blocked it — rather than surfacing it weeks later in an audit sweep.',
+
+    outcome_disclosed: {
+      heading: `Contained, because you counted properly`,
+      tone: `good`,
+      score: 85,
+      reaction: `Four minutes with your manager, and they were worse than you expected. Almost everyone overestimates how that conversation goes.`,
+      description: [
+        `The file went out on a Wednesday afternoon to a tool on a free plan. You said so on the Monday the notice landed, and when Legal asked whether anything else had gone the same way, you checked instead of answering from memory.`,
+        `Two more turned up. Both small. Both on the list.`,
+      ],
+      judgement: `Disclosure is cheapest at exactly the moment it is least necessary, and the scope answer mattered more than the first admission. An incident that grows after you have described it costs an organisation far more than one measured honestly on day one, and the person who under-reported is the one who gets asked why.`,
     },
-    {
-      id: 'c4', label: 'Enterprise AI tool provisioning',
-      effort: 'Medium', owner: 'IT', go_live: false,
-      context: 'Jamie used a public tool because no approved alternative was available. Providing a sanctioned enterprise tool removes the incentive that drives shadow AI in the first place.',
+
+    outcome_found: {
+      heading: `The logs got there before you did`,
+      tone: `bad`,
+      score: 20,
+      reaction: `Nobody knows it was me is not stupid. It was true for nine days, and nine days is long enough to feel like an answer.`,
+      description: [
+        `A retrospective review matched a device to a session to a person. Not because anyone suspected you, but because a preservation notice had made somebody go and look at everything.`,
+        `By the time you were in the room, the timestamp and the volume were already on the screen.`,
+      ],
+      judgement: `The disclosure window closed while you were deciding whether to use it. What changed between Monday and the meeting room was not the facts, only who found them, and that is the difference between a mistake and something an organisation has to treat as concealment.`,
     },
-    {
-      id: 'c5', label: 'Staff awareness training',
-      effort: 'Low', owner: 'HR / Risk', go_live: true,
-      context: 'Jamie did not know public AI tools may retain submitted data. Colleagues were guessing. Awareness training means staff understand the risk — not just that a policy exists.',
-    },
+  },
+
+  debrief: {
+    frame: [
+      `Nothing in this looked like a security decision at the time. It looked like a deadline, a colleague who sounded certain, and a tool that produced something better than you would have written at four in the afternoon.`,
+      `That is the shape of nearly every shadow AI incident. The tool is genuinely good. The person using it is competent and busy. The policy exists, is four years old, and is filed somewhere nobody has needed to look. The gap is not between careful people and careless ones; it is between what an organisation has decided and what it has actually told anyone.`,
+    ],
+  },
+
+  recall: {
+    id: `f2-recall`,
+    prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event, and you want an AI tool to tidy the formatting. Which question decides it?`,
+    options: [
+      { id: `a`, quality: `partial`, label: `Whether the spreadsheet is confidential`,
+        note: `Closer to a habit than a rule. Plenty of what leaks is not marked confidential. These are ordinary work contact details, and they are still someone else's personal information being handed to a third party.` },
+      { id: `b`, quality: `good`, label: `Whether that tool has been assessed and approved for this kind of information`,
+        note: `Yes. It is the same question as the one-pager, and it does not require you to classify anything yourself. Approved for this kind of information is answerable by someone else, which is what makes it usable at four in the afternoon.` },
+      { id: `c`, quality: `poor`, label: `Whether you can delete the conversation afterwards`,
+        note: `Deleting removes it from your history and from nowhere else. This was the free-plan trap in the scenario and it reads the same way here.` },
+    ],
+  },
+
+  act: [
+    { id: `a1`, label: `Find out this week whether your organisation has an approved AI tool, and who holds the list` },
+    { id: `a2`, label: `Check which plan you are on in any AI tool you already use for work` },
+    { id: `a3`, label: `Ask your team lead whether the team is supposed to have a rule about this` },
   ],
+
+  controls_summary: [
+    { id: `c1`, label: `Approved-tools register that people can actually find`, effort: `Low`, owner: `Information Security`, go_live: true,
+      context: `The register existed. The rollout went to a distribution list Jamie was not on, which is the same as it not existing.` },
+    { id: `c2`, label: `Company-agreement tier for sanctioned AI tools`, effort: `Medium`, owner: `IT / Procurement`, go_live: true,
+      context: `The free plan retains conversations for model improvement. The business tier does not. That difference is a contract, not a setting.` },
+    { id: `c3`, label: `No-blame disclosure route with a stated response time`, effort: `Low`, owner: `Risk / Legal`, go_live: true,
+      context: `Every good ending here runs through someone telling somebody early. Every bad one runs through the nine days they spent deciding.` },
+  ],
+
+  tell: `Before you paste anything into an AI tool at work, ask whether that tool has been approved for this kind of information, and ask someone who would know.`,
 };

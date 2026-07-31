@@ -1,0 +1,277 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Artefact frames — where the product register deliberately stops.
+
+   FREE_PRODUCT §5.1: "The artefact renders in its own native visual
+   language, not ours. Our register stops at the edge of the frame."
+
+   So this is the ONE stylesheet in the project that does not inherit the
+   warm-ground / serif / amber system. Each frame borrows the conventions of
+   the thing it imitates — cool greys, system sans, mono addresses, tight
+   leading. If a frame here starts looking like the rest of the app, it has
+   stopped doing its job.
+
+   Everything is invented. No real brand, mark, or address (§5.3).
+   ───────────────────────────────────────────────────────────────────────── */
+
+.wrap {
+  margin: 0 0 var(--sp-5);
+}
+
+.caption {
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  color: var(--ink-faint);
+  margin-bottom: var(--sp-2);
+}
+
+.frame {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-frame);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: #14161a;
+  background: #fff;
+}
+
+.mark {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: #8b9199;
+  background: #f4f5f7;
+  border-top: 1px solid #e6e8eb;
+}
+
+/* ── Message thread ──────────────────────────────────────────── */
+
+.phone { background: #f2f3f5; }
+
+.phoneBar {
+  padding: var(--sp-3) var(--sp-4);
+  background: #fbfbfc;
+  border-bottom: 1px solid #e0e2e6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.phoneWho { font-weight: 600; font-size: 0.9375rem; }
+.phoneNote { font-size: 0.75rem; color: #7c828a; }
+
+.thread { list-style: none; margin: 0; padding: var(--sp-4); display: grid; gap: var(--sp-2); }
+
+.bubbleIn, .bubbleOut {
+  max-width: 82%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 16px;
+  width: fit-content;
+}
+.bubbleIn  { background: #e7e9ec; border-bottom-left-radius: 5px; }
+.bubbleOut { background: #2f6fd0; color: #fff; margin-left: auto; border-bottom-right-radius: 5px; }
+.bubbleIn p, .bubbleOut p { margin: 0; }
+
+.bubbleMeta { display: block; font-size: 0.6875rem; opacity: 0.65; margin-top: 3px; }
+
+.msgGap { margin-top: var(--sp-2); }
+.elapsed {
+  text-align: center;
+  font-size: 0.6875rem;
+  color: #8b9199;
+  margin: var(--sp-3) 0 var(--sp-2);
+  letter-spacing: 0.03em;
+}
+
+/* ── Email ───────────────────────────────────────────────────── */
+
+.email { background: #fff; }
+
+.emailHead { padding: var(--sp-4); border-bottom: 1px solid #e6e8eb; }
+.emailSubject { margin: 0 0 var(--sp-2); font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
+.emailFrom { margin: 0 0 2px; display: flex; flex-wrap: wrap; gap: 0 0.4rem; align-items: baseline; }
+.emailName { font-weight: 600; }
+.emailAddr { font-family: var(--mono); font-size: 0.8125rem; color: #6b7178; word-break: break-all; }
+.emailTo { margin: 0; font-size: 0.8125rem; color: #8b9199; }
+
+.emailBody { padding: var(--sp-4); }
+.emailBody p { margin: 0 0 0.75rem; }
+.emailBody p:last-child { margin-bottom: 0; }
+.emailSig { color: #6b7178; font-size: 0.875rem; white-space: pre-line; }
+
+.attachment {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid #e6e8eb;
+  background: #f7f8f9;
+  font-size: 0.8125rem;
+  color: #4a5058;
+}
+
+/* ── Assistant output ────────────────────────────────────────── */
+
+.assistant { background: #fcfcfd; border: 1px solid #e4e6ea; }
+
+.assistantMark {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7c828a;
+  border-bottom: 1px solid #eceef1;
+}
+
+.prompt { padding: var(--sp-3) var(--sp-4); background: #f4f6f8; }
+.promptLabel {
+  margin: 0 0 2px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8b9199;
+}
+.prompt p:last-child { margin: 0; color: #3a4048; }
+
+.response { padding: var(--sp-4); }
+.response p { margin: 0 0 0.75rem; }
+.response p:last-child { margin-bottom: 0; }
+
+.citations {
+  margin: var(--sp-3) 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.8125rem;
+  color: #6b7178;
+  display: grid;
+  gap: 3px;
+}
+
+/* ── Document ────────────────────────────────────────────────── */
+
+.doc { background: #fff; border: 1px solid #dfe1e5; }
+
+.docName {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  background: #f4f5f7;
+  border-bottom: 1px solid #e0e2e6;
+  word-break: break-all;
+}
+.docMeta { margin: 0; padding: var(--sp-2) var(--sp-4) 0; font-size: 0.75rem; color: #8b9199; }
+
+.docBody { padding: var(--sp-4); font-size: 0.9375rem; }
+.docBody p { margin: 0 0 0.7rem; }
+.docBody p:last-child { margin-bottom: 0; }
+.docHeading { font-weight: 600; }
+
+/* Present, visible, missable. Never display:none — a screen reader must
+   still reach it, because "you could have seen it" is the whole lesson. */
+.docFaint { color: #b6bbc1; font-size: 0.8125rem; }
+
+/* ── System output ───────────────────────────────────────────── */
+
+.system { background: #fff; border: 1px solid #dfe1e5; }
+
+.systemHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: #1f2933;
+  color: #e8eaed;
+}
+.systemTool { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; }
+.systemStatus {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: #3d4a57;
+}
+
+.systemHeadline { margin: 0; padding: var(--sp-4) var(--sp-4) var(--sp-3); font-size: 1rem; font-weight: 600; }
+
+.systemFields { margin: 0; padding: 0 var(--sp-4) var(--sp-3); display: grid; gap: 0; }
+.systemRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eceef1;
+  font-size: 0.875rem;
+}
+.systemRow dt { color: #6b7178; margin: 0; }
+.systemRow dd { margin: 0; font-family: var(--mono); font-size: 0.8125rem; text-align: right; }
+
+.systemRationale {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 0.875rem;
+  color: #4a5058;
+  background: #f7f8f9;
+  border-top: 1px solid #e6e8eb;
+}
+
+.trail {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4) var(--sp-4) 2.2rem;
+  font-size: 0.8125rem;
+  color: #6b7178;
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid #e6e8eb;
+}
+
+/* ── Transcript ──────────────────────────────────────────────── */
+
+.transcript { background: #fdfdfc; border: 1px solid #e0e2e6; }
+
+.transcriptHead {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #6b7178;
+  background: #f4f5f7;
+  border-bottom: 1px solid #e0e2e6;
+}
+.transcriptDur { color: #8b9199; }
+
+.lines { list-style: none; margin: 0; padding: var(--sp-4); display: grid; gap: var(--sp-3); }
+.lines li { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--sp-3); align-items: baseline; }
+
+.time {
+  grid-row: 1 / span 2;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: #a4a9af;
+  padding-top: 2px;
+}
+.speaker {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7c828a;
+}
+.said { grid-column: 2; }
+
+.transcriptNote {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid #e6e8eb;
+  background: #f7f8f9;
+  font-size: 0.8125rem;
+  color: #6b7178;
+}
+
+@media (min-width: 40rem) {
+  .frame { font-size: 0.9375rem; }
+  .wrap { margin-bottom: var(--sp-6); }
+}

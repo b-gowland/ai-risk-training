@@ -109,30 +109,34 @@ const scenarioFiles = readdirSync(join(ROOT, 'src/scenarios'))
 
 const imported = [...indexSrc.matchAll(/from\s+'\.\/([a-z0-9-]+)\.js'/g)].map((m) => m[1]);
 
-// At Home scenarios are imported directly by EverydayApp rather than through
-// the At Work registry, so registration means "imported somewhere in src",
-// not "imported by index.js".
+// One registry, both doors. A file on disk but not in index.js renders
+// nowhere — during the four-beat migration that is the expected state for
+// every scenario not yet rebuilt, so it is reported, not failed. The
+// direction that IS a failure is a registered scenario with no file.
 const allImports = new Set(imported);
-for (const f of codeFiles) {
-  for (const m of read(f).matchAll(/from\s+'[^']*scenarios\/([a-z0-9-]+)\.js'/g)) {
-    allImports.add(m[1]);
-  }
-}
 
-for (const f of scenarioFiles) {
-  if (!allImports.has(f)) {
-    err('scenarios', `src/scenarios/${f}.js exists but is imported nowhere — unreachable.`);
-  }
-}
 for (const i of imported) {
   if (!scenarioFiles.includes(i)) {
     err('scenarios', `index.js imports ./${i}.js but no such file exists.`);
   }
 }
 
-const atWork = scenarioFiles.filter((f) => !f.startsWith('everyday-'));
-const atHome = scenarioFiles.filter((f) => f.startsWith('everyday-'));
-note(`scenarios: ${atWork.length} At Work, ${atHome.length} At Home, ${scenarioFiles.length} total`);
+const unregistered = scenarioFiles.filter((f) => !allImports.has(f));
+if (unregistered.length) {
+  note(`unmigrated: ${unregistered.length} scenario file(s) on disk but not registered — not reachable in the app`);
+}
+
+// Door comes from the `door` field, never from the filename. Filename
+// prefixes were a proxy for the old two-module split and that split is gone.
+const doorOf = (f) => read(`src/scenarios/${f}.js`).match(/door:\s*[`'"](\w+)[`'"]/)?.[1] || null;
+const registered = scenarioFiles.filter((f) => allImports.has(f));
+const atWork = registered.filter((f) => doorOf(f) === 'work');
+const atHome = registered.filter((f) => doorOf(f) === 'home');
+
+for (const f of registered) {
+  if (!doorOf(f)) err('scenarios', `src/scenarios/${f}.js is registered but declares no door ('home' or 'work').`);
+}
+note(`registered: ${atWork.length} At Work, ${atHome.length} At Home, ${registered.length} live`);
 
 /* ─────────────────────────────────────────────────────────────
    3. kb_url shape (CONTENT_QA_CHECKLIST step 4)
@@ -173,17 +177,22 @@ for (const f of [...srcFiles, 'index.html', 'README.md']) {
    ───────────────────────────────────────────────────────────── */
 
 const html = read('index.html');
-const share = read('src/everyday/ShareCard.jsx');
 
 const hostOf = (u) => { try { return new URL(u).host; } catch { return null; } };
 const ogUrl = html.match(/property="og:url"\s+content="([^"]+)"/)?.[1];
-const forkUrl = share.match(/FORK_URL\s*=\s*'([^']+)'/)?.[1];
 
-if (ogUrl && forkUrl && hostOf(ogUrl) !== hostOf(forkUrl)) {
-  err(
-    'meta',
-    `og:url host (${hostOf(ogUrl)}) differs from ShareCard FORK_URL host (${hostOf(forkUrl)}). Shared links and the card must agree.`
-  );
+// The tell is shared with window.location.origin rather than a hardcoded
+// host, so there is no second constant left to drift out of agreement. The
+// guard that replaces it: nothing in src may hardcode an app host.
+// What counts as drift is an INTERNAL destination routed through an absolute
+// app URL — those break on any other origin and silently stop being testable.
+// A bare origin link that names the site (the privacy notice does this, and
+// should) is not drift.
+for (const f of codeFiles) {
+  const body = read(f);
+  for (const m of body.matchAll(/['"`](https?:\/\/app\.airiskpractice\.org\/#\/[^'"`\s]*)['"`]/g)) {
+    err('meta', `${f} routes internally through an absolute app URL (${m[1]}). Use a relative route.`);
+  }
 }
 
 // og:image on a different host to og:url is a live risk: some scrapers do not

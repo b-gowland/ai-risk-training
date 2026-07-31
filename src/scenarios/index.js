@@ -1,83 +1,52 @@
-import { scenario as g5 } from './g5-excessive-agency.js';
-import { scenario as f4 } from './f4-irreversibility.js';
-import { scenario as b5 } from './b5-agentic-logging.js';
-import { scenario as c6 } from './c6-mcp-attack.js';
-import { scenario as c7 } from './c7-multi-agent-trust.js';
-import { scenario as c8 } from './c8-computer-use-hijacking.js';
-import { scenario as f2 } from './f2-shadow-ai.js';
-import { scenario as c1 } from './c1-data-poisoning.js';
-import { scenario as c2 } from './c2-prompt-injection.js';
-import { scenario as c3 } from './c3-model-theft.js';
-import { scenario as c4 } from './c4-deepfakes.js';
-import { scenario as a1 } from './a1-hallucination.js';
-import { scenario as e1 } from './e1-bias.js';
-import { scenario as b2 } from './b2-compliance.js';
-import { scenario as d2 } from './d2-privacy.js';
-import { scenario as b1 } from './b1-accountability.js';
-import { scenario as b3 } from './b3-lifecycle.js';
-import { scenario as b4 } from './b4-supply-chain.js';
-import { scenario as d1 } from './d1-data-quality.js';
-import { scenario as d3 } from './d3-ip.js';
-import { scenario as c5 } from './c5-ai-cyber-attacks.js';
-import { scenario as f1 } from './f1-automation-bias.js';
-import { scenario as f3 } from './f3-scope-creep.js';
-import { scenario as g4 } from './g4-ai-safety.js';
-import { scenario as g3 } from './g3-workforce-displacement.js';
-import { scenario as a2 } from './a2-model-drift.js';
-import { scenario as g1 } from './g1-concentration-risk.js';
-import { scenario as g2 } from './g2-environmental-impact.js';
-import { scenario as a3 } from './a3-robustness.js';
-import { scenario as a4 } from './a4-explainability.js';
-import { scenario as e2 } from './e2-harmful-content.js';
-import { scenario as e3 } from './e3-misinformation.js';
+// Scenario registry.
+//
+// MIGRATION STATE (July 2026): the four-beat rebuild changed the scenario
+// schema. Only migrated scenarios are registered here. The 33 unmigrated
+// files remain on disk — they hold the decision trees and consequence text,
+// which is the expensive half of a scenario and is reused as-is. They are
+// registered again as each one is brought to the new schema.
+//
+// A file on disk but not in this list renders nowhere. That is deliberate:
+// there is no compatibility path and no half-migrated scenario in front of
+// a stranger.
 
-// Business User available for F2, C4, A1, E1 only
+import { scenario as f2ShadowAi } from './f2-shadow-ai.js';
+import { scenario as a1Hallucination } from './a1-hallucination.js';
+import { scenario as d2Privacy } from './d2-privacy.js';
+import { scenario as e1Bias } from './e1-bias.js';
+import { scenario as f1AutomationBias } from './f1-automation-bias.js';
+import { scenario as d3Ip } from './d3-ip.js';
+import { scenario as homeVoiceClone } from './home-voice-clone.js';
+import { scenario as homeAiAnswer } from './home-ai-answer.js';
+import { scenario as homeAlgorithmSaidNo } from './home-algorithm-said-no.js';
+
 export const scenarios = [
-  a1,
-  a2,
-  a3,
-  a4,
-  b1,
-  b2,
-  b3,
-  b4,
-  c1,
-  c2,
-  c3,
-  c4,
-  c5,
-  d1,
-  d2,
-  d3,
-  e1,
-  e2,
-  e3,
-  f2,
-  f1,
-  f3,
-  g1,
-  g2,
-  g3,
-  g4,
-  g5,
-  f4,
-  b5,
-  c6,
-  c7,
-  c8,
+  homeVoiceClone,
+  homeAiAnswer,
+  homeAlgorithmSaidNo,
+  f2ShadowAi,
+  a1Hallucination,
+  d2Privacy,
+  e1Bias,
+  f1AutomationBias,
+  d3Ip,
 ];
 
-export const getScenario = (id) => scenarios.find(s => s.id === id);
-export const getLive     = ()   => scenarios.filter(s => !s.stub);
-
-export const DOMAINS = [
-  { key: 'A', label: 'Technical' },
-  { key: 'B', label: 'Governance' },
-  { key: 'C', label: 'Security & Adversarial' },
-  { key: 'D', label: 'Data' },
-  { key: 'E', label: 'Fairness & Social' },
-  { key: 'F', label: 'HCI & Deployment' },
-  { key: 'G', label: 'Systemic & Macro' },
+// The homepage pair is FIXED, not rotating (§3): someone sent this link
+// should see what the sender saw, and a stable pair is the only way to read
+// entry conversion honestly. One per door, At Home first.
+export const FEATURED_PAIR = [
+  `home-voice-clone`,
+  `f2-shadow-ai`,
 ];
 
-export const DIFFICULTY_ORDER = { Foundational: 0, Intermediate: 1, Advanced: 2 };
+export const byId = (id) => scenarios.find((s) => s.id === id) || null;
+
+// Every scenario file on disk, registered or not. Used to tell a stale deep
+// link apart from a typo: 32 knowledge-base entries link to
+// /#/scenario/<id>, and most of those ids are not registered here. A player
+// arriving on one of those gets a soft landing rather than a not-found page.
+// Vite resolves this at build time; the modules are never loaded.
+export const KNOWN_IDS = Object.keys(import.meta.glob('./*.js'))
+  .map((p) => p.slice(2, -3))
+  .filter((id) => id !== 'index');

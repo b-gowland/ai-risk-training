@@ -4,11 +4,13 @@
 //
 // PLAUSIBLE GOAL SETUP (one-time, in Plausible dashboard):
 // Goals → Add goal → Custom event for each of:
-//   Practitioner track: 'Scenario Started', 'Decision Made', 'Scenario Completed', 'Card Shared', 'Replay Chosen', 'KB Link Clicked', 'Recall Answered', 'Debrief Viewed'
-//   Fork (everyday) track: 'Fork Started', 'Fork Decision', 'Fork Completed', 'Fork Card Shared', 'Fork Replayed'
+//   'Scenario Started', 'Decision Made', 'Debrief Viewed', 'Scenario Completed',
+//   'Recall Answered', 'Action Selected', 'Card Shared', 'Replay Chosen'
 //
-// Fork events include: scenario (which of 3), node (which decision point), choice_quality, outcome, score.
-// This gives: completion rate, path distribution, avg score, drop-off node — all per scenario.
+// Events carry scenario_id, node_id, choice_quality, outcome and action, which
+// together give completion rate, path distribution, drop-off node and which
+// actions people pick — all anonymous and all aggregate. No goal in Plausible
+// means the event is discarded, so each name above must be added there once.
 
 import Plausible from 'plausible-tracker';
 
@@ -148,12 +150,12 @@ export const trackForkReplayed = (scenarioId) =>
 // Unit Loop — Debrief action picker. Fires once per selection change; the
 // commitment id is a content-defined key ('c1'…'c4' or 'skip'), never text.
 // An explicit skip is a recorded signal, not an absence.
-export const trackCommitmentSelected = (scenarioId, commitmentId) =>
-  safe(() => trackEvent('Commitment Selected', {
-    props: {
-      scenario:   forkScenarioKey(scenarioId),
-      commitment: commitmentId,
-    },
+// The Act beat (§4.7). A selection is an implementation intention and nothing
+// more — it is never evidence that anything was done, and no report may
+// describe it as such.
+export const trackCommitmentSelected = (scenarioId, actId) =>
+  safe(() => trackEvent('Action Selected', {
+    props: { scenario_id: scenarioId, action: actId },
   }));
 
 // Unit Loop — Brief micro-check. Fires on first answer per check only.

@@ -1,0 +1,63 @@
+.shell { min-height: 100dvh; display: flex; flex-direction: column; background: var(--ground); }
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0.9rem var(--sp-4);
+  background: var(--ink);
+  color: #fff;
+}
+
+.brand {
+  font-family: var(--heavy);
+  font-size: var(--t-sm);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+}
+.brand:hover { color: var(--door-home); }
+
+.tag {
+  font-family: var(--display);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.foot {
+  margin-top: auto;
+  padding: var(--sp-6) var(--sp-4) var(--sp-7);
+  background: var(--ink);
+  color: #fff;
+}
+
+.footLine {
+  font-family: var(--display);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  max-width: 52ch;
+  opacity: 0.85;
+  margin: 0 0 var(--sp-5);
+}
+
+.footNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: var(--t-2xs);
+}
+.footNav a { color: #fff; opacity: 0.7; text-decoration: underline; text-underline-offset: 3px; }
+.footNav a:hover { opacity: 1; }
+.footNote { opacity: 0.45; }
+
+@media (min-width: 52rem) {
+  .head { padding: 1rem var(--sp-6); }
+  .foot { padding: var(--sp-6) var(--sp-6) var(--sp-7); }
+}

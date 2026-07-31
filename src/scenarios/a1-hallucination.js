@@ -1,545 +1,279 @@
-// A1 — Confident and Wrong
-// Hallucination & Confabulation
+// a1-hallucination.js — Confident and Wrong
+// At Work. Migrated to the four-beat schema (FREE_PRODUCT §4) July 2026.
+// Perspective: the person whose name is on the briefing, not the person who
+// rolled the tool out. Decision tree carried from the business_user tree;
+// framing rebuilt.
+//
+// Discrimination note (CONTENT_STYLE_GUIDE): the tool has been accurate for
+// weeks, and that reliability is the trap. The scenario must not teach "AI is
+// always wrong" — it teaches that fluency is not verification.
 
 export const scenario = {
-  id: 'a1-hallucination',
-  risk_ref: 'A1',
-  title: 'Confident and Wrong',
-  subtitle: 'Hallucination & Confabulation',
-  domain: 'A — Technical',
-  difficulty: 'Foundational',
-  kb_url: 'https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination',
-  estimated_minutes: 10,
-  has_business_user: true,
+  id: `a1-hallucination`,
+  door: `work`,
+  risk_ref: `A1`,
+  title: `Confident and Wrong`,
+  shelfLine: `A client can't find one of the regulations your AI-drafted briefing cited.`,
+  hook: `A client is on the phone. One of the regulations your briefing cited doesn't exist.`,
+  scene: `document-error`,
+  determinacy: `clean`,
 
-  regulatory_tags: [`eu-ai-act-article-13`, `jurisdiction-global`],
+  kb_url: `https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination`,
+  regulatory_tags: [`eu-ai-act-article-13`, `nist-ai-rmf-measure-2`, `jurisdiction-global`],
+  mit_subdomain: `mit-3.1`,
 
-  personas: {
-    business_user: {
-      label: 'Business User',
-      role: 'Client Services',
-      character: 'Sam',
-      icon: '◇',
-      framing: 'You used an AI tool to draft a client briefing. The client is on the phone. One of the regulations you cited doesn\'t exist.',
-      premise: `It's Thursday morning. A client called about the regulatory briefing you sent yesterday — the one you drafted with the new AI writing assistant. They can't find one of the cited documents anywhere. You check. They're right: the regulation exists in the briefing, complete with clause numbers and a publication date, and it appears to be completely fabricated. The client has already shared the briefing with their board.`,
-    },
-    executive: {
-      label: 'Executive',
-      role: 'Managing Partner',
-      character: 'Diana',
-      icon: '◈',
-      framing: 'A client briefing went out with fabricated regulatory citations. The client shared it with their board. Nobody verified the AI output before it was sent.',
-      premise: `A partner has just forwarded you an urgent client email. The briefing sent by your firm yesterday cited a regulatory document that does not appear to exist. The client — a financial services firm — has shared it with their board. Their compliance director is asking your firm to confirm the reference. You learn the briefing was drafted using the AI writing assistant your firm deployed last month. No verification step was built into the workflow.`,
-    },
-    pm: {
-      label: 'Project Manager',
-      role: 'Digital Tools Lead',
-      character: 'Theo',
-      icon: '◎',
-      framing: 'You rolled out the AI writing tool three weeks ago. You mentioned hallucination risk in training. You didn\'t make verification a required step.',
-      premise: `You managed the AI writing assistant rollout. Training focused on productivity — how to prompt, how to edit efficiently. You mentioned that "AI can sometimes make things up" but it wasn't a required workflow step. It was a suggestion. A client briefing has now gone out containing a fabricated regulatory citation, and the Managing Partner wants to understand what went wrong in the rollout.`,
-    },
-    analyst: {
-      label: 'Analyst',
-      role: 'Regulatory Research Analyst',
-      character: 'Casey',
-      icon: '◉',
-      framing: 'One citation in a client briefing is fabricated. The AI tool has been in use for three weeks. You\'ve been asked to find out how big the problem is.',
-      premise: `A client briefing went out citing a regulation you can't find. The Managing Partner has asked you to determine the scope: is this isolated, or are there other AI-generated documents with similar issues? The AI writing assistant has been in use for three weeks. Multiple client-facing briefings have gone out in that time. You have access to the document management system.`,
-    },
-  },
-
-  trees: {
-
-    // ── BUSINESS USER — Sam ─────────────────────────────────────────
-    business_user: {
-      nodes: {
-        start: {
-          scene: `document-error`,
-          caption: `The client flagged one citation and you have checked it: the clause numbers, the date, the publication reference — all generated, none of it real.`,
-          sub_caption: `Before you decide how to handle the call, you have to decide what this means for the rest of the briefing.`,
-          decision: {
-            prompt: `One citation is confirmed fabricated. What is your working assumption about the rest of the document?`,
-            choices: [
-              { id: 'a', label: `The tool confabulated once, so nothing it generated is trustworthy until checked — treat every citation in this briefing, and the ones you sent earlier this week, as unverified.`, quality: 'good',
-                note: `A confident fabrication is a property of how the model generates text, not a one-off slip. The safe assumption is that the rest needs checking against source too.` },
-              { id: 'b', label: `Probably contained to this one citation — but verify the other two in this document before you say anything definite.`, quality: 'partial',
-                note: `Checking this document is the right instinct. Stopping there assumes the problem cannot have reached anything else you sent from the tool. It can.` },
-              { id: 'c', label: `Likely a one-off glitch — the tool has been accurate for weeks, and one bad reference does not make the rest wrong.`, quality: 'poor',
-                note: `"It has been accurate" is exactly the fluency that makes hallucination dangerous. Past plausibility is not verification; treating this as an anomaly is how a second fabrication reaches the client.` },
-            ],
-          },
-          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
-        },
-
-        n_response: {
-          scene: 'desk-evidence',
-          caption: 'The client is on the phone. The regulation they\'re asking about appears to be completely fabricated by the AI.',
-          sub_caption: 'Two other citations are in the document. You haven\'t checked them yet.',
-          decision: {
-            prompt: 'The client is waiting. What do you do first?',
-            choices: [
-              { id: 'a', label: 'Call the client immediately — acknowledge the error and tell them you\'re reviewing the full document now', quality: 'good',
-                note: 'The client already knows there\'s a problem. Acknowledging it immediately and directly, before you know the full scale, is the right move for the relationship.' },
-              { id: 'b', label: 'Check all the other citations before calling back — you want to know the full picture first', quality: 'partial',
-                note: 'Understanding scope before responding is reasonable. But the client is waiting. A quick acknowledgement while you investigate is better than silence.' },
-              { id: 'c', label: 'Tell the client the document may be real but obscure — you\'ll find the source', quality: 'poor',
-                note: 'You haven\'t verified this. If you can\'t find it, the problem is now bigger because you implied it was real. Don\'t defend an AI output you haven\'t checked.' },
-            ],
-          },
-          branches: { a: 'n2_called', b: 'n2_audit_first', c: 'n2_defended' },
-        },
-
-        n2_called: {
-          scene: 'desk-colleague',
-          caption: 'The client appreciates the immediate call. They ask if the rest of the document is reliable.',
-          sub_caption: 'You check the other two citations while you have them on the phone. One is real. One is wrong.',
-          decision: {
-            prompt: 'Two of three citations are fabricated. The client has shared this with their board. What do you offer?',
-            choices: [
-              { id: 'a', label: 'Offer to deliver a fully verified replacement briefing within 24 hours, with every citation sourced', quality: 'good',
-                note: 'A specific, fast commitment at a higher verification standard converts a mistake into a demonstration of how your firm handles problems.' },
-              { id: 'b', label: 'Send a corrected version of the two wrong citations by end of day', quality: 'partial',
-                note: 'Fixing known errors is good. But it doesn\'t rebuild confidence in the rest of the document — the client is now wondering what else might be wrong.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-
-        n2_audit_first: {
-          scene: 'desk-working',
-          caption: 'You audit the document. Two of three citations are fabricated.',
-          sub_caption: 'The client has now sent a follow-up email, copying their compliance director. Their tone has shifted.',
-          decision: {
-            prompt: 'They want an explanation. What do you do?',
-            choices: [
-              { id: 'a', label: 'Respond honestly: two citations were incorrect, here\'s what happened, here\'s the verified replacement', quality: 'good',
-                note: 'The client knows something is wrong. Confirmation and a clear path forward is the right response — even if the acknowledgement came after a delay.' },
-              { id: 'b', label: 'Tell them there were "formatting issues" with the references and you\'ll resend', quality: 'poor',
-                note: '"Formatting issues" is not accurate. The AI invented regulatory documents. Calling that a formatting issue is misleading to a client who has shared it with their board.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_bad' },
-        },
-
-        n2_defended: {
-          scene: 'desk-working-night',
-          caption: 'Four hours later, you still can\'t find the regulatory document anywhere. The client has sent a follow-up: their compliance team has searched all official sources. It doesn\'t exist.',
-          sub_caption: 'You spent four hours implying the source was real. It wasn\'t.',
-          decision: {
-            prompt: 'They\'re asking for an explanation. What do you do now?',
-            choices: [
-              { id: 'a', label: 'Come clean: the briefing was partly AI-generated and you didn\'t verify all citations. Apologise and offer a replacement.', quality: 'partial',
-                note: 'Better late than sustained evasion. But four hours of implied certainty has made this harder — the client gave you time to find something that doesn\'t exist.' },
-              { id: 'b', label: 'Escalate to your manager without responding to the client directly', quality: 'poor',
-                note: 'Escalating internally is necessary. But the client has a direct question on the table. Silence while you escalate reads as stonewalling.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Error acknowledged. Relationship intact.',
-          tone: 'good',
-          result: 'The verified replacement arrives the next morning with every citation linked to source. The client sends a short note: "Thanks for the quick turnaround — glad you sorted it fast." Your manager asks how you handled it. A new team requirement goes out: all AI-generated client documents must have citations verified against primary sources before sending.',
-          learning: 'A fast, honest acknowledgement followed by a concrete fix is the best available response to an AI error. The client doesn\'t expect perfection. They expect ownership.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Known errors fixed. Confidence not fully restored.',
-          tone: 'good',
-          result: 'The corrected citations go out. The client thanks you but adds: "We\'ll need to review the rest of the document ourselves before the board meeting." That\'s an hour of their compliance team\'s time — wasted because the original document went out unverified. The relationship holds, but there\'s friction.',
-          learning: 'When AI fabricates some content, the rest of the document loses credibility too. Fixing known errors is not the same as restoring confidence in the full document.',
-          score: 65,
-        },
-        outcome_warn: {
-          heading: 'Honest — eventually. Four hours later.',
-          tone: 'warn',
-          result: 'The client accepts the explanation and the replacement offer. Their compliance director notes: "We appreciate the transparency. We\'ll want to understand what verification process your firm has in place for AI-generated content going forward." That\'s a fair question, and right now the answer is: not much.',
-          learning: 'Clients can accept AI errors. What they can\'t accept is not knowing about them. Honesty restores trust. Four hours of implied certainty before the honest answer makes the conversation harder than it needed to be.',
-          score: 35,
-        },
-        outcome_bad: {
-          heading: '"Formatting issues" becomes a complaint.',
-          tone: 'bad',
-          result: 'The client responds: "Formatting issues don\'t cause regulatory references to not exist." Your manager is now in the email chain. What started as a correctable AI error is now a client dispute. The correction that would have taken 24 hours now takes two weeks of relationship management.',
-          learning: 'Minimising an AI error to a client who already knows the facts isn\'t a strategy. AI fabrication is a real and documented thing. Clients understand it. Evasion is harder to understand and harder to forgive.',
-          score: 5,
-        },
-      },
-    }, // end business_user
-
-    // ── EXECUTIVE — Diana (Managing Partner) ────────────────────────
-    executive: {
-      nodes: {
-        start: {
-          scene: `desk-review`,
-          caption: `The partner's forwarded email is open in front of you: your firm sent a client a regulatory briefing citing a document that does not exist, and the client has put it in front of their board.`,
-          sub_caption: `Before you respond to anyone, you have to decide what kind of problem this is.`,
-          decision: {
-            prompt: `How do you frame what has happened?`,
-            choices: [
-              { id: 'a', label: `A process failure — the firm shipped unverified AI output to a client, so the exposure is potentially every AI-assisted document, not one citation.`, quality: 'good',
-                note: `Naming it as a missing control rather than a single bad reference is what lets you scope the real exposure instead of only the visible one.` },
-              { id: 'b', label: `A serious but contained incident — one briefing, one client, fixable once you correct the reference.`, quality: 'partial',
-                note: `Treating it as contained before anyone has audited three weeks of output is the same confident-but-unverified error that produced the briefing.` },
-              { id: 'c', label: `An individual lapse — someone did not check their work, which is a training and supervision matter.`, quality: 'poor',
-                note: `Framing a missing workflow control as one person's mistake protects the process that will reproduce it. The tool had no required verification step; that gap is the firm's.` },
-            ],
-          },
-          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
-        },
-
-        n_response: {
-          scene: 'desk-reading',
-          caption: 'A client briefing went out with fabricated regulatory citations. The client has shared it with their board.',
-          sub_caption: 'The AI writing tool was deployed last month. No verification step was ever required.',
-          decision: {
-            prompt: 'The client is waiting for a response. What\'s your first move?',
-            choices: [
-              { id: 'a', label: 'Call the client directly — managing partner to compliance director — before doing anything internally', quality: 'good',
-                note: 'A partner-level call signals the firm takes this seriously. It also gives you direct information about their actual concern before you start managing internally.' },
-              { id: 'b', label: 'Get the full picture internally first — find out who sent it, what was generated, how it got through', quality: 'partial',
-                note: 'Knowing the facts first is reasonable. But the client is waiting. A brief acknowledgement while you investigate costs nothing.' },
-              { id: 'c', label: 'Issue an immediate firm-wide suspension of the AI tool until a verification process is in place', quality: 'partial',
-                note: 'Suspension is defensible — but it addresses the firm\'s risk, not the client in front of you. The client call should still come first.' },
-            ],
-          },
-          branches: { a: 'n2_client_call', b: 'n2_internal_first', c: 'n2_suspension' },
-        },
-
-        n2_client_call: {
-          scene: 'desk-colleague',
-          caption: 'The compliance director is professional but direct: "Is this an isolated error, or could other content from your firm have the same issue?"',
-          sub_caption: 'You don\'t know yet. The tool has been in use for three weeks.',
-          decision: {
-            prompt: 'What do you commit to?',
-            choices: [
-              { id: 'a', label: 'Audit all AI-assisted content sent to this client in the last 30 days and report back within 48 hours', quality: 'good',
-                note: 'This addresses their actual concern — not just this document, but the full exposure — and gives them a specific timeline.' },
-              { id: 'b', label: 'Assure them this appears to be an isolated incident and offer to send a corrected document', quality: 'poor',
-                note: 'You haven\'t audited the other documents yet. Assuring a client of something you haven\'t verified is a second AI-style error: confident, plausible, and potentially wrong.' },
-            ],
-          },
-          branches: { a: 'n3_audit_committed', b: 'n3_false_assurance' },
-        },
-
-        n2_internal_first: {
-          scene: 'desk-focused',
-          caption: 'Internal review finds twelve client-facing documents from the last three weeks. Three are flagged as potentially containing unverified citations.',
-          sub_caption: 'The client is still waiting for a response.',
-          decision: {
-            prompt: 'You now know the problem may be broader than one document. How do you respond to the client?',
-            choices: [
-              { id: 'a', label: 'Call the client, disclose what you\'ve found, and commit to a full audit with results in 48 hours', quality: 'good',
-                note: 'Disclosing that the problem may be broader — before the client discovers it themselves — demonstrates integrity. Clients can recover from disclosed problems.' },
-              { id: 'b', label: 'Fix all three flagged documents quietly and resend without explaining why', quality: 'poor',
-                note: '"Quietly" assumes the client won\'t ask questions. They\'re already asking. Resending corrected documents without explanation triggers the question you\'re trying to avoid.' },
-            ],
-          },
-          branches: { a: 'n3_audit_committed', b: 'outcome_bad' },
-        },
-
-        n2_suspension: {
-          scene: 'office-briefing',
-          caption: 'The tool is suspended. Your partner asks: "Have you called the client yet?"',
-          sub_caption: 'The internal policy is in place. The client is still waiting.',
-          decision: null,
-          branches: { auto: 'n2_client_call' },
-        },
-
-        n3_audit_committed: {
-          scene: 'office-bright',
-          caption: 'The 48-hour audit confirms two additional documents with citation issues, sent to two other clients.',
-          sub_caption: 'All three clients are notified proactively. Two are fine with it. One asks harder questions.',
-          decision: null,
-          branches: { auto: 'outcome_great' },
-        },
-
-        n3_false_assurance: {
-          scene: 'office-briefing-urgent',
-          caption: 'Two days later, a second client flags a citation error in a different document.',
-          sub_caption: 'The first client has heard. "You told me this was isolated."',
-          decision: null,
-          branches: { auto: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Audit committed. Scope disclosed. Three relationships held.',
-          tone: 'good',
-          result: 'All three clients notified proactively. Two reference the handling of this incident positively in their year-end relationship reviews. A new policy: all AI-generated content with citations must be verified against primary sources before client delivery. The compliance director sends a note: "Your response to this was professionally handled."',
-          learning: 'Proactive disclosure — even of bad news — is faster and less damaging than reactive disclosure. A committed timeline and a specific scope give clients something concrete to hold. "We\'re auditing and will report back in 48 hours" is a better answer than "this appears isolated."',
-          score: 100,
-        },
-        outcome_bad: {
-          heading: 'The assurance was wrong. The quiet fix created a new problem.',
-          tone: 'bad',
-          result: 'Either the "isolated incident" assurance turned out to be wrong and a second client found out, or the unexplained document resends triggered the question you were trying to avoid. The conversation is now about professional trust, not AI errors. Both clients ask for a meeting.',
-          learning: '"This appears to be isolated" is only a safe statement after an audit. Before an audit, it\'s a guess. And clients notice unexplained resends. Any correction that requires explanation must come with the explanation.',
-          score: 6,
-        },
-      },
-    }, // end executive
-
-    // ── PROJECT MANAGER — Theo ──────────────────────────────────────
-    pm: {
-      nodes: {
-        start: {
-          scene: `desk-review`,
-          caption: `A briefing you helped get out the door contained a fabricated citation. The Managing Partner has asked to see you. You have a few minutes at your desk first.`,
-          sub_caption: `Before you walk in, you have to settle how you understand what went wrong in the rollout.`,
-          decision: {
-            prompt: `How do you understand the cause?`,
-            choices: [
-              { id: 'a', label: `The rollout made verification optional for a tool that is certain to fabricate sometimes — the gap is in the process you designed.`, quality: 'good',
-                note: `Owning the design gap is the only framing that leads to a fix. "AI can make things up" offered as advice, not a required step, was always going to fail eventually.` },
-              { id: 'b', label: `A mix — the warning was there in training, but it should have been enforced rather than suggested.`, quality: 'partial',
-                note: `Closer, but "the warning was there" still leans on the user. The honest read is that an optional control for a known, certain failure mode is not a control at all.` },
-              { id: 'c', label: `The user ignored clear guidance — hallucination risk was covered in the training you ran.`, quality: 'poor',
-                note: `You mentioned it; you did not require it. Treating a foreseeable, certain failure mode as a user-discipline problem guarantees it recurs.` },
-            ],
-          },
-          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
-        },
-
-        n_response: {
-          scene: 'boardroom-agm',
-          caption: 'The Managing Partner asks what went wrong in the rollout. The training covered hallucination risk. Verification was mentioned. It was not required.',
-          sub_caption: '"Was there a documented verification requirement in the workflow?" There was not.',
-          decision: {
-            prompt: 'The Managing Partner wants to understand the gap. How do you frame it?',
-            choices: [
-              { id: 'a', label: 'Acknowledge clearly that verification was not built into the workflow — that was a mistake in the rollout design', quality: 'good',
-                note: 'The gap is real and the partner knows it. Owning it clearly, with a specific account of what was and wasn\'t covered, is the foundation for a credible plan.' },
-              { id: 'b', label: 'The training covered hallucination risk. The individual should have verified before sending.', quality: 'poor',
-                note: '"I mentioned it" is not the same as "I required it." Mentioning a risk in training is not a control. The workflow had no verification step — that\'s the gap.' },
-              { id: 'c', label: 'The AI tool shouldn\'t be fabricating citations — this is a product failure, not a training failure', quality: 'partial',
-                note: 'Hallucination is a documented property of LLMs, not a product defect. Blaming the tool for doing what LLMs are known to do doesn\'t explain why the workflow had no verification step.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'n2_blame_individual', c: 'n2_blame_tool' },
-        },
-
-        n2_remediation: {
-          scene: 'office-bright',
-          caption: 'The partner accepts the acknowledgement. She wants a remediation plan.',
-          sub_caption: 'What does it include?',
-          decision: {
-            prompt: 'You have a week to present a plan. What does it cover?',
-            choices: [
-              { id: 'a', label: 'Mandatory verification checklist for all AI-generated client content, updated training, and a retrospective audit of documents sent in the last 30 days', quality: 'good',
-                note: 'Three components: fix the workflow, update the training, find out how big the existing problem is. The retrospective is uncomfortable — and essential.' },
-              { id: 'b', label: 'Update the training module to make verification mandatory and resend to all users', quality: 'partial',
-                note: 'Updated training is necessary but not sufficient. Training tells people what to do. A checklist in the workflow ensures they do it. And neither addresses documents already sent.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'n3_training_only' },
-        },
-
-        n2_blame_individual: {
-          scene: 'office-briefing',
-          caption: '"Was it a required step or a suggestion?" A suggestion. "Then how is this the individual\'s failure?"',
-          sub_caption: 'The partner is looking at you.',
-          decision: {
-            prompt: 'What do you say?',
-            choices: [
-              { id: 'a', label: 'Acknowledge the workflow design gap and pivot to a remediation plan', quality: 'partial',
-                note: 'Correct response — three exchanges late. The pivot to a plan is right. The defensiveness before it is noted.' },
-              { id: 'b', label: 'Maintain that the training was clear enough — a reasonable person should have verified', quality: 'poor',
-                note: 'The partner has just pointed out there was no documented requirement. Maintaining this position doesn\'t survive another question.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'outcome_bad' },
-        },
-
-        n2_blame_tool: {
-          scene: 'desk-review',
-          caption: '"Hallucination is documented as a known risk of language models. Was this in your risk assessment for the rollout?"',
-          sub_caption: 'You check. Hallucination is listed as a risk. The mitigating control is listed as: "user training."',
-          decision: {
-            prompt: 'The risk was identified. The control was insufficient. How do you respond?',
-            choices: [
-              { id: 'a', label: 'Acknowledge that identifying the risk and implementing an adequate control are two different things — and present a better one', quality: 'partial',
-                note: '"Training" as the only control for hallucination risk that just caused a client incident is an under-specified control. Acknowledging it with a plan is the right next step.' },
-              { id: 'b', label: 'Training was the agreed control. If it wasn\'t enough, that\'s a policy question, not an implementation failure.', quality: 'poor',
-                note: 'The partner is not interested in where the policy line is. She wants to know what you\'re going to do.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'outcome_bad' },
-        },
-
-        n3_training_only: {
-          scene: 'office-briefing-urgent',
-          caption: 'Three months later. Different staff member. Different client. Same problem: AI-generated citation, unverified, sent out.',
-          sub_caption: 'The post-incident review asks why the workflow didn\'t include a mandatory verification step.',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Gap owned. Three-part plan accepted. Two future incidents prevented.',
-          tone: 'good',
-          result: 'The verification checklist is live within a week. The retrospective finds two more documents with questionable citations — both corrected before the clients notice. A new rollout standard is introduced: all AI tool deployments require a mandatory verification workflow step as a go-live gate. Your name is on the remediation, not just the original gap.',
-          learning: 'When a risk is known but the control is "training," the answer is a better control — not better training about the same inadequate control. Mandatory steps in workflows are more reliable than suggestions in training sessions.',
-          score: 100,
-        },
-        outcome_warn: {
-          heading: 'Training updated. Workflow unchanged. Second incident three months later.',
-          tone: 'warn',
-          result: 'Training told people what to watch for. A mandatory workflow step would have prevented both incidents. The post-incident review asks the same question twice, three months apart.',
-          learning: 'A mandatory step in a workflow prevents incidents by default. A module in a training system prevents incidents by relying on people to remember, on every document, under every deadline. One scales better.',
-          score: 35,
-        },
-        outcome_bad: {
-          heading: 'Remediation reassigned.',
-          tone: 'bad',
-          result: 'The partner ends the meeting. Remediation is assigned to another team. The post-incident review notes that the implementation lead maintained a position under direct questioning that the evidence did not support.',
-          learning: '"A reasonable person should have known" is not a control. The workflow either requires verification or it doesn\'t. If it doesn\'t, the PM who designed the workflow owns the gap.',
-          score: 7,
-        },
-      },
-    }, // end pm
-
-    // ── ANALYST — Casey ─────────────────────────────────────────────
-    analyst: {
-      nodes: {
-        start: {
-          scene: `desk-focused`,
-          caption: `One citation in one briefing is confirmed fabricated. The Managing Partner has asked you to find out how big the problem is. The tool has been in use for three weeks.`,
-          sub_caption: `Before you open a single document, you have to decide how to scope what you are looking for.`,
-          decision: {
-            prompt: `How do you scope the problem you have been asked to size?`,
-            choices: [
-              { id: 'a', label: `Assume every AI-assisted document in the three-week window is potentially affected until checked — confabulation is not confined to one document.`, quality: 'good',
-                note: `A model that fabricated one citation can fabricate in any output. Scoping to all AI-assisted documents is the only way to actually answer "how big is this".` },
-              { id: 'b', label: `Start with documents for this client, and widen the net only if you find a second problem.`, quality: 'partial',
-                note: `Reasonable triage, but it assumes the fault tracks the client rather than the tool. The tool produced output for everyone, not just this account.` },
-              { id: 'c', label: `Treat it as a one-off: pull this briefing, correct the citation, and report it as an isolated error.`, quality: 'poor',
-                note: `Reporting "isolated" before you have looked is the confident-but-unverified answer the task exists to prevent. You cannot call it isolated until you have checked the others.` },
-            ],
-          },
-          branches: { a: 'n_response', b: 'n_response', c: 'n_response' },
-        },
-
-        n_response: {
-          scene: 'desk-typing',
-          caption: 'The Managing Partner wants to know: is the fabricated citation isolated, or is there more?',
-          sub_caption: 'The AI tool has been in use for three weeks. Multiple client-facing documents have gone out.',
-          decision: {
-            prompt: 'How do you approach the scope assessment?',
-            choices: [
-              { id: 'a', label: 'Pull all client-facing documents from the last three weeks, flag the AI-assisted ones, and check every citation', quality: 'good',
-                note: 'Systematic is right. You need a complete picture. The output is the foundation for every disclosure decision the firm will make.' },
-              { id: 'b', label: 'Do a spot check on a few recent documents to get a sense of scale before committing to a full audit', quality: 'partial',
-                note: 'A spot check is faster but can\'t provide the complete picture the Managing Partner needs to make disclosure decisions. Full audit is what this situation requires.' },
-              { id: 'c', label: 'Ask the team informally which documents they used the AI tool for', quality: 'poor',
-                note: 'Self-reporting is unreliable when people may be anxious about what they say. You need the document system to tell you, not individuals under pressure.' },
-            ],
-          },
-          branches: { a: 'n2_full_audit', b: 'n2_spot_check', c: 'n2_self_report' },
-        },
-
-        n2_full_audit: {
-          scene: 'desk-working',
-          caption: 'Twelve client-facing documents. Six AI-assisted. Four hours of citation checking.',
-          sub_caption: 'Results: two documents with fabricated citations, one with a real-but-misquoted reference, three clean.',
-          decision: {
-            prompt: 'How do you present this to the Managing Partner?',
-            choices: [
-              { id: 'a', label: 'Structured report: total documents reviewed, AI-assisted count, errors by type, clients affected, recommendation for disclosure', quality: 'good',
-                note: 'A structured report gives the partner exactly what she needs to make decisions: scope, severity, and a disclosure recommendation. "Three documents affected" is actionable.' },
-              { id: 'b', label: 'Walk in and brief her verbally — faster than writing it up', quality: 'partial',
-                note: 'Speed is valuable. But the partner will need a written record for client conversations and she will ask for one. Building the document in parallel with the verbal briefing is faster overall.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-
-        n2_spot_check: {
-          scene: 'desk-colleague',
-          caption: '"How many documents did you check?" Three of twelve. "Can you check all of them?"',
-          sub_caption: 'The partner had to ask for what should have been the default approach.',
-          decision: {
-            prompt: 'The partner wants the full audit. What do you say?',
-            choices: [
-              { id: 'a', label: 'Run the full audit now — it should have been the starting point', quality: 'partial',
-                note: 'Right outcome, one conversation late. The full audit results will be the same either way. The sequencing cost you credibility.' },
-              { id: 'b', label: 'Explain that the sample is statistically representative and recommend against expanding', quality: 'poor',
-                note: 'Three of twelve documents is not a statistically representative sample. The partner knows this. The recommendation to stop expanding the review, after a known error, is not the right call.' },
-            ],
-          },
-          branches: { a: 'outcome_good', b: 'outcome_bad' },
-        },
-
-        n2_self_report: {
-          scene: 'desk-colleague',
-          caption: 'Four people confirm they used the AI tool. One isn\'t sure. Two are on leave. You have an incomplete picture from voluntary recall.',
-          sub_caption: 'The document management system has the objective record. You didn\'t start there.',
-          decision: {
-            prompt: 'What do you do with this incomplete picture?',
-            choices: [
-              { id: 'a', label: 'Stop relying on self-reporting and go to the document system for the complete record', quality: 'partial',
-                note: 'Correct pivot — but the time on self-reporting was wasted. The document system was always the right starting point.' },
-              { id: 'b', label: 'Report the partial picture to the partner based on what you have', quality: 'poor',
-                note: 'A partial picture presented as a finding will be treated as a finding. When the full picture is available — and it will be — the methodology gap will be visible.' },
-            ],
-          },
-          branches: { a: 'n2_full_audit', b: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Full scope identified. Disclosure decisions made.',
-          tone: 'good',
-          result: 'The structured report lands on the Managing Partner\'s desk: 12 reviewed, 6 AI-assisted, 3 with errors. All three affected clients notified proactively. Your report becomes the evidence base for the firm\'s remediation plan and updated AI policy. The partner sends you a note: "This is exactly what I needed."',
-          learning: 'A structured audit — complete scope, error classification, affected clients — gives decision-makers everything they need in one document. Verbal briefings are for speed. Written reports are for decisions. The document system is the source of truth; use it first.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Scope identified. Report came late or incomplete.',
-          tone: 'good',
-          result: 'The full scope was eventually identified and all affected clients were notified. But the route to get there — a spot check that needed to be expanded, or a verbal briefing that needed to become a document — added steps and time that the situation didn\'t need.',
-          learning: 'For audit findings that will be used in client communications or governance decisions, the written document is the output — not a preview of the document. When the potential exposure is material and the count is small, a full audit is always faster than defending a sample.',
-          score: 65,
-        },
-        outcome_bad: {
-          heading: 'Methodology questioned. Full audit ordered by others.',
-          tone: 'bad',
-          result: 'Either the sample recommendation was rejected and the full audit assigned to someone else, or the partial picture created confusion that required additional explanation. The findings are eventually correct. The methodology is in the post-incident notes.',
-          learning: 'Self-reporting adds noise when an objective record exists. "Statistically representative" requires a large count and a proper sample design. Three of twelve is neither. The document system was always available — it should have been the first step.',
-          score: 8,
-        },
-      },
-    }, // end analyst
-
-  },
-  controls_summary: [
-    {
-      id: 'c1', label: 'Output verification requirement for high-stakes content',
-      effort: 'Low', owner: 'Risk', go_live: true,
-      context: 'The AI wrote confident, well-formatted citations for documents that do not exist. Mandatory verification against primary sources before sending would have caught every fabricated reference before it reached the client.',
-    },
-    {
-      id: 'c2', label: 'Retrieval-Augmented Generation (RAG) implementation',
-      effort: 'High', owner: 'Technology', go_live: true,
-      context: 'The model was generating regulatory content from training data rather than verified sources. RAG grounds outputs in a curated knowledge base and surfaces citations — making fabrication structurally harder.',
-    },
-    {
-      id: 'c3', label: 'Staff training on LLM hallucination risk',
-      effort: 'Low', owner: 'HR', go_live: true,
-      context: 'No one on the team had a framework for understanding that confident, well-formatted AI output can be entirely fabricated. Training means staff know that verification is not optional — especially for regulatory citations.',
-    },
-    {
-      id: 'c4', label: 'Hallucination rate monitoring on evaluation set',
-      effort: 'Medium', owner: 'Technology', go_live: false,
-      context: 'Ongoing monitoring tracks how often the model fabricates on a test set of known questions — giving early warning before a fabrication reaches a client.',
-    },
+  coldOpen: [
+    `Thursday morning. A client rings about the regulatory briefing you sent yesterday — the one you drafted with the new AI writing assistant.`,
+    `They can't find one of the documents you cited. You check. The clause numbers, the date, the publication reference are all there, and none of it is real.`,
+    `They've already shared the briefing with their board.`,
   ],
+
+  standing: `Sam, client services, three years in`,
+  authority: `You can call the client, correct the document, and commit your own time. You can't rewrite the firm's AI policy or speak for the partners.`,
+  ending: `You find out how far the fabrication reached, and whether the client still trusts the rest of what you sent.`,
+
+  entry: `start`,
+
+  nodes: {
+    start: {
+      prose: [
+        `The tool has been accurate for three weeks. Fast, clean, and right every time you checked — which, lately, has been less and less often.`,
+        `One citation is now confirmed invented. Before you deal with the call, you have to decide what that means for everything else in the document.`,
+      ],
+      artefact: {
+        type: `assistant_output`,
+        tool: `DraftWise — Regulatory brief`,
+        prompt: `Summarise the current disclosure obligations for a mid-size financial services client, with citations.`,
+        response: [
+          `Under the Financial Disclosure and Transparency Regulation 2021 (FDTR), §14(3)(b), in-scope firms must file quarterly beneficial-ownership statements within 30 days of period end.`,
+          `This was tightened by the 2023 amendment (SI 2023/418), which extended the requirement to indirect holdings above 10%.`,
+        ],
+        citations: [
+          `Financial Disclosure and Transparency Regulation 2021, §14(3)(b). Published 4 March 2021.`,
+        ],
+      },
+      decision: {
+        prompt: `One citation is confirmed fabricated. What's your working assumption about the rest?`,
+        choices: [
+          { id: `a`, label: `Treat every citation as unverified — this document and everything else you sent from the tool this week`, quality: `good`,
+            consequence: `It is more work and it is the right call. A confident fabrication is how the model generates, not a one-off slip, so the rest has to be checked against source.` },
+          { id: `b`, label: `Probably contained here — verify the other two in this document before you say anything`, quality: `partial`,
+            consequence: `Checking this document is the right instinct. Stopping there assumes the problem could not have reached anything else you sent. It could.` },
+          { id: `c`, label: `Likely a one-off — the tool's been accurate for weeks and one bad reference doesn't make the rest wrong`, quality: `poor`,
+            consequence: `"It's been accurate" is exactly the fluency that makes this dangerous. Past plausibility is not verification, and the second fabrication reaches the client while you're assuming there isn't one.` },
+        ],
+      },
+      branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+    },
+
+    n_response: {
+      prose: [
+        `The client is still on the phone. Two other citations sit in the document, unchecked.`,
+      ],
+      decision: {
+        prompt: `They're waiting. What do you do first?`,
+        choices: [
+          { id: `a`, label: `Acknowledge the error now and say you're reviewing the whole document`, quality: `good`,
+            consequence: `They already know something is wrong. Saying so immediately, before you know the full scale, is what holds the relationship.` },
+          { id: `b`, label: `Check the other citations first — you want the full picture before you speak`, quality: `partial`,
+            consequence: `Knowing the scope before responding is reasonable. But they are on the line now, and silence while you dig reads worse than a quick honest holding line.` },
+          { id: `c`, label: `Say the document may be real but obscure, and you'll find the source`, quality: `poor`,
+            consequence: `You haven't verified that. If it doesn't exist, you've now defended an AI output you didn't check, and the problem is bigger than the citation.` },
+        ],
+      },
+      branches: { a: `n2_called`, b: `n2_audit_first`, c: `n2_defended` },
+    },
+
+    n2_called: {
+      prose: [
+        `The client appreciates the immediate call. Then they ask the question you were hoping to postpone: is the rest of it reliable?`,
+        `You check the other two while they wait. One is real. One is not.`,
+      ],
+      decision: {
+        prompt: `Two of three citations are fabricated, and it's gone to their board. What do you offer?`,
+        choices: [
+          { id: `a`, label: `A fully verified replacement within 24 hours, every citation sourced`, quality: `good`,
+            consequence: `A specific, fast commitment at a higher standard turns the mistake into a demonstration of how the firm handles problems.` },
+          { id: `b`, label: `A corrected version of the two wrong citations by end of day`, quality: `partial`,
+            consequence: `Fixing the known errors is good. It doesn't rebuild confidence in the rest, though, and they're now wondering what else you didn't catch.` },
+        ],
+      },
+      branches: { a: `n_scope`, b: `n_scope` },
+    },
+
+    n2_audit_first: {
+      prose: [
+        `You audit the document before calling back. Two of three citations are fabricated.`,
+        `While you were checking, a follow-up email arrived, copying their compliance director. The tone has changed.`,
+      ],
+      decision: {
+        prompt: `They want an explanation. What do you send?`,
+        choices: [
+          { id: `a`, label: `The truth: two citations were invented, here's what happened, here's the verified replacement`, quality: `good`,
+            consequence: `They knew something was wrong. Confirmation and a clear path forward is the right answer, even arriving a little later than it should have.` },
+          { id: `b`, label: `That there were "formatting issues" with the references and you'll resend`, quality: `poor`,
+            consequence: `The AI invented regulatory documents. Calling that formatting is not accurate, and you're saying it to someone who has already searched the official sources.` },
+        ],
+      },
+      branches: { a: `n_scope`, b: `outcome_bad` },
+    },
+
+    n2_defended: {
+      prose: [
+        `Four hours later you still cannot find the document anywhere. The client's compliance team has searched every official source. It does not exist, and you spent the afternoon implying it might.`,
+      ],
+      decision: {
+        prompt: `They're asking for an explanation. Now what?`,
+        choices: [
+          { id: `a`, label: `Come clean — it was AI-drafted, you didn't verify, here's a replacement`, quality: `partial`,
+            consequence: `Better late than sustained. But four hours of implied certainty made it harder: they gave you time to find something that was never there.` },
+          { id: `b`, label: `Escalate to your manager without replying to the client yet`, quality: `poor`,
+            consequence: `Escalating is necessary. Leaving a direct question unanswered while you do it reads as stonewalling to someone already unsettled.` },
+        ],
+      },
+      branches: { a: `n_scope`, b: `outcome_bad` },
+    },
+
+    n_scope: {
+      prose: [
+        `The client is handled. Now the part nobody's watching: the tool has drafted four other briefings this week, all already sent, all client-facing.`,
+        `Checking them properly is most of a day you don't have.`,
+      ],
+      decision: {
+        prompt: `What do you do about the other four?`,
+        choices: [
+          { id: `a`, label: `Check all four against source before the end of the day, and flag anything you find`, quality: `good`,
+            consequence: `Two are clean. One has a wrong figure, minor, caught before anyone acted on it. One has a citation you can't confirm either way, which is its own answer.` },
+          { id: `b`, label: `Check only the two that went to the most sensitive clients`, quality: `partial`,
+            consequence: `Sensible triage under time pressure. It also means two briefings stay out there unverified, and the model doesn't fabricate only for important clients.` },
+          { id: `c`, label: `Assume they're probably fine — this was one bad document`, quality: `poor`,
+            consequence: `It was one bad document that you happened to catch because a client rang. The others had no client ringing about them, which is not the same as being right.` },
+        ],
+      },
+      branches: { a: `n_colleague`, b: `n_colleague`, c: `n_colleague` },
+    },
+
+    n_colleague: {
+      prose: [
+        `A colleague drafted two of those four. They used the tool the way everyone was shown to — prompt, skim, send — and they're now watching you check their work with a look you recognise.`,
+        `"Wait, are we not supposed to trust it? Nobody said that."`,
+      ],
+      decision: {
+        prompt: `They're not wrong that nobody said it. What do you tell them?`,
+        choices: [
+          { id: `a`, label: `That the tool is useful but every citation needs matching to source, and show them how`, quality: `good`,
+            consequence: `They get it fast, and they're slightly rattled that they'd sent two without checking. That's the correct amount of rattled.` },
+          { id: `b`, label: `That this one was a fluke and not to worry about it`, quality: `poor`,
+            consequence: `They relax, which is the opposite of useful. The next fabrication lands on someone who was just told not to worry.` },
+        ],
+      },
+      branches: { a: `n3_process`, b: `n3_process` },
+    },
+
+    n3_process: {
+      prose: [
+        `The immediate problem is contained, or nearly. What's still open is the thing the compliance director actually asked: what verification does the firm have for AI-generated content?`,
+        `Right now the honest answer is none. The tool went out with a note in training that it "can sometimes make things up", and no required step.`,
+      ],
+      decision: {
+        prompt: `Your manager asks what would stop this happening again.`,
+        choices: [
+          { id: `a`, label: `A required check: no AI-drafted citation goes out without being matched to primary source`, quality: `good`,
+            consequence: `It is the one control that addresses the actual failure. It costs time per document and it is cheaper than the afternoon you just had.` },
+          { id: `b`, label: `Remind everyone to be careful with the tool`, quality: `poor`,
+            consequence: `Everyone was already trying to be careful. The briefing still went out. A reminder is what was in place when this happened.` },
+          { id: `c`, label: `Ask whether the tool should be used for anything client-facing at all`, quality: `partial`,
+            consequence: `A fair question and above your standing to decide. Raising it is useful; it also doesn't help the four briefings that went out this week and still need checking.` },
+        ],
+      },
+      branches: { a: `outcome_great`, b: `outcome_warn`, c: `outcome_good` },
+    },
+  },
+
+  outcomes: {
+    outcome_great: {
+      heading: `Owned fast, fixed properly, and the hole got closed`,
+      tone: `good`,
+      score: 100,
+      reaction: `Acknowledging an error before you know its full size is genuinely uncomfortable. It is also the only version of this that holds the relationship.`,
+      description: [
+        `The verified replacement arrived the next morning with every citation linked to source. The client's note was short: glad you sorted it fast.`,
+        `And the required-check rule went out to the team, so the next briefing can't leave the way this one did.`,
+      ],
+      judgement: `The client never expected the tool to be perfect. They expected someone to own the output with their name on it. A fast honest acknowledgement plus a concrete fix plus closing the process gap is the whole of a good response — and the process gap is the part most people skip once the immediate fire is out.`,
+    },
+
+    outcome_good: {
+      heading: `Handled well; the fix is above your desk`,
+      tone: `warn`,
+      score: 75,
+      reaction: `Raising whether the tool belongs in client work at all is the right instinct, and it's honestly not yours to settle.`,
+      description: [
+        `You acknowledged fast and offered a verified replacement, and the relationship held.`,
+        `The larger question — whether this tool should touch client-facing work — went up to the partners, where it belongs. In the meantime the four briefings from this week still need checking, by hand, by you.`,
+      ],
+      judgement: `Knowing the limit of your standing is a real skill, and so is not letting it become an excuse. You escalated the policy question and still did the unglamorous verification the situation needed today. Both were required; doing only the first is how the next fabrication ships.`,
+    },
+
+    outcome_warn: {
+      heading: `The client's calm. The gap that caused it is still open.`,
+      tone: `warn`,
+      score: 45,
+      reaction: `"Remind everyone to be careful" feels like a response because it names the problem. It just doesn't change anything.`,
+      description: [
+        `You handled the call well and the replacement went out. When your manager asked what would stop a repeat, the answer was a reminder — which is what was already in place when this happened.`,
+        `The tool is still generating citations. The next one that invents a regulation will also be fluent, and also unchecked.`,
+      ],
+      judgement: `Hallucination is not a carefulness problem, so care is not the control. The people involved here were competent and trying. What was missing was a step that doesn't depend on anyone remembering to be vigilant on a busy Thursday — and a reminder is not that step.`,
+    },
+
+    outcome_bad: {
+      heading: `"Formatting issues" became a complaint`,
+      tone: `bad`,
+      score: 10,
+      reaction: `Reaching for a smaller word than "the AI invented a law" is a very human move under pressure. It's also the move that turns a fixable error into a dispute.`,
+      description: [
+        `The reply was quick: formatting issues don't cause regulatory references to not exist. Your manager is now in the chain.`,
+        `What would have been a 24-hour correction is now two weeks of relationship management, and a client who reads everything you send more carefully from here.`,
+      ],
+      judgement: `AI fabrication is real, documented, and something clients broadly understand. Evasion is the thing they don't forgive, because it's a choice rather than a mistake. Minimising an error to someone who already has the facts doesn't shrink the error — it adds a second one on top.`,
+    },
+  },
+
+  debrief: {
+    frame: [
+      `The fabrication was convincing for one reason: everything around it was correct. Real formatting, a plausible clause number, a publication date, sitting beside two citations that checked out. The tool had been accurate for weeks, and that track record is not reassurance — it's the thing that stops you checking.`,
+      `This is what makes hallucination different from an ordinary mistake. A wrong answer that looks wrong gets caught. A wrong answer delivered in the same confident register as every right one does not, and no amount of the tool being good most of the time changes that. The only control that works is verification that doesn't depend on the output looking suspicious — because it never will.`,
+    ],
+  },
+
+  recall: {
+    id: `a1-recall`,
+    prompt: `A month later the same tool drafts an internal market summary and cites three industry reports. You recognise two of the three firms. What do you do before circulating it?`,
+    options: [
+      { id: `a`, quality: `poor`, label: `Circulate it — you recognise the sources, so they're clearly real`,
+        note: `Recognising the firm's name is not the same as the report existing. This is the exact trap from the briefing: the plausible surface is what the model is good at, and it's internal now, which lowers your guard rather than the risk.` },
+      { id: `b`, quality: `good`, label: `Check all three against source, including the two you recognise`,
+        note: `Yes. The lesson wasn't "check unfamiliar citations" — it was that fluency isn't verification, and a familiar name is just fluency you happen to trust. Internal doesn't exempt it; a wrong figure in a market summary still drives a decision.` },
+      { id: `c`, quality: `partial`, label: `Check only the third one, since the other two look right`,
+        note: `Better than nothing, and it re-imports the original mistake. "Looks right" is precisely the judgement the briefing proved unreliable.` },
+    ],
+  },
+
+  act: [
+    { id: `a1`, label: `Add a source-check step to any AI-drafted document before it leaves you this week` },
+    { id: `a2`, label: `Ask whether your team has a required verification step, or just a suggestion` },
+    { id: `a3`, label: `Spot-check one AI-assisted document you've already sent, against source` },
+  ],
+
+  controls_summary: [
+    { id: `c1`, label: `Required citation-verification step, not a suggested one`, effort: `Low`, owner: `Team lead`, go_live: true,
+      context: `Training said the tool "can sometimes make things up". A note is not a control; a required step before sending is.` },
+    { id: `c2`, label: `Primary-source linking for any external citation`, effort: `Medium`, owner: `Client services`, go_live: true,
+      context: `Every good ending here runs through matching the citation to a real document. Make that the default, not the recovery.` },
+    { id: `c3`, label: `Fast, no-blame client acknowledgement norm`, effort: `Low`, owner: `Client services`, go_live: true,
+      context: `The difference between the best and worst endings was how quickly someone said "this is wrong" out loud.` },
+  ],
+
+  tell: `An AI citation that looks right isn't verified — a real source is one you've actually opened, not one that reads plausibly.`,
 };

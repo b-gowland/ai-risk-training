@@ -57,8 +57,7 @@ export function NotFound() {
         Both doors are open.
       </p>
       <div style={s.row}>
-        <Link to="/everyday" style={s.btn}>AI risk at home</Link>
-        <Link to="/" style={s.btnAlt}>AI risk at work</Link>
+        <Link to="/" style={s.btn}>Back to the start</Link>
       </div>
     </div>
   );

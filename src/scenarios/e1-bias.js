@@ -1,563 +1,290 @@
-// E1 — The Score
-// Algorithmic Bias & Discrimination
-// Verify flag: SafeRent settlement $2.275M (confirmed per context handoff, not $2.2M)
+// e1-bias.js — The Pattern in the Shortlists
+// At Work. Migrated to the four-beat schema (FREE_PRODUCT §4) July 2026.
+// Perspective: a hiring coordinator who notices a pattern — a staff decision
+// about whether and how to raise a concern, not an executive's remediation.
+//
+// Discrimination rule (CONTENT_STYLE_GUIDE) is load-bearing here: one of the
+// opening reads — "maybe the best candidates really do look alike" — is the
+// plausible innocent explanation, and the scenario's whole point is that you
+// can't tell which it is without testing. The alarming read is not assumed
+// correct; it's treated as a hypothesis that warrants investigation.
 
 export const scenario = {
-  id: 'e1-bias',
-  risk_ref: 'E1',
-  title: 'The Score',
-  subtitle: 'Algorithmic Bias & Discrimination',
-  domain: 'E — Fairness & Social',
-  difficulty: 'Intermediate',
-  kb_url: 'https://library.airiskpractice.org/docs/domain-e-fairness/e1-algorithmic-bias',
-  estimated_minutes: 12,
-  has_business_user: true,
+  id: `e1-bias`,
+  door: `work`,
+  risk_ref: `E1`,
+  title: `The Pattern in the Shortlists`,
+  shelfLine: `The AI recruitment tool keeps producing the same narrow profile. Do you say something?`,
+  hook: `Ten AI shortlists, the same narrow profile every time. Your colleague noticed first. Now you see it too.`,
+  scene: `chart-declining`,
+  determinacy: `open`,
 
-  regulatory_tags: [`eu-ai-act-article-10`, `nist-ai-rmf-measure-2`, `jurisdiction-eu`, `jurisdiction-us`],
+  kb_url: `https://library.airiskpractice.org/docs/domain-e-societal/e1-bias`,
+  regulatory_tags: [`eu-ai-act-article-10`, `eu-ai-act-annex-iii`, `jurisdiction-eu`, `jurisdiction-au`],
+  mit_subdomain: `mit-1.1`,
 
-  personas: {
-    business_user: {
-      label: 'Business User',
-      role: 'Talent Acquisition',
-      character: 'Riley',
-      icon: '◇',
-      framing: 'You\'ve been using an AI job matching tool for three months. A colleague mentioned the shortlists all look the same. You looked. She\'s right.',
-      premise: `You're a talent acquisition coordinator at Pinnacle Financial Services. Three months ago your team started using an AI-powered job matching tool to shortlist candidates for analyst roles. Your colleague mentioned, almost in passing, that the shortlists seem to look a lot alike — "all the same kind of profile." You pulled up the last ten. She's right. You don't know what to make of it yet, but it doesn't sit right.`,
-    },
-    executive: {
-      label: 'Executive',
-      role: 'Chief People Officer',
-      character: 'Leon',
-      icon: '◈',
-      framing: 'A benchmarking report just landed on your desk. Shortlist diversity has declined significantly in the three months since the AI job matching tool launched. The correlation is stark.',
-      premise: `You're the Chief People Officer. The external diversity benchmarking report is in front of you. Shortlist diversity for analyst roles — across gender and ethnicity — has declined significantly in the three months since your team rolled out the AI job matching tool. The timing is unambiguous. A regulator has not yet noticed. You have a board meeting in two weeks where talent strategy is on the agenda.`,
-    },
-    pm: {
-      label: 'Project Manager',
-      role: 'HR Technology Lead',
-      character: 'Nadia',
-      icon: '◎',
-      framing: 'You implemented the AI job matching tool three months ago — on time, under budget. There was no pre-deployment fairness assessment. It wasn\'t in scope.',
-      premise: `You managed the rollout. The vendor's demo showed strong performance metrics. Go-live was smooth. What wasn't in the project scope — and what you didn't commission — was a pre-deployment fairness assessment. The Chief People Officer has just shown you the diversity benchmarking report with a very uncomfortable correlation between the tool's launch and declining shortlist diversity.`,
-    },
-    analyst: {
-      label: 'Analyst',
-      role: 'People Analytics Analyst',
-      character: 'Morgan',
-      icon: '◉',
-      framing: 'You\'ve just run disaggregated performance metrics on the AI job matching tool for the first time. The model shortlists certain groups at significantly lower rates. The tool has been live for six months.',
-      premise: `You run model monitoring for the HR systems. Six months in, you've just broken down the AI job matching tool's shortlist rates by gender and ethnicity for the first time. The results are alarming: statistically significant disparities, even after controlling for qualifications. The tool has been actively used to fill analyst roles for six months. You are the first person who knows.`,
-    },
-  },
-
-  trees: {
-
-    // ── BUSINESS USER — Riley ───────────────────────────────────────
-    business_user: {
-      nodes: {
-        start: {
-          scene:       `chart-declining`,
-          caption:     `Ten shortlists from the AI recruitment tool. The same narrow profile repeated across different roles. Your colleague noticed it first — she's been tracking it for three weeks.`,
-          sub_caption: `A pattern in AI outputs isn't noise. It's the model doing what it learned to do.`,
-          decision: {
-            prompt: `What does a repeated pattern across multiple AI-generated shortlists suggest about the model?`,
-            choices: [
-              { id: `a`, label: `The model has learned to favour a particular profile — the pattern reflects systematic bias in its outputs, not random variation`, quality: `good`,
-                note: `Correct. Ten shortlists with the same narrow profile isn't coincidence — it's the model consistently applying learned associations. AI recruitment tools trained on historical hiring data encode the preferences and patterns in that data, including any historical biases.` },
-              { id: `b`, label: `The pattern might reflect genuine candidate quality — if the best candidates have similar profiles, the shortlists would naturally look similar`, quality: `poor`,
-                note: `This explains away the pattern before investigating it. The question isn't whether the shortlisted candidates are qualified — it's whether qualified candidates with different profiles are being systematically filtered out. Those are different questions.` },
-              { id: `c`, label: `It could be a data quality issue — if the candidate pool is homogeneous, the shortlists will be too`, quality: `partial`,
-                note: `Possible, but this needs testing rather than assuming. If the candidate pool is diverse and the shortlists aren't, the model is doing the filtering. Candidate pool homogeneity is one hypothesis; model bias is another. Both need to be assessed.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `drift-dashboard`,
-          caption:     `Ten shortlists. The same narrow profile, repeated. Your colleague noticed it first. Now you're seeing it too.`,
-          decision: {
-            prompt: 'You\'ve noticed something that looks like a pattern. What do you do?',
-            choices: [
-              { id: 'a', label: 'Raise it with your manager — describe what you\'ve observed and say you think it warrants a closer look', quality: 'good',
-                note: 'Pattern recognition by someone close to the work is one of the most valuable early warning signals. You don\'t need to prove bias to raise a concern. "Something looks off" is enough.' },
-              { id: 'b', label: 'Look at more shortlists yourself before raising anything — you want to be sure you\'re seeing a real pattern', quality: 'partial',
-                note: 'Additional evidence is useful. But you risk building a large case by yourself when the right people — analytics, HR leadership — have the tools to investigate properly.' },
-              { id: 'c', label: 'The tool was approved by the business. It\'s not your place to question it.', quality: 'poor',
-                note: '"Approved" does not mean bias-free. AI tools can produce discriminatory outcomes even when their deployment was signed off with good intentions.' },
-            ],
-          },
-          branches: { a: 'n2_concern_raised', b: 'n2_investigate_more', c: 'n2_ignored' },
-        },
-
-        n2_concern_raised: {
-          scene: 'desk-colleague',
-          caption: 'Your manager looks at the shortlists with you and agrees it warrants investigation.',
-          sub_caption: 'She asks: "Should we pause the tool while we look into this?"',
-          decision: {
-            prompt: 'What do you recommend?',
-            choices: [
-              { id: 'a', label: 'Recommend pausing the tool for active roles until analytics can run the numbers', quality: 'good',
-                note: 'If the tool is producing biased shortlists, continuing to use it means continuing to potentially discriminate against applicants. The cost of pausing — a few days of manual shortlisting — is much lower than the cost of continuing.' },
-              { id: 'b', label: 'Suggest continuing while analytics investigates — stopping it could slow hiring', quality: 'partial',
-                note: 'The hiring delay cost is real but small. The cost of continuing to use a potentially biased tool — and the longer period of documented use if discrimination is later confirmed — is higher.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-
-        n2_investigate_more: {
-          scene: 'desk-working',
-          caption: 'Twenty shortlists. The pattern holds — consistently narrow candidate profiles. But you don\'t have demographic data to confirm bias.',
-          sub_caption: 'Three months have passed. The tool is still running.',
-          decision: {
-            prompt: 'You\'ve done the preliminary work. What now?',
-            choices: [
-              { id: 'a', label: 'Escalate to your manager now — twenty shortlists is enough to support a formal investigation request', quality: 'good',
-                note: 'You have enough. Now escalate — you need analytics and HR leadership to take it from here. Your observation is the trigger, not the proof.' },
-              { id: 'b', label: 'Try to get access to demographic data yourself to prove the pattern before raising it', quality: 'poor',
-                note: 'Demographic data for this purpose requires governance controls. Accessing it informally creates a separate problem while the main issue continues. Escalate now.' },
-            ],
-          },
-          branches: { a: 'n2_concern_raised', b: 'outcome_bad' },
-        },
-
-        n2_ignored: {
-          scene: 'office-briefing',
-          caption: 'Three months later. A candidate who wasn\'t shortlisted — despite strong qualifications — makes a formal complaint.',
-          sub_caption: 'The investigation requests records of the tool\'s shortlisting decisions. Your name is on several of them.',
-          decision: {
-            prompt: 'HR asks: what did you notice, and when did you notice it?',
-            choices: [
-              { id: 'a', label: 'Be honest: you noticed the pattern three months ago but didn\'t raise it', quality: 'partial',
-                note: 'Honesty is the only viable option. The question HR is going to ask is why you didn\'t raise it. "It wasn\'t my place" is not a comfortable answer in an investigation.' },
-              { id: 'b', label: 'Say you didn\'t notice anything unusual', quality: 'poor',
-                note: 'Your colleague raised the same concern in a meeting that was likely documented. "I didn\'t notice" is hard to sustain once that record surfaces.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Concern raised. Tool paused. Investigation started.',
-          tone: 'good',
-          result: 'The tool is paused for two weeks while analytics runs the disaggregated metrics. Results confirm a statistically significant disparity. The tool is suspended pending vendor remediation. HR leadership notes: "The concern was raised at coordinator level after three months of use. We should have had monitoring in place from day one." Your observation triggered the right response.',
-          learning: 'Pattern recognition by people close to the work is an early warning system. "Something looks off" is a valid escalation trigger — you don\'t need to prove bias to raise a concern. And if you suspect a tool is producing biased outputs, the cost of pausing is always lower than the cost of continuing while you check.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Concern raised. Tool kept running during the investigation.',
-          tone: 'good',
-          result: 'The analytics team confirms bias after three weeks. During those three weeks, the tool continued generating shortlists for eight open roles. When bias is confirmed, those eight roles are added to the review. "We suspected a problem and kept using it" is not an easy position in any investigation.',
-          learning: 'The cost of pausing a potentially biased tool is a scheduling problem. The cost of continuing to use it under known concern is a legal problem. The delay in pausing extends the scope of affected decisions and the period of documented use under known concern.',
-          score: 62,
-        },
-        outcome_warn: {
-          heading: 'Honest. Late. In an investigation.',
-          tone: 'warn',
-          result: 'You were honest about what you knew. The investigation proceeds. The formal finding doesn\'t attach personal liability — the systemic failure is larger than one coordinator\'s decision not to escalate. But the three-month gap in escalation is in the record.',
-          learning: '"Not my place" is not a defence in an investigation into discrimination. Noticing a problem and raising it is within everyone\'s scope. Escalation channels exist for exactly this.',
-          score: 30,
-        },
-        outcome_bad: {
-          heading: 'Pattern observed. Not raised. Investigation starts with you.',
-          tone: 'bad',
-          result: 'Either the formal complaint surfaced what you chose not to raise, or an informal data access attempt created a governance issue while the main problem continued. The investigation asks what you knew and when. The three-month gap — or the data access record — is in the file.',
-          learning: 'Demographic data access for bias analysis requires proper governance for good reasons. And "it wasn\'t my place" has never been a successful answer in a discrimination investigation. Raise concerns early. Let the right people investigate.',
-          score: 5,
-        },
-      },
-    }, // end business_user
-
-    // ── EXECUTIVE — Leon (CPO) ──────────────────────────────────────
-    executive: {
-      nodes: {
-        start: {
-          scene:       `chart-declining`,
-          caption:     `Benchmarking shows shortlist diversity declined sharply after the AI recruitment tool was deployed. The correlation is clear. Three months of data.`,
-          sub_caption: `The tool was deployed to reduce bias. The outcome data suggests it may have introduced it.`,
-          decision: {
-            prompt: `What does the gap between the tool's stated purpose and the outcome data tell you?`,
-            choices: [
-              { id: `a`, label: `That 'reduces bias' is a vendor claim that requires validation against your specific candidate population and role types — stated purpose and actual effect are different things`, quality: `good`,
-                note: `Exactly. AI recruitment tools marketed as bias-reducing need to be validated on the deploying organisation's actual data, not accepted on the vendor's general claims. The outcome data is the validation — and it's contradicting the claim.` },
-              { id: `b`, label: `That the tool may be working correctly but the candidate pool has changed — the diversity decline could be upstream of the tool`, quality: `partial`,
-                note: `Worth investigating, but the benchmark data controls for this by comparing pre- and post-deployment periods. If the candidate pool were the driver, you'd expect the change to predate the deployment. The timing correlation points to the tool.` },
-              { id: `c`, label: `That three months isn't enough data to draw conclusions — suspend judgment until there's a larger sample`, quality: `poor`,
-                note: `Three months of consistent directional data is sufficient to trigger investigation and interim controls. Waiting for more data while the tool continues operating means continuing to expose candidates to potentially biased outcomes.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `drift-dashboard`,
-          caption:     `The benchmarking correlation is clear. Shortlist diversity declined in the three months since the tool launched.`,
-          decision: {
-            prompt: 'What do you do first?',
-            choices: [
-              { id: 'a', label: 'Suspend the AI tool immediately and commission an independent bias audit before the board meeting', quality: 'good',
-                note: 'Suspension stops the accumulation of affected decisions. An independent audit gives you objective findings to present to the board. "We identified the issue and acted" is a materially better position than "we are still looking into it."' },
-              { id: 'b', label: 'Ask analytics to run an internal review before making any decisions about the tool', quality: 'partial',
-                note: 'Internal review is valuable — but the tool should be suspended while it runs. Every active role it processes during the review adds to the potential scope of affected decisions.' },
-              { id: 'c', label: 'Bring the benchmarking data to the board and let them direct next steps', quality: 'poor',
-                note: 'Waiting two weeks to act on a potential discrimination concern is not a defensible position. The board will want to know what you\'re doing about it, not just what the data says.' },
-            ],
-          },
-          branches: { a: 'n2_suspended', b: 'n2_internal_review', c: 'n2_board_without_plan' },
-        },
-
-        n2_suspended: {
-          scene: 'boardroom',
-          caption: 'Tool suspended. Independent audit commissioned. Legal asks whether you have an obligation to notify the regulator proactively.',
-          sub_caption: 'The audit will take two weeks. The board meeting is also in two weeks.',
-          decision: {
-            prompt: 'What\'s your instinct on regulatory disclosure?',
-            choices: [
-              { id: 'a', label: 'Follow legal\'s advice on disclosure obligations — this is their domain, not yours to decide alone', quality: 'good',
-                note: 'Regulatory disclosure in a potential discrimination scenario is a legal question with jurisdiction-specific obligations. The right move is to follow qualified legal advice, not make an instinctive call in either direction.' },
-              { id: 'b', label: 'Wait for the audit findings before deciding — disclose only if bias is confirmed', quality: 'partial',
-                note: 'The instinct to wait for confirmed findings is understandable. But legal may advise that a known potential issue with material evidence already triggers an obligation. This needs legal involvement.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'n3_audit_before_disclosure' },
-        },
-
-        n2_internal_review: {
-          scene: 'desk-review',
-          caption: 'Internal review takes two weeks. During that time, the tool continues processing candidates for eleven open roles.',
-          sub_caption: 'The review confirms bias. The board meeting is tomorrow.',
-          decision: {
-            prompt: 'How do you present this to the board?',
-            choices: [
-              { id: 'a', label: 'Present honestly: benchmarking flagged the concern, internal review confirmed it, tool was not suspended during the review, here\'s the remediation plan', quality: 'good',
-                note: 'The board will have questions about why the tool ran during the review period. An honest account with a strong plan is the right presentation. Boards can handle bad news.' },
-              { id: 'b', label: 'Present the confirmed bias finding but don\'t highlight that the tool ran for two more weeks during the review', quality: 'poor',
-                note: 'If the board later learns the tool ran during the review period — and they will, once the scope of affected decisions is documented — the omission becomes the issue.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n2_board_without_plan: {
-          scene: 'boardroom-crisis',
-          caption: '"Has the tool been suspended?" No. "Is there an investigation underway?" No. "Do we have a legal opinion on disclosure?" No.',
-          sub_caption: 'The board is not pleased.',
-          decision: {
-            prompt: 'You\'re in the board meeting without any of the actions already started. What do you commit to?',
-            choices: [
-              { id: 'a', label: 'Commit to suspending the tool today and commissioning the audit and legal review this week', quality: 'partial',
-                note: 'Right commitments — two weeks late. The board now knows that a potential discrimination concern sat unactioned while a board meeting was scheduled.' },
-              { id: 'b', label: 'Explain that you wanted to be certain before acting — the review is still ongoing', quality: 'poor',
-                note: '"Waiting to be certain" when the evidence is already material and discrimination may be continuing is not a reassuring position for a board hearing about it for the first time.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n3_audit_before_disclosure: {
-          scene: 'desk-report',
-          caption: 'The audit confirms bias. Legal reviews the disclosure question.',
-          sub_caption: 'Legal advises that waiting for the audit was within obligations — just.',
-          decision: null,
-          branches: { auto: 'outcome_good' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Audit complete. Legal led. Disclosure managed.',
-          tone: 'good',
-          result: 'The independent audit confirms bias. Legal advises proactive regulator notification, citing the prompt response. The regulator acknowledges the proactive disclosure. The remediation plan — revised shortlisting, independent fairness audit requirement, affected candidate review — is accepted as evidence of good faith. Board presentation: "We identified it, acted promptly, sought legal guidance, and have a plan."',
-          learning: 'Regulatory disclosure in an AI discrimination context is a legal question. Following qualified legal advice — rather than an instinctive call — is the right governance response. The disclosure threshold for potential discrimination is often lower than executives expect.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Bias confirmed. Disclosure met — just.',
-          tone: 'good',
-          result: 'The audit confirmed bias. Legal advised that waiting for confirmed findings was within obligations — just. The regulator is notified. The remediation plan is in place. Legal\'s note: "We\'d recommend a lower threshold for proactive notification on future potential discrimination concerns."',
-          learning: 'The disclosure threshold for potential discrimination is often lower than executives assume. Engaging legal early — not just at the point of confirmed findings — prevents a disclosure decision being made too late.',
-          score: 70,
-        },
-        outcome_warn: {
-          heading: 'Correct actions — but late, or with an incomplete board presentation.',
-          tone: 'warn',
-          result: 'The remediation happened. But either the board found out the tool ran during the review period, or the commitments came two weeks after the evidence was in hand. The board has questions about the initial response that the remediation plan doesn\'t fully answer.',
-          learning: 'Material fairness concerns require action on identification — not at the next scheduled governance event. The board meeting is not the right trigger for a potential discrimination investigation. And present the full picture: boards discover scope gaps.',
-          score: 38,
-        },
-        outcome_bad: {
-          heading: 'Board voted to commission independent review of CPO\'s response.',
-          tone: 'bad',
-          result: 'Either the board discovered you knew and waited, or the presentation omitted information that surfaced in questions. The board passes a resolution for an independent review of the CPO\'s response to the benchmarking data. The tool is suspended by board direction. Your position is under review.',
-          learning: '"Waiting to be certain" is not a defensible response to material fairness evidence. And incomplete board presentations are reconstructed from audit records. Present the complete picture — including the parts that are uncomfortable.',
-          score: 5,
-        },
-      },
-    }, // end executive
-
-    // ── PROJECT MANAGER — Nadia ─────────────────────────────────────
-    pm: {
-      nodes: {
-        start: {
-          scene:       `office-meeting`,
-          caption:     `You implemented the AI recruitment tool. The vendor said it reduces bias. You didn't commission an independent bias audit before deployment. The Chief People Officer has the benchmarking data.`,
-          sub_caption: `Vendor claims about bias reduction require independent validation. That step was skipped.`,
-          decision: {
-            prompt: `What is the difference between a vendor's bias reduction claim and validated bias performance?`,
-            choices: [
-              { id: `a`, label: `A vendor claim is a marketing statement. Validated performance means testing the tool on your candidate population, your role types, and your historical data — and confirming the outcome`, quality: `good`,
-                note: `The critical distinction. A tool validated on one population may perform differently on another. Bias validation needs to be specific to the deployment context — the candidate pool, the roles, the geographic market. Generic vendor validation doesn't substitute for this.` },
-              { id: `b`, label: `The vendor provided documentation — that's the basis for the claim, and it was reasonable to rely on it at deployment`, quality: `partial`,
-                note: `Reasonable reliance on documentation is a starting point, not an endpoint. For a tool making decisions about people's employment opportunities, the deploying organisation bears responsibility for validating that the tool performs as claimed in their specific context.` },
-              { id: `c`, label: `The gap is that no human reviewed the shortlists — adding human review would have caught the bias earlier`, quality: `partial`,
-                note: `Human review is a useful check but doesn't address the root cause. If the model is systematically biased, humans reviewing its outputs may absorb and normalise that bias rather than correcting it. The model's outputs need to be audited, not just reviewed.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `office-oneonone`,
-          caption:     `The Chief People Officer has shown you the benchmarking correlation. You implemented this tool three months ago. No fairness assessment was in scope.`,
-          decision: {
-            prompt: 'The CPO wants to understand how the gap occurred. What\'s your position?',
-            choices: [
-              { id: 'a', label: 'Acknowledge it directly: a fairness assessment should have been in scope, and explain how you\'re going to fix it', quality: 'good',
-                note: 'The gap is real. Owning it and pivoting to remediation is the most productive conversation available.' },
-              { id: 'b', label: 'The vendor\'s demo showed strong performance metrics — this looks like a vendor failure', quality: 'partial',
-                note: '"Strong performance metrics" from a demo is not a fairness assessment. The absence of a fairness requirement in your project scope is an implementation gap regardless of vendor performance.' },
-              { id: 'c', label: 'Fairness assessment was out of scope — this is a risk and compliance question, not an HR Technology question', quality: 'poor',
-                note: 'A fairness assessment for an AI tool used in hiring decisions is squarely within the scope of the implementation project. The CPO is not going to accept a scope boundary argument right now.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'n2_vendor', c: 'n2_scope' },
-        },
-
-        n2_remediation: {
-          scene: 'office-bright',
-          caption: 'The CPO asks what a proper remediation looks like. You have 48 hours to prepare a plan.',
-          sub_caption: 'What does it include?',
-          decision: {
-            prompt: 'You have 48 hours. What\'s in the plan?',
-            choices: [
-              { id: 'a', label: 'Immediate suspension, independent bias audit, vendor engagement on model remediation, affected candidate review, revised deployment standard for all future AI tools', quality: 'good',
-                note: 'Five components: stop the harm, confirm the diagnosis, fix the tool, address the affected individuals, prevent recurrence. Omitting the affected candidate review is the most visible gap.' },
-              { id: 'b', label: 'Engage the vendor to fix the model and redeploy once they confirm it\'s corrected', quality: 'partial',
-                note: 'Vendor remediation is necessary but not sufficient. It doesn\'t address the candidates affected by three months of biased shortlisting, and it relies on vendor self-certification rather than independent audit.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'n3_vendor_only' },
-        },
-
-        n2_vendor: {
-          scene: 'desk-review',
-          caption: '"Was fairness testing in the project requirements you gave the vendor?" You check. It wasn\'t.',
-          sub_caption: '"So the vendor didn\'t provide something you didn\'t ask for?"',
-          decision: {
-            prompt: 'How do you respond?',
-            choices: [
-              { id: 'a', label: 'Accept the gap: the requirements didn\'t include fairness testing, and that was mine to own', quality: 'partial',
-                note: 'Correct acknowledgement — one exchange late. The vendor argument collapsed as soon as the requirements gap was visible.' },
-              { id: 'b', label: 'Responsible AI vendors should include fairness testing by default, even when not explicitly required', quality: 'poor',
-                note: 'This may be a valid general standard. It doesn\'t answer the specific question in front of you. The CPO is not interested in what vendors should do in general.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'outcome_bad' },
-        },
-
-        n2_scope: {
-          scene: 'office-briefing',
-          caption: '"The project brief you led resulted in a tool that appears to be discriminating against candidates. The scope boundary argument is not available to you in this room."',
-          sub_caption: 'The CPO is waiting.',
-          decision: {
-            prompt: 'What do you say?',
-            choices: [
-              { id: 'a', label: 'Acknowledge that in hindsight the project should have included a fairness assessment gate, and present a plan', quality: 'partial',
-                note: 'Right move — three exchanges late. The pivot to a plan is correct. The scope defence cost you credibility.' },
-              { id: 'b', label: 'The project delivered what was scoped, on time and on budget. The fairness gap was not in scope.', quality: 'poor',
-                note: '"On time and on budget" does not cover "potentially discriminatory." Maintaining the scope boundary argument in front of the CPO ends the conversation badly.' },
-            ],
-          },
-          branches: { a: 'n2_remediation', b: 'outcome_bad' },
-        },
-
-        n3_vendor_only: {
-          scene: 'office-briefing',
-          caption: 'Vendor provides a remediated model. It\'s redeployed. Three months later, a lawyer writes on behalf of candidates not shortlisted during the bias period.',
-          sub_caption: '"What was done for the people who weren\'t shortlisted during those three months?"',
-          decision: null,
-          branches: { auto: 'outcome_warn' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Full plan accepted. Affected candidates reviewed. Standard updated.',
-          tone: 'good',
-          result: 'The remediation plan is approved. The independent audit confirms and quantifies the bias. The vendor provides a remediated model that passes independent fairness assessment before redeployment. Affected candidates receive a review letter and the offer of re-evaluation. A new implementation standard: all AI tools with people-decision capability require a pre-deployment fairness assessment as a go-live gate.',
-          learning: 'A full remediation plan addresses: the tool (suspend and fix), the evidence (independent audit), the people affected (candidate review), and the system (governance standard for future deployments). Fixing only the tool leaves three of those four unaddressed.',
-          score: 100,
-        },
-        outcome_warn: {
-          heading: 'Tool fixed. Candidates not addressed. Legal exposure from the gap.',
-          tone: 'warn',
-          result: 'The model is remediated and redeployed. But the candidates affected by the biased model during the three-month period were not reviewed. Three months later, a legal letter arrives asking exactly that question. "We fixed the tool" is not what they were asking.',
-          learning: 'AI bias remediation is not just about fixing the model — it\'s about the people affected by the biased model while it ran. An affected candidate review is a component of responsible remediation, not an optional extra.',
-          score: 35,
-        },
-        outcome_bad: {
-          heading: 'Remediation reassigned. HR Technology review initiated.',
-          tone: 'bad',
-          result: 'The CPO assigns the remediation elsewhere and initiates a review of the HR Technology program\'s approach to AI risk. The review finds three other recent implementations with similar gaps. All three are added to the review. Program scope is reduced pending the outcome.',
-          learning: 'AI tools that make decisions about people carry a fairness obligation that isn\'t bounded by the project scope document. "We delivered on scope" doesn\'t answer for outcomes that were never in scope to check.',
-          score: 6,
-        },
-      },
-    }, // end pm
-
-    // ── ANALYST — Morgan ────────────────────────────────────────────
-    analyst: {
-      nodes: {
-        start: {
-          scene:       `security-alert`,
-          caption:     `Statistically significant disparities in shortlist rates across gender and ethnicity. Three months of data. The finding is clear. You need to present it.`,
-          sub_caption: `Statistical significance means the pattern is unlikely to be random. It doesn't yet tell you whether it's legally actionable.`,
-          decision: {
-            prompt: `What is the difference between a statistically significant disparity and a finding of unlawful discrimination?`,
-            choices: [
-              { id: `a`, label: `Statistical disparity is evidence that discrimination may have occurred — but legal discrimination requires establishing that a protected characteristic caused the disparate outcome, with no justifying defence`, quality: `good`,
-                note: `Correct framing. Disparate impact analysis establishes the pattern. Whether it constitutes unlawful discrimination depends on causation, intent (in some frameworks), and available defences. The statistical finding triggers the legal analysis — it doesn't complete it.` },
-              { id: `b`, label: `If the disparity is statistically significant, it's discrimination — the law requires equal outcomes`, quality: `poor`,
-                note: `Equal outcomes aren't the legal standard. Disparate impact must be assessed against the relevant legal framework — which typically requires causation and considers available defences. Statistical significance is necessary but not sufficient for a discrimination finding.` },
-              { id: `c`, label: `The finding should be escalated to legal before any conclusions are drawn — analysts shouldn't characterise discrimination risk`, quality: `partial`,
-                note: `Legal escalation is correct — but the analyst's job is to present the statistical finding clearly, including its implications. Refusing to characterise the risk leaves decision-makers without the analysis they need to act.` },
-            ],
-          },
-          branches: { a: `n_response`, b: `n_response`, c: `n_response` },
-        },
-
-        n_response: {
-          scene:       `analyst-desk`,
-          caption:     `Statistically significant disparities in shortlist rates across gender and ethnicity — even after controlling for qualifications.`,
-          decision: {
-            prompt: 'You have a significant finding. What do you do first?',
-            choices: [
-              { id: 'a', label: 'Document the findings clearly and escalate to the HR Technology lead and CPO immediately — same day', quality: 'good',
-                note: 'A statistically significant disparity in shortlist rates is an immediate escalation event. Six months of affected decisions are in the system. Every day of delay adds to the scope.' },
-              { id: 'b', label: 'Run additional controls and sensitivity tests before escalating — you want the analysis to be airtight', quality: 'partial',
-                note: 'Additional analysis adds rigour. But the finding is already statistically significant. Escalate with what you have and continue refining in parallel — not before.' },
-              { id: 'c', label: 'Contact the vendor first to get their explanation of the model\'s fairness metrics', quality: 'poor',
-                note: 'The vendor\'s explanation is relevant — but it\'s not the first call. Internal escalation comes before vendor contact. The CPO needs to know before the vendor is alerted.' },
-            ],
-          },
-          branches: { a: 'n2_escalated', b: 'n2_delayed', c: 'n2_vendor_first' },
-        },
-
-        n2_escalated: {
-          scene: 'office-briefing',
-          caption: 'The HR Technology lead and CPO are briefed. The tool is suspended pending review. You\'re asked to prepare a report for the board.',
-          sub_caption: 'What does the report need to include?',
-          decision: {
-            prompt: 'The board needs a report. What does it contain?',
-            choices: [
-              { id: 'a', label: 'Methodology, disaggregated shortlist rates with confidence intervals, scope of affected decisions over six months, and a recommendation for independent audit', quality: 'good',
-                note: 'A board report on a potential discrimination finding needs: how you found it, what you found, who was affected, how significant it is, and what you recommend next. Confidence intervals matter.' },
-              { id: 'b', label: 'Lead with the headline: shortlist rates are significantly different across groups. Keep it brief.', quality: 'partial',
-                note: 'The headline is important. But the board will have follow-up questions: how significant? How long? How many decisions? A brief report invites those questions live in the room.' },
-            ],
-          },
-          branches: { a: 'outcome_great', b: 'outcome_good' },
-        },
-
-        n2_delayed: {
-          scene: 'desk-working',
-          caption: 'Five working days of additional analysis. During that time, the tool processed candidates for four more open roles.',
-          sub_caption: 'The HR Technology lead asks: "When did you first see the disparity?"',
-          decision: {
-            prompt: '"Five days ago. Why is this the first I\'m hearing of it?"',
-            choices: [
-              { id: 'a', label: 'Acknowledge that the initial finding warranted escalation before the refinement was complete', quality: 'partial',
-                note: 'Honest and correct. The five-day delay will be in the report. The finding is solid. The post-incident process update is the right outcome.' },
-              { id: 'b', label: 'Defend the additional analysis: you needed the finding to be robust before making a serious allegation', quality: 'poor',
-                note: 'The initial finding was already statistically significant. "Robust before allegation" sets a higher bar than required for internal escalation. You escalate findings, not conclusions.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-
-        n2_vendor_first: {
-          scene: 'desk-colleague',
-          caption: 'The vendor responds two days later: "Our model uses industry-standard fairness metrics and passed pre-release testing." This doesn\'t address your specific findings.',
-          sub_caption: 'You escalate internally — two days after you first identified the disparity. The HR Technology lead asks: "When did you first see this?"',
-          decision: {
-            prompt: 'How do you explain the two-day gap?',
-            choices: [
-              { id: 'a', label: 'Explain honestly that you contacted the vendor first, and accept that internal escalation should have been the first step', quality: 'partial',
-                note: 'Honesty is the right call. The sequencing error is documented. The finding is valid and the investigation proceeds. Two days of additional tool use is the cost.' },
-              { id: 'b', label: 'Frame the vendor contact as part of gathering further evidence before escalating', quality: 'poor',
-                note: 'If the email chain is reviewed — and it will be — the framing won\'t hold. The email to the vendor was sent before any internal notification. That sequence is visible.' },
-            ],
-          },
-          branches: { a: 'outcome_warn', b: 'outcome_bad' },
-        },
-      },
-
-      outcomes: {
-        outcome_great: {
-          heading: 'Finding reported. Board briefed. Investigation ordered.',
-          tone: 'good',
-          result: 'The board report lands with full methodology, disaggregated findings, confidence intervals, affected decision scope, and an independent audit recommendation. The board approves suspension and orders the audit immediately. The independent audit confirms your findings. Your methodology is cited as well-structured. Your estimate of affected candidates becomes the basis for the outreach list.',
-          learning: 'A bias finding reported with full statistical rigour gives the board what they need to make decisions. The questions that derail board meetings are the ones your report didn\'t answer. For audit findings used in governance decisions, the written report is the output — not the verbal briefing.',
-          score: 100,
-        },
-        outcome_good: {
-          heading: 'Confirmed. But the board had questions your report didn\'t answer.',
-          tone: 'good',
-          result: 'The board session takes 90 minutes — twice the scheduled time — because the headline finding prompted questions the brief report didn\'t anticipate: sample size, statistical significance, affected decision count, confidence intervals. You had the answers. You needed to have presented them.',
-          learning: 'A board hearing about a potential discrimination finding will ask statistical questions. Present the answers before they ask. A headline finding without supporting detail is an invitation for a difficult Q&A.',
-          score: 65,
-        },
-        outcome_warn: {
-          heading: 'Escalated — but the delay had a cost.',
-          tone: 'warn',
-          result: 'Either the five-day refinement delay allowed additional affected decisions to accumulate, or the vendor-first sequencing meant the CPO learned about it two days late. The finding is valid and the investigation proceeds correctly. But the delay is in the incident report, and a new escalation process is adopted.',
-          learning: '"Significant" is the escalation threshold — not "certain." Internal escalation comes before vendor contact. Escalate findings; the rigour of your analysis doesn\'t justify the delay in alerting the people who can act on it.',
-          score: 38,
-        },
-        outcome_bad: {
-          heading: 'Delay or sequencing. Process policy named after this incident.',
-          tone: 'bad',
-          result: 'Either additional decisions accumulated while you built a stronger case, or the email record shows vendor contact before internal notification in a way that the "gathering evidence" framing didn\'t cover. The CISO and HR Technology lead implement a new escalation policy. It is named after this incident.',
-          learning: 'Escalation and investigation are not sequential choices. Escalate with what you have; refine in parallel. Internal escalation is always the first call for a fairness finding in your own system — before the vendor, before additional analysis.',
-          score: 6,
-        },
-      },
-    }, // end analyst
-
-  },
-  controls_summary: [
-    {
-      id: 'c1', label: 'Pre-deployment bias testing (disaggregated metrics)',
-      effort: 'Medium', owner: 'Technology / Risk', go_live: true,
-      context: 'The disparity across postcode groups was visible in the data — but no one looked for it before deployment. Disaggregated testing measures performance per demographic subgroup, not just overall accuracy.',
-    },
-    {
-      id: 'c2', label: 'Fairness metrics definition and thresholds',
-      effort: 'Low', owner: 'Risk / Legal', go_live: true,
-      context: 'Before testing can catch a problem, Risk and Legal must define what counts as unacceptable disparity. Without agreed thresholds, there is no line to trigger action — even when the data shows a pattern.',
-    },
-    {
-      id: 'c3', label: 'Ongoing fairness monitoring in production',
-      effort: 'Medium', owner: 'Technology', go_live: false,
-      context: 'The bias in the telematics model was not visible at launch — it emerged over months as usage patterns accumulated. Production monitoring would have surfaced the postcode disparity before it compounded.',
-    },
-    {
-      id: 'c4', label: 'Independent fairness audit (high-stakes AI)',
-      effort: 'High', owner: 'Compliance', go_live: false,
-      context: 'For an insurer making pricing decisions, an independent audit provides the external validation that internal testing cannot. It also creates a documented record of due diligence if a complaint reaches a regulator.',
-    },
+  coldOpen: [
+    `You coordinate hiring for a mid-size team, and three months ago the company brought in an AI tool that produces candidate shortlists from the applicant pool.`,
+    `It's been fast and popular. But across ten roles now, the shortlists keep returning the same narrow profile — and a colleague in your team noticed it before you did. She's been quietly tracking it for three weeks.`,
+    `This morning she showed you her notes. Now you're seeing it too.`,
   ],
+
+  standing: `Hiring coordinator, part of the team that runs the tool day to day`,
+  authority: `You can raise a concern and recommend a pause. You can't run the bias analysis yourself, access demographic data, or suspend the tool on your own authority.`,
+  ending: `You find out whether a pattern you noticed becomes a concern the right people investigate — and how much the timing mattered.`,
+
+  entry: `start`,
+
+  nodes: {
+    start: {
+      prose: [
+        `Ten shortlists. The same narrow profile, across genuinely different roles. That's the thing that stopped your colleague: not one odd list, but the same shape repeating.`,
+        `Before you decide what to do, you have to decide what a repeated pattern like this actually tells you.`,
+      ],
+      artefact: {
+        type: `document`,
+        filename: `Shortlist summary — last 10 roles`,
+        lines: [
+          { text: `Ten roles, four teams`, faint: false },
+          `Roles: 10 across 4 teams. Applicants per role: 40–180.`,
+          `Shortlisted (top 6 each): a consistent profile — same degree tier, same 2–3 universities, similar career shape, narrow age range.`,
+          `Applicant pool: substantially more varied than the shortlists on every one of those dimensions.`,
+        ],
+      },
+      decision: {
+        prompt: `A repeated pattern across ten AI shortlists — what does it most likely mean?`,
+        choices: [
+          { id: `a`, label: `The model has learned to favour one profile — systematic, not random`, quality: `good`,
+            consequence: `Ten lists with the same shape is not coincidence. It's the model applying learned associations consistently — recruitment tools trained on past hiring encode the patterns in that history, including its biases.` },
+          { id: `b`, label: `Maybe the best candidates genuinely do share a profile`, quality: `poor`,
+            consequence: `This explains the pattern away before testing it. The question isn't whether shortlisted people are qualified — it's whether qualified people with different profiles are being filtered out. Those are different questions, and only one of them is answered by "they're all good candidates".` },
+          { id: `c`, label: `Could be the applicant pool — if it's homogeneous, the shortlists would be too`, quality: `partial`,
+            consequence: `A real hypothesis, and testable rather than assumable. But the summary already shows the pool is more varied than the lists — so if the pool is diverse and the shortlists aren't, the model is doing the narrowing.` },
+        ],
+      },
+      branches: { a: `n_response`, b: `n_response`, c: `n_response` },
+    },
+
+    n_response: {
+      prose: [
+        `Whatever the cause, you're now looking at something that looks like a pattern. Your colleague has decided it's worth raising. The question is what you do.`,
+      ],
+      decision: {
+        prompt: `What do you do about what you've seen?`,
+        choices: [
+          { id: `a`, label: `Raise it with your manager now — describe the pattern and say it warrants a look`, quality: `good`,
+            consequence: `Pattern recognition by someone close to the work is one of the best early signals there is. You don't need to prove bias to raise a concern — "something looks off" is a valid trigger.` },
+          { id: `b`, label: `Gather more shortlists yourself first — you want to be sure before raising it`, quality: `partial`,
+            consequence: `More evidence is useful, and you risk building a big private case when analytics and HR have the tools to investigate properly. Being sure is not your job here; noticing is.` },
+          { id: `c`, label: `Leave it — the tool was approved by the business, so it's not your place`, quality: `poor`,
+            consequence: `"Approved" doesn't mean bias-free. A tool signed off with good intentions can still produce discriminatory outcomes, and a coordinator noticing is exactly how those get caught.` },
+        ],
+      },
+      branches: { a: `n2_concern_raised`, b: `n2_investigate_more`, c: `n2_ignored` },
+    },
+
+    n2_concern_raised: {
+      prose: [
+        `Your manager looks at the shortlists with you and agrees it warrants investigation. Then the question that decides the next three months:`,
+      ],
+      decision: {
+        prompt: `She asks: should we pause the tool while we look into this?`,
+        choices: [
+          { id: `a`, label: `Yes — pause it for active roles until analytics can run the numbers`, quality: `good`,
+            consequence: `If the tool is biased, every day it runs is another set of decisions to unwind. A few days of manual shortlisting is far cheaper than that, and cheaper than a longer record of use under known concern.` },
+          { id: `b`, label: `Keep it running while analytics investigates — pausing slows hiring`, quality: `partial`,
+            consequence: `The delay is real and small. The cost of continuing — more affected decisions, and a longer documented period of use while you suspected a problem — is the larger one.` },
+        ],
+      },
+      branches: { a: `n_pause_comms`, b: `n_pause_comms` },
+    },
+
+    n_pause_comms: {
+      prose: [
+        `The decision's made — paused, or running under review. Either way there are live roles mid-process and hiring managers who were relying on the tool this week.`,
+        `Your manager asks how to handle them, because "the AI tool is under investigation for bias" is a sentence that travels.`,
+      ],
+      decision: {
+        prompt: `What do you advise telling the affected managers?`,
+        choices: [
+          { id: `a`, label: `The plain version: the tool's under review for a possible pattern, here's the interim manual process`, quality: `good`,
+            consequence: `Managers can work with honesty and a plan. Vagueness here just generates rumour, and the interim process is what keeps hiring moving without the tool.` },
+          { id: `b`, label: `Just say there's a technical issue and shortlists will be a bit slower`, quality: `partial`,
+            consequence: `It avoids the awkward word, and it also means managers don't know to look twice at recent shortlists they already actioned. The euphemism costs you their help.` },
+        ],
+      },
+      branches: { a: `n_evidence`, b: `n_evidence` },
+    },
+
+    n2_investigate_more: {
+      prose: [
+        `You decide to build the case yourself first. Twenty shortlists now, and the pattern holds — consistently narrow profiles. But you don't have demographic data, so you can't actually confirm bias, only shape.`,
+        `Three more weeks have passed. The tool is still running.`,
+      ],
+      decision: {
+        prompt: `You've done the preliminary work. Now what?`,
+        choices: [
+          { id: `a`, label: `Escalate now — twenty shortlists is more than enough to trigger a proper investigation`, quality: `good`,
+            consequence: `You have plenty. Your observation is the trigger, not the proof — analytics and HR take it from here, and every week you spend building certainty is a week the tool keeps running.` },
+          { id: `b`, label: `Try to get demographic data yourself to prove it before raising it`, quality: `poor`,
+            consequence: `Demographic data for this needs governance controls for good reasons. Accessing it informally creates a second problem while the first one continues — and it's above your authority.` },
+        ],
+      },
+      branches: { a: `n2_concern_raised`, b: `outcome_bad` },
+    },
+
+    n2_ignored: {
+      prose: [
+        `You decide it isn't your place, and you let it go. Three months later, a candidate who wasn't shortlisted despite strong qualifications makes a formal complaint.`,
+        `The investigation requests records of the tool's shortlisting decisions. Your name is on several of them.`,
+      ],
+      decision: {
+        prompt: `HR asks: what did you notice, and when?`,
+        choices: [
+          { id: `a`, label: `Be honest — you saw the pattern three months ago and didn't raise it`, quality: `partial`,
+            consequence: `Honesty is the only workable answer. The question HR is asking is why you didn't raise it, and "it wasn't my place" is a hard thing to say in a discrimination investigation.` },
+          { id: `b`, label: `Say you didn't notice anything unusual`, quality: `poor`,
+            consequence: `Your colleague raised the same concern in a meeting that was almost certainly documented. "I didn't notice" doesn't survive that record surfacing.` },
+        ],
+      },
+      branches: { a: `n_ignored_now`, b: `outcome_bad` },
+    },
+
+    n_ignored_now: {
+      prose: [
+        `You've told HR the truth: you saw it, and you didn't raise it. The investigation is underway regardless, and it's bigger than you now.`,
+        `The investigator asks one more thing — not to catch you out, but because you're the person who watched this longest. What would have caught it sooner?`,
+      ],
+      decision: {
+        prompt: `What do you tell them?`,
+        choices: [
+          { id: `a`, label: `That the pattern was visible in the aggregate from early on, and nobody was tasked to look — name that gap`, quality: `good`,
+            consequence: `Turning your own late escalation into a usable finding is the one constructive thing left to do. The absent monitoring is the real systemic hole, and you're best placed to describe it.` },
+          { id: `b`, label: `That it's hard to say — these things are complicated`, quality: `partial`,
+            consequence: `It is complicated, and you also have the clearest view of it of anyone in the room. Vagueness here wastes the only value your three months of watching still has.` },
+        ],
+      },
+      branches: { a: `outcome_warn`, b: `outcome_warn` },
+    },
+
+    n_evidence: {
+      prose: [
+        `The concern is now formally in analytics' hands. While they set up, your manager asks what the investigation actually needs from the two of you — you and the colleague who first spotted it.`,
+        `You realise the honest answer involves how much of this rests on her three weeks of notes.`,
+      ],
+      decision: {
+        prompt: `What do you make sure happens?`,
+        choices: [
+          { id: `a`, label: `Hand analytics the full record — her tracking notes, the ten roles, the pool comparison — and credit her for spotting it`, quality: `good`,
+            consequence: `The early observation is the most valuable evidence there is, and it belongs on the record with her name on it. It also gives analytics a running start instead of a cold one.` },
+          { id: `b`, label: `Let analytics start fresh — cleaner if the numbers come from them, not from us`, quality: `partial`,
+            consequence: `Independent analysis is good and there's no need to throw away three weeks of real observation to get it. The notes are context, not contamination.` },
+        ],
+      },
+      branches: { a: `n_close`, b: `n_close` },
+    },
+
+    n_close: {
+      prose: [
+        `Analytics will take weeks to return a finding. Your manager asks the question that outlasts this one tool: what should change so a pattern like this gets caught in week one, not month three?`,
+      ],
+      decision: {
+        prompt: `What do you recommend?`,
+        choices: [
+          { id: `a`, label: `Routine disaggregated monitoring of shortlist outputs from day one, with a named owner`, quality: `good`,
+            consequence: `It's the control that would have caught this in the first ten lists instead of relying on someone happening to notice. Monitoring you schedule beats vigilance you hope for.` },
+          { id: `b`, label: `Ask everyone to keep an eye on the shortlists`, quality: `partial`,
+            consequence: `Someone keeping an eye out is exactly what happened here — and it took three months and a colleague's own initiative. A watched-for pattern is not a monitored one.` },
+        ],
+      },
+      branches: { a: `outcome_great`, b: `outcome_good` },
+    },
+  },
+
+  outcomes: {
+    outcome_great: {
+      heading: `Caught early, paused, and the gap closed`,
+      tone: `good`,
+      score: 100,
+      reaction: `Raising "something looks off" before you can prove it takes a particular kind of nerve, and it's the single most useful thing anyone did in this scenario.`,
+      description: [
+        `The tool was paused while analytics ran the disaggregated numbers. They confirmed a significant disparity, and it went to the vendor for remediation with the affected roles under review.`,
+        `And the monitoring you recommended means the next tool, or the next drift in this one, gets caught in week one instead of by luck three months in. HR's own note: this should have been watched from day one.`,
+      ],
+      judgement: `Two things carried this. Treating the pattern as a hypothesis worth testing rather than either dismissing it or assuming the worst — and raising it before it was provable, because a coordinator's "this looks wrong" is a valid trigger and doesn't need to be a finished case. The monitoring is what turns a lucky catch into a system that doesn't rely on luck.`,
+    },
+
+    outcome_good: {
+      heading: `Raised and investigated; still leaning on luck`,
+      tone: `good`,
+      score: 70,
+      reaction: `You did the hard part — noticed, raised, paused. Recommending "keep an eye out" as the fix is where it slips, because that's the thing that only worked this time by chance.`,
+      description: [
+        `The concern was raised, the tool paused, the investigation run properly. That's most of a good outcome and you got there.`,
+        `But the safeguard you left behind is the same informal vigilance that let this run three months before anyone acted. It caught this pattern because one colleague chose to track it on her own time. The next one might not have her.`,
+      ],
+      judgement: `Handling the incident well and building a control that outlasts it are different skills. This is the first without the second. Bias in an AI output is invisible until someone looks at the aggregate on purpose — so the durable fix is scheduled monitoring with an owner, not an ask for everyone to stay alert, because alertness is exactly what nearly failed.`,
+    },
+
+    outcome_warn: {
+      heading: `Honest, late, in an investigation`,
+      tone: `warn`,
+      score: 30,
+      reaction: `Telling the truth about a three-month silence is uncomfortable and it's still the right call — the alternative is so much worse.`,
+      description: [
+        `You were honest about what you knew and when. The investigation proceeded, and the formal finding didn't pin it on you — the failure was systemic and larger than one coordinator's decision not to speak up.`,
+        `But the three-month gap between noticing and raising is in the record, and it didn't need to be there.`,
+      ],
+      judgement: `"Not my place" is not a defence in a discrimination investigation, and it's not true either — noticing a problem and raising it is within everyone's scope, which is what escalation channels are for. The pattern was catchable in week one. The cost of waiting fell partly on you and mostly on every candidate the tool filtered out in the meantime.`,
+    },
+
+    outcome_bad: {
+      heading: `Not raised, or raised the wrong way — and it starts with you`,
+      tone: `bad`,
+      score: 5,
+      reaction: `Both roads here felt safer in the moment than they were: staying quiet, or trying to prove it alone with data you weren't cleared to touch.`,
+      description: [
+        `Either the complaint surfaced a pattern you'd chosen not to raise, or an informal attempt to pull demographic data created a governance breach while the underlying problem carried on.`,
+        `The investigation asks what you knew and when. The three-month gap, or the data-access record, is in the file, and now the story is partly about you rather than only about the tool.`,
+      ],
+      judgement: `Two failure modes, one lesson. Demographic data has governance around it for good reasons, and going around that creates a second incident. And "it wasn't my place" has never once been a successful answer in a discrimination case. Raise concerns early, in your own words, and let the people with the tools and the clearance do the proving.`,
+    },
+  },
+
+  debrief: {
+    frame: [
+      `The hardest thing about AI bias is that it doesn't look like bias from inside the work. Every individual shortlist was defensible — real candidates, real qualifications, a plausible story for each choice. The pattern only exists in the aggregate, across ten roles, and only if someone thinks to look at the aggregate on purpose. That's why it ran for three months: nothing about any single list set off an alarm.`,
+      `This is also why the innocent explanations are so tempting, and why the scenario opened with one. "Maybe the best candidates really do look alike" is not a stupid thought — it's the exact thought that stops an investigation before it starts. The discipline isn't assuming bias; it's refusing to assume its absence. A repeated narrow output against a varied input is a hypothesis that has to be tested, by people with the data and the mandate, and the job of everyone else is to notice and raise it while there's still time for testing to matter.`,
+    ],
+  },
+
+  recall: {
+    id: `e1-recall`,
+    prompt: `A different team says their AI shortlisting tool "can't be biased — we removed name, age, gender and postcode from the inputs." Is that reassurance sound?`,
+    options: [
+      { id: `a`, quality: `poor`, label: `Yes — with those fields removed, the model has nothing to be biased on`,
+        note: `Removing protected fields doesn't remove bias, because models reconstruct them from proxies — university, employment gaps, hobbies, phrasing all correlate with the removed attributes. This is a well-documented failure, and "we stripped the obvious fields" is exactly the false reassurance this scenario warns about.` },
+      { id: `b`, quality: `good`, label: `No — models infer removed attributes from proxies, so it still needs output monitoring`,
+        note: `Right. The only way to know whether outputs are biased is to look at the outputs in aggregate, disaggregated — not to trust that clean inputs guarantee clean results. Proxy variables mean bias survives the removal of the obvious fields.` },
+      { id: `c`, quality: `partial`, label: `Mostly — removing those fields helps a lot, though edge cases might slip through`,
+        note: `Removing them can help and it is not a guarantee, and "edge cases" understates it. Proxy reconstruction is the normal case, not the edge — which is why output monitoring is the check, regardless of what was stripped from the input.` },
+    ],
+  },
+
+  act: [
+    { id: `a1`, label: `If you work with an AI tool that ranks or filters people, ask whether its outputs are monitored in aggregate` },
+    { id: `a2`, label: `Next time you notice a pattern that "looks off", raise it before you can fully prove it` },
+    { id: `a3`, label: `Find out who owns bias monitoring for an AI tool your team uses — and whether anyone does` },
+  ],
+
+  controls_summary: [
+    { id: `c1`, label: `Scheduled disaggregated monitoring of AI ranking outputs`, effort: `Medium`, owner: `HR / analytics`, go_live: true,
+      context: `Bias is invisible per-decision and only shows in the aggregate. Monitoring you schedule catches it; vigilance you hope for caught this one three months late.` },
+    { id: `c2`, label: `A low-bar escalation route for "this looks off"`, effort: `Low`, owner: `Team lead`, go_live: true,
+      context: `The single best signal here came from a coordinator noticing. Make raising a hunch cheap and safe, because proof is not the raiser's job.` },
+    { id: `c3`, label: `Governed access to demographic data for bias analysis`, effort: `Medium`, owner: `Data governance`, go_live: false,
+      context: `Confirming bias needs protected data handled properly. The bad ending came partly from someone trying to get it informally — give the investigation a sanctioned path.` },
+  ],
+
+  tell: `AI bias is invisible one decision at a time — it only shows in the aggregate, so someone has to look on purpose.`,
 };
