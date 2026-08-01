@@ -72,7 +72,8 @@ describe('Setup', () => {
   });
 
   it('renders without a scene rather than crashing', () => {
-    const { scene, ...noScene } = home;
+    const noScene = { ...home };
+    delete noScene.scene;
     render(<Setup scenario={noScene} onBegin={() => {}} />);
     expect(document.querySelector('img')).toBeNull();
   });

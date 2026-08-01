@@ -23,7 +23,7 @@ export const scenario = {
   scene: `rejection-email`,
   determinacy: `open`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-e-societal/e1-bias`,
+  kb_url: `https://library.airiskpractice.org/docs/domain-e-fairness/e1-algorithmic-bias`,
   regulatory_tags: [`eu-ai-act-annex-iii`, `jurisdiction-au`],
   mit_subdomain: `mit-1.1`,
 
