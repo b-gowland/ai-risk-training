@@ -15,8 +15,6 @@
 //
 // Voice per CONTENT_STYLE_GUIDE public track: the player is never blamed for
 // being deceived, and no ending is written as a telling-off.
-//
-// NOTE: no `scene` — every image in public/scenes is a workplace.
 
 export const scenario = {
   id: `home-voice-clone`,
@@ -26,6 +24,7 @@ export const scenario = {
   shelfLine: `Your mum calls in tears, needs money in twenty minutes, and says not to tell your dad.`,
   hook: `It's your mum's number. She's crying, and she needs money in twenty minutes.`,
   doorScene: `door-home`,
+  scene: `phone-call`,
   determinacy: `clean`,
 
   kb_url: `https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes`,

@@ -17,9 +17,7 @@ export const scenario = {
   title: `The Answer That Wasn't`,
   shelfLine: `An AI told you your insurance covers driving abroad. You're about to book on that.`,
   hook: `The AI said your insurance covers you to drive in New Zealand, and cited a law. You're about to book.`,
-  // scene: intentionally unset until the At Home 'phone-search' watercolour is
-  // generated (Imagen pipeline). home-voice-clone runs the same way; the audit
-  // treats an unset scene as a soft warning, a missing file as a hard fail.
+  scene: `phone-search`,
   determinacy: `open`,
 
   kb_url: `https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination`,

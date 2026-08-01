@@ -20,7 +20,7 @@ export const scenario = {
   title: `The Algorithm Said No`,
   shelfLine: `An automated system rejected you before a human saw your application. You're qualified.`,
   hook: `You met every requirement. An automated system rejected you before a human saw your name.`,
-  // scene: unset until the At Home 'rejection-email' watercolour is generated.
+  scene: `rejection-email`,
   determinacy: `open`,
 
   kb_url: `https://library.airiskpractice.org/docs/domain-e-societal/e1-bias`,
