@@ -61,7 +61,7 @@ export function Privacy() {
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Scenario interaction data</h2>
-      <p style={s.p}>When you play a scenario on either the practitioner track or the Fork everyday track, we track anonymous, aggregate information about how scenarios are used.</p>
+      <p style={s.p}>When you play a scenario, we record anonymous, aggregate information about how scenarios are used.</p>
       <p style={s.p}><strong style={s.strong}>What we track:</strong></p>
       <ul style={s.ul}>{[
         'That a scenario was started (scenario identifier only — not your name or any personal detail)',

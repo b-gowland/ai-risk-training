@@ -14,7 +14,8 @@ from general staff through practitioners. The split is situational, not
 identity-based: the same person uses both.
 
 You are dropped into a situation, you make the calls, and you see what
-follows. Nothing is scored, nothing is saved, and there is no login.
+follows. Nothing is scored and there is no login. Anonymous, aggregate usage is
+recorded so the project can see what gets played; nothing personal is stored.
 
 - **One perspective per scenario**, chosen as the most instructive vantage
   point on that risk. No identity gate before you are shown anything.
