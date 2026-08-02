@@ -17,7 +17,7 @@
 // React-idiomatic reset and is why the id is read in a wrapper rather than in
 // the component that owns the state.
 
-import { useReducer, useEffect, useMemo } from 'react';
+import { useReducer, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { scenarios, KNOWN_IDS } from '../scenarios/index.js';
 import {
@@ -43,6 +43,7 @@ export default function ScenarioPlayer() {
 }
 
 function ScenarioMachine({ id }) {
+  const stageRef = useRef(null);
   const scenario = scenarios.find((sc) => sc.id === id) || null;
 
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
@@ -58,7 +59,11 @@ function ScenarioMachine({ id }) {
     [state.path, state.nodeId]
   );
 
-  useEffect(() => { window.scrollTo(0, 0); }, [state.phase, state.nodeId]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const target = stageRef.current?.querySelector('article') || stageRef.current;
+    target?.focus({ preventScroll: true });
+  }, [id, state.phase, state.nodeId]);
 
   useEffect(() => {
     if (state.phase === STATES.DEBRIEF && scenario && outcome) {
@@ -76,7 +81,7 @@ function ScenarioMachine({ id }) {
     // send the reader to the reference entry, which has the full risk detail.
     const known = KNOWN_IDS.includes(id);
     return (
-      <div className={s.missing}>
+      <main id="main-content" className={s.missing} tabIndex={-1} ref={stageRef}>
         <h1 className={s.title}>
           {known ? 'This one isn\u2019t playable right now' : 'That situation isn\u2019t here'}
         </h1>
@@ -91,7 +96,7 @@ function ScenarioMachine({ id }) {
             Reference library
           </a>
         </p>
-      </div>
+      </main>
     );
   }
 
@@ -127,7 +132,7 @@ function ScenarioMachine({ id }) {
   };
 
   return (
-    <main className={s.stage}>
+    <main id="main-content" className={s.stage} tabIndex={-1} ref={stageRef}>
       {state.phase === STATES.SETUP && (
         <Setup scenario={scenario} onBegin={begin} />
       )}

@@ -14,7 +14,7 @@ export default function About() {
     `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent(subject)}`;
 
   return (
-    <main className={s.page}>
+    <main id="main-content" className={s.page} tabIndex={-1}>
       <div className={s.inner}>
         <Link to="/" className={s.back}>← Back to the situations</Link>
 

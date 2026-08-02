@@ -329,6 +329,12 @@ describe('claims', () => {
 
 // ── Browse index + next-scenario (added after the toggle/dead-end fix) ──────
 describe('homepage index', () => {
+  it('exposes the hero heading with natural word boundaries', async () => {
+    const Homepage = (await import('../components/Homepage/Homepage.jsx')).default;
+    render(<Homepage />);
+    expect(screen.getByRole('heading', { level: 1, name: 'What would you do?' })).toBeTruthy();
+  });
+
   it('shows every scenario without a toggle — the catalogue is not hidden', async () => {
     const Homepage = (await import('../components/Homepage/Homepage.jsx')).default;
     const { scenarios: live } = await import('../scenarios/index.js');
@@ -337,6 +343,26 @@ describe('homepage index', () => {
     for (const sc of live) {
       expect(screen.getByText(sc.shelfLine), `${sc.id} missing from index`).toBeTruthy();
     }
+  });
+});
+
+describe('site shell accessibility', () => {
+  it('puts a skip link before the repeated navigation', async () => {
+    const App = (await import('../App.jsx')).default;
+    render(<App />);
+    const links = screen.getAllByRole('link');
+    expect(links[0].textContent).toBe('Skip to main content');
+    expect(links[0].getAttribute('href')).toBe('#main-content');
+  });
+});
+
+describe('privacy notice', () => {
+  it('discloses recall and optional action analytics', async () => {
+    const { Privacy } = await import('../pages/Privacy.jsx');
+    const { container } = render(<Privacy />);
+    expect(container.textContent).toContain('Whether a recall question was answered or skipped');
+    expect(container.textContent).toContain('action identifier you selected');
+    expect(container.textContent).not.toContain('there is nothing to consent to');
   });
 });
 
