@@ -278,7 +278,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `The drafts matched the system's designed flow; review was a scan step with no gate. The gap is the system's.`, quality: `good`,
             consequence: `HR closes the conduct threads by Friday. The RMs go back to work with a story about the tool instead of one about themselves.` },
-          { id: `b`, label: `A careful reader would have caught a table of the wrong clients' balances`, quality: `poor`,
+          { id: `b`, label: `A careful reader would have caught a table of another client's balance`, quality: `poor`,
             consequence: `Forty relationship managers hear about the conduct investigation before it is over. The next incident in this building will be reported later than this one was, and not because of the logs.` },
         ],
       },
@@ -444,7 +444,7 @@ export const scenario = {
       { id: `b`, quality: `partial`, label: `Whether the supplier emails are scanned for malware and bad links`,
         note: `Real, and already someone's job. Scanning catches payloads; it does not catch plain sentences a model will obligingly follow. The injected instruction in the statement was clean text.` },
       { id: `c`, quality: `poor`, label: `Whether staff have been told to double-check the agent's drafts`,
-        note: `The control that failed here, relocated. Review as a scan step lasted forty-one seconds with the wrong clients' balances in the email. Awareness is not a gate.` },
+        note: `The control that failed here, relocated. Review as a scan step lasted forty-one seconds with another client's balance in the email. Awareness is not a gate.` },
     ],
   },
 
