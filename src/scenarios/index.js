@@ -16,6 +16,8 @@ import { scenario as d2Privacy } from './d2-privacy.js';
 import { scenario as e1Bias } from './e1-bias.js';
 import { scenario as f1AutomationBias } from './f1-automation-bias.js';
 import { scenario as d3Ip } from './d3-ip.js';
+import { scenario as c2PromptInjection } from './c2-prompt-injection.js';
+import { scenario as c6McpAttack } from './c6-mcp-attack.js';
 import { scenario as homeVoiceClone } from './home-voice-clone.js';
 import { scenario as homeAiAnswer } from './home-ai-answer.js';
 import { scenario as homeAlgorithmSaidNo } from './home-algorithm-said-no.js';
@@ -30,6 +32,8 @@ export const scenarios = [
   e1Bias,
   f1AutomationBias,
   d3Ip,
+  c2PromptInjection,
+  c6McpAttack,
 ];
 
 // The homepage pair is FIXED, not rotating (§3): someone sent this link
