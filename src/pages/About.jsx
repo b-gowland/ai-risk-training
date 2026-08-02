@@ -5,6 +5,7 @@
 // to"). No employer reference. Contribution-first voice, not a pitch.
 
 import { Link } from 'react-router-dom';
+import { scenarios } from '../scenarios/index.js';
 import s from './About.module.css';
 
 const FEEDBACK_EMAIL = 'hello@airiskpractice.org';
@@ -31,7 +32,7 @@ export default function About() {
         <section className={s.section}>
           <h2 className={s.h2}>What it is</h2>
           <p className={s.p}>
-            This v2 build has nine core branching scenarios about AI going wrong, split across
+            This v2 build has {scenarios.length} core branching scenarios about AI going wrong, split across
             two doors: one for personal life, one for work. You are the person it is happening to.
             You make the calls with incomplete information and some time pressure, and then you see
             what followed. Nothing is scored. There is no login and nothing to install.

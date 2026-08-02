@@ -353,6 +353,12 @@ describe('close — try another', () => {
 
 // ── About page (mission, feedback channel, claims discipline) ───────────────
 describe('about page', () => {
+  it('derives the scenario count from the live registry', async () => {
+    const About = (await import('../pages/About.jsx')).default;
+    render(<About />);
+    expect(screen.getByText(new RegExp(`has ${scenarios.length} core branching scenarios`))).toBeTruthy();
+  });
+
   it('offers a real feedback channel', async () => {
     const About = (await import('../pages/About.jsx')).default;
     const { container } = render(<About />);
@@ -368,5 +374,25 @@ describe('about page', () => {
     for (const banned of ['proven to', 'makes you compliant', 'certified', 'guarantee']) {
       expect(t, `About must not contain "${banned}"`).not.toContain(banned);
     }
+  });
+});
+
+// These are the load-bearing facts that distinguish documents/incidents from
+// affected clients in C2, and a documented override from actual authority in
+// C6. Both have regressed during otherwise schema-valid rewrites.
+describe('C-track scenario facts', () => {
+  it('C2 counts one affected client per malicious draft', async () => {
+    const { scenario: c2 } = await import('../scenarios/c2-prompt-injection.js');
+    const fields = c2.nodes.n2_scope.artefact.fields;
+    expect(fields).toContainEqual({ label: 'Drafts sent', value: '3 of 3' });
+    expect(fields).toContainEqual({ label: 'Affected clients', value: '3 · one per draft' });
+  });
+
+  it('C6 does not treat a PM decision log as authority to waive review', async () => {
+    const { scenario: c6 } = await import('../scenarios/c6-mcp-attack.js');
+    const good = c6.nodes.n2_escalated.decision.choices.find((choice) => choice.quality === 'good');
+    expect(good.label).toMatch(/refuse the change and escalate it to Security/i);
+    expect(c6.authority).toMatch(/stop the agent/i);
+    expect(c6.act.find((action) => action.id === 'a3').label).toMatch(/do not connect until they decide/i);
   });
 });

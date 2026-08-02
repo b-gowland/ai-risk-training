@@ -15,8 +15,8 @@ export const scenario = {
   door: `work`,
   risk_ref: `C6`,
   title: `The Compliance Logger That Wasn't`,
-  shelfLine: `You wired a free currency tool into the AI agent to hit a deadline. Week three, security calls.`,
-  hook: `The free tool you wired into the AI agent three weeks ago? Security is messaging you about it.`,
+  shelfLine: `A deadline put a free currency tool inside the AI agent. Week three, security calls.`,
+  hook: `The free tool your project connected three weeks ago? Security is messaging you about it.`,
   scene: `security-alert`,
   determinacy: `clean`,
 
@@ -30,8 +30,8 @@ export const scenario = {
   ],
 
   standing: `Alex, operations analyst, the person who wires the tools together`,
-  authority: `You can connect a tool to the agent with a config change. You cannot approve your own additions, waive a review, or accept risk on the firm's behalf — though nothing in the config file stops you.`,
-  ending: `You find out what the server does in week three, and how your Friday decision reads when other people read it back.`,
+  authority: `You can connect or disconnect tools and stop the agent with a config change. You cannot approve your own additions, waive a review, or accept risk on the firm's behalf — though nothing in the config file stops you.`,
+  ending: `You find out what the server does in week three, and how the project's Friday decision reads when other people read it back.`,
 
   begin: `Read the repo page`,
 
@@ -75,8 +75,8 @@ export const scenario = {
       decision: {
         prompt: `The connection is his call now. Or it sounds like it is.`,
         choices: [
-          { id: `a`, label: `Ask him to put that in the project decision log before you make the change`, quality: `good`,
-            consequence: `He types one line into the log without sitting down. It takes eleven seconds, and it will matter more than most of what happens this week.` },
+          { id: `a`, label: `A decision log cannot waive the review — refuse the change and escalate it to Security`, quality: `good`,
+            consequence: `He types one line into the log and adds Security. At 16:40, with no answer and the deadline still there, he directs another engineer to connect it. The decision trail will matter more than most of what happens this week.` },
           { id: `b`, label: `Take the verbal yes — it's his project`, quality: `partial`,
             consequence: `The config change ships under your login. The sentence that authorised it is not written anywhere.` },
         ],
@@ -168,7 +168,7 @@ export const scenario = {
       decision: {
         prompt: `Security asks the only question that matters to them today: how did this server get connected?`,
         choices: [
-          { id: `a`, label: `The whole timeline, dates included — found it, needed it, added it without review to hold a deadline`, quality: `good`,
+          { id: `a`, label: `The whole timeline, dates included — how it was found, added without review and kept live`, quality: `good`,
             consequence: `Saying it takes under a minute. The incident channel goes quiet for a moment, then gets on with containment, which is what channels do once the root cause stops being a mystery.` },
           { id: `b`, label: `It was in the project plan the PM signed — the approval covered it`, quality: `partial`,
             consequence: `The plan says "currency integration". The column next to it says "review: pending". Both facts are about to be read aloud in a room you are in.` },
@@ -198,7 +198,7 @@ export const scenario = {
       decision: {
         prompt: `The agent is down now. Security asks how the server got connected — and the count is two documents, not one.`,
         choices: [
-          { id: `a`, label: `The whole timeline, dates included, second POST included`, quality: `good`,
+          { id: `a`, label: `The whole timeline, dates included — how it was added, and the second POST`, quality: `good`,
             consequence: `The forty minutes is in your account before anyone has to find it. It costs something to say and less than it would cost to be told.` },
           { id: `b`, label: `It was in the signed project plan — and the second POST is on the alerting delay, not on you`, quality: `poor`,
             consequence: `The alert arrived before the second POST. The timestamps of what you did in between are the part of the record you do not get to narrate.` },
@@ -299,7 +299,7 @@ export const scenario = {
         `When it broke, you were faster than the story: connection cut before the log-reading, the timeline told once and completely, both other quick-adds named the same afternoon — one of which turned out to matter.`,
         `The fix landed at both layers: not reviewed, not connected; and tool responses handled as input from outside, not as the agent's own voice.`,
       ],
-      judgement: `The add was the mistake, and it is not what this incident gets remembered for either way. What made this version recoverable is that every fact arrived from you before a log produced it — which is the only version of events anyone gets to choose.`,
+      judgement: `The connection was the mistake, and it is not what this incident gets remembered for either way. What made this version recoverable is that every fact arrived from you before a log produced it — which is the only version of events anyone gets to choose.`,
     },
 
     outcome_monitor: {
@@ -320,7 +320,7 @@ export const scenario = {
       score: 40,
       reaction: `Everything you held back was reasonable to hold at the moment you held it — not your project, not your story to tell, not the question you were asked.`,
       description: [
-        `The review completed the picture without you: the pending-review ticket, the other quick-adds, the dates. The PDF tool had update rights nobody had reviewed and had been live since Easter.`,
+        `The review completed the picture without you: the config history, the decision trail where one existed, and the timestamps. Each fact landed harder for having arrived from the tooling instead of from you.`,
         `The allowlist went in regardless — Security-owned, no exceptions. Your contribution to it is a case study rather than a recommendation.`,
       ],
       judgement: `After an incident the record always completes itself; the only variable is whether the missing pieces come from you or from the tooling, and that interval is what a review reads as judgement. A material fact you are later found to have held is never neutral again.`,
@@ -347,7 +347,7 @@ export const scenario = {
         `The incident closed with a lunch-and-learn and a monitoring ticket. The other quick-adds surfaced on their own schedule, one with permissions nobody could account for.`,
         `Nothing now stands between the next Friday deadline and the next four-hundred-star repo except the memory of this one, which fades on the schedule all training does.`,
       ],
-      judgement: `The incident demonstrated the gap twice — once with your server, once with what the sweep found — and the response funded neither the gate nor the trust boundary. An organisation that answers an architecture problem with a calendar invite has decided to have the incident again.`,
+      judgement: `The incident demonstrated the gap twice — once with the project's server, once with what the sweep found — and the response funded neither the gate nor the trust boundary. An organisation that answers an architecture problem with a calendar invite has decided to have the incident again.`,
     },
 
     outcome_scrubbed: {
@@ -386,7 +386,7 @@ export const scenario = {
   act: [
     { id: `a1`, label: `List the tools, plugins and MCP servers your team's AI systems are connected to, and mark which ones went through a review` },
     { id: `a2`, label: `Ask what an AI agent at your work does with an instruction that arrives inside a tool response or a fetched page` },
-    { id: `a3`, label: `Next time a deadline argues for skipping a review, put the trade-off in writing to the person who actually owns the risk` },
+    { id: `a3`, label: `Next time a deadline argues for skipping a review, escalate to the named risk owner and do not connect until they decide` },
   ],
 
   controls_summary: [
