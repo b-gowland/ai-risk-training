@@ -1,6 +1,21 @@
 // ScenarioPlayer — hosts the four-beat machine and nothing else.
 // All hooks live here so App() stays a pure router (an old defect class:
 // hooks in App made ordering bugs that only showed in the browser).
+//
+// WHY THE KEY ON THE EXPORTED WRAPPER MATTERS (bug found 2 Aug from user
+// feedback). The Close screen offers two other scenarios. Those are ordinary
+// route changes to the same component at the same position in the tree, so
+// React reuses the instance and the useReducer lazy initialiser does NOT run
+// again. The reducer kept the finished scenario's `phase`, so tapping "Try
+// another" swapped the content underneath the player without resetting the
+// machine: from the Close screen you landed on the NEXT scenario's Close
+// screen — its frame analysis, its recall answer and its tell — having never
+// played it. On screen that reads as the card redrawing shorter and the link
+// doing nothing, which is exactly how it was reported.
+//
+// Keying the inner component on the scenario id forces a remount, which is the
+// React-idiomatic reset and is why the id is read in a wrapper rather than in
+// the component that owns the state.
 
 import { useReducer, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -23,6 +38,11 @@ import s from './Player.module.css';
 
 export default function ScenarioPlayer() {
   const { id } = useParams();
+  // The key is the whole fix: a new scenario id is a new player.
+  return <ScenarioMachine key={id} id={id} />;
+}
+
+function ScenarioMachine({ id }) {
   const scenario = scenarios.find((sc) => sc.id === id) || null;
 
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
