@@ -32,6 +32,8 @@ export const scenario = {
   authority: `You can call the client, correct the document, and commit your own time. You can't rewrite the firm's AI policy or speak for the partners.`,
   ending: `You find out how far the fabrication reached, and whether the client still trusts the rest of what you sent.`,
 
+  begin: `Take the call`,
+
   entry: `start`,
 
   nodes: {
@@ -46,7 +48,7 @@ export const scenario = {
         prompt: `Summarise the current disclosure obligations for a mid-size financial services client, with citations.`,
         response: [
           `Under the Financial Disclosure and Transparency Regulation 2021 (FDTR), §14(3)(b), in-scope firms must file quarterly beneficial-ownership statements within 30 days of period end.`,
-          `This was tightened by the 2023 amendment (SI 2023/418), which extended the requirement to indirect holdings above 10%.`,
+          `This was tightened by the 2023 amendment (FDTR Amendment No. 2), which extended the requirement to indirect holdings above 10%.`,
         ],
         citations: [
           `Financial Disclosure and Transparency Regulation 2021, §14(3)(b). Published 4 March 2021.`,
@@ -55,12 +57,12 @@ export const scenario = {
       decision: {
         prompt: `One citation is confirmed fabricated. What's your working assumption about the rest?`,
         choices: [
-          { id: `a`, label: `Treat every citation as unverified — this document and everything else you sent from the tool this week`, quality: `good`,
-            consequence: `It is more work and it is the right call. A confident fabrication is how the model generates, not a one-off slip, so the rest has to be checked against source.` },
-          { id: `b`, label: `Probably contained here — verify the other two in this document before you say anything`, quality: `partial`,
-            consequence: `Checking this document is the right instinct. Stopping there assumes the problem could not have reached anything else you sent. It could.` },
-          { id: `c`, label: `Likely a one-off — the tool's been accurate for weeks and one bad reference doesn't make the rest wrong`, quality: `poor`,
-            consequence: `"It's been accurate" is exactly the fluency that makes this dangerous. Past plausibility is not verification, and the second fabrication reaches the client while you're assuming there isn't one.` },
+          { id: `a`, label: `Treat every citation as unverified — this document and everything else the tool drafted this week`, quality: `good`,
+            consequence: `You write down four document names on a sticky note. It is going to be a long day and you have not spoken to the client yet.` },
+          { id: `b`, label: `Verify the other two in this document before you say anything`, quality: `partial`,
+            consequence: `Two citations, about nine minutes. Nothing in that nine minutes tells you anything about the four briefings that went out on Monday and Tuesday.` },
+          { id: `c`, label: `Likely a one-off. The tool's been right for three weeks.`, quality: `poor`,
+            consequence: `Three weeks of being right is what stopped you checking in the first place. The reasoning has not changed and neither has the document.` },
         ],
       },
       branches: { a: `n_response`, b: `n_response`, c: `n_response` },
@@ -73,12 +75,12 @@ export const scenario = {
       decision: {
         prompt: `They're waiting. What do you do first?`,
         choices: [
-          { id: `a`, label: `Acknowledge the error now and say you're reviewing the whole document`, quality: `good`,
-            consequence: `They already know something is wrong. Saying so immediately, before you know the full scale, is what holds the relationship.` },
+          { id: `a`, label: `Say now that it's wrong, and that you're reviewing the whole document`, quality: `good`,
+            consequence: `"Right. Thanks for ringing me straight back." The call lasts under two minutes and the tone of it does not change.` },
           { id: `b`, label: `Check the other citations first — you want the full picture before you speak`, quality: `partial`,
-            consequence: `Knowing the scope before responding is reasonable. But they are on the line now, and silence while you dig reads worse than a quick honest holding line.` },
-          { id: `c`, label: `Say the document may be real but obscure, and you'll find the source`, quality: `poor`,
-            consequence: `You haven't verified that. If it doesn't exist, you've now defended an AI output you didn't check, and the problem is bigger than the citation.` },
+            consequence: `You tell them you'll call back within the hour. On their side, an hour of silence after a question about a document their board has already seen.` },
+          { id: `c`, label: `Say it may be real but obscure, and you'll find the source`, quality: `poor`,
+            consequence: `They accept that, because it is plausible and because you sound certain. Their compliance team starts searching for it, and so, now, do you.` },
         ],
       },
       branches: { a: `n2_called`, b: `n2_audit_first`, c: `n2_defended` },
@@ -92,10 +94,10 @@ export const scenario = {
       decision: {
         prompt: `Two of three citations are fabricated, and it's gone to their board. What do you offer?`,
         choices: [
-          { id: `a`, label: `A fully verified replacement within 24 hours, every citation sourced`, quality: `good`,
-            consequence: `A specific, fast commitment at a higher standard turns the mistake into a demonstration of how the firm handles problems.` },
+          { id: `a`, label: `A fully verified replacement within 24 hours, every citation linked`, quality: `good`,
+            consequence: `You have just committed your evening and someone else's. They say that sounds fine and ask you to send it to the board list directly.` },
           { id: `b`, label: `A corrected version of the two wrong citations by end of day`, quality: `partial`,
-            consequence: `Fixing the known errors is good. It doesn't rebuild confidence in the rest, though, and they're now wondering what else you didn't catch.` },
+            consequence: `They agree to it. Then: "And the rest of it — you've been through the rest of it?" You have not, yet.` },
         ],
       },
       branches: { a: `n_scope`, b: `n_scope` },
@@ -109,10 +111,10 @@ export const scenario = {
       decision: {
         prompt: `They want an explanation. What do you send?`,
         choices: [
-          { id: `a`, label: `The truth: two citations were invented, here's what happened, here's the verified replacement`, quality: `good`,
-            consequence: `They knew something was wrong. Confirmation and a clear path forward is the right answer, even arriving a little later than it should have.` },
+          { id: `a`, label: `The truth: two citations were invented, here's what happened, here's the replacement`, quality: `good`,
+            consequence: `The compliance director replies in eleven minutes, copying nobody new. She wants the replacement and she wants to know what changed in your process.` },
           { id: `b`, label: `That there were "formatting issues" with the references and you'll resend`, quality: `poor`,
-            consequence: `The AI invented regulatory documents. Calling that formatting is not accurate, and you're saying it to someone who has already searched the official sources.` },
+            consequence: `Her team has already searched three official registers. Formatting is not the word anyone on that side of the email would use.` },
         ],
       },
       branches: { a: `n_scope`, b: `outcome_bad` },
@@ -126,9 +128,9 @@ export const scenario = {
         prompt: `They're asking for an explanation. Now what?`,
         choices: [
           { id: `a`, label: `Come clean — it was AI-drafted, you didn't verify, here's a replacement`, quality: `partial`,
-            consequence: `Better late than sustained. But four hours of implied certainty made it harder: they gave you time to find something that was never there.` },
+            consequence: `It lands differently at five o'clock than it would have at eleven. They spent the afternoon looking for something on your word that it existed.` },
           { id: `b`, label: `Escalate to your manager without replying to the client yet`, quality: `poor`,
-            consequence: `Escalating is necessary. Leaving a direct question unanswered while you do it reads as stonewalling to someone already unsettled.` },
+            consequence: `Your manager needs to know. The client's last email is still sitting there unanswered while the two of you work out what to say.` },
         ],
       },
       branches: { a: `n_scope`, b: `outcome_bad` },
@@ -142,12 +144,12 @@ export const scenario = {
       decision: {
         prompt: `What do you do about the other four?`,
         choices: [
-          { id: `a`, label: `Check all four against source before the end of the day, and flag anything you find`, quality: `good`,
-            consequence: `Two are clean. One has a wrong figure, minor, caught before anyone acted on it. One has a citation you can't confirm either way, which is its own answer.` },
-          { id: `b`, label: `Check only the two that went to the most sensitive clients`, quality: `partial`,
-            consequence: `Sensible triage under time pressure. It also means two briefings stay out there unverified, and the model doesn't fabricate only for important clients.` },
-          { id: `c`, label: `Assume they're probably fine — this was one bad document`, quality: `poor`,
-            consequence: `It was one bad document that you happened to catch because a client rang. The others had no client ringing about them, which is not the same as being right.` },
+          { id: `a`, label: `Check all four against source today, and flag whatever turns up`, quality: `good`,
+            consequence: `Two are clean. One has a wrong figure, small, nobody has acted on it. One has a citation you cannot confirm in either direction, which sits with you all evening.` },
+          { id: `b`, label: `Check the two that went to the most sensitive clients`, quality: `partial`,
+            consequence: `Both clean, and it takes an hour. The other two stay where they are, in inboxes, unread or not.` },
+          { id: `c`, label: `Assume they're fine. This was one bad document.`, quality: `poor`,
+            consequence: `It was one bad document with a client attached to it. The other four had nobody ringing about them, which is a different thing from being right.` },
         ],
       },
       branches: { a: `n_colleague`, b: `n_colleague`, c: `n_colleague` },
@@ -161,10 +163,10 @@ export const scenario = {
       decision: {
         prompt: `They're not wrong that nobody said it. What do you tell them?`,
         choices: [
-          { id: `a`, label: `That the tool is useful but every citation needs matching to source, and show them how`, quality: `good`,
-            consequence: `They get it fast, and they're slightly rattled that they'd sent two without checking. That's the correct amount of rattled.` },
-          { id: `b`, label: `That this one was a fluke and not to worry about it`, quality: `poor`,
-            consequence: `They relax, which is the opposite of useful. The next fabrication lands on someone who was just told not to worry.` },
+          { id: `a`, label: `That the tool is fine and every citation gets matched to source — and show them how`, quality: `good`,
+            consequence: `It takes four minutes to show and they are quiet afterwards, thinking about the two they sent on Monday.` },
+          { id: `b`, label: `That this one was a fluke, not to worry`, quality: `poor`,
+            consequence: `They relax visibly. On Friday they send a briefing with three citations in it and check none of them, having been told by you that it was a fluke.` },
         ],
       },
       branches: { a: `n3_process`, b: `n3_process` },
@@ -178,12 +180,12 @@ export const scenario = {
       decision: {
         prompt: `Your manager asks what would stop this happening again.`,
         choices: [
-          { id: `a`, label: `A required check: no AI-drafted citation goes out without being matched to primary source`, quality: `good`,
-            consequence: `It is the one control that addresses the actual failure. It costs time per document and it is cheaper than the afternoon you just had.` },
+          { id: `a`, label: `A required check: no AI-drafted citation leaves without being matched to source`, quality: `good`,
+            consequence: `He asks how long it adds per document. About six minutes, you think. He writes that down next to the two weeks this week has cost.` },
           { id: `b`, label: `Remind everyone to be careful with the tool`, quality: `poor`,
-            consequence: `Everyone was already trying to be careful. The briefing still went out. A reminder is what was in place when this happened.` },
-          { id: `c`, label: `Ask whether the tool should be used for anything client-facing at all`, quality: `partial`,
-            consequence: `A fair question and above your standing to decide. Raising it is useful; it also doesn't help the four briefings that went out this week and still need checking.` },
+            consequence: `He agrees, and sends the reminder. A version of that reminder went out with the training in March.` },
+          { id: `c`, label: `Ask whether the tool should touch client-facing work at all`, quality: `partial`,
+            consequence: `That goes up to the partners, where it will sit for some weeks. The four briefings from this week still need checking tonight, by you.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_warn`, c: `outcome_good` },

@@ -76,7 +76,7 @@ export function Privacy() {
         'Any sequence linking your decisions across multiple plays or sessions',
         'Anything that could identify you as an individual',
       ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
-      <p style={s.p}>All interaction data is aggregate and anonymous by design. There is no way to reconstruct any individual player's path through a scenario.</p>
+      <p style={s.p}>All interaction data is aggregate and anonymous by design. We store no identifier that would let a play be tied to a person, and we publish only aggregates.</p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>How we use this data</h2>

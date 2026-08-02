@@ -11,7 +11,7 @@ export const scenario = {
   hook: `It's four o'clock. Your colleague says just put the client brief through an AI tool.`,
   doorScene: `door-work`,
   scene: `desk-casual`,
-  determinacy: `open`,
+  determinacy: `clean`,
 
   kb_url: `https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai`,
   regulatory_tags: [`eu-ai-act-article-26`, `nist-ai-rmf-govern-2`, `jurisdiction-au`, `jurisdiction-eu`],
@@ -26,6 +26,8 @@ export const scenario = {
   standing: `Jamie, marketing team, eighteen months in the job`,
   authority: `You choose what goes into the tool and what doesn't. You can't approve software, rewrite a policy, or move tomorrow's meeting.`,
   ending: `You find out where the file went, and how the person who has to explain it reads what you did.`,
+
+  begin: `Open the file`,
 
   entry: `start`,
 

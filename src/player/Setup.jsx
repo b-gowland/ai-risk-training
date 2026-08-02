@@ -60,7 +60,9 @@ export default function Setup({ scenario, onBegin }) {
           </div>
         </dl>
 
-        <button type="button" className={s.primary} onClick={onBegin}>Start</button>
+        <button type="button" className={s.primary} onClick={onBegin}>
+          {scenario.begin || 'Start'}
+        </button>
 
         <p className={s.setupMeta}>
           {min === max ? `${spell(min)} decisions` : `${spell(min)} to ${spell(max)} decisions`}

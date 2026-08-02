@@ -37,7 +37,7 @@ export default function About() {
             what followed. Nothing is scored. There is no login and nothing to install.
           </p>
           <p className={s.p}>
-            It is a <em>choose-your-own-adventure</em> on purpose. People remember decisions they
+            It is a <em>branching story</em> on purpose. People remember decisions they
             made and consequences they lived far better than slides they clicked through — so the
             format is the point, not decoration.
           </p>

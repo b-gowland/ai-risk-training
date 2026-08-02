@@ -63,12 +63,26 @@ describe('Setup', () => {
     expect(screen.getByText(/four decisions/)).toBeTruthy();
   });
 
+  // Tested against fixtures, not the live corpus. Every registered scenario is
+  // currently `clean` — the low-determinacy slots named in FREE_PRODUCT B1
+  // (F4, B2, the sycophancy scenario) are not built yet. Binding this test to
+  // the corpus would make it fail the day that is true, or tempt someone into
+  // mislabelling a scenario `open` to keep it green.
   it('appends the no-clean-answer clause only when determinacy is open', () => {
-    const { unmount } = render(<Setup scenario={f2} onBegin={() => {}} />);
+    const asOpen = { ...f2, determinacy: 'open' };
+    const { unmount } = render(<Setup scenario={asOpen} onBegin={() => {}} />);
     expect(screen.queryByText(/no clean answer/)).toBeTruthy();
     unmount();
     render(<Setup scenario={home} onBegin={() => {}} />);
     expect(screen.queryByText(/no clean answer/)).toBeNull();
+  });
+
+  // §4.2 — the control is situational, never a generic 'begin module'.
+  it('every registered scenario labels its own Setup control', () => {
+    for (const sc of scenarios) {
+      expect(sc.begin, `${sc.id} has no begin label`).toBeTruthy();
+      expect(sc.begin.length, `${sc.id} begin label is too long`).toBeLessThan(32);
+    }
   });
 
   it('renders without a scene rather than crashing', () => {

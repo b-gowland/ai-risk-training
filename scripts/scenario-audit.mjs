@@ -31,6 +31,32 @@ const pass = (m) => console.log(`  ${PASS} ${m}`);
 const ARTEFACT_TYPES = new Set([
   'message_thread', 'email', 'assistant_output', 'document', 'system_output', 'transcript',
 ]);
+
+// The fields each renderer in src/components/Artefact/Artefact.jsx actually
+// reads. A valid `type` with the wrong field names renders an EMPTY frame and
+// every other gate stays green — that is exactly how three scenarios shipped
+// with a blank artefact on the opening decision screen. §5.3: the artefact
+// carries everything the decision turns on, so an artefact that renders
+// nothing is a P1, not a cosmetic issue.
+const ARTEFACT_FIELDS = {
+  message_thread:   ['contact', 'messages'],
+  email:            ['subject', 'fromName', 'fromAddress', 'to', 'body'],
+  assistant_output: ['response'],
+  document:         ['filename', 'lines'],
+  system_output:    ['system', 'headline'],
+  transcript:       ['source', 'lines'],
+};
+
+// Fields no renderer reads. Present in a scenario file, they are authored
+// content the player never sees.
+const ARTEFACT_KNOWN = {
+  message_thread:   ['type', 'caption', 'contact', 'contactNote', 'messages', 'mark'],
+  email:            ['type', 'caption', 'subject', 'fromName', 'fromAddress', 'to', 'date', 'body', 'signature', 'attachment'],
+  assistant_output: ['type', 'caption', 'tool', 'prompt', 'response', 'citations'],
+  document:         ['type', 'caption', 'filename', 'meta', 'lines'],
+  system_output:    ['type', 'caption', 'system', 'status', 'headline', 'fields', 'rationale', 'trail'],
+  transcript:       ['type', 'caption', 'source', 'duration', 'lines', 'note'],
+};
 const QUALITIES = new Set(['good', 'partial', 'poor']);
 const TONES = new Set(['good', 'warn', 'bad']);
 const DOORS = new Set(['home', 'work']);
@@ -125,8 +151,21 @@ for (const sc of targets) {
     if (!Array.isArray(n.prose) || !n.prose.length) fail('node', `${id}: prose must be a non-empty array`);
 
     if (n.artefact) {
-      if (!ARTEFACT_TYPES.has(n.artefact.type)) {
-        fail('artefact', `${id}: type '${n.artefact.type}' is outside the closed vocabulary (§5.2)`);
+      const a = n.artefact;
+      if (!ARTEFACT_TYPES.has(a.type)) {
+        fail('artefact', `${id}: type '${a.type}' is outside the closed vocabulary (§5.2)`);
+      } else {
+        for (const f of ARTEFACT_FIELDS[a.type]) {
+          if (a[f] === undefined || a[f] === null
+              || (Array.isArray(a[f]) && !a[f].length)) {
+            fail('artefact', `${id}: ${a.type} is missing '${f}' — the renderer reads it, so the artefact renders empty (§5.3)`);
+          }
+        }
+        for (const k of Object.keys(a)) {
+          if (!ARTEFACT_KNOWN[a.type].includes(k)) {
+            fail('artefact', `${id}: ${a.type} has field '${k}', which no renderer reads — the player never sees it`);
+          }
+        }
       }
     }
 

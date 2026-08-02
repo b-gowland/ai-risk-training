@@ -33,6 +33,8 @@ export const scenario = {
   standing:  `Jamie, marketing team, eighteen months in the job`,
   authority: `What you can do — and, load-bearing, what you cannot.`,
   ending:    `What the player will find out. One line, every scenario.`,
+  begin:     `Answer it`,           // Setup's control. §4.2: situational, never
+                                    // 'begin module'. Optional; falls back to 'Start'.
 
   entry: `start`,                   // optional, defaults to 'start'
 

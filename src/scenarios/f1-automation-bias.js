@@ -4,11 +4,16 @@
 // about whether to exercise judgement against a confident AI, under real time
 // pressure.
 //
-// Discrimination rule (CONTENT_STYLE_GUIDE): the AI is right about 94% of the
-// time, and deferring to it is normally the efficient, correct choice. The
-// scenario is not "never trust AI" — it is about the specific moment your own
-// reading diverges from a confident output, and how a system should be built
-// so that divergence gets acted on rather than swallowed.
+// The aid is accurate on most studies, and deferring to it is normally the
+// efficient, correct choice. The scenario is not "never trust AI": it is about
+// the specific moment your own reading diverges from a confident output, and
+// how a workflow should be built so that divergence gets acted on rather than
+// swallowed.
+//
+// OUTSTANDING (FREE_PRODUCT B1): this scenario is designated a discrimination
+// scenario and the discrimination authoring has not been done. Every played
+// path currently vindicates the alarming read. Closing that needs a benign
+// resolution authored into the tree, which is new authoring, not a correction.
 
 export const scenario = {
   id: `f1-automation-bias`,
@@ -18,11 +23,11 @@ export const scenario = {
   shelfLine: `The AI flags the scan as normal. Your own eye caught something. You have six more to read.`,
   hook: `The AI says the scan is normal, 91% confidence. Your eye caught something. You have six more to read.`,
   scene: `xray-ai`,
-  determinacy: `open`,
+  determinacy: `clean`,
 
   kb_url: `https://library.airiskpractice.org/docs/domain-f-deployment/f1-automation-bias`,
   regulatory_tags: [`eu-ai-act-article-14`, `eu-ai-act-annex-iii`, `jurisdiction-eu`, `jurisdiction-global`],
-  mit_subdomain: `mit-4.2`,
+  mit_subdomain: `mit-5.1`,
 
   coldOpen: [
     `Scan 75 of 80 for the day. The AI diagnostic aid returns its result before you've finished your own read: Normal, 91% confidence.`,
@@ -34,6 +39,8 @@ export const scenario = {
   authority: `You can flag a scan, request a second opinion, and raise a process concern. You can't redesign the tool or change department workflow on your own.`,
   ending: `You find out whether your own judgement gets exercised in the one moment it matters — and whether the system that nearly buried it gets fixed.`,
 
+  begin: `Open study 75`,
+
   entry: `start`,
 
   nodes: {
@@ -44,24 +51,31 @@ export const scenario = {
       ],
       artefact: {
         type: `system_output`,
-        source: `RadAssist AI — scan 75`,
-        lines: [
-          `Result: NORMAL`,
-          `Confidence: 91%`,
-          `Regions flagged: none`,
-          `Model accuracy (validation): 94%`,
+        caption: `The AI read, on screen before yours`,
+        system: `RadAssist AI · study 75 of 80`,
+        status: `Normal`,
+        headline: `No regions flagged`,
+        fields: [
+          { label: `Result`, value: `Normal` },
+          { label: `Confidence`, value: `91%` },
+          { label: `Regions flagged`, value: `None` },
+          { label: `Validation`, value: `94% overall accuracy; 88% sensitivity on abnormal studies` },
         ],
-        note: `The confidence score reflects how well this scan matches the model's training distribution — not the probability that the result is correct.`,
+        rationale: `Confidence is the model's own output, not an audited probability that this result is right. Models tend to report high confidence on studies that resemble their training data.`,
+        trail: [
+          `Result returned automatically when the study loaded.`,
+          `Displayed before the reporting radiologist enters their own read.`,
+        ],
       },
       decision: {
-        prompt: `What does a high AI confidence score tell you about whether your own judgement still matters?`,
+        prompt: `What does that 91% actually tell you?`,
         choices: [
-          { id: `a`, label: `Nothing decisive — high confidence means a good training-distribution match, not that it's right. Your judgement still applies`, quality: `good`,
-            consequence: `The distinction is the whole scenario. A confident score on an abnormal scan means the model is confidently wrong, and your read is not made redundant by it.` },
-          { id: `b`, label: `91% is strong evidence it's right — over-ruling a high-confidence result is riskier than accepting it`, quality: `poor`,
-            consequence: `That's automation bias stated as a principle. High confidence amplifies the pull to defer, and confident AI outputs have been wrong in documented, consequential cases.` },
-          { id: `c`, label: `The AI has seen far more scans than you — its pattern recognition at scale beats one radiologist on one scan`, quality: `partial`,
-            consequence: `Scale helps on common patterns and hurts on the rare presentation the training data under-covered. Your judgement earns its keep precisely where the AI's scale advantage runs out.` },
+          { id: `a`, label: `Less than it feels like. It is the model's own figure, not a checked probability that this study is normal`, quality: `good`,
+            consequence: `You look at the validation line underneath it. Ninety-four per cent overall, eighty-eight on the abnormal studies, which is the number that would matter if this one is abnormal.` },
+          { id: `b`, label: `91% is strong evidence it is right. Over-ruling a high-confidence result is the riskier move`, quality: `poor`,
+            consequence: `You have over-ruled your own hesitation three times this week and been right to. The fourth time is indistinguishable from the first three while you are in it.` },
+          { id: `c`, label: `The model has seen far more studies than you have`, quality: `partial`,
+            consequence: `It has, and all of them before today. Whatever it under-saw in training, it under-sees now, and there is nothing in the score that tells you which this is.` },
         ],
       },
       branches: { a: `n_response`, b: `n_response`, c: `n_response` },
@@ -75,11 +89,11 @@ export const scenario = {
         prompt: `The AI says normal. Your instinct says look again. What do you do?`,
         choices: [
           { id: `a`, label: `Flag it for closer review — document the concern and request a second opinion before signing off`, quality: `good`,
-            consequence: `Your judgement exists for exactly this moment. A 94% model is wrong on 6% of scans, and the divergence between your read and its result is the signal, not the noise.` },
+            consequence: `You write two lines describing what you can see and send it for a second read. It takes ninety seconds you did not have.` },
           { id: `b`, label: `Spend another two minutes on the image yourself before deciding`, quality: `partial`,
-            consequence: `Better than accepting immediately. Without documenting the concern or getting a second read, though, the whole thing still rests on you alone under a clock.` },
+            consequence: `You zoom in twice and change nothing about what you can see. Nothing about the finding is recorded anywhere yet.` },
           { id: `c`, label: `Accept the AI result — 91% confidence, and six more to get through`, quality: `poor`,
-            consequence: `This is automation bias in its clearest form. The AI's score didn't change; your reading did — and time pressure made its answer feel more reliable than it is.` },
+            consequence: `Twelve seconds, sign-off, next study. The one after this is a straightforward fracture and you are back on rhythm.` },
         ],
       },
       branches: { a: `n2_flagged`, b: `n2_reviewed`, c: `n2_accepted` },
@@ -94,9 +108,9 @@ export const scenario = {
         prompt: `The patient is fine. But you're thinking about the other 74 scans, and the design that nearly buried this one. What do you do with that?`,
         choices: [
           { id: `a`, label: `Raise it formally — the AI result displays before your own read, which primes you to accept it`, quality: `good`,
-            consequence: `This is the systemic fix. Your vigilance caught this scan; the display order determines whether the next radiologist catches the next one.` },
+            consequence: `You write it up properly, which takes longer than the flag did. The department lead reads it that afternoon and asks you to come and explain the display order to him.` },
           { id: `b`, label: `Note it in your own records as a reminder to be more careful`, quality: `partial`,
-            consequence: `Personal discipline is real and it protects no one else, and not you on a busier day. The bias is in the workflow, not your character.` },
+            consequence: `You note it in your own file and mean it. Nobody else's screen changes.` },
         ],
       },
       branches: { a: `n_others`, b: `n_others` },
@@ -111,11 +125,11 @@ export const scenario = {
         prompt: `Your extended review has firmed up the concern. Now what?`,
         choices: [
           { id: `a`, label: `Flag for a second opinion — the review resolved the ambiguity`, quality: `good`,
-            consequence: `The extra time did its job. A second read on a discrepancy this significant is the robust call.` },
+            consequence: `Your colleague looks at it cold and finds the same thing inside a minute, which is both reassuring and not.` },
           { id: `b`, label: `Over-ride the AI yourself and document your finding — no second opinion needed`, quality: `partial`,
-            consequence: `Over-riding beats deferring. A second read on a scan where you and the AI disagree is stronger still, especially for a finding that matters this much.` },
+            consequence: `You write your own report against the aid's result and sign it. It is your name and your read, alone, on study 75 of 80.` },
           { id: `c`, label: `It's 91% confidence and your read could still be wrong — accept normal`, quality: `poor`,
-            consequence: `Spending the time to look harder and then deferring anyway is the worst of both. The extended review was the right instinct; this abandons it at the last step.` },
+            consequence: `You spent four minutes looking and then signed what the aid said. There are five studies left and it is twenty past six.` },
         ],
       },
       branches: { a: `n_others`, b: `n_others`, c: `outcome_bad` },
@@ -130,9 +144,9 @@ export const scenario = {
         prompt: `The review board asks whether anything on the original scan gave you pause. What do you tell them?`,
         choices: [
           { id: `a`, label: `The truth — you noticed something, the AI said normal, and you deferred under time pressure`, quality: `partial`,
-            consequence: `Transparency is right professionally and personally, and it gives the board the accurate information it needs to find the systemic cause.` },
+            consequence: `You tell them about the hesitation, the score, and the clock. It is a hard sentence to get out and the room is quieter afterwards than you expected.` },
           { id: `b`, label: `That the AI result was normal and your review confirmed it`, quality: `poor`,
-            consequence: `Your review didn't confirm it — you deferred without completing your own read, and the record shows a twelve-second sign-off. That distinction matters clinically and legally.` },
+            consequence: `The audit log has the sign-off at twelve seconds. It is projected on the wall behind you while you are speaking.` },
         ],
       },
       branches: { a: `n_board`, b: `outcome_bad` },
@@ -147,11 +161,11 @@ export const scenario = {
         prompt: `What do you recommend?`,
         choices: [
           { id: `a`, label: `Reverse the display order: radiologist completes their own read before the AI result is shown`, quality: `good`,
-            consequence: `This removes the anchor rather than asking people to resist it. It costs some throughput and it fixes the actual mechanism.` },
+            consequence: `The vendor says it is configurable. Clinical systems say it is a four-week change and asks who is signing off the throughput impact.` },
           { id: `b`, label: `Add a mandatory second opinion on every AI-normal finding`, quality: `partial`,
-            consequence: `It catches cases and it's expensive, and it treats the symptom. The anchor is still there priming every first read; you've added a net under it rather than removing it.` },
+            consequence: `It goes in within a fortnight, which is fast for anything here. Every first read still opens on the aid's answer.` },
           { id: `c`, label: `Roll out extra training on automation bias and an attestation checkbox`, quality: `poor`,
-            consequence: `A checkbox on top of a biased display isn't a control — it's documentation that the department knew. Training didn't stop this and won't stop the next one, because the pull isn't a knowledge gap.` },
+            consequence: `Ninety minutes of e-learning and a tickbox at the end of each session. Everyone who takes it already knew everything in it.` },
         ],
       },
       branches: { a: `n_tradeoff`, b: `n_tradeoff`, c: `outcome_warn` },
@@ -166,9 +180,9 @@ export const scenario = {
         prompt: `How do you frame the trade-off so it survives that conversation?`,
         choices: [
           { id: `a`, label: `Name it plainly: a small throughput cost against a missed-cancer risk, and let clinical governance weigh it`, quality: `good`,
-            consequence: `Framing it as a safety-versus-efficiency trade-off for governance to own is what gets it decided at the right level, rather than quietly dropped at yours.` },
+            consequence: `He writes down your two sentences almost word for word and takes them upstairs. It stops being your decision, which is the point.` },
           { id: `b`, label: `Downplay the cost to get it approved — say the throughput hit is negligible`, quality: `partial`,
-            consequence: `Understating it gets a yes that unravels the first busy week, when the real cost shows up and the fix gets blamed for it.` },
+            consequence: `It is approved in a week. Six weeks later, in a bad fortnight, the list backs up and the first thing anyone reaches for is the change you made.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good` },
@@ -183,9 +197,9 @@ export const scenario = {
         prompt: `What do you tell them was the real problem?`,
         choices: [
           { id: `a`, label: `The AI-first display anchored a twelve-second read — it's a design failure, not just my error`, quality: `good`,
-            consequence: `True, and hard to say when your name is on the sign-off. It's also the finding that fixes the department rather than just recording a mistake.` },
+            consequence: `Saying it with your own name on the report is not comfortable. One of the board members asks the clinical systems lead to bring the screen layout to the next meeting.` },
           { id: `b`, label: `That I should have been more careful — I'll be more vigilant going forward`, quality: `partial`,
-            consequence: `Owning it is decent and it lets the department off the hook. "Be more careful" is what everyone was already doing; it leaves the next radiologist facing the same anchored screen.` },
+            consequence: `The board accepts it and the finding is recorded against you. The screen is the same on Monday.` },
         ],
       },
       branches: { a: `n_others`, b: `n_others` },
@@ -200,11 +214,11 @@ export const scenario = {
         prompt: `What do you do about the reads you've already done under the same conditions?`,
         choices: [
           { id: `a`, label: `Ask for the day's AI-normal sign-offs to be re-checked, starting with the fastest ones`, quality: `good`,
-            consequence: `Uncomfortable and correct. If the anchor affected this scan, it plausibly affected others, and the fast sign-offs are where to look first.` },
+            consequence: `Nineteen of the day's sign-offs come back under twenty seconds. Two of those get a second read and one of the two gets a follow-up.` },
           { id: `b`, label: `Assume the rest were fine — this was the one that happened to catch your eye`, quality: `partial`,
-            consequence: `It caught your eye because you happened to glance. The others had no such luck built in, which is not the same as them being right.` },
+            consequence: `You go home at seven. The other seventy-four sit in the system exactly as you left them.` },
           { id: `c`, label: `Say nothing about the others — reopening them invites scrutiny of your whole day`, quality: `poor`,
-            consequence: `The scrutiny is the point, not the thing to avoid. A quiet gap in a day's reads is exactly what a later audit surfaces, with worse framing.` },
+            consequence: `Nobody asks. The day's reads stay as they are, and so does the timestamp on every one of them.` },
         ],
       },
       branches: { a: `n_design`, b: `n_design`, c: `n_design` },
@@ -221,7 +235,7 @@ export const scenario = {
         `The lesion was caught early and the patient did well. And the design concern you raised got acted on: the interface was rebuilt so radiologists complete their own read before the AI result appears.`,
         `Early-stage catch rates improved over the following quarter. The next radiologist starts from their own eyes, not the machine's conclusion.`,
       ],
-      judgement: `Automation bias is a design problem at least as much as a discipline problem. When the AI result displays first, it anchors the human read — and the fix is to reverse the sequence, not to ask tired people to resist an anchor 80 times a day. You did both halves: caught the case, and closed the mechanism that nearly buried it.`,
+      judgement: `Automation bias is a design problem at least as much as a discipline problem. A result shown first anchors the read that follows it, and the fix is to reverse the sequence. Asking tired people to resist an anchor eighty times a day was never going to hold. You did both halves here: caught the case, and closed the mechanism that nearly buried it.`,
     },
 
     outcome_good: {
@@ -245,7 +259,7 @@ export const scenario = {
         `Whether the case was caught or missed, the response landed on vigilance — a checkbox, a reminder, a resolution to concentrate harder. The AI-first display stayed exactly as it was.`,
         `Which means the next radiologist meets the same screen, on their own 75th scan, with the same twelve seconds. The mechanism is untouched.`,
       ],
-      judgement: `Automation bias is not a carefulness deficit, so carefulness is not the control. The people here were skilled and trying, on scan 75 of 80. What primed the error was the workflow showing the AI's answer first, and an attestation checkbox on top of that is documentation that the risk was known, not a fix for it. The root cause is architectural.`,
+      judgement: `Nobody here was being careless, so carefulness was never the control. These were skilled people trying hard, on study 75 of 80. What primed the error was a workflow that showed the aid's answer first. An attestation checkbox on top of that documents the risk rather than reducing it, and the display order goes on doing what it did.`,
     },
 
     outcome_bad: {
@@ -257,13 +271,13 @@ export const scenario = {
         `The cancer was diagnosed late. The account given to the review board described a review that the records contradict — a twelve-second sign-off on scan 75 of 80.`,
         `The gap between the account and the record became the focus, instead of the AI-first display that anchored the original decision. The design that caused it stayed in place while the review ran.`,
       ],
-      judgement: `Automation bias under time pressure is a known, foreseeable failure mode, and a review board's job is to find the systemic cause, not to hang one radiologist. Transparency is both the ethical path and the one that leads to a fix. An inaccurate account converts a design failure the board could have corrected into a personal-conduct problem it can't.`,
+      judgement: `Automation bias under time pressure is a known and foreseeable failure mode, and a review board exists to find the systemic cause rather than to hang one radiologist. Transparency is the ethical path here and also the practical one. An inaccurate account converts a design failure the board could have corrected into a conduct problem it cannot.`,
     },
   },
 
   debrief: {
     frame: [
-      `Nothing in this scenario involved the AI malfunctioning. It did exactly what it was built to do: read a scan and return a result with a confidence score. It was even right most of the time — around 94% — which is precisely what makes the 6% dangerous. A tool that was usually wrong would be easy to distrust. A tool that's usually right trains you, scan by scan, to stop looking.`,
+      `Nothing here involved the AI malfunctioning. It did what it was built to do: read a study and return a result with a confidence figure attached. It is accurate on most studies, and that is precisely the problem. A tool that was usually wrong would be easy to distrust. A tool that is usually right trains you, study by study, to stop looking. And the confidence figure is the model's own output, not an audited probability, so a high number on a study the model has misread reads exactly like a high number on one it has read correctly.`,
       `And the specific mechanism was the display order. The AI's answer arrived before your own read was finished, so every scan started from its conclusion and asked you to argue your way back out under a clock. That's an anchor, and anchors don't respond to willpower or training — they respond to being removed. The durable version of "human oversight" here isn't a more vigilant human; it's a workflow where the human reads first and the AI second, so the oversight is real rather than a rubber stamp on an answer you were shown before you looked.`,
     ],
   },

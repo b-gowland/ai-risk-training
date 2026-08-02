@@ -1,3 +1,13 @@
+// ⚠ UNREGISTERED AND NOT SAFE TO MIGRATE AS-IS.
+// This file renders nowhere (it is not in index.js) and is retained only for
+// its decision tree. It asserts throughout that candidates have a right to be
+// given reasons for a rejection "in most Australian states". No source
+// supports that for a private-sector employer, and the claim was removed from
+// the live scenario (home-algorithm-said-no) in August 2026. If this tree is
+// ever mined again, the claim does not come with it: you can always ASK, an
+// undisclosed criterion is fair to raise, and suspected discrimination goes to
+// the state or federal anti-discrimination commission.
+
 // everyday-p3-employment-screening.js
 // Personal bundle — Scenario 3
 // Expanded May 2026: 3–4 decision nodes per path for 3–5 min play.

@@ -43,6 +43,8 @@ export const scenario = {
   authority: `You can move money from your phone, make a call, or do nothing for sixty seconds. You cannot see her.`,
   ending: `You find out who was on the call, what would have settled it in half a minute, and who gets the next one.`,
 
+  begin: `Answer it`,
+
   entry: `start`,
 
   nodes: {
@@ -223,7 +225,7 @@ export const scenario = {
         `You ring your mum on Sunday to ask how the trip home was. She asks what trip.`,
       ],
       decision: {
-        prompt: `Two thousand dollars, sent from your phone, yesterday and the day before.`,
+        prompt: `Two thousand dollars, sent from your phone yesterday afternoon, eight minutes apart.`,
         choices: [
           { id: `a`, label: `Call the bank now and report it`, quality: `good`,
             consequence: `Sunday, so it takes longer. They log it, freeze the receiving details on their side, and tell you honestly that recovery is unlikely once it has moved on.` },
