@@ -22,10 +22,10 @@ export default function About() {
 
         <p className={s.lede}>
           AI is turning up in ordinary life and ordinary jobs faster than anyone is being
-          taught to handle it. The training that does exist is mostly corporate, mostly dull,
-          and mostly aimed at ticking a box. There is almost nothing for the general public at
-          all. This is an attempt at the opposite: short, specific situations you actually play,
-          free for anyone, with the reasoning left open for you to check.
+          taught to handle it. Most of the training that exists is course-shaped: you watch, you
+          read, you answer a quiz at the end. Very little of it puts you inside the situation and
+          makes you decide. This is an attempt at that: short, specific situations you actually
+          play, free for anyone, with the reasoning left open for you to check.
         </p>
 
         <section className={s.section}>
@@ -51,12 +51,13 @@ export default function About() {
             <li><strong>Actually good.</strong> The aim is training that stands up to scrutiny —
               accurate risks, actionable responses, and reasoning you can follow to its source,
               rather than confident hand-waving.</li>
-            <li><strong>For everyone, not just professionals.</strong> The workplace scenarios run
-              from general staff through specialists, and the home scenarios assume no background
-              at all. Zero-friction access is deliberate.</li>
-            <li><strong>Worth five minutes.</strong> It is designed to be quick, specific and,
-              honestly, a bit gripping — because training nobody wants to do teaches nobody
-              anything.</li>
+            <li><strong>Open to anyone.</strong> The home scenarios assume no background at all.
+              The workplace ones are currently written for people who work with AI systems fairly
+              directly; a layer for general staff is still to be built. Zero-friction access is
+              deliberate.</li>
+            <li><strong>Worth the time it takes.</strong> A home scenario runs about five minutes,
+              a workplace one eight to ten. It is designed to be quick, specific and, honestly, a
+              bit gripping — because training nobody wants to do teaches nobody anything.</li>
           </ul>
           <p className={s.note}>
             A note on honesty: this is designed to help you think through AI risk, and it is not a
