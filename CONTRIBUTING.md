@@ -8,9 +8,9 @@ Thanks for your interest. This training app is open source and free to use forev
 
 **Scenario corrections:** If a scenario contains a factual error, open an issue with the correction and a primary source. Scenario characters and organisations are fictional — corrections to the risk content itself are welcome.
 
-**New scenarios:** Open an issue first to discuss the risk area before building. Scenarios must follow the schema in `f2-shadow-ai.js` exactly and pass `node scripts/qa-audit.js <scenario-id>` at zero P1 issues before a PR will be reviewed.
+**New scenarios:** Open an issue first to discuss the risk area before building. Scenarios must follow the four-beat schema documented in `src/scenarios/README.md` and pass `node scripts/scenario-audit.mjs <scenario-id>` at zero P1 issues before a PR will be reviewed.
 
-**Engine or UI improvements:** Run `npm run build` and confirm it passes. Include a description of the change and why.
+**Engine or UI improvements:** Run `npm test` and `npm run build` and confirm both pass. Include a description of the change and why.
 
 ## Licence
 
@@ -19,6 +19,6 @@ Code in this repository is licensed under [Apache License 2.0](./LICENSE). Scena
 ## Standards
 
 - All scenario string values must use template literals (backticks) — apostrophes in single-quoted strings cause parse errors
-- Every scenario requires a `controls_summary` field — its absence crashes the outcome screen
-- QA audit must pass at zero P1 issues: `node scripts/qa-audit.js <scenario-id>`
-- Production build must pass: `npm run build`
+- Every scenario requires a `controls_summary` field (minimum 2 entries) — see the schema in `src/scenarios/README.md`
+- Scenario audit must pass at zero P1 issues: `node scripts/scenario-audit.mjs <scenario-id>` (or `npm run audit` for all registered scenarios)
+- CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit` and `npm run build` on every PR — run them locally first
