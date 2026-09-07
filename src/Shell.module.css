@@ -1,5 +1,24 @@
 .shell { min-height: 100dvh; display: flex; flex-direction: column; background: var(--ground); }
 
+.skipLink {
+  position: fixed;
+  top: var(--sp-3);
+  left: var(--sp-3);
+  z-index: 1000;
+  padding: var(--sp-3) var(--sp-4);
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--sp-4)));
+  transition: transform 120ms ease-out;
+}
+
+.skipLink:focus {
+  color: var(--ink);
+  transform: translateY(0);
+}
+
 .head {
   display: flex;
   justify-content: space-between;

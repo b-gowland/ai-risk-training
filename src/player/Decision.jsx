@@ -23,7 +23,7 @@ export default function Decision({ node, revealedChoice, onCommit, onAdvance, in
   const ticks = Math.max(minDepth, index);
 
   return (
-    <article className={s.screen}>
+    <article className={s.screen} tabIndex={-1} aria-labelledby="decision-step">
       <div className={s.margin}>
         <span className={s.counter}>{String(index).padStart(2, '0')}</span>
         <span className={s.counterOf}>decision</span>
@@ -35,7 +35,7 @@ export default function Decision({ node, revealedChoice, onCommit, onAdvance, in
             />
           ))}
         </div>
-        <p className={s.srOnly}>Decision {index}</p>
+        <p id="decision-step" className={s.srOnly}>Decision {index}</p>
       </div>
 
       <div className={s.body}>
