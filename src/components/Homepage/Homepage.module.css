@@ -245,7 +245,47 @@
   color: var(--amber);
 }
 
+/* ── Discussion cards callout ─────────────────────────────────────
+   Below the index, not above it: the primary job of this page is playing.
+   One line for the people running a room. */
+
+.cardsWrap { max-width: 82rem; margin: var(--sp-7) auto 0; padding: 0 var(--sp-4); }
+
+.cardsCallout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-2) var(--sp-4);
+  align-items: baseline;
+  padding: var(--sp-5) var(--sp-4);
+  border: 3px solid var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 120ms ease;
+}
+.cardsCallout:hover { background: var(--ground-sunk); }
+.cardsCallout:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+.cardsTitle {
+  grid-column: 1;
+  font-family: var(--heavy);
+  font-size: var(--t-lg);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.cardsLine {
+  grid-column: 1;
+  font-family: var(--display);
+  font-size: var(--t-read);
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+.cardsCallout .rowGo { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+
 @media (min-width: 52rem) {
+  .cardsWrap { padding: 0 var(--sp-6); }
+  .cardsCallout { padding: var(--sp-5) var(--sp-6); }
   .indexHead, .group { padding-left: var(--sp-6); padding-right: var(--sp-6); }
   .row { padding-left: var(--sp-6); padding-right: var(--sp-6); }
   .row:hover { padding-left: calc(var(--sp-6) + 6px); }

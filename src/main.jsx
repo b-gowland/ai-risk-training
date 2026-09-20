@@ -6,6 +6,7 @@ import Homepage from './components/Homepage/Homepage.jsx';
 import ScenarioPlayer from './player/ScenarioPlayer.jsx';
 import { Privacy } from './pages/Privacy.jsx';
 import About from './pages/About.jsx';
+import Cards from './pages/Cards.jsx';
 import { NotFound } from './pages/NotFound.jsx';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary.jsx';
 import './index.css';
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/scenario/:id" element={<ScenarioPlayer />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/about" element={<About />} />
+            <Route path="/cards" element={<Cards />} />
             {/* Retired surfaces. Kept as redirects so shared links and the
                 r/SideProject post do not die. */}
             <Route path="/everyday" element={<Navigate to="/" replace />} />

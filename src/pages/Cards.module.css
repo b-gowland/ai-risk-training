@@ -1,0 +1,215 @@
+/* Discussion cards. Screen: the app's poster register around a grid of
+   cards drawn at print proportion. Print: A4, four cards a sheet.
+
+   Everything inside a card is sized in --u, one printed millimetre. On screen
+   the card scales with its cell (container query units); in print the cell is
+   99mm, so the same numbers land on paper unchanged. */
+
+.page { padding-bottom: var(--sp-8); }
+.page .intro { padding-bottom: var(--sp-6); }
+
+/* ── Picker and print bar ───────────────────────────────────── */
+
+.bar {
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+  background: var(--ground);
+}
+.barIn {
+  max-width: 82rem; margin: 0 auto;
+  padding: var(--sp-4);
+  display: grid; gap: var(--sp-4);
+}
+.picker { display: grid; gap: var(--sp-3); }
+.doorRow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.doorLbl {
+  font-family: var(--heavy); font-size: var(--t-xs);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  min-width: 6.5rem;
+}
+.pick {
+  font: 500 var(--t-sm)/1.2 var(--display);
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--rule-firm); border-radius: 999px;
+  padding: 0.45rem 0.85rem; cursor: pointer;
+}
+.pick:hover { border-color: var(--ink); }
+.pick[aria-pressed='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+.toggle { display: flex; align-items: center; gap: var(--sp-2); font: 500 var(--t-sm) var(--display); margin-right: auto; }
+.primary, .ghost {
+  font: 600 var(--t-sm)/1.2 var(--display);
+  padding: 0.65rem 1rem; border-radius: 0; cursor: pointer;
+}
+.primary { background: var(--amber); color: #fff; border: 2px solid var(--amber); }
+.primary:hover { background: var(--amber-deep); border-color: var(--amber-deep); }
+.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+.pick:focus-visible, .primary:focus-visible, .ghost:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+@media (min-width: 52rem) {
+  .barIn { padding: var(--sp-5) var(--sp-6); }
+  .bar { position: sticky; top: 0; z-index: 5; }
+}
+
+/* ── Deck grid (screen) ─────────────────────────────────────── */
+
+.deck {
+  max-width: 82rem; margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4) 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--sp-5);
+}
+@media (min-width: 52rem) { .deck { padding: var(--sp-6) var(--sp-6) 0; } }
+.sheet { display: contents; }
+.cell { container-type: inline-size; }
+
+/* ── The card ───────────────────────────────────────────────── */
+
+.card {
+  --u: calc(100cqw / 99);
+  --fit: 1;
+  --door: var(--door-work);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 99 / 142.5;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  background: #fff; color: #1c1a16;
+  border-left: calc(2.2 * var(--u)) solid var(--door);
+  box-shadow: 0 1px 0 rgba(28, 26, 22, 0.08), 0 8px 20px -10px rgba(28, 26, 22, 0.3);
+  font-size: calc(var(--fit) * 3.35 * var(--u));
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+.card[data-door='home'] { --door: var(--door-home); }
+.card[data-overflow='true'] { outline: 3px solid var(--tone-bad); }
+
+.head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1em;
+  padding: calc(4.5 * var(--u)) calc(5 * var(--u)) 0 calc(4.5 * var(--u));
+  font: 400 calc(2.55 * var(--u)) var(--display); color: #837c70;
+}
+.head b { font-weight: 600; color: #1c1a16; }
+.band { text-align: right; }
+.reveal .head { background: var(--amber); color: #fff; padding-bottom: calc(3 * var(--u)); }
+.reveal .head b { color: #fff; }
+.band { font-weight: 500; }
+
+.body { flex: 1; min-height: 0; overflow: hidden; padding: calc(2.5 * var(--u)) calc(5 * var(--u)) 0 calc(4.5 * var(--u)); }
+.reveal .body { padding-top: calc(3.5 * var(--u)); }
+.inner > :last-child { margin-bottom: 0; }
+
+.prompt {
+  padding: 0 calc(5 * var(--u)) calc(2.5 * var(--u)) calc(4.5 * var(--u));
+  font: italic 400 0.92em/1.35 var(--serif); color: #4f4a41;
+}
+.foot {
+  display: flex; justify-content: space-between; gap: 1em;
+  padding: calc(2 * var(--u)) calc(5 * var(--u)) calc(4 * var(--u)) calc(4.5 * var(--u));
+  border-top: calc(0.25 * var(--u)) solid #ded8ca;
+  font: 400 calc(2.3 * var(--u)) var(--display); color: #837c70;
+}
+
+.card p { font-family: var(--serif); line-height: 1.38; margin: 0 0 0.55em; }
+.title { font: 400 2.05em/0.98 var(--heavy); letter-spacing: -0.02em; margin: 0 0 0.45em; }
+.q { font: 600 1.02em/1.25 var(--display); margin: 0 0 0.55em; }
+.card .small { font: 400 0.84em/1.35 var(--display); color: #4f4a41; }
+.lbl { display: block; font: 600 0.8em var(--display); color: #837c70; margin-bottom: 0.15em; }
+.can { border-top: calc(0.25 * var(--u)) solid #ded8ca; padding-top: 0.5em; margin-top: 0.7em; }
+
+.scene { position: relative; aspect-ratio: 2.3 / 1; margin: 0 0 0.8em; background: #f4f2ee; overflow: hidden; }
+.scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.noPictures .scene { display: none; }
+
+.opts { list-style: none; margin: 0.2em 0 0; padding: 0; display: grid; gap: 0.55em; }
+.opts li { display: grid; grid-template-columns: 1.7em 1fr; gap: 0.55em; align-items: start; font: 400 1em/1.3 var(--display); }
+.revealOpts li { font-family: var(--serif); line-height: 1.36; }
+.revealOpts li b { display: block; font: 600 0.9em/1.3 var(--display); margin-bottom: 0.1em; }
+.let {
+  display: inline-grid; place-items: center;
+  width: 1.55em; height: 1.55em; border-radius: 50%;
+  border: calc(0.3 * var(--u)) solid #1c1a16;
+  font: 400 0.95em/1 var(--heavy);
+}
+.tally { display: flex; gap: 0.9em; margin-top: 0.9em; font: 400 0.8em var(--display); color: #837c70; }
+.tally span { flex: 1; padding-bottom: 1.4em; border-bottom: calc(0.25 * var(--u)) solid #bdb6a8; }
+
+.tell {
+  font: 500 1.32em/1.22 var(--serif) !important;
+  margin: 0 0 0.8em !important;
+  padding-left: 0.6em;
+  border-left: calc(0.9 * var(--u)) solid var(--amber);
+}
+.acts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5em; }
+.acts li { display: grid; grid-template-columns: 1.1em 1fr; gap: 0.5em; font: 400 0.95em/1.3 var(--display); }
+.acts li::before { content: ''; width: 0.95em; height: 0.95em; margin-top: 0.12em; border: calc(0.3 * var(--u)) solid #1c1a16; }
+.url { display: block; font: 400 0.76em/1.35 var(--mono); overflow-wrap: anywhere; }
+.stamp { display: block; margin-top: 0.5em; font: 400 0.72em var(--display); color: #837c70; }
+
+/* Artefacts: in-world objects, so they keep a monospace voice. */
+.art {
+  margin: 0.2em 0 0.5em; padding: 0.6em 0.7em;
+  border: calc(0.3 * var(--u)) solid #bdb6a8; border-radius: calc(0.8 * var(--u));
+  background: #fbfaf7;
+  font: 400 0.8em/1.38 var(--mono);
+}
+.card .art p { font: inherit; margin: 0 0 0.4em; }
+.artCap { display: flex; justify-content: space-between; gap: 1em; margin: 0 0 0.45em; font: 400 0.9em var(--display); color: #837c70; }
+.meta { color: #837c70; margin-bottom: 0.45em; }
+.card .artH, .artH { font-weight: 500; margin-bottom: 0.3em; }
+.faint { color: #837c70; }
+.who { font-weight: 500; }
+.tRow { display: grid; grid-template-columns: 2.6em 3.6em 1fr; gap: 0.35em; margin-bottom: 0.2em; }
+.mRow { display: grid; grid-template-columns: 5em 1fr; gap: 0.35em; margin-bottom: 0.2em; }
+.field { display: grid; grid-template-columns: 40% 1fr; gap: 0.5em; padding: 0.15em 0; border-bottom: calc(0.2 * var(--u)) solid #ede8dd; }
+.status { display: inline-block; padding: 0 0.35em; border: calc(0.3 * var(--u)) solid currentColor; border-radius: calc(0.5 * var(--u)); font-size: 0.9em; }
+.you { background: #f1eee7; padding: 0.35em 0.5em; margin-bottom: 0.45em; border-radius: calc(0.5 * var(--u)); }
+.artNote { margin-top: 0.5em; padding-top: 0.4em; border-top: calc(0.25 * var(--u)) dashed #bdb6a8; font-family: var(--display); color: #4f4a41; }
+
+/* ── Facilitator sheet ──────────────────────────────────────── */
+
+.facilPage { grid-column: 1 / -1; margin-top: var(--sp-6); }
+.facil {
+  max-width: 46rem; background: #fff; color: #1c1a16;
+  padding: var(--sp-6);
+  box-shadow: 0 8px 20px -10px rgba(28, 26, 22, 0.3);
+}
+.facil p { font: 400 1rem/1.5 var(--serif); margin: 0 0 var(--sp-3); }
+.facilH { font: 400 1.9rem/1 var(--heavy); letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 var(--sp-3); }
+.facilSub { color: #4f4a41; font-size: 1.0625rem !important; }
+.facilH3 { font: 700 1rem var(--display); margin: var(--sp-5) 0 var(--sp-2); }
+.steps { margin: 0 0 var(--sp-4); padding-left: 1.3rem; font: 400 1rem/1.45 var(--serif); }
+.steps li { margin-bottom: var(--sp-2); }
+.steps b { font-family: var(--display); font-weight: 700; }
+.fine { font: 400 0.8rem/1.45 var(--display) !important; color: #837c70; margin-top: var(--sp-5) !important; }
+
+/* ── Print ─────────────────────────────────────────────────────
+   Scoped by a body class the page adds on mount, so printing any other
+   screen in the app is unaffected. */
+
+@page { size: A4; margin: 6mm; }
+
+@media print {
+  :global(body).printScope header,
+  :global(body).printScope footer,
+  .screenOnly { display: none !important; }
+
+  :global(body).printScope { background: #fff; }
+  .page { padding: 0; background: #fff; }
+
+  .deck { display: block; max-width: none; margin: 0; padding: 0; }
+  .sheet {
+    display: grid;
+    grid-template-columns: 99mm 99mm;
+    grid-template-rows: 142.5mm 142.5mm;
+    width: 198mm; height: 285mm;
+    break-after: page;
+  }
+  .cell { width: 99mm; height: 142.5mm; outline: 0.2mm dashed #b9b2a4; outline-offset: -0.1mm; }
+  .card { box-shadow: none; }
+  .card[data-overflow='true'] { outline: none; }
+
+  .facilPage { margin: 0; break-before: page; }
+  .facil { box-shadow: none; max-width: none; padding: 4mm 6mm; }
+}

@@ -74,6 +74,17 @@ export default function Homepage() {
 
         <IndexGroup label="At home" door="home" items={home} s={s} />
         <IndexGroup label="At work" door="work" items={work} s={s} />
+
+        <div className={s.cardsWrap}>
+          <Link to="/cards" className={s.cardsCallout}>
+            <span className={s.cardsTitle}>Running a session?</span>
+            <span className={s.cardsLine}>
+              Every situation also comes as printable discussion cards for a table of three to
+              six, at work, in a class or at a community group.
+            </span>
+            <span className={s.rowGo} aria-hidden="true">→</span>
+          </Link>
+        </div>
       </section>
     </main>
   );

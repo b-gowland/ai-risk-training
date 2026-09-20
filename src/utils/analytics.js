@@ -5,7 +5,8 @@
 // PLAUSIBLE GOAL SETUP (one-time, in Plausible dashboard):
 // Goals → Add goal → Custom event for each of:
 //   'Scenario Started', 'Decision Made', 'Debrief Viewed', 'Scenario Completed',
-//   'Recall Answered', 'Action Selected', 'Card Shared', 'Replay Chosen'
+//   'Recall Answered', 'Action Selected', 'Card Shared', 'Replay Chosen',
+//   'Cards Printed'
 //
 // Events carry scenario_id, node_id, choice_quality, outcome and action, which
 // together give completion rate, path distribution, drop-off node and which
@@ -168,3 +169,10 @@ export const trackBriefCheckAnswered = (scenarioId, checkId, quality) =>
       quality:  quality || '',
     },
   }));
+
+// Discussion cards — fired when someone opens the print dialog from the cards
+// page. scope is a scenario id or 'all'. The print itself cannot be observed;
+// this is intent, and it is the demand signal for the printed format.
+// Plausible goal to add: 'Cards Printed'.
+export const trackCardsPrinted = (scope) =>
+  safe(() => trackEvent('Cards Printed', { props: { scope } }));
