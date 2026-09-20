@@ -26,4 +26,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Test files run under Node (via Vitest), not a browser, even though
+    // vitest.config.js sets a jsdom environment for DOM APIs. Node globals
+    // (process, etc.) are legitimate here.
+    files: ['src/__tests__/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+  },
 ])
