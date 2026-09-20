@@ -51,10 +51,9 @@ export default function About() {
             <li><strong>Actually good.</strong> The aim is training that stands up to scrutiny —
               accurate risks, actionable responses, and reasoning you can follow to its source,
               rather than confident hand-waving.</li>
-            <li><strong>Open to anyone.</strong> The home scenarios assume no background at all.
-              The workplace ones are currently written for people who work with AI systems fairly
-              directly; a layer for general staff is still to be built. Zero-friction access is
-              deliberate.</li>
+            <li><strong>Open to anyone.</strong> No login, no prerequisites and nothing to
+              install. Pick whichever situation sounds most like your week and start there.
+              Zero-friction access is deliberate.</li>
             <li><strong>Worth the time it takes.</strong> A home scenario runs about five minutes,
               a workplace one eight to ten. It is designed to be quick, specific and, honestly, a
               bit gripping — because training nobody wants to do teaches nobody anything.</li>
