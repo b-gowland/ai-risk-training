@@ -14,6 +14,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route, Link } from 'react-router-dom';
+import App from '../App.jsx';
 import ScenarioPlayer from '../player/ScenarioPlayer.jsx';
 import { scenarios } from '../scenarios/index.js';
 
@@ -38,11 +39,16 @@ describe('navigating from one scenario to another', () => {
         <Machine />
       </MemoryRouter>
     );
+    expect(document.activeElement).toBe(screen.getByRole('article', { name: scenarios[0].title }));
+
     fireEvent.click(byName('Answer it'));
     expect(screen.queryByRole('button', { name: /Send the money/ })).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole('article', { name: 'Decision 1' }));
 
     fireEvent.click(screen.getByText('go'));
     expect(screen.queryByRole('button', { name: 'Open the file' })).toBeTruthy();
+    const nextScenario = scenarios.find((scenario) => scenario.id === 'f2-shadow-ai');
+    expect(document.activeElement).toBe(screen.getByRole('article', { name: nextScenario.title }));
   });
 
   it('from the Close screen: "Try another" starts the next scenario at Setup, unspoiled', () => {
@@ -63,5 +69,24 @@ describe('navigating from one scenario to another', () => {
     expect(onASetupScreen(), 'should arrive at the new scenario Setup').toBe(true);
     // The new scenario's ending must not be on screen.
     expect(document.body.textContent).not.toContain('approved for this kind of information');
+  });
+});
+
+describe('navigating between top-level pages', () => {
+  it('moves focus to the new route main content', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route element={<App />}>
+            <Route path="/" element={<main id="main-content" tabIndex={-1}>Home route</main>} />
+            <Route path="/about" element={<main id="main-content" tabIndex={-1}>About route</main>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(document.activeElement).toBe(screen.getByText('Home route'));
+    fireEvent.click(screen.getByRole('link', { name: 'About' }));
+    expect(document.activeElement).toBe(screen.getByText('About route'));
   });
 });

@@ -44,12 +44,13 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
   };
 
   return (
-    <article className={s.screen}>
+    <article className={s.screen} tabIndex={-1} aria-labelledby="close-title">
       <div className={s.margin}>
         <p className={s.beat}>What made this look legitimate</p>
       </div>
 
       <div className={s.body}>
+        <h1 id="close-title" className={s.srOnly}>What made this look legitimate</h1>
         {(() => {
           const frame = scenario.debrief.frame;
           const explicit = scenario.debrief.keyLine;

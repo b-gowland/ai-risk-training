@@ -16,10 +16,10 @@ export default function Homepage() {
   const work = scenarios.filter((sc) => sc.door === 'work');
 
   return (
-    <main className={s.page}>
+    <main id="main-content" className={s.page} tabIndex={-1}>
       <section className={s.hero}>
         <h1 className={s.headline}>
-          What would<span className={s.outline}>you do?</span>
+          What would{' '}<span className={s.outline}>you do?</span>
         </h1>
         <div className={s.heroRight}>
           <p className={s.explain}>
@@ -27,7 +27,11 @@ export default function Homepage() {
             <button
               type="button"
               className={s.inlineLink}
-              onClick={() => document.getElementById('all')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.getElementById('all')?.scrollIntoView({
+                behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+                  ? 'auto'
+                  : 'smooth',
+              })}
             >
               see all {scenarios.length} situations
             </button>.

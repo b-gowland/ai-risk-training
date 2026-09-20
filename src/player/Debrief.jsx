@@ -14,13 +14,13 @@ import s from './Player.module.css';
 
 export default function Debrief({ outcome, onClose }) {
   return (
-    <article className={s.screen}>
+    <article className={s.screen} tabIndex={-1} aria-labelledby="debrief-title">
       <div className={s.margin}>
         <p className={s.beat}>What happened</p>
       </div>
 
       <div className={s.body}>
-        <h1 className={s.title}>{outcome.heading}</h1>
+        <h1 id="debrief-title" className={s.title}>{outcome.heading}</h1>
 
         <p className={s.reaction}>{outcome.reaction}</p>
 

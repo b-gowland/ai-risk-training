@@ -15,13 +15,13 @@ export default function Setup({ scenario, onBegin }) {
   const { min, max } = depthBand(scenario);
 
   return (
-    <article className={s.screen} data-door={scenario.door}>
+    <article className={s.screen} data-door={scenario.door} tabIndex={-1} aria-labelledby="setup-title">
       <div className={s.margin}>
         <p className={s.door}>{scenario.door === 'home' ? 'At home' : 'At work'}</p>
       </div>
 
       <div className={s.body}>
-        <h1 className={s.title}>{scenario.title}</h1>
+        <h1 id="setup-title" className={s.title}>{scenario.title}</h1>
 
         {scenario.scene && (
           <img
