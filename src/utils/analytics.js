@@ -1,33 +1,36 @@
 // src/utils/analytics.js
-// Plausible event wrappers for practitioner and everyday tracks.
-// All calls are fire-and-forget — never block the UI.
+// Plausible custom events. All calls are fire-and-forget — never block the UI.
 //
-// PLAUSIBLE GOAL SETUP (one-time, in Plausible dashboard):
-// Goals → Add goal → Custom event for each of:
-//   'Scenario Started', 'Decision Made', 'Debrief Viewed', 'Scenario Completed',
-//   'Recall Answered', 'Action Selected', 'Card Shared', 'Replay Chosen',
+// Events go through the site script loaded in index.html (window.plausible),
+// so pageviews and events land in the same Plausible property. Do not
+// reintroduce a separate tracker package: plausible-tracker defaulted its
+// domain to location.hostname (app.airiskpractice.org), which sent events to
+// a different property from the pageviews.
+//
+// PLAUSIBLE GOAL SETUP (one-time, in the Plausible dashboard):
+// Site settings → Goals → Add goal → Custom event, for each of:
+//   'Scenario Started', 'Decision Made', 'Recall Answered', 'Debrief Viewed',
+//   'Scenario Completed', 'Action Selected', 'Card Shared', 'Replay Chosen',
 //   'Cards Printed'
+// An event with no matching goal is not shown in the dashboard.
 //
-// Events carry scenario_id, node_id, choice_quality, outcome and action, which
-// together give completion rate, path distribution, drop-off node and which
-// actions people pick — all anonymous and all aggregate. No goal in Plausible
-// means the event is discarded, so each name above must be added there once.
-
-import Plausible from 'plausible-tracker';
+// Props are anonymous and aggregate: scenario, node, choice quality, outcome
+// and action ids. Never free text, never anything that identifies a person.
 
 // LMS/SCORM packages must not transmit anything off-host: build-scorm.mjs
-// sets VITE_LMS_BUILD=1, which turns every tracker call into a no-op.
-// Web deploys are unaffected (flag unset).
+// sets VITE_LMS_BUILD=1 and strips the Plausible script, so every call here
+// is a no-op. Web deploys are unaffected (flag unset).
 const LMS_BUILD = import.meta.env?.VITE_LMS_BUILD === '1';
-const trackEvent = LMS_BUILD
-  ? () => {}
-  : Plausible({ trackLocalhost: false }).trackEvent;
+
+const trackEvent = (name, options) => {
+  if (LMS_BUILD) return;
+  if (typeof window === 'undefined' || typeof window.plausible !== 'function') return;
+  window.plausible(name, options);
+};
 
 const safe = (fn) => {
   try { fn(); } catch { /* never throw — analytics must not break the app */ }
 };
-
-// ── Practitioner track ───────────────────────────────────────────
 
 export const trackScenarioStarted = (scenarioId, scenarioTitle) =>
   safe(() => trackEvent('Scenario Started', {
@@ -39,34 +42,28 @@ export const trackDecisionMade = (scenarioId, nodeId, choiceQuality) =>
     props: { scenario_id: scenarioId, node_id: nodeId, choice_quality: choiceQuality },
   }));
 
-// Unit Loop — recall items are part of the same decision-quality record as
-// scenario choices ("the decisions are the assessment"). Anonymous, Layer-1.
+// Recall items are part of the same decision-quality record as scenario choices.
 export const trackRecallAnswered = (scenarioId, itemId, choiceQuality) =>
   safe(() => trackEvent('Recall Answered', {
     props: { scenario_id: scenarioId, item_id: itemId, choice_quality: choiceQuality },
   }));
 
-// Unit Loop — fired when a learner opens the debrief from the outcome screen.
+// Fired when a player opens the debrief from the outcome screen.
 export const trackDebriefViewed = (scenarioId, outcomeId) =>
   safe(() => trackEvent('Debrief Viewed', {
     props: { scenario_id: scenarioId, outcome_id: outcomeId },
   }));
 
-export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, persona, score, playNumber) =>
+export const trackScenarioCompleted = (scenarioId, outcomeId, outcomeTone, door, score, playNumber) =>
   safe(() => trackEvent('Scenario Completed', {
     props: {
       scenario_id:  scenarioId,
       outcome_id:   outcomeId,
       outcome_tone: outcomeTone,
-      persona,
+      door:         door ?? '',
       score:        String(score ?? ''),
       play_number:  String(playNumber ?? 1),
     },
-  }));
-
-export const trackCertificateGenerated = (scenarioId, scoreBand) =>
-  safe(() => trackEvent('Certificate Generated', {
-    props: { scenario_id: scenarioId, score_band: scoreBand },
   }));
 
 export const trackCardShared = (scenarioId, outcomeTone, shareMethod) =>
@@ -79,100 +76,17 @@ export const trackReplayChosen = (scenarioId) =>
     props: { scenario_id: scenarioId },
   }));
 
-export const trackKbLinkClicked = (scenarioId, riskRef) =>
-  safe(() => trackEvent('KB Link Clicked', {
-    props: { scenario_id: scenarioId, risk_ref: riskRef },
-  }));
-
-// Fires only when a learner opens the collapsed controls register on the
-// outcome screen (default-collapsed since Jul 2026 — ARTICLE4_HERO_DESIGN
-// v2.0 §10). Measures whether the register earns its place for open-hub
-// learners; informs the role-gating thesis quietly.
-export const trackControlsExpanded = (scenarioId, outcomeTone) =>
-  safe(() => trackEvent('Controls Expanded', {
-    props: { scenario_id: scenarioId, outcome_tone: outcomeTone },
-  }));
-
-// ── Fork (everyday) track ────────────────────────────────────────
-// Distinct event names so Fork metrics are filterable separately in Plausible.
-// scenario values: 'p1-deepfake', 'p2-hallucination', 'p3-employment'
-// node values: 'start', 'n2_transferred', 'n2_called_back', etc.
-// choice_quality values: 'good', 'partial', 'poor'
-// outcome_tone values: 'good', 'warn', 'bad'
-
-// Friendly scenario key for Plausible readability
-function forkScenarioKey(scenarioId) {
-  const map = {
-    'everyday-p1-deepfake-voice':       'p1-deepfake',
-    'everyday-p2-hallucination':        'p2-hallucination',
-    'everyday-p3-employment-screening': 'p3-employment',
-  };
-  return map[scenarioId] || scenarioId;
-}
-
-export const trackForkStarted = (scenarioId) =>
-  safe(() => trackEvent('Fork Started', {
-    props: { scenario: forkScenarioKey(scenarioId) },
-  }));
-
-export const trackForkDecision = (scenarioId, nodeId, choiceQuality) =>
-  safe(() => trackEvent('Fork Decision', {
-    props: {
-      scenario:       forkScenarioKey(scenarioId),
-      node:           nodeId,
-      choice_quality: choiceQuality,
-    },
-  }));
-
-export const trackForkCompleted = (scenarioId, outcomeId, outcomeTone, score, durationSeconds) =>
-  safe(() => trackEvent('Fork Completed', {
-    props: {
-      scenario:         forkScenarioKey(scenarioId),
-      outcome:          outcomeId,
-      outcome_tone:     outcomeTone,
-      score:            String(score ?? ''),
-      duration_seconds: String(durationSeconds ?? ''),
-    },
-  }));
-
-export const trackForkCardShared = (scenarioId, outcomeTone) =>
-  safe(() => trackEvent('Fork Card Shared', {
-    props: {
-      scenario:     forkScenarioKey(scenarioId),
-      outcome_tone: outcomeTone,
-    },
-  }));
-
-export const trackForkReplayed = (scenarioId) =>
-  safe(() => trackEvent('Fork Replayed', {
-    props: { scenario: forkScenarioKey(scenarioId) },
-  }));
-
-// Unit Loop — Debrief action picker. Fires once per selection change; the
-// commitment id is a content-defined key ('c1'…'c4' or 'skip'), never text.
-// An explicit skip is a recorded signal, not an absence.
-// The Act beat (§4.7). A selection is an implementation intention and nothing
+// The Act beat (§4.7). The action id is a content-defined key ('c1'…'c4' or
+// 'skip'), never text. A selection is an implementation intention and nothing
 // more — it is never evidence that anything was done, and no report may
-// describe it as such.
+// describe it as such. An explicit skip is a recorded signal, not an absence.
 export const trackCommitmentSelected = (scenarioId, actId) =>
   safe(() => trackEvent('Action Selected', {
     props: { scenario_id: scenarioId, action: actId },
   }));
 
-// Unit Loop — Brief micro-check. Fires on first answer per check only.
-// Measures whether the worked-Brief mechanic is actually worked.
-export const trackBriefCheckAnswered = (scenarioId, checkId, quality) =>
-  safe(() => trackEvent('Brief Check Answered', {
-    props: {
-      scenario: forkScenarioKey(scenarioId),
-      check:    checkId,
-      quality:  quality || '',
-    },
-  }));
-
 // Discussion cards — fired when someone opens the print dialog from the cards
 // page. scope is a scenario id or 'all'. The print itself cannot be observed;
 // this is intent, and it is the demand signal for the printed format.
-// Plausible goal to add: 'Cards Printed'.
 export const trackCardsPrinted = (scope) =>
   safe(() => trackEvent('Cards Printed', { props: { scope } }));
