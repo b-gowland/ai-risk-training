@@ -8,7 +8,7 @@ Thanks for your interest. This training app is open source and free to use forev
 
 **Scenario corrections:** If a scenario contains a factual error, open an issue with the correction and a primary source. Scenario characters and organisations are fictional — corrections to the risk content itself are welcome.
 
-**New scenarios:** Open an issue first to discuss the risk area before building. Scenarios must follow the four-beat schema documented in `src/scenarios/README.md` and pass `node scripts/scenario-audit.mjs <scenario-id>` at zero P1 issues before a PR will be reviewed.
+**New scenarios:** Not being accepted at present. The live set is the nine registered in `src/scenarios/index.js`, and there is no current plan to add to it or to migrate the unregistered files in `src/scenarios/`. Contributions that are wanted: factual corrections, bug fixes, accessibility, and tests or tooling.
 
 **Engine or UI improvements:** Run `npm test` and `npm run build` and confirm both pass. Include a description of the change and why.
 
