@@ -335,7 +335,7 @@ export const scenario = {
       reaction: `You heard your mum crying and you moved. That is not a failure of judgement — it is exactly what the attack was built to produce, and it works on people who are careful about everything else.`,
       description: [
         `Two transfers went out. You found out on Sunday when you rang to ask about the trip home and she asked what trip.`,
-        `The number on your screen was hers, which is trivial to fake. The voice was close enough, which now takes very little audio to produce.`,
+        `The number on your screen was hers, and caller ID can be faked. The voice was close enough, which now takes very little audio to produce.`,
       ],
       judgement: `The thing that would have stopped this was not being more suspicious of the voice. It was one call back on the number already in your phone, before anything moved, and it costs thirty seconds when you turn out to be wrong. The agreement you reached afterwards is the same control arriving late: any call about money gets hung up and rung back, by everyone, every time.`,
     },
@@ -353,7 +353,7 @@ export const scenario = {
     prompt: `Three months later, a video call from your brother's account. He is on screen, he looks stressed, and he needs you to move money for a bond on a flat before close of business. What settles it?`,
     options: [
       { id: `a`, quality: `poor`, label: `You can see his face, so it's him`,
-        note: `Video is now about as easy to fake as voice, and it is the same trap in a newer wrapper. What you can see was never the evidence.` },
+        note: `Video can be faked too, including live on a call, and it is the same trap in a newer wrapper. What you can see was never the evidence.` },
       { id: `b`, quality: `good`, label: `Hang up and reach him another way before anything moves`,
         note: `Yes. Same step, different channel. Reaching him on a number or an app you already had, or through someone who is with him, does not depend on you spotting anything.` },
       { id: `c`, quality: `partial`, label: `Ask him something personal on the call`,

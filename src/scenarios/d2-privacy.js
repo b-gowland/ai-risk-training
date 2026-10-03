@@ -25,7 +25,7 @@ export const scenario = {
 
   coldOpen: [
     `Last week you were behind on a contract summary, so you pasted the whole thing into a free AI tool to get a first draft. It was fast, and the summary was good.`,
-    `This morning the client has flagged that a passage of their contract wording turned up somewhere it should not have been. A shared conversation link from that tool, indexed and public.`,
+    `This morning the client has flagged that a passage of their contract wording turned up somewhere it should not have been. You had sent a colleague a share link to that conversation, and the link has been indexed and is public.`,
     `The partner has called you in. She knows the team has been using AI tools, and she's about to ask you a direct question.`,
   ],
 
@@ -276,7 +276,7 @@ export const scenario = {
         `The security logs confirmed the consumer-AI connection from your device on the day in question. Your account was contradicted by the evidence in the room.`,
         `The partner now has two problems instead of one: the data exposure, and a member of the team whose word doesn't match the record. The first was recoverable. The second is about you.`,
       ],
-      judgement: `Endpoint connections are logged, and a denial that the evidence contradicts turns a data incident into a conduct issue. The underlying exposure — a contract pasted into a public tool — is the kind of thing firms handle regularly. The cover-up is the thing they can't, because it's a choice rather than a mistake, and it's the choice that becomes the story.`,
+      judgement: `Connections to outside services are routinely logged, and a denial that the evidence contradicts turns a data incident into a conduct issue. The underlying exposure — a contract pasted into a public tool — is the kind of thing firms handle regularly. The cover-up is the thing they can't, because it's a choice rather than a mistake, and it's the choice that becomes the story.`,
     },
   },
 

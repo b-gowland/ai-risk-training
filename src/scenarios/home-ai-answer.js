@@ -118,7 +118,7 @@ export const scenario = {
           { id: `a`, label: `Ring the rental company and check both`, quality: `good`,
             consequence: `The licence is fine. The ferry is not: their agreement says the car stays on this island and you swap vehicles at the terminal. The assistant had been certain about both.` },
           { id: `b`, label: `These two are smaller. Let them go.`, quality: `poor`,
-            consequence: `You find out about the vehicle swap at the terminal, at the terminal, with a sailing in forty minutes.` },
+            consequence: `You find out about the vehicle swap at the terminal, with a sailing in forty minutes.` },
         ],
       },
       branches: { a: `n_forward`, b: `outcome_silent` },
@@ -227,7 +227,7 @@ export const scenario = {
         `Four thousand dollars of excess, and you deleted the app.`,
         `Three weeks later you were using it again, because it is genuinely useful, and this time with no rule at all about where it fails.`,
       ],
-      judgement: `Calibrate the trust to the question. Specific external facts — an Act, a price, a policy term, a drug interaction — are where these systems invent, and there the answer is to check the source. For drafting, summarising and thinking something through they are fast and reliable. "Never use it" costs you a good tool and, worse, leaves you unable to tell anyone where the danger actually sits.`,
+      judgement: `Calibrate the trust to the question. Specific external facts — an Act, a price, a policy term, a drug interaction — are where these systems invent, and there the answer is to check the source. For drafting, summarising and thinking something through they are fast and useful, and you can check the result against what you gave them. "Never use it" costs you a good tool and, worse, leaves you unable to tell anyone where the danger actually sits.`,
     },
 
     outcome_shared: {

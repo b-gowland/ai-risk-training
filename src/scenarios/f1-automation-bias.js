@@ -278,7 +278,7 @@ export const scenario = {
   debrief: {
     frame: [
       `Nothing here involved the AI malfunctioning. It did what it was built to do: read a study and return a result with a confidence figure attached. It is accurate on most studies, and that is precisely the problem. A tool that was usually wrong would be easy to distrust. A tool that is usually right trains you, study by study, to stop looking. And the confidence figure is the model's own output, not an audited probability, so a high number on a study the model has misread reads exactly like a high number on one it has read correctly.`,
-      `And the specific mechanism was the display order. The AI's answer arrived before your own read was finished, so every scan started from its conclusion and asked you to argue your way back out under a clock. That's an anchor, and anchors don't respond to willpower or training — they respond to being removed. The durable version of "human oversight" here isn't a more vigilant human; it's a workflow where the human reads first and the AI second, so the oversight is real rather than a rubber stamp on an answer you were shown before you looked.`,
+      `And the specific mechanism was the display order. The AI's answer arrived before your own read was finished, so every scan started from its conclusion and asked you to argue your way back out under a clock. That's an anchor. Willpower barely touches it and training alone doesn't remove it; changing the order does. The durable version of "human oversight" here isn't a more vigilant human; it's a workflow where the human reads first and the AI second, so the oversight is real rather than a rubber stamp on an answer you were shown before you looked.`,
     ],
   },
 

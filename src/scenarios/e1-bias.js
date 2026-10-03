@@ -249,7 +249,7 @@ export const scenario = {
         `Either the complaint surfaced a pattern you'd chosen not to raise, or an informal attempt to pull demographic data created a governance breach while the underlying problem carried on.`,
         `The investigation asks what you knew and when. The three-month gap, or the data-access record, is in the file, and now the story is partly about you rather than only about the tool.`,
       ],
-      judgement: `Two failure modes, one lesson. Demographic data has governance around it for good reasons, and going around that creates a second incident. And "it wasn't my place" has never once been a successful answer in a discrimination case. Raise concerns early, in your own words, and let the people with the tools and the clearance do the proving.`,
+      judgement: `Two failure modes, one lesson. Demographic data has governance around it for good reasons, and going around that creates a second incident. And "it wasn't my place" is a weak answer in any discrimination case. Raise concerns early, in your own words, and let the people with the tools and the clearance do the proving.`,
     },
   },
 
