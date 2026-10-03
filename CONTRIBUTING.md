@@ -21,4 +21,4 @@ Code in this repository is licensed under [Apache License 2.0](./LICENSE). Scena
 - All scenario string values must use template literals (backticks) — apostrophes in single-quoted strings cause parse errors
 - Every scenario requires a `controls_summary` field (minimum 2 entries) — see the schema in `src/scenarios/README.md`
 - Scenario audit must pass at zero P1 issues: `node scripts/scenario-audit.mjs <scenario-id>` (or `npm run audit` for all registered scenarios)
-- CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit` and `npm run build` on every PR — run them locally first
+- CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit`, `npm run test:scorm` and `npm run build` on every PR — run them locally first

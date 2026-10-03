@@ -1,14 +1,8 @@
-// Scenario registry.
+// Scenario registry. These nine are the whole live set.
 //
-// MIGRATION STATE (July 2026): the four-beat rebuild changed the scenario
-// schema. Only migrated scenarios are registered here. The 33 unmigrated
-// files remain on disk — they hold the decision trees and consequence text,
-// which is the expensive half of a scenario and is reused as-is. They are
-// registered again as each one is brought to the new schema.
-//
-// A file on disk but not in this list renders nowhere. That is deliberate:
-// there is no compatibility path and no half-migrated scenario in front of
-// a stranger.
+// The other files in this folder are pre-rebuild scenarios on the retired
+// schema. There is no plan to migrate them, and a file that is not imported
+// here renders nowhere. RETIRED below is what old links to them resolve to.
 
 import { scenario as f2ShadowAi } from './f2-shadow-ai.js';
 import { scenario as a1Hallucination } from './a1-hallucination.js';
@@ -42,11 +36,44 @@ export const FEATURED_PAIR = [
 
 export const byId = (id) => scenarios.find((s) => s.id === id) || null;
 
-// Every scenario file on disk, registered or not. Used to tell a stale deep
-// link apart from a typo: 32 knowledge-base entries link to
-// /#/scenario/<id>, and most of those ids are not registered here. A player
-// arriving on one of those gets a soft landing rather than a not-found page.
-// Vite resolves this at build time; the modules are never loaded.
-export const KNOWN_IDS = Object.keys(import.meta.glob('./*.js'))
-  .map((p) => p.slice(2, -3))
-  .filter((id) => id !== 'index');
+// Retired scenario ids, and the reference entry that covers each one. Old
+// links to /#/scenario/<id> are still out there (the knowledge base carried
+// them until August 2026), so a retired id gets a soft landing that points to
+// its entry rather than a not-found page.
+const LIBRARY = 'https://library.airiskpractice.org/docs/';
+export const RETIRED = Object.fromEntries(Object.entries({
+  'a2-model-drift': 'domain-a-technical/a2-model-drift',
+  'a3-robustness': 'domain-a-technical/a3-robustness',
+  'a4-explainability': 'domain-a-technical/a4-explainability',
+  'b1-accountability': 'domain-b-governance/b1-accountability',
+  'b2-compliance': 'domain-b-governance/b2-regulatory-compliance',
+  'b3-lifecycle': 'domain-b-governance/b3-lifecycle-governance',
+  'b4-supply-chain': 'domain-b-governance/b4-supply-chain',
+  'b5-agentic-logging': 'domain-b-governance/b5-agentic-logging',
+  'c1-data-poisoning': 'domain-c-security/c1-data-poisoning',
+  'c2-prompt-injection': 'domain-c-security/c2-prompt-injection',
+  'c3-model-theft': 'domain-c-security/c3-model-theft',
+  'c4-deepfakes': 'domain-c-security/c4-deepfakes',
+  'c5-ai-cyber-attacks': 'domain-c-security/c5-ai-cyber-attacks',
+  'c6-mcp-attack': 'domain-c-security/c6-mcp-attack-surface',
+  'c7-multi-agent-trust': 'domain-c-security/c7-multi-agent-trust',
+  'c8-computer-use-hijacking': 'domain-c-security/c8-computer-use-hijacking',
+  'd1-data-quality': 'domain-d-data/d1-training-data-quality',
+  'e2-harmful-content': 'domain-e-fairness/e2-harmful-content',
+  'e3-misinformation': 'domain-e-fairness/e3-misinformation',
+  'f3-scope-creep': 'domain-f-deployment/f3-scope-creep',
+  'f4-irreversibility': 'domain-f-deployment/f4-irreversibility-scope-creep',
+  'g1-concentration-risk': 'domain-g-systemic/g1-concentration-risk',
+  'g2-environmental-impact': 'domain-g-systemic/g2-environmental-impact',
+  'g3-workforce-displacement': 'domain-g-systemic/g3-workforce-displacement',
+  'g4-ai-safety': 'domain-g-systemic/g4-ai-safety',
+  'g5-excessive-agency': 'domain-g-systemic/g5-excessive-agency',
+}).map(([id, path]) => [id, LIBRARY + path]));
+
+// The three pre-rebuild At Home scenarios were rebuilt as the home-* set.
+// Their old links go straight to the replacement.
+export const REPLACED = {
+  'everyday-p1-deepfake-voice': 'home-voice-clone',
+  'everyday-p2-hallucination': 'home-ai-answer',
+  'everyday-p3-employment-screening': 'home-algorithm-said-no',
+};

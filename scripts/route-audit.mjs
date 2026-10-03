@@ -123,7 +123,7 @@ for (const i of imported) {
 
 const unregistered = scenarioFiles.filter((f) => !allImports.has(f));
 if (unregistered.length) {
-  note(`unmigrated: ${unregistered.length} scenario file(s) on disk but not registered — not reachable in the app`);
+  note(`retired: ${unregistered.length} pre-rebuild scenario file(s) on disk, not registered — not reachable in the app`);
 }
 
 // Door comes from the `door` field, never from the filename. Filename

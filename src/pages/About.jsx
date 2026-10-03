@@ -129,10 +129,10 @@ export default function About() {
         <section className={s.section}>
           <h2 className={s.h2}>Want to help build it</h2>
           <p className={s.p}>
-            If you work in AI risk, governance, security or learning design and want to contribute
-            a scenario, review one, or collaborate more seriously, that would be very welcome. The
+            If you work in AI risk, governance, security or learning design and want to review a
+            scenario, correct something, or collaborate more seriously, that would be very welcome. The
             code and content are{' '}
-            <a href="https://github.com/b-gowland" target="_blank" rel="noreferrer">open on GitHub</a>,
+            <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">open on GitHub</a>,
             and the fastest way to start a conversation is an email.
           </p>
           <div className={s.actions}>

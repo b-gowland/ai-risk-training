@@ -9,9 +9,8 @@ Interactive scenario-based AI risk training — a companion to [ai-risk-kb](http
 ## What it is
 
 One training app with two doors. **At home** covers personal AI risk — scams,
-chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job,
-from general staff through practitioners. The split is situational, not
-identity-based: the same person uses both.
+chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job.
+The split is situational, not identity-based: the same person uses both.
 
 You are dropped into a situation, you make the calls, and you see what
 follows. Nothing is scored and there is no login. Anonymous, aggregate usage is
@@ -31,12 +30,16 @@ knowledge base are real and cited.
 
 ## Scenarios
 
-The app is mid-rebuild to a four-beat scenario schema (Setup → Decide →
-Debrief → Close). Scenarios are registered in `src/scenarios/index.js` as each
-is migrated; files present but unregistered are not reachable in the app and
-are reported by `npm run route-audit`.
+Nine scenarios are live: three At Home and six At Work. Each one runs in four
+beats (Setup → Decide → Debrief → Close). They are registered in
+`src/scenarios/index.js`; other files in that folder are pre-rebuild scenarios
+that are no longer loaded.
 
-Schema reference: `src/scenarios/README.md`.
+- Schema reference: `src/scenarios/README.md`
+- How the app fits together: `ARCHITECTURE.md`
+
+**Discussion cards** at [/#/cards](https://app.airiskpractice.org/#/cards) are
+a printable version of each scenario for running a group session.
 
 ## Stack
 
@@ -57,7 +60,7 @@ No API key required to run the full scenario experience locally.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full details. Open an issue before starting work on a new scenario to avoid duplication.
+See [CONTRIBUTING.md](CONTRIBUTING.md). New scenarios aren't being accepted at present; corrections, bug fixes and accessibility work are welcome.
 
 ## Licence
 
