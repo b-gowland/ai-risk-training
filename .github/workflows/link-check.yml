@@ -30,6 +30,7 @@ jobs:
             --no-progress
             --max-retries 3
             --accept 200,429
+            --root-dir ${{ github.workspace }}/public
             --exclude '\$'
             --exclude '<'
             --exclude '/docs/\.\.\.'
