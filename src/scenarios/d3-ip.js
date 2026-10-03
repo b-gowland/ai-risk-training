@@ -15,8 +15,8 @@ export const scenario = {
   door: `work`,
   risk_ref: `D3`,
   title: `Who Owns This?`,
-  shelfLine: `Legal says a function you wrote with AI matches GPL-licensed code. You reviewed it carefully.`,
-  hook: `Legal flags a function you shipped as near-identical to GPL code. You wrote it with an AI assistant.`,
+  shelfLine: `Legal says code you wrote with AI matches someone else's licensed code. You checked it carefully.`,
+  hook: `Legal says code you shipped is almost identical to someone else's licensed code. You wrote it with AI.`,
   scene: `desk-working`,
   determinacy: `clean`,
 
@@ -25,14 +25,14 @@ export const scenario = {
   mit_subdomain: `mit-6.3`,
 
   coldOpen: [
-    `The message from Legal is open on your screen. Three months ago you used the AI coding assistant on a data-transformation function. You reviewed it, it worked first time, you merged it and moved on.`,
-    `Legal's automated licence scan has flagged it as near-identical to a function published under GPL-3.0. The note links to guidance on licence contamination.`,
+    `The message from Legal is open on your screen. Three months ago you used the AI coding assistant to write a piece of code that reformats data. You checked it, it worked first time, and you added it to the product.`,
+    `Legal's automated scan says it's almost identical to open-source code published under the GPL licence. Using GPL code in a product you sell can oblige you to publish your own code too.`,
     `Before you reply, you have to decide how seriously to take it.`,
   ],
 
   standing: `Developer on a product team that ships proprietary software`,
-  authority: `You can disclose, provide context, and recommend process changes. You can't decide the firm's licence position or speak for Legal on what the obligation is.`,
-  ending: `You find out whether a licence problem gets scoped and closed, or whether "the tool did it" and a quick review let it spread.`,
+  authority: `You can own up, explain what happened, and suggest process changes. You can't decide the legal position or speak for Legal.`,
+  ending: `You find out whether a licence problem gets found and fixed everywhere, or whether "the tool did it" lets it spread.`,
 
   begin: `Open Legal's message`,
 
@@ -41,7 +41,7 @@ export const scenario = {
   nodes: {
     start: {
       prose: [
-        `You remember the function. It was clean, it passed review, it's been in production for three months without a hiccup. None of which is what Legal is asking about.`,
+        `You remember the code. It was clean, it passed review, and it's been running for three months without a problem. But Legal isn't asking whether it works.`,
       ],
       artefact: {
         type: `system_output`,
@@ -58,14 +58,14 @@ export const scenario = {
         rationale: `A functional review confirms the code works. It does not reveal where the code came from.`,
       },
       decision: {
-        prompt: `How do you regard the function you wrote with AI assistance?`,
+        prompt: `How do you think about the code you wrote with AI?`,
         choices: [
-          { id: `a`, label: `As something that could carry a licence obligation you never checked for, worth flagging however clean it looked`, quality: `good`,
-            consequence: `You reply to Legal within the hour with the commit hash in it. Nothing about the function has changed; what you know about it has.` },
+          { id: `a`, label: `As something that might break a licence you never checked, worth flagging however clean it looks`, quality: `good`,
+            consequence: `You reply to Legal within the hour with a link to the code. The code hasn't changed, but what you know about it has.` },
           { id: `b`, label: `As probably fine. You reviewed it carefully and it worked first time`, quality: `partial`,
             consequence: `You say so in the reply, twice. Legal's response does not mention correctness at all.` },
           { id: `c`, label: `As the tool's output. If there's a licence problem, that's the AI vendor's`, quality: `poor`,
-            consequence: `Legal forwards you the vendor terms with two clauses highlighted. Neither of them says what you assumed they said.` },
+            consequence: `Legal forwards you the AI vendor's terms with two clauses highlighted. Neither says what you assumed.` },
         ],
       },
       branches: { a: `n_response`, b: `n_response`, c: `n_response` },
@@ -73,8 +73,8 @@ export const scenario = {
 
     n_response: {
       prose: [
-        `Legal has asked every developer who used AI code generation to self-identify. The message is unambiguous: this is a real exposure, and they want to scope it fast.`,
-        `You know you used AI on that function.`,
+        `Legal has asked every developer who used AI to write code to come forward. The message is clear: this is a real risk, and they want to know how big it is, fast.`,
+        `You know you used AI on that code.`,
       ],
       decision: {
         prompt: `What do you do?`,
@@ -83,8 +83,8 @@ export const scenario = {
             consequence: `Four lines and a link, sent before lunch. You are the second person to reply and there are eleven developers on the list.` },
           { id: `b`, label: `Flag it, but note that you reviewed it thoroughly and it looked correct`, quality: `partial`,
             consequence: `You add a paragraph defending the review. Legal reads the first two lines, which are the ones with the date and the link.` },
-          { id: `c`, label: `Wait for the scanning tool. It might not flag your function`, quality: `poor`,
-            consequence: `Nothing happens for six days, which is long enough to stop thinking about it.` },
+          { id: `c`, label: `Wait for the scanning tool. It might not flag your code`, quality: `poor`,
+            consequence: `Nothing happens for six days, and you stop thinking about it.` },
         ],
       },
       branches: { a: `n2_flagged`, b: `n2_flagged`, c: `n_recover` },
@@ -92,12 +92,12 @@ export const scenario = {
 
     n_recover: {
       prose: [
-        `You decided to wait. A week later the scan flags your function anyway, and Legal follows up. The commit history shows you were among the AI-assistance users who didn't respond to the disclosure request.`,
+        `You decided to wait. A week later the scan flags your code anyway, and Legal follows up. The records show you used AI and didn't reply to their request.`,
       ],
       decision: {
         prompt: `Legal asks why you didn't flag it. What do you do?`,
         choices: [
-          { id: `a`, label: `Own it: confirm the AI use, share the PR and what you remember`, quality: `good`,
+          { id: `a`, label: `Own it: confirm you used AI, and share the code link and what you remember`, quality: `good`,
             consequence: `You send everything you have, a week later than eleven other people did. They take it and use it.` },
           { id: `b`, label: `Say you assumed the scan would catch anything, and point to your review`, quality: `partial`,
             consequence: `"We know it caught it. We asked people to tell us." Then they move on and ask for the pull request.` },
@@ -110,7 +110,7 @@ export const scenario = {
 
     n2_flagged: {
       prose: [
-        `You've flagged it, and Legal confirms the match to the GPL-3.0 source. Then a question you weren't expecting: do you remember the prompt you used?`,
+        `You've flagged it, and Legal confirms it matches the GPL code. Then a question you weren't expecting: do you remember the prompt you used?`,
       ],
       decision: {
         prompt: `Why does the prompt matter, and what do you tell them?`,
@@ -118,9 +118,9 @@ export const scenario = {
           { id: `a`, label: `Share what you remember. It helps them see whether similar prompts were used elsewhere`, quality: `good`,
             consequence: `You find roughly what you asked for in an old branch description. It turns out two other people phrased it almost identically.` },
           { id: `b`, label: `You can't recall exactly. It was three months ago and you don't keep prompt records`, quality: `partial`,
-            consequence: `Nobody was ever asked to keep them. Legal writes down that nothing in the repository distinguishes AI-suggested code from anything else.` },
+            consequence: `Nobody was ever asked to keep them. Legal notes that nothing in the code shows which parts came from AI.` },
           { id: `c`, label: `The prompt doesn't matter. The tool is responsible for what it generated`, quality: `poor`,
-            consequence: `They send you the indemnity clause. It has three conditions on it and the team meets one.` },
+            consequence: `They send you the AI vendor's promise to cover legal costs. It has three conditions, and the team meets one.` },
         ],
       },
       branches: { a: `n_scope`, b: `n_scope`, c: `n_scope` },
@@ -128,17 +128,17 @@ export const scenario = {
 
     n_scope: {
       prose: [
-        `Your function is being remediated. The larger question is the one that decides how big this is: if AI generation reproduced licensed code once, in a codebase that was never scanned for it, how much else is in there?`,
+        `Your code is being fixed. The bigger question is how far this goes. If the AI copied licensed code once, in code that was never scanned, how much else is in there?`,
       ],
       decision: {
-        prompt: `Legal asks what the scope of the check should be. What do you recommend?`,
+        prompt: `Legal asks how wide the check should be. What do you recommend?`,
         choices: [
-          { id: `a`, label: `Scan the whole codebase for licence matches, not just your function`, quality: `good`,
-            consequence: `The scan takes four hours to configure and eleven minutes to run against nine years of commits.` },
-          { id: `b`, label: `Check the other functions you personally wrote with AI first, then decide`, quality: `partial`,
-            consequence: `Your own commits come back clean apart from the one. The same assistant has been on eleven other machines since March.` },
-          { id: `c`, label: `Just fix the one confirmed function. There's no evidence of others`, quality: `poor`,
-            consequence: `The one function is rewritten and closed out by Thursday. Nobody has looked at anything else.` },
+          { id: `a`, label: `Scan all the company's code for licence matches, not just yours`, quality: `good`,
+            consequence: `The scan takes four hours to set up and eleven minutes to run across nine years of code.` },
+          { id: `b`, label: `Check the other code you personally wrote with AI first, then decide`, quality: `partial`,
+            consequence: `Your own commits come back clean apart from the one. But eleven other developers have used the same AI since March.` },
+          { id: `c`, label: `Just fix the one confirmed match. There's no evidence of others`, quality: `poor`,
+            consequence: `The one piece of code is rewritten by Thursday. Nobody looks at anything else.` },
         ],
       },
       branches: { a: `n_remediate`, b: `n_remediate`, c: `n_remediate` },
@@ -146,18 +146,18 @@ export const scenario = {
 
     n_remediate: {
       prose: [
-        `The scan comes back with a handful of findings at different severities: a couple of GPL-3.0 matches, one weak-copyleft LGPL match, and some permissive-licence hits that don't need action.`,
-        `Legal asks how you'd handle the confirmed copyleft ones, since you know the code.`,
+        `The scan finds a handful of matches. Two more are under GPL, one is under a looser licence called LGPL, and some allow free reuse.`,
+        `Legal asks how you'd handle the GPL ones, since you know the code.`,
       ],
       decision: {
-        prompt: `What do you recommend for the GPL-matched functions?`,
+        prompt: `What do you recommend for the GPL matches?`,
         choices: [
-          { id: `a`, label: `Rewrite them from scratch without AI, and route the LGPL one to Legal rather than guessing`, quality: `good`,
+          { id: `a`, label: `Rewrite them from scratch without AI, and send the LGPL one to Legal rather than guessing`, quality: `good`,
             consequence: `Two rewrites, half a day each, no assistant. Legal comes back on the LGPL one with a set of steps you would not have guessed at.` },
-          { id: `b`, label: `Heavily refactor the GPL functions (rename, restructure) so they're not the original anymore`, quality: `partial`,
-            consequence: `You rename and restructure until the diff looks unrecognisable. Legal asks how much of the original logic survived, and you find you cannot answer that in a way that settles anything.` },
-          { id: `c`, label: `Treat the LGPL and permissive findings as no-action, and just fix the two GPL ones`, quality: `poor`,
-            consequence: `The two GPL functions get rewritten. The LGPL finding sits in the no-action column, alongside the MIT and Apache hits.` },
+          { id: `b`, label: `Heavily rewrite the GPL code (rename, restructure) so it's not the original anymore`, quality: `partial`,
+            consequence: `You rename and rearrange until it looks different. Legal asks how much of the original logic is still there, and you can't give a clear answer.` },
+          { id: `c`, label: `Ignore the LGPL and free-to-reuse matches, and just fix the two GPL ones`, quality: `poor`,
+            consequence: `The two GPL matches get rewritten. The LGPL one sits in the ignore pile with the free-to-reuse ones.` },
         ],
       },
       branches: { a: `n_control`, b: `n_control`, c: `n_control` },
@@ -165,18 +165,18 @@ export const scenario = {
 
     n_control: {
       prose: [
-        `The scope is decided. The last question is the one that determines whether this happens again: the code-review process predates AI assistants, and it has no step that checks provenance.`,
+        `The clean-up is planned. The last question is how to stop this happening again. Code review was designed before AI assistants, and nothing in it checks where code came from.`,
         `Your lead asks what should change.`,
       ],
       decision: {
-        prompt: `What do you recommend as the durable control?`,
+        prompt: `What do you recommend as the lasting fix?`,
         choices: [
-          { id: `a`, label: `A blocking licence scan in CI/CD, plus a short briefing on why it's there`, quality: `good`,
-            consequence: `The gate goes into the pipeline in a fortnight. The briefing takes five minutes at a stand-up and half the room has questions.` },
-          { id: `b`, label: `A blocking licence scan in CI/CD, and leave it at that`, quality: `partial`,
-            consequence: `The gate goes in and starts failing builds on day two. Nobody has explained to anyone why it is there.` },
-          { id: `c`, label: `A reminder to developers to consider licences, and a declaration checkbox`, quality: `poor`,
-            consequence: `The checkbox is added to the pull-request template. Everybody ticks it, because everybody believes it when they tick it.` },
+          { id: `a`, label: `An automatic licence scan that blocks problem code, plus a short briefing on why it's there`, quality: `good`,
+            consequence: `The scan is in place within a fortnight. The briefing takes five minutes at a stand-up and half the room has questions.` },
+          { id: `b`, label: `An automatic licence scan that blocks problem code, and leave it at that`, quality: `partial`,
+            consequence: `The scan goes in and starts blocking code on day two. Nobody has explained to anyone why it is there.` },
+          { id: `c`, label: `A reminder to developers to think about licences, and a tick-box to confirm they did`, quality: `poor`,
+            consequence: `The tick-box is added to every code submission. Everybody ticks it, and believes it when they do.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good`, c: `outcome_bad` },
@@ -185,27 +185,27 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `Scoped fully, gated properly`,
+      heading: `Found everywhere, and blocked for the future`,
       tone: `good`,
       score: 100,
       reaction: `Asking for a whole-codebase scan when your own fix was underway is the slower call, and the one that keeps this out of the news.`,
       description: [
-        `The full scan found two more functions with licence findings, both fixed. A blocking scan now runs in CI/CD, and a short briefing explained why.`,
-        `Owning up early, with your prompt history, let Legal scope it fast. The whole exposure is closed.`,
+        `The full scan found two more problem matches, both fixed. An automatic scan now blocks new ones, and a short briefing explained why.`,
+        `Owning up early, with your prompt, helped Legal size it up fast. The whole risk is closed.`,
       ],
-      judgement: `AI-generated code needs two controls: a gate that catches what people can't see, and enough understanding that nobody works around it. At every step you could have made the problem smaller, and you didn't.`,
+      judgement: `AI-written code needs two safeguards: an automatic check that catches what people can't see, and enough understanding that nobody works around it. At every step you could have played the problem down, and you didn't.`,
     },
 
     outcome_good: {
-      heading: `Gated, but understanding left thin`,
+      heading: `Scan in place, but nobody told why`,
       tone: `warn`,
       score: 68,
-      reaction: `A blocking scan is the right control. Skipping the "why" shows up later as someone reformatting code to beat the gate.`,
+      reaction: `An automatic scan is the right fix. Skipping the "why" shows up later as someone rearranging code to get past it.`,
       description: [
-        `The exposure was scoped and a licence gate went into CI/CD. It works, and caught more findings in the following months.`,
-        `With no briefing, two developers saw it as an obstacle and tried to reformat code around it. The briefing came later.`,
+        `The risk was sized up and an automatic licence scan went in. It works, and caught more matches in the months after.`,
+        `With no briefing, two developers saw it as an obstacle and tried to rearrange code to get past it. The briefing came later.`,
       ],
-      judgement: `A gate holds best when people know what it protects against. Without that, developers read it as friction and look for a way round. Five minutes of explanation makes it stick.`,
+      judgement: `A check works best when people know what it's for. Without that, developers see it as an obstacle and look for a way round. Five minutes of explanation makes it stick.`,
     },
 
     outcome_wait: {
@@ -214,58 +214,58 @@ export const scenario = {
       score: 35,
       reaction: `Waiting for the scan feels free when the result is the same. It costs trust, and that shows up later.`,
       description: [
-        `The automated scan flagged your function. Not speaking up when asked slowed the scoping, and compliance had to chase you.`,
-        `The fix was the same. The silence is on record, and it colours how far the team trusts the next self-report.`,
+        `The automated scan flagged your code. Not speaking up when asked slowed things down, and Legal had to chase you.`,
+        `The fix was the same. The silence is on record, and it affects how far the team trusts you next time.`,
       ],
       judgement: `Speaking up when you know is faster than waiting for a tool. Scans miss things, and people's memory is part of the evidence. A developer who knows and waits is holding back part of the picture.`,
     },
 
     outcome_bad: {
-      heading: `A checkbox where a gate was needed`,
+      heading: `A tick-box where a real check was needed`,
       tone: `bad`,
       score: 15,
-      reaction: `A declaration checkbox feels like a control because it leaves a record. The record says the team knew the risk and didn't tool for it.`,
+      reaction: `A tick-box feels like a safeguard because it leaves a record. The record says the team knew the risk and skipped a real check.`,
       description: [
-        `The reminder and checkbox left the gap open. Two months later a developer on deadline merged another function with a high-risk licence finding.`,
+        `The reminder and tick-box left the gap open. Two months later a developer on deadline added more code with a serious licence match.`,
         `They looked carefully and couldn't see it, because nobody can without a tool. The scan went in after that.`,
       ],
-      judgement: `No reviewer can see licence risk in generated code by reading it. Matching against public GPL source takes a scanning tool. A checkbox on an unscanned merge proves the team understood the risk and chose a process that couldn't catch it.`,
+      judgement: `No reviewer can see licence risk in generated code by reading it. Matching against public GPL source takes a scanning tool. A tick-box on unscanned code proves the team understood the risk and chose a process that couldn't catch it.`,
     },
   },
 
   debrief: {
     frame: [
-      `The developer did nothing careless. They reviewed the function, it worked, and it ran for three months. They checked what they could see, whether it worked, and the risk was in what they couldn't: where it came from.`,
-      `A match against public GPL code is invisible without a scan, however hard you look. The obligation sits with whoever ships the code. A vendor indemnity may cover some cost, but it doesn't fix the codebase.`,
+      `The developer did nothing careless. They checked the code, it worked, and it ran for three months. The risk was in what they couldn't see: where the code came from.`,
+      `A match against public GPL code is invisible without a scan, however hard you look. The legal responsibility sits with whoever ships the code. The AI vendor may cover some costs, but that doesn't fix the code.`,
     ],
   },
 
   recall: {
     id: `d3-recall`,
-    prompt: `A teammate says they've made AI-suggested code safe by "refactoring it heavily. Renamed everything, restructured the logic, so it's not the original code anymore." Does that resolve the GPL concern?`,
+    prompt: `A teammate says they've made AI-suggested code safe by "refactoring it heavily. Renamed everything, restructured the logic, so it's not the original code anymore." Does that solve the GPL problem?`,
     options: [
       { id: `a`, quality: `poor`, label: `Yes. If it's been substantially rewritten, it's no longer the licensed code`,
-        note: `How much rewriting breaks a copyleft obligation is a legal question. It turns on how much structure and logic survived, judged against precedent, not a diff. It goes to Legal.` },
-      { id: `b`, quality: `good`, label: `Not necessarily. Whether refactoring breaks the licence chain is a question for Legal`,
+        note: `Whether a rewrite is enough is a legal question. It depends on how much of the structure and logic survived, judged by past cases, not by how different it looks.` },
+      { id: `b`, quality: `good`, label: `Not necessarily. Whether a rewrite gets around the licence is a question for Legal`,
         note: `Right. "I changed it enough" is an engineering answer to a legal question. Code of GPL origin goes to Legal however heavily it was rewritten.` },
-      { id: `c`, quality: `partial`, label: `Mostly. Heavy refactoring usually breaks it, though edge cases exist`,
-        note: `"Usually" is doing a lot of work, and it isn't the developer's call. Structure and logic can carry the obligation through a heavy rewrite, so refer it to Legal.` },
+      { id: `c`, quality: `partial`, label: `Mostly. A heavy rewrite usually gets around it, though there are exceptions`,
+        note: `"Usually" is doing a lot of work, and it isn't the developer's call. The licence can still apply if the structure and logic remain, so refer it to Legal.` },
     ],
   },
 
   act: [
-    { id: `a1`, label: `Find out whether your CI/CD runs a licence or composition scan on merges` },
-    { id: `a2`, label: `Next time you accept AI-suggested code, note it. A commit tag is enough to make it traceable later` },
-    { id: `a3`, label: `If AI-origin code raises a GPL question, route it to Legal rather than judging the rewrite yourself` },
+    { id: `a1`, label: `Find out whether your team automatically scans new code for licence problems` },
+    { id: `a2`, label: `Next time you accept AI-suggested code, note it. A short tag is enough to find it later` },
+    { id: `a3`, label: `If AI-origin code raises a GPL question, send it to Legal rather than judging the rewrite yourself` },
   ],
 
   controls_summary: [
-    { id: `c1`, label: `Blocking licence/composition scan in CI/CD`, effort: `Medium`, owner: `Platform / eng lead`, go_live: true,
-      context: `Licence contamination is invisible to human review. A gate that doesn't depend on anyone seeing it is the only control that meets the risk.` },
-    { id: `c2`, label: `A lightweight AI-assisted commit tag`, effort: `Low`, owner: `Dev team`, go_live: true,
-      context: `The prompt-recall gap in this scenario becomes a recommendation every time. A commit tag makes AI-origin code traceable without disrupting flow.` },
-    { id: `c3`, label: `Short briefing on why the gate exists`, effort: `Low`, owner: `Eng lead`, go_live: true,
-      context: `A gate people don't understand gets reformatted around. Five minutes on the purpose is what stops the gate becoming friction to defeat.` },
+    { id: `c1`, label: `An automatic licence scan that blocks problem code`, effort: `Medium`, owner: `Platform / eng lead`, go_live: true,
+      context: `Licence problems are invisible to a human reviewer. Only a check that doesn't rely on someone spotting it can catch them.` },
+    { id: `c2`, label: `A simple tag marking AI-written code`, effort: `Low`, owner: `Dev team`, go_live: true,
+      context: `Nobody could remember which code came from AI. A simple tag fixes that without slowing anyone down.` },
+    { id: `c3`, label: `A short briefing on why the scan exists`, effort: `Low`, owner: `Eng lead`, go_live: true,
+      context: `People work around checks they don't understand. Five minutes explaining the purpose stops that.` },
   ],
 
   tell: `AI can hand you licensed code with no trace of where it came from. Review shows it works. Only a scan shows what it is.`,

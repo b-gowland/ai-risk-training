@@ -55,11 +55,11 @@ export const scenario = {
           { id: `a`, label: `Paste the lot in and see what comes back`, quality: `poor`,
             consequence: `It takes about ninety seconds. What comes back is better than what you would have written at four o'clock on a Wednesday.` },
           { id: `b`, label: `Ask your colleague whether this is allowed`, quality: `partial`,
-            consequence: `She shrugs. "Everyone does it." She has been here four years, which you had been treating as a kind of answer.` },
+            consequence: `She shrugs. "Everyone does it." She has been here four years, so you take that as a yes.` },
           { id: `c`, label: `Look for a policy before you do anything`, quality: `good`,
             consequence: `You search the intranet for "AI". Eleven results. Nine are about a webinar.` },
           { id: `d`, label: `Write it yourself and lose the evening`, quality: `good`,
-            consequence: `Forty-five minutes. The one-pager is fine. Nothing about this decision will ever be visible to anyone, which is what most good decisions look like.` },
+            consequence: `It takes forty-five minutes. The one-pager is fine, and nobody will ever know there was a choice to make.` },
         ],
       },
       branches: { a: `n2_output`, b: `n2_asked`, c: `n2_policy`, d: `n2_slow` },
@@ -70,12 +70,12 @@ export const scenario = {
         `You go back to your screen. The deadline has not moved and neither has the file.`,
       ],
       decision: {
-        prompt: `So?`,
+        prompt: `What now?`,
         choices: [
           { id: `a`, label: `Paste it. She'd know if it were a problem.`, quality: `poor`,
-            consequence: `She wouldn't, as it turns out. Nobody has told her either.` },
+            consequence: `She wouldn't. Nobody has told her either.` },
           { id: `b`, label: `Ask your team lead instead`, quality: `good`,
-            consequence: `He does not look annoyed at being asked, which you had half expected.` },
+            consequence: `He doesn't seem to mind being asked.` },
           { id: `c`, label: `Go and find the policy yourself`, quality: `good`,
             consequence: `Eleven results for "AI" on the intranet. Nine of them are about a webinar.` },
         ],
@@ -85,7 +85,7 @@ export const scenario = {
 
     n2_policy: {
       prose: [
-        `The tenth result is the one. Not hidden, just filed where nothing you have ever needed has been filed.`,
+        `The tenth result is the policy, filed somewhere you have never needed to look.`,
       ],
       artefact: {
         type: `document`,
@@ -100,14 +100,14 @@ export const scenario = {
         ],
       },
       decision: {
-        prompt: `The policy predates the tool your colleague is talking about. What now?`,
+        prompt: `The policy is older than the tool your colleague means. What now?`,
         choices: [
           { id: `a`, label: `It says no. That's enough.`, quality: `good`,
-            consequence: `It is four years old and it did not anticipate any of this. It also says no.` },
-          { id: `b`, label: `Ask Information Security what's on the register`, quality: `good`,
+            consequence: `It is four years old and never imagined tools like this. It still says no.` },
+          { id: `b`, label: `Ask Information Security which tools are approved`, quality: `good`,
             consequence: `You send three lines to a shared inbox and go back to the notes while you wait.` },
           { id: `c`, label: `Treat it as out of date and paste anyway`, quality: `poor`,
-            consequence: `The reasoning holds together. Old policy, new tool, real deadline. Every part of that is true and the file still goes.` },
+            consequence: `Old policy, new tool, real deadline. All true, and the file still goes out.` },
         ],
       },
       branches: { a: `n3_lead`, b: `n3_lead`, c: `n2_output` },
@@ -122,11 +122,11 @@ export const scenario = {
         prompt: `Do you do anything about that?`,
         choices: [
           { id: `a`, label: `No. It's not your call to make.`, quality: `partial`,
-            consequence: `Which is true. The pasting continues either way.` },
+            consequence: `True. Your colleague keeps pasting either way.` },
           { id: `b`, label: `Mention it to your team lead`, quality: `good`,
             consequence: `You keep it short and you don't name her. He asks what tool.` },
           { id: `c`, label: `Ask whether the team is supposed to have a rule about this`, quality: `good`,
-            consequence: `Nobody knows. That answer turns out to be more useful than a yes or a no.` },
+            consequence: `Nobody knows. That turns out to be the useful answer, because it shows the gap.` },
         ],
       },
       branches: { a: `n2_slow_b`, b: `n3_lead`, c: `n3_lead` },
@@ -155,9 +155,9 @@ export const scenario = {
           { id: `a`, label: `Send it. It's better than yours.`, quality: `poor`,
             consequence: `You attach it and go home. The meeting goes well. For three weeks, nothing at all happens.` },
           { id: `b`, label: `Read the line about data first`, quality: `good`,
-            consequence: `Settings › Data. There is a toggle. On the free plan it is fixed on, and there is a link to upgrade underneath it.` },
+            consequence: `Settings › Data. There is a switch to stop this, but on the free plan you can't turn it off. There is an upgrade link underneath.` },
           { id: `c`, label: `Delete the conversation, then send it`, quality: `poor`,
-            consequence: `The chat disappears from your history. That is the only place it disappears from.` },
+            consequence: `The chat disappears from your history. The company that runs the tool still has it.` },
         ],
       },
       branches: { a: `n3_after_send`, b: `n3_terms`, c: `n3_after_send` },
@@ -165,7 +165,7 @@ export const scenario = {
 
     n3_terms: {
       prose: [
-        `The upgrade page is clear in a way the free plan is not.`,
+        `The upgrade page is much clearer than the free plan.`,
       ],
       artefact: {
         type: `document`,
@@ -182,9 +182,9 @@ export const scenario = {
         prompt: `The file is already in. What now?`,
         choices: [
           { id: `a`, label: `Stop, and write the one-pager yourself`, quality: `good`,
-            consequence: `You lose the evening you were trying to save. The pricing is still sitting on someone else's servers and you now know it.` },
+            consequence: `You lose the evening you were trying to save. The pricing is still on someone else's servers, and now you know it.` },
           { id: `b`, label: `It's one document. Send it and move on.`, quality: `poor`,
-            consequence: `You close the tab. It is one document, and that is a true description of it right up until somebody has to count.` },
+            consequence: `You close the tab. It's one document, until someone has to count them all.` },
         ],
       },
       branches: { a: `n4_notice_clean`, b: `n3_hold` },
@@ -192,15 +192,15 @@ export const scenario = {
 
     n3_lead: {
       prose: [
-        `There is a sanctioned tool. It has been available since March, on a company agreement, and the rollout email went to a distribution list you are not on.`,
+        `There is an approved tool. It has been available since March, under a company agreement, but the email about it went to a mailing list you're not on.`,
       ],
       decision: {
-        prompt: `He offers to get you access this afternoon. It takes a day to provision.`,
+        prompt: `He offers to get you access. It takes a day to set up.`,
         choices: [
           { id: `a`, label: `Take it, and do tomorrow's one-pager by hand`, quality: `good`,
-            consequence: `One evening, once. From Friday you have the tool everyone assumed you already had.` },
+            consequence: `You lose one evening. From Friday you have the tool everyone assumed you already had.` },
           { id: `b`, label: `A day is a day too long. Use the free one tonight.`, quality: `poor`,
-            consequence: `You already know what the free plan does with what you give it. That is the part that will matter later.` },
+            consequence: `You already know the free plan keeps what you give it. That will matter later.` },
         ],
       },
       branches: { a: `n4_notice_clean`, b: `n2_output` },
@@ -208,7 +208,7 @@ export const scenario = {
 
     n3_hold: {
       prose: [
-        `Three weeks pass. Nothing happens, which is what three weeks of nothing happening feels like.`,
+        `Three weeks pass. Nothing happens.`,
         `Then this lands in the marketing team inbox on a Monday.`,
       ],
       artefact: {
@@ -230,11 +230,11 @@ export const scenario = {
         prompt: `You know exactly what this is about.`,
         choices: [
           { id: `a`, label: `Say nothing. Nobody knows it was you.`, quality: `poor`,
-            consequence: `You reread the email twice and then archive it. The rest of Monday is difficult in a way you cannot explain to anyone.` },
+            consequence: `You reread the email twice and then archive it. The rest of Monday is hard, and you can't tell anyone why.` },
           { id: `b`, label: `Tell your manager before lunch`, quality: `good`,
-            consequence: `It takes four minutes and they are worse minutes than you expected. He asks what date and what tool, and writes both down.` },
+            consequence: `It takes four minutes, and it's harder than you expected. He asks what date and what tool, and writes both down.` },
           { id: `c`, label: `Contact Legal Operations directly, as the email says`, quality: `good`,
-            consequence: `The reply comes in under an hour and is unremarkable in tone. They ask for the date, the tool, and the plan you were on.` },
+            consequence: `The reply comes within the hour, calm and matter-of-fact. They ask for the date, the tool, and the plan you were on.` },
         ],
       },
       branches: { a: `n4_silence`, b: `n4_disclose`, c: `n4_disclose` },
@@ -254,7 +254,7 @@ export const scenario = {
           { id: `a`, label: `Tell her you wrote it by hand, and why`, quality: `good`,
             consequence: `"You did the whole thing manually?" She is not persuaded, but she stops assuming, and she asks who would know.` },
           { id: `b`, label: `Just say you're busy`, quality: `partial`,
-            consequence: `Which is true. She finds someone else to ask by eleven.` },
+            consequence: `That's true. She finds someone else to ask by eleven.` },
         ],
       },
       branches: { a: `n4_notice_clean`, b: `n4_notice_clean` },
@@ -280,10 +280,10 @@ export const scenario = {
         signature: `Legal Operations`,
       },
       decision: {
-        prompt: `Nothing here is asking you for anything.`,
+        prompt: `The notice doesn't ask you to do anything. Do you?`,
         choices: [
           { id: `a`, label: `Say nothing. It isn't yours to report.`, quality: `partial`,
-            consequence: `Which is a fair reading. It is also the reading that leaves one person deciding alone whether to put their hand up.` },
+            consequence: `Fair enough. But it leaves your colleague deciding alone whether to own up.` },
           { id: `b`, label: `Tell your colleague the notice covers what she did`, quality: `good`,
             consequence: `She goes very quiet. Then: "I didn't know it was a thing. Everyone does it." You already know that is true.` },
           { id: `c`, label: `Tell your team lead what you saw`, quality: `partial`,
@@ -295,18 +295,18 @@ export const scenario = {
 
     n5_speak: {
       prose: [
-        `By Wednesday it is a conversation the whole team is having, badly and in fragments.`,
+        `By Wednesday the whole team is talking about it, in bits and pieces.`,
         `Nobody knows what is allowed. Two people have been using the same tool since March.`,
       ],
       decision: {
         prompt: `Your team lead asks what would help.`,
         choices: [
           { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
-            consequence: `It turns out one exists, and has since March. It went to a distribution list none of you are on.` },
+            consequence: `There is one, and has been since March. The email about it went to a mailing list none of you are on.` },
           { id: `b`, label: `Say people just need to be more careful`, quality: `poor`,
-            consequence: `Everyone agrees. Everyone has always agreed. On Friday someone pastes a pricing sheet into a free tool because the deadline moved.` },
+            consequence: `Everyone agrees, as they always have. On Friday someone pastes a pricing sheet into a free tool because the deadline moved.` },
           { id: `c`, label: `Ask what people are supposed to do when a deadline won't move`, quality: `good`,
-            consequence: `That question is harder to answer than the tools one and it is the one the team has. He does not have an answer. He writes it down.` },
+            consequence: `Nobody has an answer, and it's the problem the team keeps running into. He writes it down.` },
         ],
       },
       branches: { a: `n6_end`, b: `n6_end`, c: `n6_end` },
@@ -316,16 +316,16 @@ export const scenario = {
 
     n5_after: {
       prose: [
-        `It is handled, in the sense that the people who needed to know now know.`,
-        `What has not changed is anything about next month.`,
+        `It's handled: the people who needed to know now know.`,
+        `Nothing has changed for next month.`,
       ],
       decision: {
         prompt: `Your team lead asks what would stop this happening again.`,
         choices: [
           { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
-            consequence: `One exists. It has since March, on a company agreement, and the rollout went to a distribution list you are not on.` },
+            consequence: `There is one, and has been since March. The email about it went to a mailing list you're not on.` },
           { id: `b`, label: `Say you'll be more careful`, quality: `poor`,
-            consequence: `You will be. The two people who have been doing the same thing since March are not in this conversation.` },
+            consequence: `You will be. But two other people have been doing the same thing since March.` },
         ],
       },
       branches: { a: `outcome_disclosed`, b: `outcome_found` },
@@ -338,12 +338,12 @@ export const scenario = {
         `Nobody asks how it was written. There is no reason anyone would.`,
       ],
       decision: {
-        prompt: `You have the whole of Friday to say something, if you were going to.`,
+        prompt: `You have all of Friday to say something. Do you?`,
         choices: [
           { id: `a`, label: `Mention it to your team lead`, quality: `good`,
-            consequence: `Four minutes on a Friday afternoon, and they are easier minutes than they would have been in three weeks. He asks what tool and writes it down.` },
+            consequence: `Four minutes on a Friday afternoon. It's much easier now than it would be in three weeks. He asks what tool and writes it down.` },
           { id: `b`, label: `Nothing happened. Let it go.`, quality: `poor`,
-            consequence: `Nothing has happened. That is a true description of Friday and it stops being one at a date you do not choose.` },
+            consequence: `Nothing has happened yet. You don't get to choose when that changes.` },
         ],
       },
       branches: { a: `n3_hold`, b: `n3_hold` },
@@ -355,12 +355,12 @@ export const scenario = {
         `Your colleague is still on a deadline every Wednesday.`,
       ],
       decision: {
-        prompt: `The link goes to a register you now know exists. What do you do with it?`,
+        prompt: `The link goes to the approved-tools list. What do you do with it?`,
         choices: [
           { id: `a`, label: `Send it to the two people you know are using something else`, quality: `good`,
             consequence: `One of them replies within the hour asking whether it does summarising. It does.` },
           { id: `b`, label: `Bookmark it and get on with your day`, quality: `partial`,
-            consequence: `You are covered. The Wednesday deadline is not yours, and it is still a Wednesday deadline.` },
+            consequence: `You're covered. Your colleague still has a deadline every Wednesday.` },
         ],
       },
       branches: { a: `outcome_route`, b: `outcome_quiet` },
@@ -368,7 +368,7 @@ export const scenario = {
 
     n4_silence: {
       prose: [
-        `It holds for nine days.`,
+        `Nobody finds out for nine days.`,
       ],
       artefact: {
         type: `system_output`,
@@ -394,7 +394,7 @@ export const scenario = {
         prompt: `Your manager asks you to come to a meeting room. What do you say when you get there?`,
         choices: [
           { id: `a`, label: `All of it, straight away`, quality: `partial`,
-            consequence: `It is the right answer nine days late. He does not say that and does not have to.` },
+            consequence: `It's the right answer, nine days late. He doesn't need to say so.` },
           { id: `b`, label: `That you don't remember the details`, quality: `poor`,
             consequence: `The session timestamp is on the screen behind him. So is the volume.` },
         ],
@@ -404,15 +404,15 @@ export const scenario = {
 
     n4_disclose: {
       prose: [
-        `By Wednesday it has a shape. One file, one session, one date, and a tool nobody had assessed.`,
+        `By Wednesday the facts are clear: one file, one session, one date, and a tool nobody had checked.`,
       ],
       decision: {
         prompt: `Legal ask whether anything else went the same way.`,
         choices: [
           { id: `a`, label: `Check properly before you answer`, quality: `good`,
-            consequence: `Two more, both small, both yours. Adding them to the list is worse for about ten minutes and better for everything after that.` },
+            consequence: `You find two more, both small, both yours. Adding them feels bad for ten minutes and helps from then on.` },
           { id: `b`, label: `Say it was only the one`, quality: `poor`,
-            consequence: `You are fairly sure. Fairly sure is a different thing from checked, and only one of them survives being asked a second time.` },
+            consequence: `You're fairly sure. But fairly sure isn't checked, and Legal will ask again.` },
         ],
       },
       branches: { a: `n5_after`, b: `n5_after` },
@@ -426,7 +426,7 @@ export const scenario = {
       score: 100,
       reaction: `The pull here was a nine o'clock meeting and a colleague who sounded like she knew.`,
       description: [
-        `You asked before you pasted. The company had bought a sanctioned tool in March and told a distribution list you weren't on.`,
+        `You asked before you pasted. The company had bought an approved tool in March and emailed a mailing list you weren't on.`,
         `You lost one evening writing the one-pager by hand. Nothing about Northwind left the building.`,
       ],
       judgement: `What worked was asking a question that felt slightly stupid, in an organisation where the answer had sat unread since March.`,
@@ -436,24 +436,24 @@ export const scenario = {
       heading: `You were careful. The team wasn't.`,
       tone: `warn`,
       score: 55,
-      reaction: `"Not my call" is a fair read of your standing. You've been there eighteen months and you can't approve a tool.`,
+      reaction: `"Not my call" is fair. You've been there eighteen months and you can't approve a tool.`,
       description: [
         `You wrote the one-pager by hand and nothing of yours left the building.`,
-        `Across the desk, the pasting carried on. The preservation notice three weeks later didn't name you. It didn't need to.`,
+        `Across the desk, your colleague kept pasting. The preservation notice three weeks later didn't name you. It didn't need to.`,
       ],
-      judgement: `One careful person barely changes an organisation's exposure. Asking whether the team is supposed to have a rule about this was within your standing, and it would have gone further than your own restraint.`,
+      judgement: `One careful person doesn't protect a whole team. You could have asked whether the team should have a rule, and that would have helped everyone, not just you.`,
     },
 
     outcome_disclosed: {
       heading: `Contained, because you counted properly`,
       tone: `good`,
       score: 85,
-      reaction: `Four minutes with your manager, and they were worse than you expected. Most people overestimate how that conversation goes.`,
+      reaction: `Telling your manager was a hard four minutes. It was still the easiest it was ever going to be.`,
       description: [
         `You said so on the Monday the notice landed. When Legal asked whether anything else had gone the same way, you checked instead of answering from memory.`,
         `Two more turned up. Both small. Both on the list.`,
       ],
-      judgement: `Owning up is cheapest when it feels least necessary, and the full count mattered more than the first admission. An incident that grows after you've described it costs far more, and the person who under-reported gets asked why.`,
+      judgement: `Owning up is easiest early, and the full count mattered more than the first admission. A problem that grows after you've described it costs far more, and the person who under-reported gets asked why.`,
     },
 
     outcome_found: {
@@ -462,23 +462,23 @@ export const scenario = {
       score: 20,
       reaction: `"Nobody knows it was me" was true for nine days, and nine days is long enough to feel like an answer.`,
       description: [
-        `A review prompted by the preservation notice matched a device to a session to a person. Nobody suspected you. Somebody just looked at everything.`,
+        `A review prompted by the preservation notice traced the upload to your laptop, and your laptop to you. Nobody suspected you. Somebody just looked at everything.`,
         `By the time you were in the room, the timestamp and the volume were already on the screen.`,
       ],
-      judgement: `The window to speak up closed while you were deciding whether to use it. The facts didn't change between Monday and the meeting room. Who found them did, and that turns a mistake into concealment.`,
+      judgement: `The chance to speak up closed while you were deciding. The facts didn't change between Monday and the meeting. Who found them did, and that turns a mistake into a cover-up.`,
     },
   },
 
   debrief: {
     frame: [
       `None of this looked like a security decision. It looked like a deadline, a colleague who sounded certain, and a tool that wrote better than you could at four in the afternoon.`,
-      `Most shadow AI incidents look like this. The tool is good, the person is competent and busy, and the policy is four years old and filed where nobody looks. The gap is between what an organisation has decided and what it has told anyone.`,
+      `Most cases of staff using unapproved AI look like this. The tool is good, the person is competent and busy, and the policy is four years old and filed where nobody looks. The gap is between what an organisation has decided and what it has told anyone.`,
     ],
   },
 
   recall: {
     id: `f2-recall`,
-    prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event, and you want an AI tool to tidy the formatting. Which question decides it?`,
+    prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event. You want an AI tool to tidy the formatting. Which question decides it?`,
     options: [
       { id: `a`, quality: `partial`, label: `Whether the spreadsheet is confidential`,
         note: `A habit more than a rule. Plenty of what leaks isn't marked confidential, and these contact details are still someone else's personal information.` },
@@ -496,13 +496,13 @@ export const scenario = {
   ],
 
   controls_summary: [
-    { id: `c1`, label: `Approved-tools register that people can find`, effort: `Low`, owner: `Information Security`, go_live: true,
-      context: `The register existed. The rollout went to a distribution list Jamie was not on, which is the same as it not existing.` },
-    { id: `c2`, label: `Company-agreement tier for sanctioned AI tools`, effort: `Medium`, owner: `IT / Procurement`, go_live: true,
+    { id: `c1`, label: `An approved-tools list people can find`, effort: `Low`, owner: `Information Security`, go_live: true,
+      context: `The list existed, but the email about it went to a mailing list Jamie wasn't on. For Jamie, it might as well not have existed.` },
+    { id: `c2`, label: `A company plan for approved AI tools`, effort: `Medium`, owner: `IT / Procurement`, go_live: true,
       context: `The free plan retains conversations for model improvement. The business tier does not. That difference is a contract, not a setting.` },
-    { id: `c3`, label: `No-blame disclosure route with a stated response time`, effort: `Low`, owner: `Risk / Legal`, go_live: true,
+    { id: `c3`, label: `A no-blame way to report mistakes, with a promised response time`, effort: `Low`, owner: `Risk / Legal`, go_live: true,
       context: `Every good ending here runs through someone telling somebody early. Every bad one runs through the nine days they spent deciding.` },
   ],
 
-  tell: `Before you paste anything into an AI tool at work, ask whether that tool has been approved for this kind of information, and ask someone who would know.`,
+  tell: `Before you paste anything into an AI tool at work, ask whether it's approved for this kind of information. Ask someone who would know.`,
 };
