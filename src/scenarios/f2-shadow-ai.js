@@ -53,8 +53,8 @@ export const scenario = {
         prompt: `What do you do with it?`,
         choices: [
           { id: `a`, label: `Paste the lot in and see what comes back`, quality: `poor`,
-            consequence: `It takes about ninety seconds. What comes back is genuinely better than what you would have written at four o'clock on a Wednesday.` },
-          { id: `b`, label: `Ask your colleague whether this is actually allowed`, quality: `partial`,
+            consequence: `It takes about ninety seconds. What comes back is better than what you would have written at four o'clock on a Wednesday.` },
+          { id: `b`, label: `Ask your colleague whether this is allowed`, quality: `partial`,
             consequence: `She shrugs. "Everyone does it." She has been here four years, which you had been treating as a kind of answer.` },
           { id: `c`, label: `Look for a policy before you do anything`, quality: `good`,
             consequence: `You search the intranet for "AI". Eleven results. Nine are about a webinar.` },
@@ -85,7 +85,7 @@ export const scenario = {
 
     n2_policy: {
       prose: [
-        `The tenth result is the one. It is not hidden, exactly. It is filed where nothing you have ever needed has been filed.`,
+        `The tenth result is the one. Not hidden, just filed where nothing you have ever needed has been filed.`,
       ],
       artefact: {
         type: `document`,
@@ -252,7 +252,7 @@ export const scenario = {
         prompt: `What do you say?`,
         choices: [
           { id: `a`, label: `Tell her you wrote it by hand, and why`, quality: `good`,
-            consequence: `"You did the whole thing manually?" She is not persuaded, but she stops assuming, and she asks who would actually know.` },
+            consequence: `"You did the whole thing manually?" She is not persuaded, but she stops assuming, and she asks who would know.` },
           { id: `b`, label: `Just say you're busy`, quality: `partial`,
             consequence: `Which is true. She finds someone else to ask by eleven.` },
         ],
@@ -299,14 +299,14 @@ export const scenario = {
         `Nobody knows what is allowed. Two people have been using the same tool since March.`,
       ],
       decision: {
-        prompt: `Your team lead asks what would actually help.`,
+        prompt: `Your team lead asks what would help.`,
         choices: [
           { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
             consequence: `It turns out one exists, and has since March. It went to a distribution list none of you are on.` },
           { id: `b`, label: `Say people just need to be more careful`, quality: `poor`,
             consequence: `Everyone agrees. Everyone has always agreed. On Friday someone pastes a pricing sheet into a free tool because the deadline moved.` },
           { id: `c`, label: `Ask what people are supposed to do when a deadline won't move`, quality: `good`,
-            consequence: `That question is harder to answer than the tools one and it is the one the team actually has. He does not have an answer. He writes it down.` },
+            consequence: `That question is harder to answer than the tools one and it is the one the team has. He does not have an answer. He writes it down.` },
         ],
       },
       branches: { a: `n6_end`, b: `n6_end`, c: `n6_end` },
@@ -424,56 +424,55 @@ export const scenario = {
       heading: `You ended up on the tool that was already paid for`,
       tone: `good`,
       score: 100,
-      reaction: `The pull here was never laziness. It was a nine o'clock meeting and a colleague who sounded like she knew.`,
+      reaction: `The pull here was a nine o'clock meeting and a colleague who sounded like she knew.`,
       description: [
-        `You asked before you pasted. The answer came back in an afternoon, and it turned out the company had bought a sanctioned tool in March and told a distribution list you were not on.`,
-        `You lost one evening to doing tomorrow's one-pager by hand. Nothing about Northwind left the building.`,
+        `You asked before you pasted. The company had bought a sanctioned tool in March and told a distribution list you weren't on.`,
+        `You lost one evening writing the one-pager by hand. Nothing about Northwind left the building.`,
       ],
-      judgement: `The thing that worked was not caution. It was asking a question that felt slightly stupid to ask, in an organisation where the answer had been sitting unread since March.`,
+      judgement: `What worked was asking a question that felt slightly stupid, in an organisation where the answer had sat unread since March.`,
     },
-
 
     outcome_quiet: {
       heading: `You were careful. The team wasn't.`,
       tone: `warn`,
       score: 55,
-      reaction: `Not your call to make is a reasonable read of your standing here. You have been in the job eighteen months and you cannot approve a tool.`,
+      reaction: `"Not my call" is a fair read of your standing. You've been there eighteen months and you can't approve a tool.`,
       description: [
         `You wrote the one-pager by hand and nothing of yours left the building.`,
-        `Across the desk, the pasting carried on. When the preservation notice arrived three weeks later it did not name you, because it did not need to.`,
+        `Across the desk, the pasting carried on. The preservation notice three weeks later didn't name you. It didn't need to.`,
       ],
-      judgement: `An individual being careful does not reduce an organisation's exposure by very much. The question you could have asked — is the team supposed to have a rule about this — sits inside what an eighteen-month marketer can do, and it travels further than your own restraint did.`,
+      judgement: `One careful person barely changes an organisation's exposure. Asking whether the team is supposed to have a rule about this was within your standing, and it would have gone further than your own restraint.`,
     },
 
     outcome_disclosed: {
       heading: `Contained, because you counted properly`,
       tone: `good`,
       score: 85,
-      reaction: `Four minutes with your manager, and they were worse than you expected. Almost everyone overestimates how that conversation goes.`,
+      reaction: `Four minutes with your manager, and they were worse than you expected. Most people overestimate how that conversation goes.`,
       description: [
-        `The file went out on a Wednesday afternoon to a tool on a free plan. You said so on the Monday the notice landed, and when Legal asked whether anything else had gone the same way, you checked instead of answering from memory.`,
+        `You said so on the Monday the notice landed. When Legal asked whether anything else had gone the same way, you checked instead of answering from memory.`,
         `Two more turned up. Both small. Both on the list.`,
       ],
-      judgement: `Disclosure is cheapest at exactly the moment it is least necessary, and the scope answer mattered more than the first admission. An incident that grows after you have described it costs an organisation far more than one measured honestly on day one, and the person who under-reported is the one who gets asked why.`,
+      judgement: `Owning up is cheapest when it feels least necessary, and the full count mattered more than the first admission. An incident that grows after you've described it costs far more, and the person who under-reported gets asked why.`,
     },
 
     outcome_found: {
       heading: `The logs got there before you did`,
       tone: `bad`,
       score: 20,
-      reaction: `Nobody knows it was me is not stupid. It was true for nine days, and nine days is long enough to feel like an answer.`,
+      reaction: `"Nobody knows it was me" was true for nine days, and nine days is long enough to feel like an answer.`,
       description: [
-        `A retrospective review matched a device to a session to a person. Not because anyone suspected you, but because a preservation notice had made somebody go and look at everything.`,
+        `A review prompted by the preservation notice matched a device to a session to a person. Nobody suspected you. Somebody just looked at everything.`,
         `By the time you were in the room, the timestamp and the volume were already on the screen.`,
       ],
-      judgement: `The disclosure window closed while you were deciding whether to use it. What changed between Monday and the meeting room was not the facts, only who found them, and that is the difference between a mistake and something an organisation has to treat as concealment.`,
+      judgement: `The window to speak up closed while you were deciding whether to use it. The facts didn't change between Monday and the meeting room. Who found them did, and that turns a mistake into concealment.`,
     },
   },
 
   debrief: {
     frame: [
-      `Nothing in this looked like a security decision at the time. It looked like a deadline, a colleague who sounded certain, and a tool that produced something better than you would have written at four in the afternoon.`,
-      `That is the shape of nearly every shadow AI incident. The tool is genuinely good. The person using it is competent and busy. The policy exists, is four years old, and is filed somewhere nobody has needed to look. The gap is not between careful people and careless ones; it is between what an organisation has decided and what it has actually told anyone.`,
+      `None of this looked like a security decision. It looked like a deadline, a colleague who sounded certain, and a tool that wrote better than you could at four in the afternoon.`,
+      `Most shadow AI incidents look like this. The tool is good, the person is competent and busy, and the policy is four years old and filed where nobody looks. The gap is between what an organisation has decided and what it has told anyone.`,
     ],
   },
 
@@ -482,11 +481,11 @@ export const scenario = {
     prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event, and you want an AI tool to tidy the formatting. Which question decides it?`,
     options: [
       { id: `a`, quality: `partial`, label: `Whether the spreadsheet is confidential`,
-        note: `Closer to a habit than a rule. Plenty of what leaks is not marked confidential. These are ordinary work contact details, and they are still someone else's personal information being handed to a third party.` },
+        note: `A habit more than a rule. Plenty of what leaks isn't marked confidential, and these contact details are still someone else's personal information.` },
       { id: `b`, quality: `good`, label: `Whether that tool has been assessed and approved for this kind of information`,
-        note: `Yes. It is the same question as the one-pager, and it does not require you to classify anything yourself. Approved for this kind of information is answerable by someone else, which is what makes it usable at four in the afternoon.` },
+        note: `Yes. Same question as the one-pager, and you don't have to classify anything yourself. Someone else can answer it, which makes it usable at four in the afternoon.` },
       { id: `c`, quality: `poor`, label: `Whether you can delete the conversation afterwards`,
-        note: `Deleting removes it from your history and from nowhere else. This was the free-plan trap in the scenario and it reads the same way here.` },
+        note: `Deleting removes it from your history and nowhere else. That was the free-plan trap in the scenario, and it works the same way here.` },
     ],
   },
 
@@ -497,7 +496,7 @@ export const scenario = {
   ],
 
   controls_summary: [
-    { id: `c1`, label: `Approved-tools register that people can actually find`, effort: `Low`, owner: `Information Security`, go_live: true,
+    { id: `c1`, label: `Approved-tools register that people can find`, effort: `Low`, owner: `Information Security`, go_live: true,
       context: `The register existed. The rollout went to a distribution list Jamie was not on, which is the same as it not existing.` },
     { id: `c2`, label: `Company-agreement tier for sanctioned AI tools`, effort: `Medium`, owner: `IT / Procurement`, go_live: true,
       context: `The free plan retains conversations for model improvement. The business tier does not. That difference is a contract, not a setting.` },

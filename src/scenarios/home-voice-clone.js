@@ -51,7 +51,7 @@ export const scenario = {
     start: {
       prose: [
         `You have heard your mum cry maybe four times. This sounds like all four.`,
-        `It takes most of the call to work out what has actually happened.`,
+        `It takes most of the call to work out what has happened.`,
       ],
       artefact: {
         type: `transcript`,
@@ -78,7 +78,7 @@ export const scenario = {
           { id: `b`, label: `Ask her something only your mum would know`, quality: `partial`,
             consequence: `You ask what the dog was called before Bess. There is a pause of maybe two seconds.` },
           { id: `c`, label: `Say you'll call her straight back, and hang up`, quality: `good`,
-            consequence: `She protests. You hang up anyway, which feels genuinely awful for about four seconds.` },
+            consequence: `She protests. You hang up anyway, which feels awful for about four seconds.` },
           { id: `d`, label: `Stay on the line and message your dad at the same time`, quality: `good`,
             consequence: `You keep her talking about the car park while you type one-handed.` },
         ],
@@ -228,7 +228,7 @@ export const scenario = {
         prompt: `Two thousand dollars, sent from your phone yesterday afternoon, eight minutes apart.`,
         choices: [
           { id: `a`, label: `Call the bank now and report it`, quality: `good`,
-            consequence: `Sunday, so it takes longer. They log it, freeze the receiving details on their side, and tell you honestly that recovery is unlikely once it has moved on.` },
+            consequence: `Sunday, so it takes longer. They log it, freeze the receiving details on their side, and tell you plainly that recovery is unlikely once it has moved on.` },
           { id: `b`, label: `Wait until Monday when you can think straight`, quality: `poor`,
             consequence: `Monday is sixteen hours later. Money that has already been moved on does not wait for you to feel ready.` },
         ],
@@ -293,77 +293,77 @@ export const scenario = {
 
   outcomes: {
     outcome_protected: {
-      heading: `You caught it, and then you told people`,
+      heading: `You caught it, then you told people`,
       tone: `good`,
       score: 100,
-      reaction: `Hanging up on someone who sounds like your mother in distress is genuinely hard. Everything about the call was built so that you would not.`,
+      reaction: `Hanging up on someone who sounds like your mum in distress is hard. The call was built so you wouldn't.`,
       description: [
-        `You checked against something you already had — her real number, or your dad — instead of trying to work out whether the voice was right.`,
-        `Then you said so out loud, to the people whose numbers sit in the same address book. Your aunt had nearly fallen for something similar and had told nobody.`,
+        `You checked against something you already had, her real number or your dad, instead of judging the voice.`,
+        `Then you told the people in the same address book. Your aunt had nearly fallen for something similar and told nobody.`,
       ],
-      judgement: `You did not detect the fake and you did not need to. Calling back on a number you already hold does not depend on you noticing anything, which is why it keeps working as the clones get better. The second half matters as much: a scam that works once on a family will be tried again on the same family, and the only thing that reliably stops the second attempt is somebody being unembarrassed about the first.`,
+      judgement: `You didn't need to spot the fake. Calling back on a number you already hold works however good the clone is. Telling the family matters as much: a scam that works once on a family gets tried on the rest of it.`,
     },
 
     outcome_caught_alone: {
       heading: `You caught it. Your cousin didn't.`,
       tone: `warn`,
       score: 65,
-      reaction: `It is your family, not a public service announcement — that is a fair instinct, and most people share it.`,
+      reaction: `It's your family, not a public service announcement. Most people feel the same.`,
       description: [
         `You lost nothing. You checked against a number you already had and the call went nowhere.`,
-        `Six weeks later your cousin sent four hundred dollars to a car park, from the same address book, to the same voice.`,
+        `Six weeks later your cousin sent four hundred dollars to a car park, to the same voice, from the same address book.`,
       ],
-      judgement: `Shame is the mechanism these run on. People who nearly fall for one rarely mention it, so each person in a family meets the same call cold. Saying plainly what happened to you costs a message and removes the surprise for everyone else, and surprise is most of what the script has.`,
+      judgement: `These scams run on shame. People who nearly fall for one rarely mention it, so each relative meets the same call cold. One message about what happened to you takes away the surprise, and surprise is most of what the script has.`,
     },
 
     outcome_late: {
-      heading: `Eight hundred gone. The rest stopped, and your aunt didn't lose anything.`,
+      heading: `Eight hundred gone. The rest stopped, and your aunt lost nothing.`,
       tone: `warn`,
       score: 70,
-      reaction: `The second ask is where most people stop, and stopping there is not a small thing. The script depends on you not stopping.`,
+      reaction: `The second ask is where most people stop. Stopping there matters, because the script depends on you not stopping.`,
       description: [
-        `The first transfer went. When the number came back for twelve hundred more you checked instead of sending, and the bank held it before it moved.`,
-        `On Tuesday your aunt got the same call and rang you mid-way through.`,
+        `The first transfer went. When the caller came back for twelve hundred more, you checked instead of sending, and the bank held it.`,
+        `On Tuesday your aunt got the same call and rang you halfway through.`,
       ],
-      judgement: `A story that needs a second payment will need a third. What made the difference on Tuesday was not that your aunt was more sceptical than you had been — it was that she had somewhere to check and someone who had already said out loud that this happens.`,
+      judgement: `A story that needs a second payment will need a third. What helped your aunt on Tuesday was having somewhere to check, and someone who had already said out loud that this happens.`,
     },
 
     outcome_loss: {
       heading: `Two thousand dollars, and it was never her`,
       tone: `bad`,
       score: 15,
-      reaction: `You heard your mum crying and you moved. That is not a failure of judgement — it is exactly what the attack was built to produce, and it works on people who are careful about everything else.`,
+      reaction: `You heard your mum crying and you moved. That's what the call was built to make you do, and it works on careful people.`,
       description: [
-        `Two transfers went out. You found out on Sunday when you rang to ask about the trip home and she asked what trip.`,
-        `The number on your screen was hers, and caller ID can be faked. The voice was close enough, which now takes very little audio to produce.`,
+        `Two transfers went out. You found out on Sunday, when you rang about the trip home and she asked what trip.`,
+        `The number on your screen was hers, and caller ID can be faked. The voice was close enough, which now takes very little audio.`,
       ],
-      judgement: `The thing that would have stopped this was not being more suspicious of the voice. It was one call back on the number already in your phone, before anything moved, and it costs thirty seconds when you turn out to be wrong. The agreement you reached afterwards is the same control arriving late: any call about money gets hung up and rung back, by everyone, every time.`,
+      judgement: `Being more suspicious of the voice wouldn't have stopped this. One call back on the number in your phone would have. The rule your family made afterwards is the same control, arriving late: any call about money gets hung up and rung back.`,
     },
   },
 
   debrief: {
     frame: [
-      `Everything about this call was engineered to close the gap where checking would happen. A twenty-minute deadline. A voice you have known your whole life. A request not to involve the one person in the world who could have answered it instantly.`,
-      `Voice cloning now needs only a few seconds of audio and it will keep getting better, which is why "listen carefully, does it sound right" is bad advice — it puts the work on a skill people do not reliably have. Everything that actually catches this sits outside the call: the number you already hold, the other person in the house, the bank. And because the audio gets reused, the last decision is not really the aftermath. It is the next person in the address book.`,
+      `Everything about the call was built to stop you checking: a twenty-minute deadline, a voice you've known all your life, and a plea not to involve the one person who could have answered instantly.`,
+      `Cloning needs only a few seconds of audio, so "does it sound right?" is the wrong test. What works sits outside the call: a number you already hold, someone else in the house, the bank. The audio gets reused, so warn the family.`,
     ],
   },
 
   recall: {
     id: `home-voice-clone-recall`,
-    prompt: `Three months later, a video call from your brother's account. He is on screen, he looks stressed, and he needs you to move money for a bond on a flat before close of business. What settles it?`,
+    prompt: `Three months later, a video call from your brother's account. He's on screen, he looks stressed, and he needs you to move money for a bond on a flat before close of business. What settles it?`,
     options: [
       { id: `a`, quality: `poor`, label: `You can see his face, so it's him`,
-        note: `Video can be faked too, including live on a call, and it is the same trap in a newer wrapper. What you can see was never the evidence.` },
+        note: `Video can be faked too, including live on a call. It's the same trap in a newer wrapper, and what you can see was never the evidence.` },
       { id: `b`, quality: `good`, label: `Hang up and reach him another way before anything moves`,
-        note: `Yes. Same step, different channel. Reaching him on a number or an app you already had, or through someone who is with him, does not depend on you spotting anything.` },
+        note: `Yes. Same step, different channel. Reach him on a number or app you already had, or through someone who's with him. It doesn't depend on spotting anything.` },
       { id: `c`, quality: `partial`, label: `Ask him something personal on the call`,
-        note: `Better than nothing and weaker than it feels. Anything you both know is often findable, and a caller who cannot answer can simply get upset that you asked — which is what happened in the car park.` },
+        note: `Better than nothing, and weaker than it feels. Shared knowledge is often findable, and a caller who can't answer can just get upset that you asked.` },
     ],
   },
 
   act: [
     { id: `a1`, label: `Agree with one family member this week that any call about money gets hung up and rung back` },
-    { id: `a2`, label: `Tell one person what a voice-clone call actually sounds like, before they get one` },
+    { id: `a2`, label: `Tell one person what a voice-clone call sounds like, before they get one` },
     { id: `a3`, label: `Save your bank's fraud line in your phone so you are not searching for it under pressure` },
   ],
 
@@ -376,5 +376,5 @@ export const scenario = {
       context: `Cloned audio gets reused across an address book. Embarrassment is what lets the second attempt land.` },
   ],
 
-  tell: `If someone you love rings needing money urgently, hang up and call them back on a number you already have — it costs thirty seconds when you're wrong.`,
+  tell: `If someone you love rings needing money urgently, hang up and call them back on a number you already have. It costs thirty seconds if you're wrong.`,
 };
