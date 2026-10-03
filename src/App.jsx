@@ -3,11 +3,15 @@
 // make the colour panels read as deliberate rather than as a tinted section.
 
 import { Outlet, Link } from 'react-router-dom';
+import RouteFocus from './components/RouteFocus.jsx';
 import s from './Shell.module.css';
 
 export default function App() {
   return (
     <div className={s.shell}>
+      <a className={s.skipLink} href="#main-content">Skip to main content</a>
+      <RouteFocus />
+
       <header className={s.head}>
         <Link className={s.brand} to="/">AI Risk Practice</Link>
         <span className={s.tag}>Free · No login</span>

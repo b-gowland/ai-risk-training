@@ -49,7 +49,7 @@ const s = {
 
 export function NotFound() {
   return (
-    <div style={s.page}>
+    <main id="main-content" style={s.page} tabIndex={-1}>
       <div style={s.mark}>◎</div>
       <h1 style={s.h1}>That page isn&rsquo;t here</h1>
       <p style={s.p}>
@@ -59,6 +59,6 @@ export function NotFound() {
       <div style={s.row}>
         <Link to="/" style={s.btn}>Back to the start</Link>
       </div>
-    </div>
+    </main>
   );
 }

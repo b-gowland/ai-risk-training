@@ -31,7 +31,7 @@ const s = {
 
 export function Privacy() {
   return (
-    <div style={s.page}>
+    <main id="main-content" style={s.page} tabIndex={-1}>
       <Link to="/" style={s.back}>← Back</Link>
       <h1 style={s.h1}>Privacy notice</h1>
       <p style={s.p}>This notice covers both sites: the AI Risk Practice Library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>) and the AI Risk Training app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>).</p>
@@ -50,9 +50,8 @@ export function Privacy() {
         ))}
       </ul>
       <p style={s.p}>
-        No IP address is stored. No personal identifier is created or retained.
-        No data is shared with advertising networks. No consent banner is required
-        because no personal data is collected.
+        No IP address is stored. Plausible does not create a persistent visitor identifier
+        or track you across days, sites, or devices. No data is shared with advertising networks.
       </p>
       <p style={s.p}>
         Plausible's data policy:{' '}
@@ -64,15 +63,17 @@ export function Privacy() {
       <p style={s.p}>When you play a scenario, we record anonymous, aggregate information about how scenarios are used.</p>
       <p style={s.p}><strong style={s.strong}>What we track:</strong></p>
       <ul style={s.ul}>{[
-        'That a scenario was started (scenario identifier only — not your name or any personal detail)',
+        'That a scenario was started (scenario identifier and title — not your name or any personal detail)',
         'That a choice was made at a decision point, and its quality rating (good / partial / poor — a label from the scenario schema, not your words)',
-        'That a scenario was completed, and the outcome category reached (good / warn / bad) and score',
-        'Whether you used the share or replay features on an outcome screen',
+        'Whether a recall question was answered or skipped, and the answer quality rating',
+        'That a debrief was viewed and a scenario was completed, including its outcome identifier and category (good / warn / bad), score, door, and play number',
+        'Whether you used the share or replay features on an outcome screen, including the share method',
+        'Which optional “one thing you could do this week” action identifier you selected, including “none”; the identifier maps to a displayed action, but no free text is sent',
       ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
       <p style={s.p}><strong style={s.strong}>What we do not track:</strong></p>
       <ul style={s.ul}>{[
         'Any text you type or say',
-        'Which specific option label you selected (only whether it was rated good, partial, or poor)',
+        'Which specific decision option label you selected (decision events record only whether it was rated good, partial, or poor)',
         'Any sequence linking your decisions across multiple plays or sessions',
         'Anything that could identify you as an individual',
       ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
@@ -99,11 +100,11 @@ export function Privacy() {
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Cookies and consent</h2>
-      <p style={s.p}>This site sets no cookies. No consent banner is shown because none is required — there is nothing to consent to. You can verify this by inspecting your browser's storage at any time.</p>
+      <p style={s.p}>This site sets no analytics cookies and does not create persistent visitor identifiers. It therefore does not show an analytics-cookie consent banner. You can inspect your browser's storage at any time.</p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Contact</h2>
       <p style={s.p}>Questions about this privacy notice or the data practices described here: <a style={s.a} href="mailto:hello@airiskpractice.org">hello@airiskpractice.org</a></p>
-    </div>
+    </main>
   );
 }
