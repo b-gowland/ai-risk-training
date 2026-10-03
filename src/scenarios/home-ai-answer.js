@@ -110,7 +110,7 @@ export const scenario = {
     n3_accepted: {
       prose: [
         `You pay the excess and get on with the trip. It stings for about a day.`,
-        `Then, on the fourth night, you catch yourself doing it again. You ask the same assistant two things: can you take the rental car on the Cook Strait ferry, and is your Australian licence enough without an international permit?`,
+        `Then, on the fourth night, you catch yourself doing it again. You ask the same assistant two things. Can you take the rental car on the Cook Strait ferry? Is your Australian licence enough without an international permit?`,
       ],
       decision: {
         prompt: `Two more confident, specific answers. What do you do with them?`,
@@ -160,7 +160,7 @@ export const scenario = {
 
     n_second: {
       prose: [
-        `Fourth night, in Picton. Without thinking much, you ask the same assistant two more things: is your Australian licence enough without an international permit, and can you take the rental car on the Cook Strait ferry?`,
+        `Fourth night, in Picton. Without thinking much, you ask the same assistant two more things. Is your Australian licence enough without an international permit? Can you take the rental car on the Cook Strait ferry?`,
         `Both answers sound just as sure as the first one.`,
       ],
       decision: {
@@ -210,7 +210,7 @@ export const scenario = {
       heading: `Caught yours. Undid it for her.`,
       tone: `warn`,
       score: 65,
-      reaction: `"It's usually right" is true, which is why it's so easy to say.`,
+      reaction: `"It's usually right" is true, so it's easy to say.`,
       description: [
         `You checked when it counted, and your own trip was covered.`,
         `Your friend asked you because you're the person she asks. She didn't ring the pharmacist, because you'd already answered.`,
@@ -239,7 +239,7 @@ export const scenario = {
         `The excess was yours, and there was no getting it back.`,
         `But you gave your friend the rule, not just the story, and the rule is the part that helps.`,
       ],
-      judgement: `A real example beats general caution, because it happened to someone the listener knows. Pass on that the assistant sounded most convincing exactly where it was making things up, and that the questions to check are the ones with money or health behind them.`,
+      judgement: `A real example beats general caution, because it happened to someone the listener knows. The assistant sounded most convincing exactly where it was making things up. Check the answers with money or health behind them.`,
     },
 
     outcome_silent: {

@@ -16,6 +16,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { analyse, GRADE_TARGET, LONG_SENTENCE } from './lib/readability.mjs';
 
 const ROOT = process.cwd();
 const only = process.argv[2] || null;
@@ -32,15 +33,8 @@ const LIMITS = {
   recallNote: 30, tell: 30, emDashes: 6,
 };
 
-// Phrasings that read as machine-written. Each is a warning with the
-// matching text, so the fix is a find away.
-const TICS = [
-  ['contrast framing', /\b(?:is|was|are|were|it's|that's)(?:n't| not) [^.!?;—]{1,50}(?:—|;|\.) (?:it|that|this)(?:'s| is| was)\b/gi],
-  ['"not X but Y" opener', /\bnot (?:just |only )?(?:a |an |the )?[a-z]+(?: [a-z]+)? — (?:it|but)\b/gi],
-  ['filler intensifier', /\b(?:genuinely|honestly|truly|actually|incredibly|deeply)\b/gi],
-  ['signposting', /\b(?:here's the thing|the point is|that's the point|worth sitting with|the shape of|make no mistake|at the end of the day)\b/gi],
-  ['stock vocabulary', /\b(?:delve|tapestry|crucial|pivotal|navigate|landscape|underscore|seamless|robust)\b/gi],
-];
+// Phrasings that read as machine-written, jargon and reading grade live in
+// lib/readability.mjs, shared with `npm run readability`.
 
 const ARTEFACT_TYPES = new Set([
   'message_thread', 'email', 'assistant_output', 'document', 'system_output', 'transcript',
@@ -361,23 +355,17 @@ for (const sc of targets) {
 
   // Artefacts are in-world documents (an email subject, the fictional AI's
   // output) and are meant to sound like their source, so only the
-  // narrator's text is checked.
-  const allText = [];
-  const collect = (v, key) => {
-    if (key === 'artefact') return;
-    if (typeof v === 'string') allText.push(v);
-    else if (Array.isArray(v)) v.forEach((x) => collect(x));
-    else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => collect(x, k));
-  };
-  collect(sc);
-  const text = allText.join('\n');
+  // narrator's text is checked. See lib/readability.mjs.
+  const r = analyse(sc);
   // Spaced dashes only: an unspaced one is interrupted dialogue ("My whole— everything").
-  const dashes = (text.match(/ — /g) || []).length;
-  if (dashes > LIMITS.emDashes) warn('style', `${dashes} em dashes; aim for ${LIMITS.emDashes} or fewer — use a full stop or comma`);
-  for (const [name, re] of TICS) {
-    const hits = text.match(re) || [];
-    if (hits.length) warn('style', `${name}: ${hits.slice(0, 3).map((h) => `"${h.trim()}"`).join(', ')}${hits.length > 3 ? ` (+${hits.length - 3})` : ''}`);
+  if (r.dashes > LIMITS.emDashes) warn('style', `${r.dashes} em dashes; aim for ${LIMITS.emDashes} or fewer — use a full stop or comma`);
+  for (const p of r.patterns) {
+    warn('style', `${p.name}: ${p.examples.map((h) => `"${h}"`).join(', ')}${p.count > 3 ? ` (+${p.count - 3})` : ''}`);
   }
+  if (r.staccato) warn('style', `${r.staccato} run(s) of one- or two-word sentences; join them up`);
+  for (const l of r.longList) warn('plain', `sentence over ${LONG_SENTENCE} words: "${l.slice(0, 80)}…"`);
+  if (r.jargon.length) warn('plain', `jargon an average reader would stop on: ${r.jargon.join(', ')} (explain it with "called X" or replace it)`);
+  if (r.grade > GRADE_TARGET[sc.door]) warn('plain', `reading grade ${r.grade}; target ${GRADE_TARGET[sc.door]} or lower for ${sc.door}`);
 
   /* ── String literal rule (CONTENT_STYLE_GUIDE) ───────────────── */
   const srcPath = join(ROOT, 'src/scenarios', `${sc.id}.js`);

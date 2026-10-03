@@ -478,7 +478,7 @@ export const scenario = {
 
   recall: {
     id: `f2-recall`,
-    prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event, and you want an AI tool to tidy the formatting. Which question decides it?`,
+    prompt: `Different week. A supplier sends a spreadsheet of their staff contact details so you can plan a joint event. You want an AI tool to tidy the formatting. Which question decides it?`,
     options: [
       { id: `a`, quality: `partial`, label: `Whether the spreadsheet is confidential`,
         note: `A habit more than a rule. Plenty of what leaks isn't marked confidential, and these contact details are still someone else's personal information.` },
@@ -504,5 +504,5 @@ export const scenario = {
       context: `Every good ending here runs through someone telling somebody early. Every bad one runs through the nine days they spent deciding.` },
   ],
 
-  tell: `Before you paste anything into an AI tool at work, ask whether that tool has been approved for this kind of information, and ask someone who would know.`,
+  tell: `Before you paste anything into an AI tool at work, ask whether it's approved for this kind of information. Ask someone who would know.`,
 };

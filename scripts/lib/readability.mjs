@@ -30,6 +30,7 @@ export const WORK_OK = new Set(['governance', 'stakeholder', 'aggregate', 'frame
 export const AI_PATTERNS = [
   ['contrast framing', /\b(?:is|was|are|were|it's|that's)(?:n't| not) [^.!?;—]{1,50}(?:—|;|\.) (?:it|that|this)(?:'s| is| was)\b/gi],
   ['"not X but Y"', /\bnot (?:just |only )?(?:a |an |the )?[a-z]+(?: [a-z]+)? — (?:it|but)\b/gi],
+  ['"never X. It was Y"', /\b(?:is|was|were|are) never [^.!?]{1,60}[.;—] ?(?:It|That|This)(?:'s| is| was)\b/gi],
   ['"isn\'t about X, it\'s about Y"', /\bis(?:n't| not) (?:really )?about\b/gi],
   ['filler intensifier', /\b(?:genuinely|honestly|truly|actually|incredibly|deeply|quietly|simply|precisely|literally)\b/gi],
   ['signposting', /\b(?:here's the thing|the point is|that's the point|worth sitting with|the shape of|make no mistake|at the end of the day|which is why|that's why|the real (?:problem|lesson|question|risk)|it's worth (?:noting|saying))\b/gi],
@@ -88,9 +89,12 @@ export function analyse(scenario) {
   const long = sents.filter((s) => wordsOf(s).length > LONG_SENTENCE);
   const complexWords = words.filter((w) => syllables(w) >= 4).length;
 
+  // A term the text explains where it introduces it ("a looser licence
+  // called LGPL", "That pull is called anchoring") is not jargon.
   const lower = all.toLowerCase();
   const jargon = JARGON.filter((t) => lower.includes(t))
-    .filter((t) => scenario.door === 'home' || !WORK_OK.has(t));
+    .filter((t) => scenario.door === 'home' || !WORK_OK.has(t))
+    .filter((t) => !new RegExp(`\\bcalled ${t.replace(/[/-]/g, '.')}\\b`).test(lower));
 
   const patterns = [];
   for (const [name, re] of AI_PATTERNS) {
@@ -124,5 +128,6 @@ export function analyse(scenario) {
     dashes,
     semicolons,
     staccato,
+    longList: long,
   };
 }

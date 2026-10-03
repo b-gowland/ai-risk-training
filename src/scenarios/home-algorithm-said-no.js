@@ -41,7 +41,7 @@ export const scenario = {
   ],
 
   authority: `You can ask for reasons, request a human review, and decide how you use what you learn. You can't make the company change its tool.`,
-  ending: `You find out whether an automated 'no' is the end of it, and whether what you learn helps only you or the people applying after you.`,
+  ending: `You find out whether an automated 'no' is the end of it. And whether what you learn helps only you, or the people who apply after you.`,
 
   begin: `Read it again`,
 
@@ -258,12 +258,12 @@ export const scenario = {
       heading: `Made your experience count for someone else`,
       tone: `good`,
       score: 85,
-      reaction: `Handing the next person the exact move, that they can ask why, is worth more than sympathy about how broken hiring is.`,
+      reaction: `Telling the next person exactly what to do, ask why, helps them more than agreeing that hiring is broken.`,
       description: [
         `You passed on the usable part: candidates can ask for reasons, and a requirement that wasn't in the ad is fair to question.`,
         `Someone checked their screening tool, or someone job-hunting asked a question they wouldn't have, because you were specific.`,
       ],
-      judgement: `Screening errors last because most people accept the blank no and move on. The most useful thing here was never winning your own case. It was making it normal to ask.`,
+      judgement: `Screening errors last because most people accept the blank no and move on. The most useful thing you did was help make asking normal.`,
     },
 
     outcome_silent: {
@@ -272,7 +272,7 @@ export const scenario = {
       score: 40,
       reaction: `"AI hiring is dodgy" feels like saying something. It leaves the listener wary but no better able to act.`,
       description: [
-        `You learned that asking often works and that a requirement missing from the ad is fair to raise, then kept it to yourself or blurred it into a grumble.`,
+        `You learned that asking often works, and that a requirement missing from the ad is fair to raise. Then you kept it to yourself, or turned it into a grumble.`,
         `The next person meets the same blank rejection with the same blank options.`,
       ],
       judgement: `"AI hiring is unfair" makes people cautious. "You can ask why, and challenge a requirement that wasn't in the ad" lets them act. You had the second and passed on the first.`,

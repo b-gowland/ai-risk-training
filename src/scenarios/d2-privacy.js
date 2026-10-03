@@ -31,7 +31,7 @@ export const scenario = {
 
   standing: `Junior in a small legal team, eighteen months in`,
   authority: `You can give a full account and recommend a fix. You can't decide what the firm tells the client, or change firm policy alone.`,
-  ending: `You find out whether the firm can respond to the client with a straight story, and whether that story includes you telling the truth the first time.`,
+  ending: `You find out whether the firm can give the client a straight story. And whether that story includes you telling the truth the first time.`,
 
   begin: `Go and see the partner`,
 
@@ -134,7 +134,7 @@ export const scenario = {
         prompt: `You remember pasting the full contract, pricing schedules and all. What do you say?`,
         choices: [
           { id: `a`, label: `The full contract text, including the pricing schedules`, quality: `good`,
-            consequence: `She writes "pricing schedules" and underlines it twice. That is the part the client will care about most and you both know it.` },
+            consequence: `She writes "pricing schedules" and underlines it twice. You both know the client will care about that part most.` },
           { id: `b`, label: `Parts of it. I don't remember exactly what I included`, quality: `partial`,
             consequence: `She writes "parts — unclear" and looks at it. Nobody can tell the client what happened from that, so someone will ask you again this afternoon.` },
         ],
@@ -180,7 +180,7 @@ export const scenario = {
 
     n_notify: {
       prose: [
-        `The partner has to call the client back. She turns to you: the client is going to ask how their confidential contract ended up online, and she wants your view on what to tell them.`,
+        `The partner has to call the client back. The client will ask how their confidential contract ended up online. She wants your view on what to tell them.`,
         `The honest answer isn't comfortable. It means saying a staff member pasted their contract into a public tool.`,
       ],
       decision: {
@@ -294,7 +294,7 @@ export const scenario = {
       { id: `a`, quality: `poor`, label: `Yes. Internal notes aren't confidential client data, so there's no risk`,
         note: `Internal notes often hold client names, deal terms, staff details and strategy. The firm can't control the tool, whatever you put into it.` },
       { id: `b`, quality: `good`, label: `Not really. The issue is that the firm doesn't control the tool, not whether the text is client-facing`,
-        note: `Right. The problem was never the label on the document. It was pasting into a system the firm can't get anything back from. Same fix: an approved tool, or nothing.` },
+        note: `Right. The label on the document doesn't matter. The problem is pasting it into a system the firm can't get anything back from. Same fix: an approved tool, or nothing.` },
       { id: `c`, quality: `partial`, label: `Probably fine, but they should check with the partner to be safe`,
         note: `Checking beats not checking. But the answer depends on whether the firm controls the tool, not on who says yes.` },
     ],

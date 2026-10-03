@@ -248,7 +248,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Tell the family group chat what happened, in plain terms`, quality: `good`,
             consequence: `Four replies in an hour. Two people say they nearly fell for something similar. One of them is your aunt, and she had not told anybody.` },
-          { id: `b`, label: `Just tell your aunt, quietly`, quality: `partial`,
+          { id: `b`, label: `Just tell your aunt, privately`, quality: `partial`,
             consequence: `She is grateful, and a little embarrassed. Embarrassment is why most people don't pass a warning on.` },
           { id: `c`, label: `Nothing. It's your family, not a public service announcement.`, quality: `poor`,
             consequence: `Fair enough. Six weeks later your cousin gets a call from the same voice and sends four hundred dollars to a car park.` },
@@ -332,7 +332,7 @@ export const scenario = {
       heading: `Two thousand dollars, and it was never her`,
       tone: `bad`,
       score: 15,
-      reaction: `You heard your mum crying and you moved. That's what the call was built to make you do, and it works on careful people.`,
+      reaction: `You heard your mum crying and you acted. The call was built to make you do exactly that, and it works on careful people.`,
       description: [
         `Two transfers went out. You found out on Sunday, when you rang about the trip home and she asked what trip.`,
         `The number on your screen was hers, and caller ID can be faked. The voice was close enough, which now takes very little audio.`,
@@ -343,7 +343,7 @@ export const scenario = {
 
   debrief: {
     frame: [
-      `Everything about the call was built to stop you checking. There was a twenty-minute deadline, a voice you've known all your life, and a plea not to involve the one person who could have answered straight away.`,
+      `Everything about the call was built to stop you checking. There was a twenty-minute deadline and a voice you've known all your life. And she begged you not to involve the one person who could have answered straight away.`,
       `Copying a voice takes only a few seconds of audio, so "does it sound right?" is the wrong test. Check outside the call instead: a number you already have, someone else in the house, the bank. Then warn the family.`,
     ],
   },

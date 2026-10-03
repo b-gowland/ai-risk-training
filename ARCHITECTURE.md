@@ -99,7 +99,8 @@ Pages at <https://app.airiskpractice.org/>.
 | Command | What it guards |
 |---|---|
 | `npm test` | Engine, screens, navigation and focus, artefacts, cards, analytics, static pages |
-| `npm run audit` | Every registered scenario: graph integrity, depth band, choice counts, unverdicted consequences, artefact types, scene keys |
+| `npm run audit` | Every registered scenario: graph integrity, depth band, choice counts, unverdicted consequences, artefact types, scene keys, wrap-up length caps; warns on machine-writing patterns, jargon, sentences over 25 words and reading grade |
+| `npm run readability` | Per-scenario reading grade, sentence length, pattern and jargon table (`-- --json` for before/after diffs). Rules live in `scripts/lib/readability.mjs` |
 | `npm run route-audit` | Cross-surface integrity: registry vs. routes vs. links vs. files |
 | `npm run lint` | ESLint |
 | `npm run test:scorm` | SCORM adapter call sequence against a mock LMS |

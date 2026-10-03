@@ -31,7 +31,7 @@ export const scenario = {
 
   coldOpen: [
     `Scan 75 of 80 for the day. The AI diagnostic aid returns its result before you've finished your own read: Normal, 91% confidence.`,
-    `But your eye caught something in the lower right lobe. Subtle. Probably nothing. The AI has been right all week, and it's overruled your doubts three times already.`,
+    `But your eye caught a faint shadow in the lower right lung. It's probably nothing. The AI has been right all week, and it's overruled your doubts three times already.`,
     `91% is not 100%. And the AI has seen 74 scans today. You've seen all 75.`,
   ],
 
@@ -154,7 +154,7 @@ export const scenario = {
 
     n_design: {
       prose: [
-        `This scan is dealt with. What's left is the problem you noticed: the AI's answer appears before you've done your own read, so every scan starts from its answer, not yours.`,
+        `This scan is dealt with. What's left is the problem you noticed. The AI's answer appears before you've done your own read, so every scan starts from its answer, not yours.`,
         `The department lead asks what would change that.`,
       ],
       decision: {
@@ -207,7 +207,7 @@ export const scenario = {
 
     n_others: {
       prose: [
-        `Whether this scan was caught or missed, the same uncomfortable thought hits you: you've already read 74 scans today the same way, at the same pace, with the AI's answer showing first each time.`,
+        `Whether this scan was caught or missed, an uncomfortable thought hits you. You've read 74 scans today the same way, at the same pace, with the AI's answer showing first.`,
         `Some of them were scans the AI called normal, which you signed off quickly.`,
       ],
       decision: {

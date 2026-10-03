@@ -157,7 +157,7 @@ export const scenario = {
 
     n_colleague: {
       prose: [
-        `A colleague drafted two of those four. They used the tool the way everyone was shown to (prompt, skim, send) and they're now watching you check their work with a look you recognise.`,
+        `A colleague drafted two of those four. They used the tool the way everyone was shown: prompt, skim, send. Now they're watching you check their work, with a look you recognise.`,
         `"Wait, are we not supposed to trust it? Nobody said that."`,
       ],
       decision: {
@@ -244,7 +244,7 @@ export const scenario = {
 
   debrief: {
     frame: [
-      `The fake citation was convincing because everything around it was right: real formatting, a plausible clause number, a date, and a real citation right next to it. Weeks of accurate output made it easier to trust, not harder.`,
+      `The fake citation was convincing because everything around it was right. It had real formatting, a likely clause number and a date, next to a real citation. Weeks of accurate output made it easier to trust, not harder.`,
       `A wrong answer that looks wrong gets caught. One delivered in the same confident voice as every right answer doesn't. So the check can't depend on the output looking suspicious. It never will.`,
     ],
   },

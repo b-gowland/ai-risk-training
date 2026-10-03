@@ -24,7 +24,7 @@ export const scenario = {
   mit_subdomain: `mit-1.1`,
 
   coldOpen: [
-    `You coordinate hiring for a mid-size team, and three months ago the company brought in an AI tool that picks a shortlist from everyone who applies.`,
+    `You coordinate hiring for a mid-size team. Three months ago the company brought in an AI tool that picks a shortlist from everyone who applies.`,
     `It's been fast and popular. But across ten jobs now, the shortlists keep showing the same narrow type of person. A colleague in your team noticed before you did, and she's been keeping notes for three weeks.`,
     `This morning she showed you her notes. Now you're seeing it too.`,
   ],
@@ -246,7 +246,7 @@ export const scenario = {
       score: 5,
       reaction: `Both roads felt safer than they were: staying quiet, or trying to prove it alone with data you weren't allowed to see.`,
       description: [
-        `Either a complaint surfaced the pattern you'd chosen not to raise, or pulling personal data without permission created a second problem while the first carried on.`,
+        `Either a complaint exposed the pattern you'd chosen not to raise, or pulling personal data without permission made a second problem.`,
         `The investigation asks what you knew and when, and now the story is partly about you.`,
       ],
       judgement: `Personal data like age and gender is protected for good reasons. Going around that is its own breach. "It wasn't my place" is a weak answer in any discrimination case. Raise it early and let the people with the data do the proving.`,
@@ -255,7 +255,7 @@ export const scenario = {
 
   debrief: {
     frame: [
-      `AI bias doesn't look like bias from inside the work. Every shortlist was defensible on its own. The pattern only showed across ten roles, to someone who looked on purpose, which is why it ran for three months.`,
+      `AI bias doesn't look like bias from inside the work. Every shortlist was defensible on its own. The pattern only showed across ten jobs, to someone looking on purpose. So it ran for three months.`,
       `"Maybe the best candidates really do look alike" is a fair thought, and exactly the one that stops an investigation. A narrow shortlist from a varied pool of applicants is something to check. Your job is to notice and raise it early.`,
     ],
   },
@@ -269,7 +269,7 @@ export const scenario = {
       { id: `b`, quality: `good`, label: `No. Models can guess removed details from other clues, so the results still need checking`,
         note: `Right. The only way to know is to look at all the results together, broken down by group. Clean inputs don't guarantee clean results.` },
       { id: `c`, quality: `partial`, label: `Mostly. Removing those fields helps a lot, though edge cases might slip through`,
-        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case, which is why you check the results.` },
+        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case. So check the results.` },
     ],
   },
 
