@@ -73,7 +73,7 @@ describe('navigating from one scenario to another', () => {
 });
 
 describe('navigating between top-level pages', () => {
-  it('moves focus to the new route main content', () => {
+  it('leaves focus alone on first load, then moves it to the new route main content', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
@@ -85,7 +85,7 @@ describe('navigating between top-level pages', () => {
       </MemoryRouter>
     );
 
-    expect(document.activeElement).toBe(screen.getByText('Home route'));
+    expect(document.activeElement).not.toBe(screen.getByText('Home route'));
     fireEvent.click(screen.getByRole('link', { name: 'About' }));
     expect(document.activeElement).toBe(screen.getByText('About route'));
   });

@@ -354,6 +354,25 @@ describe('site shell accessibility', () => {
     expect(links[0].textContent).toBe('Skip to main content');
     expect(links[0].getAttribute('href')).toBe('#main-content');
   });
+
+  it('moves focus to main without touching the URL hash the router owns', async () => {
+    const App = (await import('../App.jsx')).default;
+    const main = document.createElement('main');
+    main.id = 'main-content';
+    main.tabIndex = -1;
+    main.scrollIntoView = vi.fn();
+    document.body.appendChild(main);
+    try {
+      render(<App />);
+      const hashBefore = window.location.hash;
+      const notPrevented = fireEvent.click(screen.getByRole('link', { name: 'Skip to main content' }));
+      expect(notPrevented).toBe(false);
+      expect(window.location.hash).toBe(hashBefore);
+      expect(document.activeElement).toBe(main);
+    } finally {
+      main.remove();
+    }
+  });
 });
 
 describe('privacy notice', () => {
@@ -362,6 +381,7 @@ describe('privacy notice', () => {
     const { container } = render(<Privacy />);
     expect(container.textContent).toContain('Whether a recall question was answered or skipped');
     expect(container.textContent).toContain('action identifier you selected');
+    expect(container.textContent).toContain('print button on the discussion cards page');
     expect(container.textContent).not.toContain('there is nothing to consent to');
   });
 });

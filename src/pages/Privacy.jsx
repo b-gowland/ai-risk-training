@@ -69,6 +69,7 @@ export function Privacy() {
         'That a debrief was viewed and a scenario was completed, including its outcome identifier and category (good / warn / bad), score, door, and play number',
         'Whether you used the share or replay features on an outcome screen, including the share method',
         'Which optional “one thing you could do this week” action identifier you selected, including “none”; the identifier maps to a displayed action, but no free text is sent',
+        'That the print button on the discussion cards page was used, and whether it was for one scenario or all of them',
       ].map(item => <li style={s.li} key={item}>{item}</li>)}</ul>
       <p style={s.p}><strong style={s.strong}>What we do not track:</strong></p>
       <ul style={s.ul}>{[

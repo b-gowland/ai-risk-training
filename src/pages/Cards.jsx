@@ -336,7 +336,7 @@ export default function Cards() {
   const pick = (id) => { setAll(false); setParams({ s: id }, { replace: true }); };
 
   return (
-    <main className={`${a.page} ${s.page}`}>
+    <main id="main-content" className={`${a.page} ${s.page}`} tabIndex={-1}>
       <div className={`${a.inner} ${s.intro} ${s.screenOnly}`}>
         <Link to="/" className={a.back}>← Back to the situations</Link>
         <h1 className={a.h1}>Discussion cards</h1>
