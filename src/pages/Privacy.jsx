@@ -37,7 +37,7 @@ export function Privacy() {
       <p style={s.p}>This notice covers both sites: the AI Risk Practice Library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>) and the AI Risk Training app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>).</p>
 
       <hr style={s.divider}/>
-      <h2 style={s.h2}>What this site collects — and what it doesn't</h2>
+      <h2 style={s.h2}>What this site collects, and what it doesn't</h2>
       <p style={s.p}>
         This site uses <a style={s.a} href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
         a cookieless, privacy-first analytics tool. Plausible does not use cookies, does not collect personal data,
@@ -63,8 +63,8 @@ export function Privacy() {
       <p style={s.p}>When you play a scenario, we record anonymous, aggregate information about how scenarios are used.</p>
       <p style={s.p}><strong style={s.strong}>What we track:</strong></p>
       <ul style={s.ul}>{[
-        'That a scenario was started (scenario identifier and title — not your name or any personal detail)',
-        'That a choice was made at a decision point, and its quality rating (good / partial / poor — a label from the scenario schema, not your words)',
+        'That a scenario was started (scenario identifier and title, not your name or any personal detail)',
+        'That a choice was made at a decision point, and its quality rating (good, partial or poor: a label from the scenario, not your words)',
         'Whether a recall question was answered or skipped, and the answer quality rating',
         'That a debrief was viewed and a scenario was completed, including its outcome identifier and category (good / warn / bad), score, door, and play number',
         'Whether you used the share or replay features on an outcome screen, including the share method',
@@ -87,7 +87,7 @@ export function Privacy() {
         {[
           'Understand which risk areas and decision points people find most challenging',
           'Improve and redesign scenarios where patterns suggest the content is unclear or the framing is not working',
-          'Share public insights about AI risk literacy — for example, publishing findings such as "players most commonly struggled with decision X in scenario Y" in plain language',
+          'Share public insights about AI risk literacy, for example by publishing findings such as "players most commonly struggled with decision X in scenario Y" in plain language',
         ].map(item => <li style={s.li} key={item}>{item}</li>)}
       </ul>
       <p style={s.p}>

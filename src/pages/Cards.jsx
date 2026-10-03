@@ -242,7 +242,7 @@ function FacilitatorSheet() {
       <h2 id="facil-h" className={s.facilH}>Running a table</h2>
       <p className={s.facilSub}>
         About twenty-five minutes per scenario. No preparation, and you do not need to know the
-        answer — the cards carry it.
+        answer. The cards carry it.
       </p>
       <ol className={s.steps}>
         <li><b>Deal the deck in order.</b> Cards 4, 5 and 7 have an orange band. Put those face down in a pile beside you.</li>
@@ -254,7 +254,7 @@ function FacilitatorSheet() {
         <li><b>Card 8 goes home.</b> Ask each person to pick one action and say it out loud.</li>
       </ol>
       <h3 className={s.facilH3}>If the table goes quiet</h3>
-      <p>Ask who found the wrong answer tempting, and why. The pull of the wrong choice is the useful part — nobody in these scenarios is stupid.</p>
+      <p>Ask who found the wrong answer tempting, and why. The pull of the wrong choice is the useful part. Nobody in these scenarios is stupid.</p>
       <h3 className={s.facilH3}>What the cards leave out</h3>
       <p>
         The cards stop at the first decision. The full scenario branches from there to several
@@ -262,7 +262,7 @@ function FacilitatorSheet() {
         (at work) at app.airiskpractice.org.
       </p>
       <p className={s.fine}>
-        AI Risk Practice is free and open source. Scenario content is licensed CC BY 4.0 — copy,
+        AI Risk Practice is free and open source. Scenario content is licensed CC BY 4.0: copy,
         adapt and share these cards, crediting AI Risk Practice ({SOURCE}).
       </p>
     </section>

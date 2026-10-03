@@ -158,7 +158,7 @@ const scenariosIndexHtml = page({
   head: HEAD({
     title: 'All nine situations — AI Risk Practice',
     description:
-      'Nine short, specific situations about AI going wrong — at home and at work. Free, no login, nothing to install.',
+      'Nine short, specific situations about AI going wrong, at home and at work. Free, no login, nothing to install.',
     canonical: `${SITE}/scenarios/`,
     jsonLd: {
       '@context': 'https://schema.org',
@@ -173,7 +173,7 @@ const scenariosIndexHtml = page({
   }),
   body: `<main class="wide">
 <h1>All nine situations</h1>
-<p>Short, specific situations about AI going wrong — at home and at work. You make the calls
+<p>Short, specific situations about AI going wrong, at home and at work. You make the calls
 with incomplete information, then see what followed. Nothing is scored. Pick whichever one
 sounds most like your week.</p>
 <h2>At home</h2>
@@ -244,7 +244,7 @@ const cardsHtml = page({
   head: HEAD({
     title: 'Discussion cards — AI Risk Practice',
     description:
-      'Every situation also comes as eight printable cards for a table of three to six people — at work, in a class, or at a community session.',
+      'Every situation also comes as eight printable cards for a table of three to six people, at work, in a class, or at a community session.',
     canonical: `${SITE}/cards/`,
     jsonLd: {
       '@context': 'https://schema.org',
@@ -264,7 +264,7 @@ evidence, and everyone makes the call privately before anyone argues. Then the f
 cards come over.</p>
 <h2>Running a table</h2>
 <p>About twenty-five minutes per scenario. The facilitator does not need to know the
-answer — the cards carry the reasoning. Deal the deck in order; cards 4, 5 and 7 stay face
+answer. The cards carry the reasoning. Deal the deck in order; cards 4, 5 and 7 stay face
 down until the group has answered the card before them. Everyone chooses privately on
 card 3 before anyone discusses it.</p>
 <p>Print single-sided on A4, at actual size, and cut along the dashed lines. Two sheets per
@@ -293,7 +293,9 @@ writeFileSync(join(DIST, 'sitemap.xml'), sitemap);
 
 // ── Fill the empty #root fallback in dist/index.html ───────────────────
 // createRoot() replaces this on mount; it exists only for a crawler or a
-// browser with JS disabled. Same nine links as the React homepage — not a
+// browser with JS disabled. The <style> must stay INSIDE #root so it is
+// removed on mount too: its bare h1/h2/p/main rules otherwise leak into the
+// live app (they uppercased every app heading until Oct 2026). Same nine links as the React homepage — not a
 // different, second copy of the product's content.
 
 const indexPath = join(DIST, 'index.html');
@@ -306,7 +308,7 @@ if (!indexHtml.includes('<div id="root"></div>')) {
 
 const fallback = `<div id="root"><main class="wide">
 <h1>What would you do?</h1>
-<p>Short, specific situations about AI going wrong — at home and at work. You make the
+<p>Short, specific situations about AI going wrong, at home and at work. You make the
 calls with incomplete information, then see what followed. Free, no login, nothing to
 install.</p>
 <h2>At home</h2>
@@ -314,8 +316,7 @@ install.</p>
 <h2>At work</h2>
 <ul class="rows">${scenarioRows('work')}</ul>
 <div class="actions"><a class="btn" href="/cards/">Discussion cards for a group</a></div>
-</main></div>
-<style>${STYLE}</style>`;
+</main><style>${STYLE}</style></div>`;
 
 indexHtml = indexHtml.replace('<div id="root"></div>', fallback);
 

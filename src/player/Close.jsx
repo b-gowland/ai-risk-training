@@ -50,7 +50,7 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
       </div>
 
       <div className={s.body}>
-        <h1 id="close-title" className={s.srOnly}>What made this look legitimate</h1>
+        <h1 id="close-title" className="srOnly">What made this look legitimate</h1>
         {(() => {
           const frame = scenario.debrief.frame;
           const explicit = scenario.debrief.keyLine;

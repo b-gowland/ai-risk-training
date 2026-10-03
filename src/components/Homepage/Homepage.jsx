@@ -23,7 +23,7 @@ export default function Homepage() {
         </h1>
         <div className={s.heroRight}>
           <p className={s.explain}>
-            Choose your own adventure in AI risk. Start at home or at work below — or{' '}
+            Choose your own adventure in AI risk. Start at home or at work below, or{' '}
             <button
               type="button"
               className={s.inlineLink}

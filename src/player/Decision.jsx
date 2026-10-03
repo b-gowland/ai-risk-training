@@ -35,7 +35,7 @@ export default function Decision({ node, revealedChoice, onCommit, onAdvance, in
             />
           ))}
         </div>
-        <p id="decision-step" className={s.srOnly}>Decision {index}</p>
+        <p id="decision-step" className="srOnly">Decision {index}</p>
       </div>
 
       <div className={s.body}>

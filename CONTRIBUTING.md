@@ -6,7 +6,7 @@ Thanks for your interest. This training app is open source and free to use forev
 
 **Bug reports:** Open an issue with steps to reproduce, browser, and OS.
 
-**Scenario corrections:** If a scenario contains a factual error, open an issue with the correction and a primary source. Scenario characters and organisations are fictional — corrections to the risk content itself are welcome.
+**Scenario corrections:** If a scenario contains a factual error, open an issue with the correction and a primary source. Scenario characters and organisations are fictional; corrections to the risk content itself are welcome.
 
 **New scenarios:** Not being accepted at present. The live set is the nine registered in `src/scenarios/index.js`, and there is no current plan to add to it. Contributions that are wanted: factual corrections, bug fixes, accessibility, and tests or tooling.
 
@@ -18,7 +18,7 @@ Code in this repository is licensed under [Apache License 2.0](./LICENSE). Scena
 
 ## Standards
 
-- All scenario string values must use template literals (backticks) — apostrophes in single-quoted strings cause parse errors
-- Every scenario requires a `controls_summary` field (minimum 2 entries) — see the schema in `src/scenarios/README.md`
+- All scenario string values must use template literals (backticks), because apostrophes in single-quoted strings cause parse errors
+- Every scenario requires a `controls_summary` field (minimum 2 entries). See the schema in `src/scenarios/README.md`
 - Scenario audit must pass at zero P1 issues: `node scripts/scenario-audit.mjs <scenario-id>` (or `npm run audit` for all registered scenarios)
-- CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit`, `npm run test:scorm` and `npm run build` on every PR — run them locally first
+- CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit`, `npm run test:scorm` and `npm run build` on every PR. Run them locally first
