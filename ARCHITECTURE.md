@@ -69,9 +69,9 @@ closed; an unknown type throws in development.
 
 ## Scenarios
 
-`src/scenarios/index.js` is the registry. Only the files it imports are
-reachable. The other files in that folder use the retired schema and are not
-loaded.
+`src/scenarios/index.js` is the registry, and the nine files it imports are
+the only scenarios in the repo. The pre-rebuild scenarios were deleted in
+October 2026; they are in git history before that if ever needed.
 
 `FEATURED_PAIR` fixes the two scenarios shown first on the homepage.
 
@@ -108,10 +108,9 @@ All of these run in CI.
 
 ## Scene images
 
-`public/scenes/<key>.webp` are the images the app ships. `scenes-raw/` holds
-full-size PNG sources. `scripts/generate-scenes.mjs` produces new sources from
-`scripts/scene-prompts.json` (needs `GEMINI_API_KEY`), and
-`scripts/optimize-scenes.mjs` converts them to webp.
+`public/scenes/<key>.webp` are the images the app ships, one per key a live
+scenario uses. To add one, put the full-size PNG or JPG in `scenes-raw/<key>.png`
+(gitignored) and run `node scripts/optimize-scenes.mjs`.
 
 ## SCORM
 

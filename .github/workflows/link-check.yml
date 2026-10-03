@@ -1,0 +1,42 @@
+name: Link check
+
+# Weekly check that every external link in the app and docs still resolves:
+# library entries, framework sources, the about and privacy pages. Runs on
+# GitHub's network. A failed run emails the repo owner.
+on:
+  schedule:
+    - cron: '17 21 * * 0'   # Sunday 21:17 UTC (Monday morning AEST)
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - '*.md'
+      - 'index.html'
+      - '.github/workflows/link-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          args: >-
+            --no-progress
+            --max-retries 3
+            --accept 200,429
+            --exclude '\$'
+            --exclude '<'
+            --exclude '/docs/\.\.\.'
+            --exclude 'fonts\.(googleapis|gstatic)\.com'
+            --exclude 'plausible\.io/js/'
+            --exclude 'schema\.org'
+            --exclude '(imsglobal|adlnet|w3|sitemaps)\.org'
+            --exclude '^mailto:'
+            'src/**/*.js' 'src/**/*.jsx' 'src/**/*.md'
+            README.md CONTRIBUTING.md ARCHITECTURE.md index.html

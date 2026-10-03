@@ -32,8 +32,7 @@ knowledge base are real and cited.
 
 Nine scenarios are live: three At Home and six At Work. Each one runs in four
 beats (Setup → Decide → Debrief → Close). They are registered in
-`src/scenarios/index.js`; other files in that folder are pre-rebuild scenarios
-that are no longer loaded.
+`src/scenarios/index.js`.
 
 - Schema reference: `src/scenarios/README.md`
 - How the app fits together: `ARCHITECTURE.md`

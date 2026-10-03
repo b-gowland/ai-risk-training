@@ -28,3 +28,6 @@ dist-ssr
 .env.*
 !.env.example
 dist-scorm/
+
+# Full-size scene sources; only the WebP in public/scenes/ is committed
+scenes-raw/
