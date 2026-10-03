@@ -3,11 +3,26 @@
 // make the colour panels read as deliberate rather than as a tinted section.
 
 import { Outlet, Link } from 'react-router-dom';
+import RouteFocus from './components/RouteFocus.jsx';
 import s from './Shell.module.css';
+
+// HashRouter owns the URL fragment, so the browser's default jump to
+// #main-content would be read as a route and land on NotFound. Move focus
+// by hand instead and leave the URL alone.
+function skipToMain(e) {
+  const main = document.getElementById('main-content');
+  if (!main) return;
+  e.preventDefault();
+  main.focus();
+  main.scrollIntoView();
+}
 
 export default function App() {
   return (
     <div className={s.shell}>
+      <a className={s.skipLink} href="#main-content" onClick={skipToMain}>Skip to main content</a>
+      <RouteFocus />
+
       <header className={s.head}>
         <Link className={s.brand} to="/">AI Risk Practice</Link>
         <span className={s.tag}>Free · No login</span>

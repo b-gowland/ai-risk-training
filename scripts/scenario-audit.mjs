@@ -28,6 +28,22 @@ const fail = (id, m) => { console.log(`  ${FAIL} [${id}] ${m}`); p1++; };
 const warn = (id, m) => { console.log(`  ${WARN} [${id}] ${m}`); warned++; };
 const pass = (m) => console.log(`  ${PASS} ${m}`);
 
+// Wrap-up length caps (words). frame and judgement fail; the rest warn.
+const LIMITS = {
+  frame: 80, judgement: 45, reaction: 25, description: 45,
+  recallNote: 30, tell: 30, emDashes: 6,
+};
+
+// Phrasings that read as machine-written. Each is a warning with the
+// matching text, so the fix is a find away.
+const TICS = [
+  ['contrast framing', /\b(?:is|was|are|were|it's|that's)(?:n't| not) [^.!?;—]{1,50}(?:—|;|\.) (?:it|that|this)(?:'s| is| was)\b/gi],
+  ['"not X but Y" opener', /\bnot (?:just |only )?(?:a |an |the )?[a-z]+(?: [a-z]+)? — (?:it|but)\b/gi],
+  ['filler intensifier', /\b(?:genuinely|honestly|truly|actually|incredibly|deeply)\b/gi],
+  ['signposting', /\b(?:here's the thing|the point is|that's the point|worth sitting with|the shape of|make no mistake|at the end of the day)\b/gi],
+  ['stock vocabulary', /\b(?:delve|tapestry|crucial|pivotal|navigate|landscape|underscore|seamless|robust)\b/gi],
+];
+
 const ARTEFACT_TYPES = new Set([
   'message_thread', 'email', 'assistant_output', 'document', 'system_output', 'transcript',
 ]);
@@ -323,6 +339,46 @@ for (const sc of targets) {
   }
   if (Array.isArray(sc.controls_summary) && sc.controls_summary.length < 2) {
     fail('controls', `minimum 2 controls`);
+  }
+
+  /* ── Readability ─────────────────────────────────────────────────
+     The wrap-up is where readers drop off, so its length is capped:
+     these fail. Writing tics that read as machine-made are warnings —
+     each one is cheap to fix and they add up. */
+  const words = (t) => (t || '').split(/\s+/).filter(Boolean).length;
+  const frameWords = words((sc.debrief?.frame || []).join(' '));
+  if (frameWords > LIMITS.frame) fail('length', `debrief frame is ${frameWords} words; cap ${LIMITS.frame}`);
+  for (const [id, o] of Object.entries(outcomes)) {
+    if (words(o.judgement) > LIMITS.judgement) {
+      fail('length', `${id}: judgement is ${words(o.judgement)} words; cap ${LIMITS.judgement}`);
+    }
+    if (words(o.reaction) > LIMITS.reaction) warn('length', `${id}: reaction is ${words(o.reaction)} words; aim for ${LIMITS.reaction}`);
+    const d = words((o.description || []).join(' '));
+    if (d > LIMITS.description) warn('length', `${id}: description is ${d} words; aim for ${LIMITS.description}`);
+  }
+  for (const o of sc.recall?.options || []) {
+    if (words(o.note) > LIMITS.recallNote) warn('length', `recall ${o.id}: note is ${words(o.note)} words; aim for ${LIMITS.recallNote}`);
+  }
+  if (words(sc.tell) > LIMITS.tell) warn('length', `tell is ${words(sc.tell)} words; aim for ${LIMITS.tell}`);
+
+  // Artefacts are in-world documents (an email subject, the fictional AI's
+  // output) and are meant to sound like their source, so only the
+  // narrator's text is checked.
+  const allText = [];
+  const collect = (v, key) => {
+    if (key === 'artefact') return;
+    if (typeof v === 'string') allText.push(v);
+    else if (Array.isArray(v)) v.forEach((x) => collect(x));
+    else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => collect(x, k));
+  };
+  collect(sc);
+  const text = allText.join('\n');
+  // Spaced dashes only: an unspaced one is interrupted dialogue ("My whole— everything").
+  const dashes = (text.match(/ — /g) || []).length;
+  if (dashes > LIMITS.emDashes) warn('style', `${dashes} em dashes; aim for ${LIMITS.emDashes} or fewer — use a full stop or comma`);
+  for (const [name, re] of TICS) {
+    const hits = text.match(re) || [];
+    if (hits.length) warn('style', `${name}: ${hits.slice(0, 3).map((h) => `"${h.trim()}"`).join(', ')}${hits.length > 3 ? ` (+${hits.length - 3})` : ''}`);
   }
 
   /* ── String literal rule (CONTENT_STYLE_GUIDE) ───────────────── */

@@ -17,9 +17,9 @@
 // React-idiomatic reset and is why the id is read in a wrapper rather than in
 // the component that owns the state.
 
-import { useReducer, useEffect, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { scenarios, KNOWN_IDS } from '../scenarios/index.js';
+import { useReducer, useEffect, useMemo, useRef } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { scenarios, RETIRED, REPLACED } from '../scenarios/index.js';
 import {
   STATES, reducer, createInitialState,
   getNode, getOutcome, getRevealedChoice, getNext,
@@ -38,11 +38,13 @@ import s from './Player.module.css';
 
 export default function ScenarioPlayer() {
   const { id } = useParams();
+  if (Object.hasOwn(REPLACED, id)) return <Navigate to={`/scenario/${REPLACED[id]}`} replace />;
   // The key is the whole fix: a new scenario id is a new player.
   return <ScenarioMachine key={id} id={id} />;
 }
 
 function ScenarioMachine({ id }) {
+  const stageRef = useRef(null);
   const scenario = scenarios.find((sc) => sc.id === id) || null;
 
   const [state, dispatch] = useReducer(reducer, scenario, createInitialState);
@@ -58,7 +60,11 @@ function ScenarioMachine({ id }) {
     [state.path, state.nodeId]
   );
 
-  useEffect(() => { window.scrollTo(0, 0); }, [state.phase, state.nodeId]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const target = stageRef.current?.querySelector('article') || stageRef.current;
+    target?.focus({ preventScroll: true });
+  }, [id, state.phase, state.nodeId]);
 
   useEffect(() => {
     if (state.phase === STATES.DEBRIEF && scenario && outcome) {
@@ -71,27 +77,27 @@ function ScenarioMachine({ id }) {
   }, [state.phase, state.outcomeId, scenario, outcome]);
 
   if (!scenario) {
-    // A link from the knowledge base to a scenario that is not currently
-    // playable is a real and common case, not an error. Say so plainly and
-    // send the reader to the reference entry, which has the full risk detail.
-    const known = KNOWN_IDS.includes(id);
+    // An old link to a retired scenario is a real and common case, not an
+    // error. Say so plainly and send the reader to the reference entry for
+    // that risk, which has the full detail.
+    const entry = Object.hasOwn(RETIRED, id) ? RETIRED[id] : null;
     return (
-      <div className={s.missing}>
+      <main id="main-content" className={s.missing} tabIndex={-1} ref={stageRef}>
         <h1 className={s.title}>
-          {known ? 'This one isn\u2019t playable right now' : 'That situation isn\u2019t here'}
+          {entry ? 'This scenario has been retired' : 'That situation isn\u2019t here'}
         </h1>
         <p>
-          {known
-            ? 'The app is being rebuilt and this scenario has not come across yet. Some will not \u2014 the reference entry behind it stays either way, and it carries the full detail.'
+          {entry
+            ? 'It was part of an earlier version of the app. The reference entry for the same risk is still there.'
             : 'The link may be old or mistyped. Everything that is playable is one tap away.'}
         </p>
         <p className={s.missingLinks}>
           <Link to="/">See what you can play</Link>
-          <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">
-            Reference library
+          <a href={entry || 'https://library.airiskpractice.org'} target="_blank" rel="noreferrer">
+            {entry ? 'Read the reference entry' : 'Reference library'}
           </a>
         </p>
-      </div>
+      </main>
     );
   }
 
@@ -127,7 +133,7 @@ function ScenarioMachine({ id }) {
   };
 
   return (
-    <main className={s.stage}>
+    <main id="main-content" className={s.stage} tabIndex={-1} ref={stageRef}>
       {state.phase === STATES.SETUP && (
         <Setup scenario={scenario} onBegin={begin} />
       )}

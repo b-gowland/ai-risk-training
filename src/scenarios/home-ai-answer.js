@@ -48,7 +48,7 @@ export const scenario = {
   nodes: {
     start: {
       prose: [
-        `The answer didn't hesitate. It named an Act, gave a clean rule, and told you to check your PDS anyway — which somehow makes it feel more careful rather than less.`,
+        `The answer didn't hesitate. It named an Act, gave a clean rule, and told you to check your PDS anyway, which somehow makes it feel more careful.`,
         `Excess reduction is $29 a day. Eight days.`,
       ],
       artefact: {
@@ -81,7 +81,7 @@ export const scenario = {
       decision: {
         prompt: `The consultant says your policy covers your own vehicle, in Australia. What do you do?`,
         choices: [
-          { id: `a`, label: `Push back — the AI cited a specific Act`, quality: `poor`,
+          { id: `a`, label: `Push back. The AI cited a specific Act`, quality: `poor`,
             consequence: `You read the name of the Act down the phone. There is a pause, and then she asks you to spell it.` },
           { id: `b`, label: `Take it, and ask what your options are now`, quality: `good`,
             consequence: `She is straightforward about it. Your travel insurance might carry rental excess cover; a lot of policies do, and yours turns out not to.` },
@@ -110,7 +110,7 @@ export const scenario = {
     n3_accepted: {
       prose: [
         `You pay the excess and get on with the trip. It stings for about a day.`,
-        `Then, on the fourth night, you catch yourself doing it again — asking the same assistant whether the rental agreement lets you take the car across on the Cook Strait ferry, and whether your Australian licence is enough without an international permit.`,
+        `Then, on the fourth night, you catch yourself doing it again, asking the same assistant whether the rental agreement lets you take the car across on the Cook Strait ferry, and whether your Australian licence is enough without an international permit.`,
       ],
       decision: {
         prompt: `Two more confident, specific answers. What do you do with them?`,
@@ -118,7 +118,7 @@ export const scenario = {
           { id: `a`, label: `Ring the rental company and check both`, quality: `good`,
             consequence: `The licence is fine. The ferry is not: their agreement says the car stays on this island and you swap vehicles at the terminal. The assistant had been certain about both.` },
           { id: `b`, label: `These two are smaller. Let them go.`, quality: `poor`,
-            consequence: `You find out about the vehicle swap at the terminal, at the terminal, with a sailing in forty minutes.` },
+            consequence: `You find out about the vehicle swap at the terminal, with a sailing in forty minutes.` },
         ],
       },
       branches: { a: `n_forward`, b: `outcome_silent` },
@@ -130,9 +130,9 @@ export const scenario = {
         `A friend mentions, in passing, that they ask an assistant this kind of thing all the time.`,
       ],
       decision: {
-        prompt: `What do you actually say?`,
+        prompt: `What do you say?`,
         choices: [
-          { id: `a`, label: `Name the pattern — it invents specifics, so check the ones that cost you`, quality: `good`,
+          { id: `a`, label: `Name the pattern: it invents specifics, so check the ones that cost you`, quality: `good`,
             consequence: `It takes about twenty seconds. They ask you to say the Act name again, and laugh, and then go quiet.` },
           { id: `b`, label: `Keep it to yourself. It's a bit embarrassing.`, quality: `partial`,
             consequence: `Nobody enjoys being the cautionary tale. The story stays yours, and so does the pattern.` },
@@ -149,7 +149,7 @@ export const scenario = {
       decision: {
         prompt: `That was going to be a four-thousand-dollar excess. What do you take from it?`,
         choices: [
-          { id: `a`, label: `Something specific — check the AI on facts that cost money`, quality: `good`,
+          { id: `a`, label: `Something specific: check the AI on facts that cost money`, quality: `good`,
             consequence: `You take the excess reduction at the desk and it never matters, which is what most good decisions look like from the outside.` },
           { id: `b`, label: `A general sense that you should be more careful with AI`, quality: `partial`,
             consequence: `You take the excess reduction anyway. By the time you land, "be careful" has worn down to roughly nothing.` },
@@ -183,7 +183,7 @@ export const scenario = {
       decision: {
         prompt: `What do you send back?`,
         choices: [
-          { id: `a`, label: `Where it fails specifically — and say to ring the pharmacist`, quality: `good`,
+          { id: `a`, label: `Where it fails, specifically, and to ring the pharmacist`, quality: `good`,
             consequence: `The pharmacist takes four minutes and says there is an interaction worth spacing the doses around. Nobody was ever going to die of it. It was also not fine.` },
           { id: `b`, label: `It's usually right about that sort of thing`, quality: `poor`,
             consequence: `It is usually right about that sort of thing. Your friend does not ask anyone else, because you were the person she asked.` },
@@ -198,48 +198,48 @@ export const scenario = {
       heading: `Caught it, and passed on the useful half`,
       tone: `good`,
       score: 100,
-      reaction: `You made a phone call about something that felt like a silly question. The whole scenario turns on that eleven minutes on hold.`,
+      reaction: `You made a phone call that felt like a silly question. Those eleven minutes on hold are what this turned on.`,
       description: [
-        `Checking first cost you nothing and saved a four-thousand-dollar excess you were one click away from declining.`,
-        `Then your friend got the accurate version rather than a verdict. Not "AI is fine", not "AI is dangerous", but where it goes wrong and what to do instead.`,
+        `Checking first cost you nothing and saved a four-thousand-dollar excess you were one click from declining.`,
+        `Then your friend got the accurate version: where AI goes wrong and what to do instead.`,
       ],
-      judgement: `The failure mode is narrow enough to name. These systems invent specifics — laws, prices, policy terms, interactions — in the same fluent voice they use for everything else, and they are genuinely fast and useful for drafting, summarising and thinking out loud. Catching your own case was half the value. Handing on the calibrated version rather than a blanket warning is the half most people skip, and it is the half that reaches someone else's mother.`,
+      judgement: `These tools invent specifics, like laws, prices, policy terms and drug interactions, in the same fluent voice they use for everything else. Catching your own case was half the value. Passing on the calibrated version is the half that reaches someone else's mother.`,
     },
 
     outcome_safe_silent: {
       heading: `Caught yours. Undid it for her.`,
       tone: `warn`,
       score: 65,
-      reaction: `"It's usually right" is true, which is exactly why it is such an easy thing to say.`,
+      reaction: `"It's usually right" is true, which is why it's so easy to say.`,
       description: [
-        `You verified when it counted and your own trip was covered.`,
-        `Your friend asked you because you are the person she asks. She did not ring the pharmacist, because you had already answered.`,
+        `You checked when it counted, and your own trip was covered.`,
+        `Your friend asked you because you're the person she asks. She didn't ring the pharmacist, because you'd already answered.`,
       ],
-      judgement: `Verifying protected you and stopped at you. The value of hitting a failure mode is mostly in what you do with it afterwards, and "it's usually right" is the same confident unverified reassurance the assistant gave you in the first place, arriving from someone she trusts more.`,
+      judgement: `Checking protected you and stopped there. "It's usually right" is the same unchecked reassurance the assistant gave you, now coming from someone she trusts more.`,
     },
 
     outcome_overcorrected: {
       heading: `Paid the excess, threw away the lesson`,
       tone: `bad`,
       score: 20,
-      reaction: `Swearing off the tool after it costs you money feels like the responsible response. It is the one that keeps the cost and loses everything you paid for.`,
+      reaction: `Swearing off the tool after it costs you money feels responsible. It keeps the cost and loses what you paid for.`,
       description: [
         `Four thousand dollars of excess, and you deleted the app.`,
-        `Three weeks later you were using it again, because it is genuinely useful, and this time with no rule at all about where it fails.`,
+        `Three weeks later you were using it again, because it's useful, and this time with no rule at all about where it fails.`,
       ],
-      judgement: `Calibrate the trust to the question. Specific external facts — an Act, a price, a policy term, a drug interaction — are where these systems invent, and there the answer is to check the source. For drafting, summarising and thinking something through they are fast and reliable. "Never use it" costs you a good tool and, worse, leaves you unable to tell anyone where the danger actually sits.`,
+      judgement: `Match your trust to the question. Laws, prices, policy terms and doses are where these tools invent, so check those at the source. For drafting and summarising they're fast and useful. "Never use it" also leaves you unable to tell anyone where the danger sits.`,
     },
 
     outcome_shared: {
       heading: `Paid for it, then made it worth something`,
       tone: `warn`,
       score: 55,
-      reaction: `Turning your own expensive week into twenty seconds of useful advice is the best available use of it.`,
+      reaction: `Turning your own expensive week into twenty seconds of useful advice is the best use of it.`,
       description: [
         `The excess was yours, and there was no getting it back.`,
-        `But you gave your friend the pattern rather than the anecdote, which is the part that travels.`,
+        `But you gave your friend the pattern, not just the story, and the pattern is the part that travels.`,
       ],
-      judgement: `A real example beats any general caution about AI, because it is specific and it happened to someone the listener knows. The thing worth passing on is not that you had a bad week in Nelson. It is that the assistant was most convincing exactly where it was inventing, and that the questions worth checking are the ones with money or health behind them.`,
+      judgement: `A real example beats general caution, because it happened to someone the listener knows. Pass on that the assistant was most convincing exactly where it was inventing, and that the questions to check are the ones with money or health behind them.`,
     },
 
     outcome_silent: {
@@ -248,17 +248,17 @@ export const scenario = {
       score: 35,
       reaction: `Nobody enjoys being the cautionary tale, and this is the ending where that instinct wins.`,
       description: [
-        `You paid the excess, or stood at a ferry terminal with forty minutes and the wrong car, and you kept it to yourself.`,
-        `The pattern that caught you is unchanged and unshared. The next person you could have told is still one confident answer away from their own version.`,
+        `You paid the excess, or stood at a ferry terminal with forty minutes and the wrong car, and kept it to yourself.`,
+        `The next person you could have told is still one confident answer away from their own version.`,
       ],
-      judgement: `The cost of an expensive lesson is fixed. What varies is how many people get it for free. A vague resolution to be careful fades inside a fortnight; a specific sentence — it invents the specifics, so check the ones that cost you — survives being repeated, which is the only way any of this reaches anyone.`,
+      judgement: `The cost of the lesson is fixed. What varies is how many people get it free. "Be careful" fades in a fortnight. "It invents the specifics, so check the ones that cost you" survives being repeated.`,
     },
   },
 
   debrief: {
     frame: [
-      `The answer that started this had every marker of a good one. Instant. Specific. It named an Act, it gave a clean rule with a number in it, and it told you to check your PDS anyway. That last touch is the one that does the damage, because a caveat reads as care. None of it was real.`,
-      `This is not the tool breaking. It is the tool working as built: producing fluent, plausible text, with no separate step anywhere in it that checks whether the specifics exist. Which is why the lesson is neither "don't use AI" nor "it's usually right, relax". The invention clusters somewhere predictable — laws, citations, prices, policy terms, doses, interactions — and for those a primary source is the finish line, usually one phone call away. For drafting an email or thinking a problem through, the same tool is fast and genuinely good. The skill is noticing which kind of question you just asked, and reaching for the source when being wrong has a number attached.`,
+      `The answer had every sign of a good one. It was instant, named an Act, gave a rule with a number in it, and told you to check your PDS anyway. That caveat did the most damage, because it read as care.`,
+      `The tool wasn't broken. It produces fluent text, with no step that checks whether the specifics exist. The inventions cluster in laws, prices, policy terms and doses, and for those a primary source is one phone call away.`,
     ],
   },
 
@@ -266,27 +266,27 @@ export const scenario = {
     id: `home-ai-answer-recall`,
     prompt: `You paste a long article in and ask for a summary. Separately, you ask what the excess is on a home-insurance policy you name. Which one do you check before you rely on it?`,
     options: [
-      { id: `a`, quality: `poor`, label: `Neither — it handled both, so both are fine`,
-        note: `The excess is a specific external fact about a document the assistant has never seen. It can produce a completely plausible number for it. "It handled both" is the confidence that declines the excess reduction.` },
+      { id: `a`, quality: `poor`, label: `Neither. It handled both, so both are fine`,
+        note: `The excess is a fact about a document the assistant has never seen, so it can invent a plausible number. "It handled both" is how you decline the cover.` },
       { id: `b`, quality: `good`, label: `The excess. The summary you can check against the text you gave it.`,
-        note: `Yes. The summary is drawn from something in front of you, so verifying it costs a scroll. The excess is external and unverifiable from anything on your screen, which is exactly the shape of answer these systems invent.` },
-      { id: `c`, quality: `partial`, label: `The summary — long articles get garbled`,
-        note: `Summaries do drift, and you can catch that against the source you pasted. The riskier answer is the one you cannot check from anything in front of you.` },
+        note: `Yes. You can check the summary against the text you gave it. The excess comes from nowhere on your screen, which is exactly the kind of answer these tools invent.` },
+      { id: `c`, quality: `partial`, label: `The summary. Long articles get garbled`,
+        note: `Summaries can drift, and you can catch that against what you pasted. The riskier answer is the one you can't check from anything in front of you.` },
     ],
   },
 
   act: [
     { id: `a1`, label: `Next time an AI gives you a law, price or policy detail that costs money, check it at the source` },
     { id: `a2`, label: `Pick one consequential AI answer you already acted on, and verify it after the fact` },
-    { id: `a3`, label: `Tell one person the specific pattern — it invents the specifics — rather than "be careful with AI"` },
+    { id: `a3`, label: `Tell one person the specific pattern (it invents the specifics) rather than "be careful with AI"` },
   ],
 
   controls_summary: [
     { id: `c1`, label: `One rule: primary source for insurance, legal and medical specifics`, effort: `Low`, owner: `You`, go_live: true,
       context: `The whole failure is treating a confident answer as a checked one. A standing habit for the answers with money or health behind them is the entire fix.` },
     { id: `c2`, label: `Check with the source, not a second AI`, effort: `Low`, owner: `You`, go_live: true,
-      context: `A second assistant can produce the same plausible invention. The insurer, the pharmacist, the actual document — those settle it.` },
+      context: `A second assistant can produce the same plausible invention. The insurer, the pharmacist or the document itself settles it.` },
   ],
 
-  tell: `AI invents most confidently on specific checkable facts — laws, prices, doses — so those are the ones to check at the source.`,
+  tell: `AI invents most confidently on specific facts you could check, like laws, prices and doses. Check those at the source.`,
 };

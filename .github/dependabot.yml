@@ -1,0 +1,21 @@
+version: 2
+
+# Security updates are on in repo settings. This adds weekly version updates,
+# grouped to keep PR noise down, and covers the workflow actions. Mirrors
+# ai-risk-kb.
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

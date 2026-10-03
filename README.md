@@ -1,6 +1,6 @@
 # ai-risk-training
 
-Interactive scenario-based AI risk training — a companion to [ai-risk-kb](https://github.com/b-gowland/ai-risk-kb).
+Interactive scenario-based AI risk training, and a companion to [ai-risk-kb](https://github.com/b-gowland/ai-risk-kb).
 
 **Live:** https://app.airiskpractice.org/
 
@@ -8,22 +8,21 @@ Interactive scenario-based AI risk training — a companion to [ai-risk-kb](http
 
 ## What it is
 
-One training app with two doors. **At home** covers personal AI risk — scams,
-chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job,
-from general staff through practitioners. The split is situational, not
-identity-based: the same person uses both.
+One training app with two doors. **At home** covers personal AI risk: scams,
+chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job.
+The same person can use both.
 
-You are dropped into a situation, you make the calls, and you see what
-follows. Nothing is scored and there is no login. Anonymous, aggregate usage is
-recorded so the project can see what gets played; nothing personal is stored.
+You're dropped into a situation, you make the calls, and you see what follows.
+Nothing is scored and there's no login. Anonymous, aggregate usage is recorded
+so the project can see what gets played. Nothing personal is stored.
 
-- **One perspective per scenario**, chosen as the most instructive vantage
-  point on that risk. No identity gate before you are shown anything.
-- **Artefacts** — the message, the email, the model output, the transcript.
-  If a decision turns on seeing something, you see it.
-- **A debrief that does the work** — what pulled you, what happened, what made
-  it look legitimate, and one sentence worth passing on.
-- **Links to the reference layer** at
+- **One point of view per scenario**, picked as the one that teaches the most.
+  You aren't asked who you are before you start.
+- **Artefacts:** the message, the email, the AI output, the transcript. If a
+  decision turns on seeing something, you see it.
+- **A short debrief:** what happened, what made it look legitimate, and one
+  sentence worth passing on.
+- **Links to the reference library** at
   [library.airiskpractice.org](https://library.airiskpractice.org/)
 
 All characters and organisations are fictional. Incidents referenced in the
@@ -31,17 +30,20 @@ knowledge base are real and cited.
 
 ## Scenarios
 
-The app is mid-rebuild to a four-beat scenario schema (Setup → Decide →
-Debrief → Close). Scenarios are registered in `src/scenarios/index.js` as each
-is migrated; files present but unregistered are not reachable in the app and
-are reported by `npm run route-audit`.
+Nine scenarios are live: three At Home and six At Work. Each one runs in four
+beats (Setup → Decide → Debrief → Close). They are registered in
+`src/scenarios/index.js`.
 
-Schema reference: `src/scenarios/README.md`.
+- Schema reference: `src/scenarios/README.md`
+- How the app fits together: `ARCHITECTURE.md`
+
+**Discussion cards** at [/#/cards](https://app.airiskpractice.org/#/cards) are
+a printable version of each scenario for running a group session.
 
 ## Stack
 
 - React 19 + Vite, deployed to GitHub Pages with custom domain
-- Zero backend — all scenario logic runs client-side
+- No backend: all scenario logic runs in the browser
 - Privacy-friendly analytics via Plausible (no cookies, no personal data)
 
 ## Setup
@@ -57,7 +59,7 @@ No API key required to run the full scenario experience locally.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full details. Open an issue before starting work on a new scenario to avoid duplication.
+See [CONTRIBUTING.md](CONTRIBUTING.md). New scenarios aren't being accepted at present; corrections, bug fixes and accessibility work are welcome.
 
 ## Licence
 

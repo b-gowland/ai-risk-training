@@ -14,129 +14,117 @@ export default function About() {
     `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent(subject)}`;
 
   return (
-    <main className={s.page}>
+    <main id="main-content" className={s.page} tabIndex={-1}>
       <div className={s.inner}>
         <Link to="/" className={s.back}>← Back to the situations</Link>
 
         <h1 className={s.h1}>Why this exists</h1>
 
         <p className={s.lede}>
-          AI is turning up in ordinary life and ordinary jobs faster than anyone is being
-          taught to handle it. Most of the training that exists is course-shaped: you watch, you
-          read, you answer a quiz at the end. Very little of it puts you inside the situation and
-          makes you decide. This is an attempt at that: short, specific situations you actually
-          play, free for anyone, with the reasoning left open for you to check.
+          AI is turning up in everyday life and work faster than anyone is being taught to
+          handle it. Most training is a course: watch, read, answer a quiz. Very little of it
+          puts you in the situation and makes you decide. This does. Short, specific situations
+          you play, free for anyone, with the reasoning open for you to check.
         </p>
 
         <section className={s.section}>
           <h2 className={s.h2}>What it is</h2>
           <p className={s.p}>
-            This v2 build has nine core branching scenarios about AI going wrong, split across
-            two doors: one for personal life, one for work. You are the person it is happening to.
-            You make the calls with incomplete information and some time pressure, and then you see
-            what followed. Nothing is scored. There is no login and nothing to install.
+            Nine branching scenarios about AI going wrong, behind two doors: one for home, one
+            for work. You are the person it&rsquo;s happening to. You make the calls with
+            incomplete information and a clock running, then see what followed. Nothing is
+            scored. No login, nothing to install.
           </p>
           <p className={s.p}>
-            It is a <em>branching story</em> on purpose. People remember decisions they
-            made and consequences they lived far better than slides they clicked through — so the
-            format is the point, not decoration.
+            It&rsquo;s a story you play because people remember decisions they made far better
+            than slides they clicked through.
           </p>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>What it is trying to do</h2>
+          <h2 className={s.h2}>What we&rsquo;re aiming for</h2>
           <ul className={s.list}>
-            <li><strong>Free and open.</strong> The whole thing is free, and the source and the
-              reference library behind it are public. Nothing important is hidden behind a wall.</li>
-            <li><strong>Actually good.</strong> The aim is training that stands up to scrutiny —
-              accurate risks, actionable responses, and reasoning you can follow to its source,
-              rather than confident hand-waving.</li>
-            <li><strong>Open to anyone.</strong> No login, no prerequisites and nothing to
-              install. Pick whichever situation sounds most like your week and start there.
-              Zero-friction access is deliberate.</li>
-            <li><strong>Worth the time it takes.</strong> A home scenario runs about five minutes,
-              a workplace one eight to ten. It is designed to be quick, specific and, honestly, a
-              bit gripping — because training nobody wants to do teaches nobody anything.</li>
+            <li><strong>Free and open.</strong> The app, its source code and the reference library
+              behind it are all public.</li>
+            <li><strong>Accurate.</strong> Real risks, responses you can act on, and reasoning you
+              can trace to a source.</li>
+            <li><strong>Open to anyone.</strong> No login and no prerequisites. Start with
+              whichever situation sounds most like your week.</li>
+            <li><strong>Worth your time.</strong> An At Home scenario takes about five minutes, an
+              At Work one eight to ten.</li>
           </ul>
           <p className={s.note}>
-            A note on honesty: this is designed to help you think through AI risk, and it is not a
-            certification, not legal or security advice, and it makes no claim to make anyone
-            &ldquo;compliant.&rdquo; It is a place to practise the decision before you have to make
-            it for real.
+            This is practice, not a certification. It isn&rsquo;t legal or security advice, and
+            it won&rsquo;t make anyone &ldquo;compliant.&rdquo; It&rsquo;s a place to make the
+            decision once before you have to make it for real.
           </p>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>How it was made — and remade</h2>
+          <h2 className={s.h2}>How it was made</h2>
           <p className={s.p}>
-            This is built with AI, and it feels right to be plain about that in a project about
-            AI risk. The code and much of the first-draft writing were produced by working with
-            an AI model, and then reviewed and approved by a human. AI is a genuinely useful tool
-            when you check its work — which is, more or less, the whole point of this site.
+            This was built with AI, and a project about AI risk should say so. The code and much
+            of the first-draft writing came from working with an AI model. A person reviewed and
+            approved all of it. AI is useful when you check its work, which is roughly what this
+            site is about.
           </p>
           <p className={s.p}>
-            The version you are looking at is the second attempt. The first was built mainly with
-            corporate training in mind — 32 scenarios, four personas each. With feedback we found
-            it was too technical and suited to only a small slice of people, so we have tried to
-            both simplify it and focus on the core AI risks that might resonate with a broader
-            audience. At the same time we leaned harder into what works in training design, so the
-            setup, flow and wrap-up are all better than they were. We are always looking to
-            improve — so please send any feedback below, or help us build this better.
+            This is the second version. The first was aimed at corporate training: 32 scenarios,
+            four roles each. Feedback said it was too technical for most people, so this version
+            covers fewer risks, for a wider audience, with a simpler setup and a shorter ending.
           </p>
         </section>
 
         <section className={s.section}>
           <h2 className={s.h2}>Where the content comes from</h2>
           <p className={s.p}>
-            Scenarios are built from documented incidents and established risk research, not
-            invented for effect. The reference library sits behind the workplace scenarios and
-            carries the full detail and citations for each risk. A few of the foundations the
-            content draws on:
+            Scenarios draw on documented incidents and published risk research. The characters
+            and organisations are fictional. Every scenario links to a reference library entry
+            with the full detail and citations. The main sources:
           </p>
           <ul className={s.list}>
             <li>
-              <a href="https://airisk.mit.edu/" target="_blank" rel="noreferrer">The MIT AI Risk Repository</a>
-              {' '}— the risk taxonomy the scenarios are organised against.
+              <a href="https://airisk.mit.edu/" target="_blank" rel="noreferrer">The MIT AI Risk Repository</a>,
+              the risk taxonomy the scenarios are organised by.
             </li>
             <li>
-              <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noreferrer">The NIST AI Risk Management Framework</a>
-              {' '}— for how controls are framed.
+              <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noreferrer">The NIST AI Risk Management Framework</a>,
+              for how the controls are framed.
             </li>
             <li>
-              <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">The AI Risk knowledge base</a>
-              {' '}— the reference layer, with a citation ledger, that the workplace scenarios rest on.
+              <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">The AI Risk Practice library</a>,
+              the reference entries and citations behind each scenario.
             </li>
           </ul>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>Tell me what you think</h2>
+          <h2 className={s.h2}>Tell us what you think</h2>
           <p className={s.p}>
-            This is a solo project and feedback genuinely shapes it. The most useful things you
-            could send:
+            This is a small project and feedback shapes it. Most useful:
           </p>
           <ul className={s.list}>
-            <li>Which scenario landed hardest — and which fell flat.</li>
+            <li>Which scenario stuck with you, and which fell flat.</li>
             <li>Anything that looked wrong, broke, or read as inaccurate.</li>
-            <li>An AI risk you want to see turned into a scenario next.</li>
+            <li>An AI risk you&rsquo;d like to see as a scenario.</li>
           </ul>
           <div className={s.actions}>
-            <a className={s.primary} href={mailto('AI Risk Practice — feedback')}>Send feedback</a>
-            <a className={s.secondary} href={mailto('AI Risk Practice — a scenario idea')}>Suggest a scenario</a>
+            <a className={s.primary} href={mailto('AI Risk Practice: feedback')}>Send feedback</a>
+            <a className={s.secondary} href={mailto('AI Risk Practice: scenario idea')}>Suggest a scenario</a>
           </div>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>Want to help build it</h2>
+          <h2 className={s.h2}>Help build it</h2>
           <p className={s.p}>
-            If you work in AI risk, governance, security or learning design and want to contribute
-            a scenario, review one, or collaborate more seriously, that would be very welcome. The
-            code and content are{' '}
-            <a href="https://github.com/b-gowland" target="_blank" rel="noreferrer">open on GitHub</a>,
-            and the fastest way to start a conversation is an email.
+            If you work in AI risk, governance, security or learning design and want to review a
+            scenario, correct something or collaborate, get in touch. The code and content
+            are{' '}
+            <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">open on GitHub</a>,
+            and email is the quickest way to start.
           </p>
           <div className={s.actions}>
-            <a className={s.primary} href={mailto('AI Risk Practice — collaboration')}>Get in touch</a>
+            <a className={s.primary} href={mailto('AI Risk Practice: collaboration')}>Get in touch</a>
           </div>
         </section>
 

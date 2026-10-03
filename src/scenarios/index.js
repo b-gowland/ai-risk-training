@@ -1,14 +1,7 @@
-// Scenario registry.
+// Scenario registry. These nine are the whole live set.
 //
-// MIGRATION STATE (July 2026): the four-beat rebuild changed the scenario
-// schema. Only migrated scenarios are registered here. The 33 unmigrated
-// files remain on disk — they hold the decision trees and consequence text,
-// which is the expensive half of a scenario and is reused as-is. They are
-// registered again as each one is brought to the new schema.
-//
-// A file on disk but not in this list renders nowhere. That is deliberate:
-// there is no compatibility path and no half-migrated scenario in front of
-// a stranger.
+// The pre-rebuild scenarios were deleted in October 2026 (they are in git
+// history if ever needed). RETIRED below is what old links to them resolve to.
 
 import { scenario as f2ShadowAi } from './f2-shadow-ai.js';
 import { scenario as a1Hallucination } from './a1-hallucination.js';
@@ -42,11 +35,43 @@ export const FEATURED_PAIR = [
 
 export const byId = (id) => scenarios.find((s) => s.id === id) || null;
 
-// Every scenario file on disk, registered or not. Used to tell a stale deep
-// link apart from a typo: 32 knowledge-base entries link to
-// /#/scenario/<id>, and most of those ids are not registered here. A player
-// arriving on one of those gets a soft landing rather than a not-found page.
-// Vite resolves this at build time; the modules are never loaded.
-export const KNOWN_IDS = Object.keys(import.meta.glob('./*.js'))
-  .map((p) => p.slice(2, -3))
-  .filter((id) => id !== 'index');
+// Retired scenario ids, and the reference entry that covers each one. Old
+// links to /#/scenario/<id> are still out there (the knowledge base carried
+// them until August 2026), so a retired id gets a soft landing that points to
+// its entry rather than a not-found page.
+export const RETIRED = {
+  'a2-model-drift': 'https://library.airiskpractice.org/docs/domain-a-technical/a2-model-drift',
+  'a3-robustness': 'https://library.airiskpractice.org/docs/domain-a-technical/a3-robustness',
+  'a4-explainability': 'https://library.airiskpractice.org/docs/domain-a-technical/a4-explainability',
+  'b1-accountability': 'https://library.airiskpractice.org/docs/domain-b-governance/b1-accountability',
+  'b2-compliance': 'https://library.airiskpractice.org/docs/domain-b-governance/b2-regulatory-compliance',
+  'b3-lifecycle': 'https://library.airiskpractice.org/docs/domain-b-governance/b3-lifecycle-governance',
+  'b4-supply-chain': 'https://library.airiskpractice.org/docs/domain-b-governance/b4-supply-chain',
+  'b5-agentic-logging': 'https://library.airiskpractice.org/docs/domain-b-governance/b5-agentic-logging',
+  'c1-data-poisoning': 'https://library.airiskpractice.org/docs/domain-c-security/c1-data-poisoning',
+  'c2-prompt-injection': 'https://library.airiskpractice.org/docs/domain-c-security/c2-prompt-injection',
+  'c3-model-theft': 'https://library.airiskpractice.org/docs/domain-c-security/c3-model-theft',
+  'c4-deepfakes': 'https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes',
+  'c5-ai-cyber-attacks': 'https://library.airiskpractice.org/docs/domain-c-security/c5-ai-cyber-attacks',
+  'c6-mcp-attack': 'https://library.airiskpractice.org/docs/domain-c-security/c6-mcp-attack-surface',
+  'c7-multi-agent-trust': 'https://library.airiskpractice.org/docs/domain-c-security/c7-multi-agent-trust',
+  'c8-computer-use-hijacking': 'https://library.airiskpractice.org/docs/domain-c-security/c8-computer-use-hijacking',
+  'd1-data-quality': 'https://library.airiskpractice.org/docs/domain-d-data/d1-training-data-quality',
+  'e2-harmful-content': 'https://library.airiskpractice.org/docs/domain-e-fairness/e2-harmful-content',
+  'e3-misinformation': 'https://library.airiskpractice.org/docs/domain-e-fairness/e3-misinformation',
+  'f3-scope-creep': 'https://library.airiskpractice.org/docs/domain-f-deployment/f3-scope-creep',
+  'f4-irreversibility': 'https://library.airiskpractice.org/docs/domain-f-deployment/f4-irreversibility-scope-creep',
+  'g1-concentration-risk': 'https://library.airiskpractice.org/docs/domain-g-systemic/g1-concentration-risk',
+  'g2-environmental-impact': 'https://library.airiskpractice.org/docs/domain-g-systemic/g2-environmental-impact',
+  'g3-workforce-displacement': 'https://library.airiskpractice.org/docs/domain-g-systemic/g3-workforce-displacement',
+  'g4-ai-safety': 'https://library.airiskpractice.org/docs/domain-g-systemic/g4-ai-safety',
+  'g5-excessive-agency': 'https://library.airiskpractice.org/docs/domain-g-systemic/g5-excessive-agency',
+};
+
+// The three pre-rebuild At Home scenarios were rebuilt as the home-* set.
+// Their old links go straight to the replacement.
+export const REPLACED = {
+  'everyday-p1-deepfake-voice': 'home-voice-clone',
+  'everyday-p2-hallucination': 'home-ai-answer',
+  'everyday-p3-employment-screening': 'home-algorithm-said-no',
+};

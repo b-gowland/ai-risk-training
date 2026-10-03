@@ -41,7 +41,7 @@ export const scenario = {
   ],
 
   authority: `You can ask for reasons, request a human review, and decide how you use what you learn. You can't compel the company to change its tool.`,
-  ending: `You find out whether an automated 'no' is the end of it — and whether what you learn helps only you or the people applying after you.`,
+  ending: `You find out whether an automated 'no' is the end of it, and whether what you learn helps only you or the people applying after you.`,
 
   begin: `Read it again`,
 
@@ -70,7 +70,7 @@ export const scenario = {
       decision: {
         prompt: `What do you do?`,
         choices: [
-          { id: `a`, label: `Accept it and move on — this is just how hiring works now`, quality: `poor`,
+          { id: `a`, label: `Accept it and move on. This is just how hiring works now`, quality: `poor`,
             consequence: `You close the email. It is the fourth one this month that said the same three sentences, and asking has never occurred to you as a thing that is allowed.` },
           { id: `b`, label: `Email HR and ask what the screening tool filtered on and why you didn't meet it`, quality: `good`,
             consequence: `Six lines, polite, no accusation in it. You reread it twice before sending because there is no template for this and it feels like more of an imposition than it is.` },
@@ -81,15 +81,15 @@ export const scenario = {
 
     n2_accepted: {
       prose: [
-        `You let it go. Two weeks later a friend who works in HR — and uses AI screening tools — asks your view over coffee.`,
+        `You let it go. Two weeks later a friend who works in HR, and uses AI screening tools, asks your view over coffee.`,
         `"We use it to save time. Do you reckon that's fair?"`,
       ],
       decision: {
         prompt: `What do you tell them?`,
         choices: [
           { id: `a`, label: `Tell them what happened to you, and that almost nobody thinks to ask why`, quality: `good`,
-            consequence: `They put their coffee down. "Nobody has ever asked us. Not once." They look genuinely unsettled by that, which is the useful reaction.` },
-          { id: `b`, label: `Say AI screening's fine — hiring teams are busy and it saves time`, quality: `poor`,
+            consequence: `They put their coffee down. "Nobody has ever asked us. Not once." They look unsettled by that, which is the useful reaction.` },
+          { id: `b`, label: `Say AI screening's fine. Hiring teams are busy and it saves time`, quality: `poor`,
             consequence: `They look relieved. "Good. Three hundred applications a role, we'd never cope otherwise." The conversation moves on to something else.` },
         ],
       },
@@ -98,14 +98,14 @@ export const scenario = {
 
     n_friend_asks: {
       prose: [
-        `Your friend leans in — this clearly landed. "So what would you actually want us to do differently? We're not trying to be unfair, we just don't have time to read three hundred applications by hand."`,
+        `Your friend leans in. This clearly landed. "So what would you want us to do differently? We're not trying to be unfair, we just don't have time to read three hundred applications by hand."`,
         `It's a real constraint, and it's the exact place where the tool's convenience and its fairness pull apart.`,
       ],
       decision: {
         prompt: `What do you tell them the fix looks like?`,
         choices: [
           { id: `a`, label: `Put every screening criterion in the ad, and have a human glance at the borderline rejections`, quality: `good`,
-            consequence: `They get their phone out and type it into a note. "Every criterion in the ad, human eyes on the near-misses." Then: "That's actually not much work."` },
+            consequence: `They get their phone out and type it into a note. "Every criterion in the ad, human eyes on the near-misses." Then: "That's not much work."` },
           { id: `b`, label: `Just tell them to trust the tool less in general`, quality: `partial`,
             consequence: `They agree that it's worrying. On Monday they have three hundred applications and the same tool.` },
         ],
@@ -145,7 +145,7 @@ export const scenario = {
 
     n3_escalated: {
       prose: [
-        `HR escalates it. Two days later the hiring manager calls — and it turns out they didn't know the tool was filtering on a criterion that never made the ad.`,
+        `HR escalates it. Two days later the hiring manager calls. It turns out they didn't know the tool was filtering on a criterion that never made the ad.`,
         `They apologise, and offer you an interview.`,
       ],
       decision: {
@@ -153,7 +153,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Accept, and suggest they review the screening criteria for future applicants`, quality: `good`,
             consequence: `You say it in one sentence at the end of the call, half expecting it to land badly. There is a pause and then: "No, you're right. I'll look at the others."` },
-          { id: `b`, label: `Accept and leave it there — you got what you wanted`, quality: `partial`,
+          { id: `b`, label: `Accept and leave it there. You got what you wanted`, quality: `partial`,
             consequence: `You take the slot and say thank you twice. The ad is still live and still says nothing about five years.` },
         ],
       },
@@ -163,14 +163,14 @@ export const scenario = {
     n3_dropped: {
       prose: [
         `You thank them and let it go. You move on to other applications.`,
-        `A month later the same role is re-advertised — same ad, still no five-year threshold listed. The same tool is still running, and the next applicant won't know to ask.`,
+        `A month later the same role is re-advertised: same ad, still no five-year threshold listed. The same tool is still running, and the next applicant won't know to ask.`,
       ],
       decision: {
         prompt: `Do you apply again?`,
         choices: [
           { id: `a`, label: `Apply, and ask upfront whether the screening criteria match the job ad`, quality: `good`,
             consequence: `You put one line at the end of the cover note asking whether the ad lists everything the screening looks for. Somebody has to read that.` },
-          { id: `b`, label: `Don't bother — if they use that tool, any application is pointless`, quality: `poor`,
+          { id: `b`, label: `Don't bother. If they use that tool, any application is pointless`, quality: `poor`,
             consequence: `You close the tab. The role stays open for another five weeks.` },
         ],
       },
@@ -187,7 +187,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Tell people the specific, usable thing: ask why, and name any criterion that wasn't in the ad`, quality: `good`,
             consequence: `You say it in about fifteen words. Two people ask you to repeat it, which is what happens when advice is short enough to carry.` },
-          { id: `b`, label: `Keep it vague — "AI hiring is dodgy" — and leave it there`, quality: `partial`,
+          { id: `b`, label: `Keep it vague ("AI hiring is dodgy") and leave it there`, quality: `partial`,
             consequence: `Everyone in the thread agrees with you. Nobody does anything differently on Monday.` },
         ],
       },
@@ -197,13 +197,13 @@ export const scenario = {
     n_close_systemic: {
       prose: [
         `You take the interview and, before you hang up, mention that the criteria mismatch is probably worth a look for the whole pipeline.`,
-        `The manager's quiet for a second — they hadn't thought about how many others it had quietly filtered.`,
+        `The manager's quiet for a second. They hadn't thought about how many others it had quietly filtered.`,
       ],
       decision: {
-        prompt: `They ask what you'd actually want to see change. What do you say?`,
+        prompt: `They ask what you'd want to see change. What do you say?`,
         choices: [
           { id: `a`, label: `Every screening criterion should appear in the job ad, and a human should see borderline rejections`, quality: `good`,
-            consequence: `Two sentences, and they write both down. The second one — someone looks at the near-misses — is the one they query the cost of, and then accept.` },
+            consequence: `Two sentences, and they write both down. The second one, someone looking at the near-misses, is the one they query the cost of, and then accept.` },
           { id: `b`, label: `Just that they should "be careful with the tool"`, quality: `partial`,
             consequence: `They nod and thank you for the feedback. The tool's settings are not open in front of anyone.` },
         ],
@@ -213,15 +213,15 @@ export const scenario = {
 
     n_close_personal: {
       prose: [
-        `You take the interview and leave the wider issue alone. Fair enough — you came for a job, not a crusade.`,
+        `You take the interview and leave the wider issue alone. Fair enough. You came for a job, not a crusade.`,
         `Still, the thought sits there: the tool that nearly cost you this is untouched, and the next person won't get a phone call.`,
       ],
       decision: {
         prompt: `A week later a friend job-hunting mentions a blank automated rejection of their own. What do you do?`,
         choices: [
-          { id: `a`, label: `Tell them exactly what you did — ask for reasons, challenge undisclosed criteria`, quality: `good`,
+          { id: `a`, label: `Tell them exactly what you did: ask for reasons, challenge undisclosed criteria`, quality: `good`,
             consequence: `You send them the four lines you sent, more or less verbatim. They send something like it that evening.` },
-          { id: `b`, label: `Commiserate and leave it — automated rejections are just how it is now`, quality: `partial`,
+          { id: `b`, label: `Commiserate and leave it. Automated rejections are just how it is now`, quality: `partial`,
             consequence: `They feel better for ten minutes. You know a question that got you a phone call, and you have not said it out loud.` },
         ],
       },
@@ -234,68 +234,67 @@ export const scenario = {
       heading: `Challenged it, and fixed it for the next person`,
       tone: `good`,
       score: 100,
-      reaction: `Asking why, on an automated rejection with no human name attached, takes a bit of nerve. Turning your own interview into a fix for everyone after you is the rare, generous version.`,
+      reaction: `Asking why takes nerve when no human signed the rejection. Turning your interview into a fix for everyone after you is rarer.`,
       description: [
-        `HR acknowledged the undisclosed threshold, your application went to a human, and you got the interview. Because you raised the systemic issue, the company is now checking whether all screening criteria appear in their ads.`,
-        `The next applicant with four years and the right skills gets a fairer read than you did.`,
+        `HR acknowledged the undisclosed threshold, a person read your application, and you got the interview.`,
+        `Because you raised the wider issue, the company is checking that every screening criterion appears in its ads.`,
       ],
-      judgement: `Asking about an automated decision is professional rather than confrontational, and nothing was stopping you doing it on day one. What made this the best ending was not getting your own interview back. It was the ten seconds naming the process problem, which fixes it for everyone who would never have known to push.`,
+      judgement: `Asking about an automated decision is professional, not confrontational, and you could have done it on day one. The interview wasn't the best part. Naming the process problem was, because it fixes it for people who'd never think to push.`,
     },
 
     outcome_personal: {
-      heading: `Got your interview; the process rolls on`,
+      heading: `Got your interview. The process rolls on.`,
       tone: `warn`,
       score: 60,
-      reaction: `Getting the decision reversed is a genuine win, and it's completely fair to stop there. "Be careful with the tool" is just softer than the fix that was right in front of you.`,
+      reaction: `Getting the decision reversed is a real win. "Be careful with the tool" was just softer than the fix in front of you.`,
       description: [
-        `You challenged it, got a human review, and got the interview. When the manager asked what should change, the answer stayed vague.`,
-        `So the specific fault — undisclosed criteria, no human check on the margins — is still in place, and the next four-years-not-five applicant meets the same silent bar you did.`,
+        `You challenged it, got a human review and got the interview. When the manager asked what should change, your answer stayed vague.`,
+        `So the undisclosed criteria and the missing human check are still there for the next applicant.`,
       ],
-      judgement: `You did the hard part: you pushed back and it worked. The gap between this and the best ending is one concrete sentence — disclose the criteria, review the borderline rejections — versus a general "be careful". The tool doesn't respond to care; it responds to its settings, and only the specific fix changes them.`,
+      judgement: `You did the hard part and it worked. The gap to the best ending is one concrete sentence: disclose the criteria, review the borderline rejections. A tool responds to its settings, not to care.`,
     },
 
     outcome_spoke_up: {
       heading: `Made your experience count for someone else`,
       tone: `good`,
       score: 85,
-      reaction: `Handing the next person the exact move — you can ask why — is worth more than any amount of sympathy about how broken hiring is.`,
+      reaction: `Handing the next person the exact move, that they can ask why, is worth more than sympathy about how broken hiring is.`,
       description: [
-        `Whatever happened with your own application, you passed on the usable part: candidates can request reasons, and an undisclosed criterion is a fair thing to challenge.`,
-        `Someone reviewed their screening tool, or someone job-hunting asked a question they wouldn't have asked, because you said the specific thing rather than the vague one.`,
+        `You passed on the usable part: candidates can ask for reasons, and an undisclosed criterion is fair to challenge.`,
+        `Someone checked their screening tool, or someone job-hunting asked a question they wouldn't have, because you were specific.`,
       ],
-      judgement: `Systematic screening errors go uncorrected because most people accept the blank no and move on. The highest-value thing available here was never winning your own case. It was making it ordinary to ask, one conversation at a time, until the error stops being invisible.`,
+      judgement: `Screening errors last because most people accept the blank no and move on. The most useful thing here was never winning your own case. It was making it normal to ask.`,
     },
 
     outcome_silent: {
       heading: `Learned it, kept it`,
       tone: `warn`,
       score: 40,
-      reaction: `"AI hiring is dodgy" feels like you've said something. It leaves the listener wary but no more able to do anything than before.`,
+      reaction: `"AI hiring is dodgy" feels like saying something. It leaves the listener wary but no better able to act.`,
       description: [
-        `You came away knowing more than you did — that asking works often enough to be worth it, and that a criterion missing from the ad is a fair thing to raise — and you kept it to yourself, or blurred it into a general grumble.`,
-        `The next person you might have helped meets the same blank rejection with the same blank options.`,
+        `You learned that asking often works and that a criterion missing from the ad is fair to raise, then kept it to yourself or blurred it into a grumble.`,
+        `The next person meets the same blank rejection with the same blank options.`,
       ],
-      judgement: `The gap here is between a warning and a tool. "AI hiring is unfair" makes people cautious; "you can ask why you were rejected, and an undisclosed criterion is a fair challenge" makes them able to act. You had the second one and passed on the first, which is the version that changes nothing for anyone.`,
+      judgement: `"AI hiring is unfair" makes people cautious. "You can ask why, and challenge a criterion that wasn't in the ad" lets them act. You had the second and passed on the first.`,
     },
 
     outcome_walked: {
       heading: `Wrote it off, and it kept running`,
       tone: `bad`,
       score: 15,
-      reaction: `Deciding any application is pointless feels like clear-eyed realism after a bad rejection. It's the one response that guarantees nothing changes.`,
+      reaction: `Deciding any application is pointless feels like realism after a bad rejection. It's the one response that guarantees nothing changes.`,
       description: [
-        `You didn't apply again, on the assumption the tool made it hopeless. But the tool might have been updated, and the hiring manager might never have known what it was doing — you'd found earlier that they often don't.`,
-        `Three more qualified candidates were screened out on the same undisclosed threshold before the role was filled by someone who happened to clear an arbitrary number nobody was shown.`,
+        `You didn't apply again. The tool might have been fixed, and the hiring manager might not have known what it was doing.`,
+        `Three more qualified candidates were screened out on the same hidden threshold before the role was filled.`,
       ],
-      judgement: `An automated 'no' isn't final, and treating it as final is its own decision. Refusing to engage is understandable after being burned, and it also lets a flawed, invisible process run exactly as it is. The move that worked — ask why, challenge the undisclosed criterion — was still available; walking away is the one path that leaves the tool doing the same thing to everyone behind you.`,
+      judgement: `An automated no isn't final, and treating it as final is a decision too. Walking away is understandable after being burned, and it leaves the tool doing the same thing to everyone behind you.`,
     },
   },
 
   debrief: {
     frame: [
-      `The rejection told you nothing on purpose: no criterion, no score, no name. That opacity is the real problem, more than any single wrong decision. When a tool filters you out on a bar you were never shown, you can't tell whether it's a reasonable requirement, an arbitrary threshold, or something that quietly tracks age, background, or a career break — and neither, often, can the hiring manager, who may not know what the tool is doing either.`,
-      `Which is why the useful response is neither outrage nor resignation. It is the boring, specific move: ask why. Be clear about what that is and is not. A private employer in Australia is generally under no obligation to give you reasons for a rejection, and this scenario does not pretend otherwise. What is true is that asking is free, that plenty of employers answer, and that a criterion which never appeared in the ad is a reasonable thing to put back to them. If the answer suggests the filter tracked something like age, a career break, or where you were born, that is a different conversation, and the state and federal anti-discrimination commissions are where it goes.`,
-      `The question does two things at once. It can get your own application in front of a person, and it drags an invisible process into the light where somebody can fix it. The best endings here all run through someone asking, and then telling the next person that asking is a thing you are allowed to do — because a systematic error stays systematic exactly as long as everyone accepts the blank no and moves on.`,
+      `The rejection told you nothing: no criterion, no name. When a tool filters you on a bar you never saw, you can't tell if it's fair, arbitrary, or tracking age or a career break.`,
+      `Employers don't have to give reasons, but asking is free and often works. From 10 December 2026, employers covered by the Privacy Act must say in their privacy policy which significant decisions they automate. A filter that looks discriminatory goes to an anti-discrimination commission.`,
     ],
   },
 
@@ -303,25 +302,26 @@ export const scenario = {
     id: `home-algorithm-said-no-recall`,
     prompt: `A friend is rejected within an hour of applying, with no reason given, for a role they're well qualified for. What's the most useful thing to tell them?`,
     options: [
-      { id: `a`, quality: `poor`, label: `Not much they can do — automated hiring is a black box, so move on to the next one`,
-        note: `This is the resignation the scenario warns against. A rejection that arrives within the hour is the exact case worth asking about. Nobody has to answer you, plenty of people do, and "move on" is how the black box stays a black box.` },
-      { id: `b`, quality: `good`, label: `Ask why — and if a criterion turns up that wasn't in the ad, put that back to them`,
-        note: `Right. The portable, usable lesson: you can ask why, and if the answer reveals a criterion that wasn't in the ad, that's a legitimate fair-process question that can get a human review — for them, and for the applicants after them.` },
-      { id: `c`, quality: `partial`, label: `Tell them AI hiring tools are often biased so they shouldn't take it personally`, note: `Reassuring, and it stops one step short of useful. "Don't take it personally" eases the sting; "you can ask why, and challenge an undisclosed criterion" gives them something to actually do about it.` },
+      { id: `a`, quality: `poor`, label: `Not much they can do. Automated hiring is a black box, so move on`,
+        note: `This is the resignation the scenario warns against. A rejection within the hour is exactly the case worth asking about. Nobody has to answer, but plenty do.` },
+      { id: `b`, quality: `good`, label: `Ask why, and if a criterion turns up that wasn't in the ad, put it back to them`,
+        note: `Yes. You can ask why, and a criterion that wasn't in the ad is a fair-process question that can get a human review, for them and the applicants after them.` },
+      { id: `c`, quality: `partial`, label: `Tell them AI hiring tools are often biased so they shouldn't take it personally`,
+        note: `Kind, and one step short of useful. "Don't take it personally" eases the sting. "You can ask why" gives them something to do.` },
     ],
   },
 
   act: [
     { id: `a1`, label: `Next time an automated rejection gives you no reason, send four lines asking for one` },
     { id: `a2`, label: `Tell one person job-hunting that asking why is allowed, free, and often answered` },
-    { id: `a3`, label: `If you're ever on the hiring side, check that every screening criterion is actually in the ad` },
+    { id: `a3`, label: `If you're ever on the hiring side, check that every screening criterion is in the ad` },
   ],
 
   controls_summary: [
     { id: `c1`, label: `Ask for the reasons behind an automated rejection`, effort: `Low`, owner: `You`, go_live: true,
       context: `The whole scenario turns on the opaque no. Asking is the only lever the applicant holds, and it costs four lines.` },
     { id: `c2`, label: `Challenge any criterion that wasn't in the job ad`, effort: `Low`, owner: `You`, go_live: true,
-      context: `An undisclosed threshold is a fair-process problem the applicant can name — and often the fastest route to a human review.` },
+      context: `An undisclosed threshold is a fair-process problem the applicant can name, and often the fastest route to a human review.` },
     { id: `c3`, label: `Pass on that asking is allowed`, effort: `Low`, owner: `You`, go_live: true,
       context: `Screening errors persist because people accept the blank rejection. Making it ordinary to ask is what corrects them.` },
   ],

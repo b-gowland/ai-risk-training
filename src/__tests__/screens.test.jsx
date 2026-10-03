@@ -6,7 +6,7 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { render as rtlRender, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 // Setup reads router location to know whether the cold open has already been
 // read on the doorway card, so every render needs a router around it.
@@ -279,26 +279,64 @@ describe('every registered scenario', () => {
   }
 });
 
-// ── Stale deep links from the knowledge base ─────────────────────────────
-// 32 KB entries link to /#/scenario/<id>. Most of those ids are not
-// registered. None of them may land on a dead end.
+// ── Stale deep links ─────────────────────────────────────────────────────
+// Until August 2026 all 32 KB entries linked to /#/scenario/<id>. Those links
+// live on in bookmarks and shares. None of them may land on a dead end.
 describe('stale deep links', () => {
-  it('every KB-linked scenario id is either registered or known on disk', async () => {
-    const { KNOWN_IDS, scenarios: live } = await import('../scenarios/index.js');
-    const kbLinked = [
-      'a1-hallucination', 'a2-model-drift', 'a3-robustness', 'a4-explainability',
-      'b1-accountability', 'b2-compliance', 'b3-lifecycle', 'b4-supply-chain', 'b5-agentic-logging',
-      'c1-data-poisoning', 'c2-prompt-injection', 'c3-model-theft', 'c4-deepfakes',
-      'c5-ai-cyber-attacks', 'c6-mcp-attack', 'c7-multi-agent-trust', 'c8-computer-use-hijacking',
-      'd1-data-quality', 'd2-privacy', 'd3-ip',
-      'e1-bias', 'e2-harmful-content', 'e3-misinformation',
-      'f1-automation-bias', 'f2-shadow-ai', 'f3-scope-creep', 'f4-irreversibility',
-      'g1-concentration-risk', 'g2-environmental-impact', 'g3-workforce-displacement',
-      'g4-ai-safety', 'g5-excessive-agency',
-    ];
+  const oldIds = [
+    'a1-hallucination', 'a2-model-drift', 'a3-robustness', 'a4-explainability',
+    'b1-accountability', 'b2-compliance', 'b3-lifecycle', 'b4-supply-chain', 'b5-agentic-logging',
+    'c1-data-poisoning', 'c2-prompt-injection', 'c3-model-theft', 'c4-deepfakes',
+    'c5-ai-cyber-attacks', 'c6-mcp-attack', 'c7-multi-agent-trust', 'c8-computer-use-hijacking',
+    'd1-data-quality', 'd2-privacy', 'd3-ip',
+    'e1-bias', 'e2-harmful-content', 'e3-misinformation',
+    'f1-automation-bias', 'f2-shadow-ai', 'f3-scope-creep', 'f4-irreversibility',
+    'g1-concentration-risk', 'g2-environmental-impact', 'g3-workforce-displacement',
+    'g4-ai-safety', 'g5-excessive-agency',
+    'everyday-p1-deepfake-voice', 'everyday-p2-hallucination', 'everyday-p3-employment-screening',
+  ];
+
+  it('every old scenario id is live, retired with an entry, or replaced by a live one', async () => {
+    const { RETIRED, REPLACED, scenarios: live } = await import('../scenarios/index.js');
     const liveIds = new Set(live.map((s) => s.id));
-    const orphans = kbLinked.filter((id) => !liveIds.has(id) && !KNOWN_IDS.includes(id));
+    const orphans = oldIds.filter((id) => !liveIds.has(id) && !RETIRED[id] && !liveIds.has(REPLACED[id]));
     expect(orphans).toEqual([]);
+    for (const url of Object.values(RETIRED)) {
+      expect(url).toMatch(/^https:\/\/library\.airiskpractice\.org\/docs\/domain-[a-g]-[a-z]+\/[a-z0-9-]+$/);
+    }
+  });
+
+  it('a retired id lands on its reference entry, not a dead end', async () => {
+    const ScenarioPlayer = (await import('../player/ScenarioPlayer.jsx')).default;
+    rtlRender(
+      <MemoryRouter initialEntries={['/scenario/c4-deepfakes']}>
+        <Routes><Route path="/scenario/:id" element={<ScenarioPlayer />} /></Routes>
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('heading', { name: 'This scenario has been retired' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Read the reference entry' }).getAttribute('href'))
+      .toBe('https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes');
+  });
+
+  it('an id that names an Object prototype member is just not found', async () => {
+    const ScenarioPlayer = (await import('../player/ScenarioPlayer.jsx')).default;
+    rtlRender(
+      <MemoryRouter initialEntries={['/scenario/toString']}>
+        <Routes><Route path="/scenario/:id" element={<ScenarioPlayer />} /></Routes>
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('heading', { name: 'That situation isn\u2019t here' })).toBeTruthy();
+  });
+
+  it('a replaced id redirects to its live successor', async () => {
+    const ScenarioPlayer = (await import('../player/ScenarioPlayer.jsx')).default;
+    rtlRender(
+      <MemoryRouter initialEntries={['/scenario/everyday-p1-deepfake-voice']}>
+        <Routes><Route path="/scenario/:id" element={<ScenarioPlayer />} /></Routes>
+      </MemoryRouter>
+    );
+    const { byId } = await import('../scenarios/index.js');
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(byId('home-voice-clone').title);
   });
 });
 
@@ -329,6 +367,12 @@ describe('claims', () => {
 
 // ── Browse index + next-scenario (added after the toggle/dead-end fix) ──────
 describe('homepage index', () => {
+  it('exposes the hero heading with natural word boundaries', async () => {
+    const Homepage = (await import('../components/Homepage/Homepage.jsx')).default;
+    render(<Homepage />);
+    expect(screen.getByRole('heading', { level: 1, name: 'What would you do?' })).toBeTruthy();
+  });
+
   it('shows every scenario without a toggle — the catalogue is not hidden', async () => {
     const Homepage = (await import('../components/Homepage/Homepage.jsx')).default;
     const { scenarios: live } = await import('../scenarios/index.js');
@@ -337,6 +381,46 @@ describe('homepage index', () => {
     for (const sc of live) {
       expect(screen.getByText(sc.shelfLine), `${sc.id} missing from index`).toBeTruthy();
     }
+  });
+});
+
+describe('site shell accessibility', () => {
+  it('puts a skip link before the repeated navigation', async () => {
+    const App = (await import('../App.jsx')).default;
+    render(<App />);
+    const links = screen.getAllByRole('link');
+    expect(links[0].textContent).toBe('Skip to main content');
+    expect(links[0].getAttribute('href')).toBe('#main-content');
+  });
+
+  it('moves focus to main without touching the URL hash the router owns', async () => {
+    const App = (await import('../App.jsx')).default;
+    const main = document.createElement('main');
+    main.id = 'main-content';
+    main.tabIndex = -1;
+    main.scrollIntoView = vi.fn();
+    document.body.appendChild(main);
+    try {
+      render(<App />);
+      const hashBefore = window.location.hash;
+      const notPrevented = fireEvent.click(screen.getByRole('link', { name: 'Skip to main content' }));
+      expect(notPrevented).toBe(false);
+      expect(window.location.hash).toBe(hashBefore);
+      expect(document.activeElement).toBe(main);
+    } finally {
+      main.remove();
+    }
+  });
+});
+
+describe('privacy notice', () => {
+  it('discloses recall and optional action analytics', async () => {
+    const { Privacy } = await import('../pages/Privacy.jsx');
+    const { container } = render(<Privacy />);
+    expect(container.textContent).toContain('Whether a recall question was answered or skipped');
+    expect(container.textContent).toContain('action identifier you selected');
+    expect(container.textContent).toContain('print button on the discussion cards page');
+    expect(container.textContent).not.toContain('there is nothing to consent to');
   });
 });
 

@@ -129,6 +129,9 @@ img { max-width: 100%; display: block; }
   outline-offset: 2px;
 }
 :focus:not(:focus-visible) { outline: none; }
+/* Containers that only receive focus from script (route changes, phase
+   changes, the skip link) are never interactive, so they get no ring. */
+[tabindex="-1"]:focus { outline: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

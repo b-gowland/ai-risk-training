@@ -1,4 +1,10 @@
 # QA Review — F2 Shadow AI
+
+> **Historical record.** This is the March 2026 review of F2 on the retired
+> persona-era schema and engine. The `qa-audit.js` script, persona paths and
+> browser checklist it describes no longer exist. Current checks are listed in
+> [ARCHITECTURE.md](ARCHITECTURE.md#checks).
+
 **Last updated:** March 2026  
 **Status:** All P1 issues resolved. Browser testing required before publishing.
 

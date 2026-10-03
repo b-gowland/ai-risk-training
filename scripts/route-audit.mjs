@@ -109,10 +109,10 @@ const scenarioFiles = readdirSync(join(ROOT, 'src/scenarios'))
 
 const imported = [...indexSrc.matchAll(/from\s+'\.\/([a-z0-9-]+)\.js'/g)].map((m) => m[1]);
 
-// One registry, both doors. A file on disk but not in index.js renders
-// nowhere — during the four-beat migration that is the expected state for
-// every scenario not yet rebuilt, so it is reported, not failed. The
-// direction that IS a failure is a registered scenario with no file.
+// One registry, both doors. A registered scenario with no file is an error.
+// A file on disk but not in index.js renders nowhere; since the retired
+// scenarios were deleted (Oct 2026) that means a forgotten import or a dead
+// file, so it is an error too.
 const allImports = new Set(imported);
 
 for (const i of imported) {
@@ -123,7 +123,9 @@ for (const i of imported) {
 
 const unregistered = scenarioFiles.filter((f) => !allImports.has(f));
 if (unregistered.length) {
-  note(`unmigrated: ${unregistered.length} scenario file(s) on disk but not registered — not reachable in the app`);
+  for (const f of unregistered) {
+    err('scenarios', `src/scenarios/${f}.js is not imported by index.js — register it or delete it.`);
+  }
 }
 
 // Door comes from the `door` field, never from the filename. Filename

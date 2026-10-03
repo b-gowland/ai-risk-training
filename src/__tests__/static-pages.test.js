@@ -101,6 +101,17 @@ describe('static pages (dist/, post-build)', () => {
     for (const s of scenarios) expect(text).toContain(norm(s.shelfLine));
   });
 
+  it('the #root fallback keeps its <style> inside #root, so React removes it on mount', () => {
+    const html = read('index.html');
+    const rootStart = html.indexOf('<div id="root">');
+    const styleAt = html.indexOf('<style>', rootStart);
+    const bodyEnd = html.indexOf('</body>');
+    expect(styleAt).toBeGreaterThan(rootStart);
+    // The fallback's closing </div> comes after its <style>, not before it.
+    const afterStyle = html.slice(html.indexOf('</style>', styleAt), bodyEnd);
+    expect(afterStyle.trimStart().startsWith('</style></div>')).toBe(true);
+  });
+
   it('index.html enables Plausible hash-based routing', () => {
     expect(read('index.html')).toContain('hashBasedRouting: true');
   });

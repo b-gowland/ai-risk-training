@@ -23,7 +23,7 @@ export const scenario = {
   mit_subdomain: `mit-3.1`,
 
   coldOpen: [
-    `Thursday morning. A client rings about the regulatory briefing you sent yesterday — the one you drafted with the new AI writing assistant.`,
+    `Thursday morning. A client rings about the regulatory briefing you sent yesterday, the one you drafted with the new AI writing assistant.`,
     `They can't find one of the documents you cited. You check. The clause numbers, the date, the publication reference are all there, and none of it is real.`,
     `They've already shared the briefing with their board.`,
   ],
@@ -39,7 +39,7 @@ export const scenario = {
   nodes: {
     start: {
       prose: [
-        `The tool has been accurate for three weeks. Fast, clean, and right every time you checked — which, lately, has been less and less often.`,
+        `The tool has been accurate for three weeks. Fast, clean, and right every time you checked, which lately has been less and less often.`,
         `One citation is now confirmed invented. Before you deal with the call, you have to decide what that means for everything else in the document.`,
       ],
       artefact: {
@@ -57,7 +57,7 @@ export const scenario = {
       decision: {
         prompt: `One citation is confirmed fabricated. What's your working assumption about the rest?`,
         choices: [
-          { id: `a`, label: `Treat every citation as unverified — this document and everything else the tool drafted this week`, quality: `good`,
+          { id: `a`, label: `Treat every citation as unverified: this document and everything else the tool drafted this week`, quality: `good`,
             consequence: `You write down four document names on a sticky note. It is going to be a long day and you have not spoken to the client yet.` },
           { id: `b`, label: `Verify the other two in this document before you say anything`, quality: `partial`,
             consequence: `Two citations, about nine minutes. Nothing in that nine minutes tells you anything about the four briefings that went out on Monday and Tuesday.` },
@@ -77,7 +77,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Say now that it's wrong, and that you're reviewing the whole document`, quality: `good`,
             consequence: `"Right. Thanks for ringing me straight back." The call lasts under two minutes and the tone of it does not change.` },
-          { id: `b`, label: `Check the other citations first — you want the full picture before you speak`, quality: `partial`,
+          { id: `b`, label: `Check the other citations first. You want the full picture before you speak`, quality: `partial`,
             consequence: `You tell them you'll call back within the hour. On their side, an hour of silence after a question about a document their board has already seen.` },
           { id: `c`, label: `Say it may be real but obscure, and you'll find the source`, quality: `poor`,
             consequence: `They accept that, because it is plausible and because you sound certain. Their compliance team starts searching for it, and so, now, do you.` },
@@ -97,7 +97,7 @@ export const scenario = {
           { id: `a`, label: `A fully verified replacement within 24 hours, every citation linked`, quality: `good`,
             consequence: `You have just committed your evening and someone else's. They say that sounds fine and ask you to send it to the board list directly.` },
           { id: `b`, label: `A corrected version of the two wrong citations by end of day`, quality: `partial`,
-            consequence: `They agree to it. Then: "And the rest of it — you've been through the rest of it?" You have not, yet.` },
+            consequence: `They agree to it. Then: "And the rest of it? You've been through the rest of it?" You have not, yet.` },
         ],
       },
       branches: { a: `n_scope`, b: `n_scope` },
@@ -127,7 +127,7 @@ export const scenario = {
       decision: {
         prompt: `They're asking for an explanation. Now what?`,
         choices: [
-          { id: `a`, label: `Come clean — it was AI-drafted, you didn't verify, here's a replacement`, quality: `partial`,
+          { id: `a`, label: `Come clean: it was AI-drafted, you didn't verify, here's a replacement`, quality: `partial`,
             consequence: `It lands differently at five o'clock than it would have at eleven. They spent the afternoon looking for something on your word that it existed.` },
           { id: `b`, label: `Escalate to your manager without replying to the client yet`, quality: `poor`,
             consequence: `Your manager needs to know. The client's last email is still sitting there unanswered while the two of you work out what to say.` },
@@ -157,13 +157,13 @@ export const scenario = {
 
     n_colleague: {
       prose: [
-        `A colleague drafted two of those four. They used the tool the way everyone was shown to — prompt, skim, send — and they're now watching you check their work with a look you recognise.`,
+        `A colleague drafted two of those four. They used the tool the way everyone was shown to (prompt, skim, send) and they're now watching you check their work with a look you recognise.`,
         `"Wait, are we not supposed to trust it? Nobody said that."`,
       ],
       decision: {
         prompt: `They're not wrong that nobody said it. What do you tell them?`,
         choices: [
-          { id: `a`, label: `That the tool is fine and every citation gets matched to source — and show them how`, quality: `good`,
+          { id: `a`, label: `That the tool is fine and every citation gets matched to source, and show them how`, quality: `good`,
             consequence: `It takes four minutes to show and they are quiet afterwards, thinking about the two they sent on Monday.` },
           { id: `b`, label: `That this one was a fluke, not to worry`, quality: `poor`,
             consequence: `They relax visibly. On Friday they send a briefing with three citations in it and check none of them, having been told by you that it was a fluke.` },
@@ -174,7 +174,7 @@ export const scenario = {
 
     n3_process: {
       prose: [
-        `The immediate problem is contained, or nearly. What's still open is the thing the compliance director actually asked: what verification does the firm have for AI-generated content?`,
+        `The immediate problem is contained, or nearly. What's still open is the thing the compliance director asked: what verification does the firm have for AI-generated content?`,
         `Right now the honest answer is none. The tool went out with a note in training that it "can sometimes make things up", and no required step.`,
       ],
       decision: {
@@ -197,55 +197,55 @@ export const scenario = {
       heading: `Owned fast, fixed properly, and the hole got closed`,
       tone: `good`,
       score: 100,
-      reaction: `Acknowledging an error before you know its full size is genuinely uncomfortable. It is also the only version of this that holds the relationship.`,
+      reaction: `Admitting an error before you know its full size is uncomfortable. It's also the only version of this that keeps the client.`,
       description: [
         `The verified replacement arrived the next morning with every citation linked to source. The client's note was short: glad you sorted it fast.`,
-        `And the required-check rule went out to the team, so the next briefing can't leave the way this one did.`,
+        `The required-check rule went out to the team, so the next briefing can't leave the way this one did.`,
       ],
-      judgement: `The client never expected the tool to be perfect. They expected someone to own the output with their name on it. A fast honest acknowledgement plus a concrete fix plus closing the process gap is the whole of a good response — and the process gap is the part most people skip once the immediate fire is out.`,
+      judgement: `The client never expected the tool to be perfect. They expected someone to own the output. A fast admission, a real fix and a closed process gap is the whole response, and the process gap is the part most people skip.`,
     },
 
     outcome_good: {
-      heading: `Handled well; the fix is above your desk`,
+      heading: `Handled well. The fix is above your desk.`,
       tone: `warn`,
       score: 75,
-      reaction: `Raising whether the tool belongs in client work at all is the right instinct, and it's honestly not yours to settle.`,
+      reaction: `Asking whether the tool belongs in client work at all is the right instinct, and it isn't yours to settle.`,
       description: [
-        `You acknowledged fast and offered a verified replacement, and the relationship held.`,
-        `The larger question — whether this tool should touch client-facing work — went up to the partners, where it belongs. In the meantime the four briefings from this week still need checking, by hand, by you.`,
+        `You admitted it fast, offered a verified replacement, and the relationship held.`,
+        `Whether the tool should touch client work went up to the partners. Meanwhile this week's four briefings still need checking, by hand, by you.`,
       ],
-      judgement: `Knowing the limit of your standing is a real skill, and so is not letting it become an excuse. You escalated the policy question and still did the unglamorous verification the situation needed today. Both were required; doing only the first is how the next fabrication ships.`,
+      judgement: `Knowing the limit of your standing is a skill, and so is not hiding behind it. You escalated the policy question and still did today's checking. Doing only the first is how the next fabrication ships.`,
     },
 
     outcome_warn: {
       heading: `The client's calm. The gap that caused it is still open.`,
       tone: `warn`,
       score: 45,
-      reaction: `"Remind everyone to be careful" feels like a response because it names the problem. It just doesn't change anything.`,
+      reaction: `"Remind everyone to be careful" feels like a response because it names the problem. It doesn't change anything.`,
       description: [
-        `You handled the call well and the replacement went out. When your manager asked what would stop a repeat, the answer was a reminder — which is what was already in place when this happened.`,
-        `The tool is still generating citations. The next one that invents a regulation will also be fluent, and also unchecked.`,
+        `You handled the call well and the replacement went out. Asked what would stop a repeat, you suggested a reminder, which is what was in place when this happened.`,
+        `The tool still generates citations, and the next invented one will be just as fluent.`,
       ],
-      judgement: `Hallucination is not a carefulness problem, so care is not the control. The people involved here were competent and trying. What was missing was a step that doesn't depend on anyone remembering to be vigilant on a busy Thursday — and a reminder is not that step.`,
+      judgement: `Care is the wrong control for hallucination. The people here were competent and trying. What was missing was a step that doesn't rely on anyone remembering to be vigilant on a busy Thursday.`,
     },
 
     outcome_bad: {
       heading: `"Formatting issues" became a complaint`,
       tone: `bad`,
       score: 10,
-      reaction: `Reaching for a smaller word than "the AI invented a law" is a very human move under pressure. It's also the move that turns a fixable error into a dispute.`,
+      reaction: `Reaching for a smaller word than "the AI invented a law" is a human move under pressure. It turns a fixable error into a dispute.`,
       description: [
-        `The reply was quick: formatting issues don't cause regulatory references to not exist. Your manager is now in the chain.`,
-        `What would have been a 24-hour correction is now two weeks of relationship management, and a client who reads everything you send more carefully from here.`,
+        `The reply was quick: formatting issues don't make regulations disappear. Your manager is now in the chain.`,
+        `A 24-hour correction became two weeks of repair work, with a client who now reads everything you send more carefully.`,
       ],
-      judgement: `AI fabrication is real, documented, and something clients broadly understand. Evasion is the thing they don't forgive, because it's a choice rather than a mistake. Minimising an error to someone who already has the facts doesn't shrink the error — it adds a second one on top.`,
+      judgement: `Clients broadly understand that AI makes things up. What they don't forgive is evasion, because it's a choice. Playing down an error to someone who already has the facts adds a second error to the first.`,
     },
   },
 
   debrief: {
     frame: [
-      `The fabrication was convincing for one reason: everything around it was correct. Real formatting, a plausible clause number, a publication date, sitting beside two citations that checked out. The tool had been accurate for weeks, and that track record is not reassurance — it's the thing that stops you checking.`,
-      `This is what makes hallucination different from an ordinary mistake. A wrong answer that looks wrong gets caught. A wrong answer delivered in the same confident register as every right one does not, and no amount of the tool being good most of the time changes that. The only control that works is verification that doesn't depend on the output looking suspicious — because it never will.`,
+      `The fake citation was convincing because everything around it was right: real formatting, a plausible clause number, a date, and two neighbouring citations that checked out. Weeks of accurate output made it easier to trust, not harder.`,
+      `A wrong answer that looks wrong gets caught. One delivered in the same confident voice as every right answer doesn't. So the check can't depend on the output looking suspicious. It never will.`,
     ],
   },
 
@@ -253,12 +253,12 @@ export const scenario = {
     id: `a1-recall`,
     prompt: `A month later the same tool drafts an internal market summary and cites three industry reports. You recognise two of the three firms. What do you do before circulating it?`,
     options: [
-      { id: `a`, quality: `poor`, label: `Circulate it — you recognise the sources, so they're clearly real`,
-        note: `Recognising the firm's name is not the same as the report existing. This is the exact trap from the briefing: the plausible surface is what the model is good at, and it's internal now, which lowers your guard rather than the risk.` },
+      { id: `a`, quality: `poor`, label: `Circulate it. You recognise the sources, so they're real`,
+        note: `Knowing the firm doesn't mean the report exists. A plausible surface is what the model does best, and "it's only internal" lowers your guard without lowering the risk.` },
       { id: `b`, quality: `good`, label: `Check all three against source, including the two you recognise`,
-        note: `Yes. The lesson wasn't "check unfamiliar citations" — it was that fluency isn't verification, and a familiar name is just fluency you happen to trust. Internal doesn't exempt it; a wrong figure in a market summary still drives a decision.` },
+        note: `Yes. Fluency isn't verification, and a familiar name is fluency you happen to trust. A wrong figure in an internal summary still drives a decision.` },
       { id: `c`, quality: `partial`, label: `Check only the third one, since the other two look right`,
-        note: `Better than nothing, and it re-imports the original mistake. "Looks right" is precisely the judgement the briefing proved unreliable.` },
+        note: `Better than nothing, and it repeats the original mistake. "Looks right" is the judgement the briefing proved unreliable.` },
     ],
   },
 
@@ -277,5 +277,5 @@ export const scenario = {
       context: `The difference between the best and worst endings was how quickly someone said "this is wrong" out loud.` },
   ],
 
-  tell: `An AI citation that looks right isn't verified — a real source is one you've actually opened, not one that reads plausibly.`,
+  tell: `An AI citation that looks right isn't verified. A real source is one you've opened.`,
 };
