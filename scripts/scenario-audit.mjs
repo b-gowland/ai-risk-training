@@ -2,9 +2,7 @@
 /**
  * scenario-audit.mjs — validation for the four-beat scenario schema.
  *
- * Replaces qa-audit.js for migrated scenarios. qa-audit.js still exists and
- * still validates the persona-era schema; it is deleted when the last
- * scenario is migrated, and not before.
+ * Replaced qa-audit.js, which validated the retired persona-era schema.
  *
  * What this checks that a build cannot: that every branch lands somewhere,
  * that every outcome is reachable, that the close is authored, that no

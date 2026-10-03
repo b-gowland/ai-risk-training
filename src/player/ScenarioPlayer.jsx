@@ -29,6 +29,7 @@ import {
   trackScenarioCompleted, trackRecallAnswered, trackCommitmentSelected,
   trackReplayChosen, trackCardShared,
 } from '../utils/analytics.js';
+import { scormInit, scormComplete, scormTerminate } from '../utils/scorm.js';
 import { depthBand } from './depth.js';
 import Setup from './Setup.jsx';
 import Decision from './Decision.jsx';
@@ -66,6 +67,14 @@ function ScenarioMachine({ id }) {
     target?.focus({ preventScroll: true });
   }, [id, state.phase, state.nodeId]);
 
+  // SCORM lifecycle. Every call is a no-op outside an LMS launch, and
+  // scormInit is idempotent, so remounting on a scenario change is safe.
+  useEffect(() => {
+    scormInit();
+    window.addEventListener('pagehide', scormTerminate);
+    return () => window.removeEventListener('pagehide', scormTerminate);
+  }, []);
+
   useEffect(() => {
     if (state.phase === STATES.DEBRIEF && scenario && outcome) {
       trackDebriefViewed(scenario.id, state.outcomeId);
@@ -73,6 +82,12 @@ function ScenarioMachine({ id }) {
         scenario.id, state.outcomeId, outcome.tone, scenario.door,
         outcome.score, 1
       );
+      // Reports completion and score to the LMS. Lost in the four-beat
+      // rebuild (7c0b064) and restored Oct 2026.
+      scormComplete({
+        scenarioId: scenario.id, outcomeId: state.outcomeId,
+        tone: outcome.tone, door: scenario.door, score: outcome.score,
+      });
     }
   }, [state.phase, state.outcomeId, scenario, outcome]);
 

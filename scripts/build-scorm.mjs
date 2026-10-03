@@ -2,9 +2,9 @@
 // Build a single-scenario SCORM 2004 (3rd Ed.) package from the app.
 //
 // Usage:   node scripts/build-scorm.mjs <scenario-id> ["Package Title"]
-// Example: node scripts/build-scorm.mjs f2-shadow-ai "Fork — Shadow AI (F2)"
+// Example: node scripts/build-scorm.mjs f2-shadow-ai "AI Risk Practice: The Shortcut"
 //
-// Output:  dist-scorm/fork-<scenario-id>-scorm2004.zip
+// Output:  dist-scorm/ai-risk-practice-<scenario-id>-scorm2004.zip
 //
 // How it works:
 //  1. `vite build --base=./` so every asset resolves relative to the zip root
@@ -25,11 +25,11 @@ if (!scenarioId) {
   console.error('Usage: node scripts/build-scorm.mjs <scenario-id> ["Package Title"]');
   process.exit(1);
 }
-const title = process.argv[3] || `Fork scenario — ${scenarioId}`;
+const title = process.argv[3] || `AI Risk Practice: ${scenarioId}`;
 const root = process.cwd();
 const stage = join(root, 'dist-scorm', 'stage');
 const outDir = join(root, 'dist-scorm');
-const zipName = `fork-${scenarioId}-scorm2004.zip`;
+const zipName = `ai-risk-practice-${scenarioId}-scorm2004.zip`;
 
 console.log(`[1/4] vite build (relative base, analytics disabled) …`);
 execSync('npx vite build --base=./', {
@@ -90,6 +90,8 @@ function escapeXml(s) {
 
 console.log('[3/4] writing imsmanifest.xml …');
 const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Identifiers keep the original "fork" name: an LMS matches on them to
+     recognise an updated package, so renaming would orphan existing uploads. -->
 <manifest identifier="org.airiskpractice.fork.${scenarioId}" version="1.0"
   xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
