@@ -1,6 +1,6 @@
 # SCORM export (v0 — spike)
 
-Package any single practitioner scenario as a **SCORM 2004 (3rd Edition)**
+Package any single scenario as a **SCORM 2004 (3rd Edition)**
 zip that uploads to an LMS, launches the scenario, and reports completion,
 score, and pass/fail back to the LMS. Open-source contribution — works for
 any user of this repo, no commercial wrapper required.
@@ -9,8 +9,8 @@ any user of this repo, no commercial wrapper required.
 
 ```bash
 npm run test:scorm                       # adapter unit test (mock LMS API)
-npm run build:scorm -- f2-shadow-ai "Fork — Shadow AI (F2)"
-# → dist-scorm/fork-f2-shadow-ai-scorm2004.zip
+npm run build:scorm -- f2-shadow-ai "AI Risk Practice: The Shortcut"
+# → dist-scorm/ai-risk-practice-f2-shadow-ai-scorm2004.zip
 ```
 
 Any scenario id from `src/scenarios/index.js` works.
@@ -22,7 +22,7 @@ Any scenario id from `src/scenarios/index.js` works.
 | `cmi.completion_status` | `incomplete` on launch → `completed` at outcome |
 | `cmi.score.raw` / `.scaled` | the outcome's authored `score` (0–100 / 0–1) |
 | `cmi.success_status` | `passed` if score ≥ 70, else `failed` |
-| `cmi.suspend_data` | JSON breadcrumb: scenario, outcome, tone, persona, score (v1 schema) |
+| `cmi.suspend_data` | JSON breadcrumb: scenario, outcome, tone, door, score (v2 schema; v1 had `persona` in place of `door`) |
 
 The 70 threshold matches the programme documentation. Ratings are
 deterministic — identical choices always produce identical records.
@@ -32,8 +32,9 @@ deterministic — identical choices always produce identical records.
 - `src/utils/scorm.js` — adapter. Discovers `API_1484_11` in the window
   chain (depth-limited, cross-origin-safe). **No-ops entirely when no LMS
   API is present**, so the same code ships in the web deploy unchanged.
-- `src/App.jsx` — two additive hooks: init/terminate lifecycle on mount,
-  and a `scormComplete()` call inside the existing completion effect.
+- `src/player/ScenarioPlayer.jsx` — init/terminate lifecycle on mount, and
+  a `scormComplete()` call when the debrief opens. `src/__tests__/scorm-wiring.test.jsx`
+  plays a scenario through and checks the player makes that call.
 - `scripts/build-scorm.mjs` — builds with `--base=./` (location-independent
   assets), **sets `VITE_LMS_BUILD=1` which compiles all Plausible analytics
   to no-ops** (verified: the tracker is tree-shaken out of the LMS bundle;
@@ -57,7 +58,7 @@ deterministic — identical choices always produce identical records.
   later increment, not an accident waiting to happen.
 - **No mid-scenario resume yet.** `suspend_data` is written at outcome
   only. Resume-from-node is the next adapter increment.
-- **Full app bundle in every package** (~6 MB incl. all scene images).
+- **Full app bundle in every package** (under 3 MB incl. all scene images).
   Per-scenario asset slimming is a later packaging increment.
 - Google Fonts loads from CDN (graceful fallback offline). The packaged
   Privacy page still describes the web deploy's analytics; swap-in copy

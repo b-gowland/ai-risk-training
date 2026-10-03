@@ -1,4 +1,4 @@
-// SCORM 2004 (4th Ed. API, "API_1484_11") adapter for the Fork training app.
+// SCORM 2004 (4th Ed. API, "API_1484_11") adapter for the AI Risk Practice app.
 //
 // Design contract:
 //  - Zero behaviour change outside an LMS: every function silently no-ops when
@@ -66,10 +66,11 @@ export function scormInit() {
 }
 
 /**
- * Report a finished scenario run. Called from the existing completion effect.
+ * Report a finished scenario run. Called from ScenarioPlayer when the
+ * debrief opens.
  * score: 0–100 (outcome.score). Pass threshold 70 (matches programme docs).
  */
-export function scormComplete({ scenarioId, outcomeId, tone, persona, score }) {
+export function scormComplete({ scenarioId, outcomeId, tone, door, score }) {
   if (!initialized || terminated) return;
   const raw = Number.isFinite(score) ? Math.max(0, Math.min(100, score)) : null;
   set('cmi.completion_status', 'completed');
@@ -80,8 +81,9 @@ export function scormComplete({ scenarioId, outcomeId, tone, persona, score }) {
     set('cmi.score.scaled', (raw / 100).toFixed(4));
     set('cmi.success_status', raw >= 70 ? 'passed' : 'failed');
   }
-  // Evidence breadcrumb — versioned, replayable against scenario content.
-  const crumb = JSON.stringify({ v: 1, scenarioId, outcomeId, tone, persona, score: raw });
+  // Evidence breadcrumb, versioned and replayable against scenario content.
+  // v2: `door` replaced the retired `persona` (Oct 2026).
+  const crumb = JSON.stringify({ v: 2, scenarioId, outcomeId, tone, door, score: raw });
   if (crumb.length <= 60000) set('cmi.suspend_data', crumb); // 2004 limit 64k
   set('cmi.exit', 'normal');
   try { api.Commit(''); } catch { /* non-fatal */ }
