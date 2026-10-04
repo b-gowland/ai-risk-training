@@ -39,6 +39,19 @@ if (!existsSync(DIST)) {
   process.exit(1);
 }
 
+// Static pages are real landing pages (shared links point at /scenarios/ and
+// /cards/), so they need the same analytics as the SPA. Read the Plausible
+// script URL from the built index.html rather than hard-coding the site ID
+// twice. Real paths here, so a plain init() with no hash routing.
+const PLAUSIBLE_SRC = (readFileSync(join(DIST, 'index.html'), 'utf8')
+  .match(/https:\/\/plausible\.io\/js\/[\w-]+\.js/) || [])[0];
+if (!PLAUSIBLE_SRC) {
+  console.error('dist/index.html: no Plausible script URL found. Static pages would ship untracked. Aborting.');
+  process.exit(1);
+}
+const PLAUSIBLE = `<script async src="${PLAUSIBLE_SRC}"></script>
+<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>`;
+
 // Load the live registry through Vite so `import.meta.glob` in
 // scenarios/index.js resolves as it does in the real app. A plain `node
 // --import` of that file throws — this is not optional plumbing.
@@ -122,6 +135,7 @@ const HEAD = ({ title, description, canonical, jsonLd }) => `<meta charset="UTF-
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${SITE}/og.png" />
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+${PLAUSIBLE}
 <style>${STYLE}</style>`;
 
 const CHROME_HEAD = `<header class="bar"><a href="/">AI Risk Practice</a><span>Free · No login</span></header>`;

@@ -116,6 +116,17 @@ describe('static pages (dist/, post-build)', () => {
     expect(read('index.html')).toContain('hashBasedRouting: true');
   });
 
+  it('every static page loads the same Plausible script as the SPA, without hash routing', () => {
+    const src = read('index.html').match(/https:\/\/plausible\.io\/js\/[\w-]+\.js/)[0];
+    const pages = ['scenarios/index.html', 'cards/index.html', ...scenarios.map((s) => `scenarios/${s.id}/index.html`)];
+    for (const p of pages) {
+      const html = read(p);
+      expect(html, p).toContain(`src="${src}"`);
+      expect(html, p).toContain('plausible.init()');
+      expect(html, p).not.toContain('hashBasedRouting');
+    }
+  });
+
   it('index.html and every scenario page declare a canonical URL', () => {
     expect(read('index.html')).toContain('rel="canonical" href="https://app.airiskpractice.org/"');
     for (const s of scenarios) {
