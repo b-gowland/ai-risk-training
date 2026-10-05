@@ -60,7 +60,7 @@ export default function Setup({ scenario, onBegin }) {
           </div>
         </dl>
 
-        <button type="button" className={s.primary} onClick={onBegin}>
+        <button type="button" className={`${s.primary} ${s.beginSticky}`} onClick={onBegin}>
           {scenario.begin || 'Start'}
         </button>
 

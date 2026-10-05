@@ -173,6 +173,19 @@
   letter-spacing: 0.02em;
 }
 
+/* Phones only: the start button sat 790–1120px down on a 390px screen, below
+   the first viewport on every scenario (measured 5 Oct). Sticky keeps it in
+   reach while the page reads in order; it settles into place once the reader
+   scrolls to it. Ground-coloured halo stops text showing round it. */
+@media (max-width: 40rem) {
+  .beginSticky {
+    position: sticky;
+    bottom: calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
+    z-index: 2;
+    box-shadow: 0 0 0 var(--sp-3) var(--ground);
+  }
+}
+
 /* ── Decision ────────────────────────────────────────────────── */
 
 /* Position. Evidenced as progress visualisation, rendered as a file index

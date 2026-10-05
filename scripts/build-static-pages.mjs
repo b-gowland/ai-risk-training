@@ -29,6 +29,8 @@
 import { createServer } from 'vite';
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { execSync } from 'node:child_process';
+import sharp from 'sharp';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -66,6 +68,9 @@ const { scenarios } = await server.ssrLoadModule('/src/scenarios/index.js');
 await server.close();
 
 const DOOR = { home: 'At home', work: 'At work' };
+const MINUTES = { home: 'about five minutes', work: 'about eight to ten minutes' };
+const SHORT_MIN = { home: '5 min', work: '10 min' };
+const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -108,9 +113,11 @@ padding:.65rem 1.1rem;text-decoration:none;border:2px solid var(--ink);color:var
 .btn.primary{background:var(--amber);border-color:var(--amber);color:#fff}
 .rows{list-style:none;margin:0;padding:0}
 .rows li{border-bottom:1px solid var(--rule);padding:.9rem 0}
-.rows a{display:flex;justify-content:space-between;gap:1rem;text-decoration:none;color:var(--ink);
-font-family:var(--display);font-weight:500;font-size:1.0625rem}
-.rows .door{flex-shrink:0;font-size:.75rem;color:var(--ink-faint);text-transform:uppercase}
+.rows a.play{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:500;font-size:1.0625rem}
+.rows a.play:hover span:first-child{text-decoration:underline;text-underline-offset:3px}
+.rows .go{flex-shrink:0;font-size:.8rem;font-weight:600;color:var(--amber-deep);white-space:nowrap}
+.rows a.about{display:inline-block;margin-top:.35rem;font-size:.75rem;color:var(--ink-faint)}
 .doorlabel{display:inline-block;font-family:var(--heavy);font-size:.75rem;letter-spacing:.1em;
 text-transform:uppercase;padding:.2rem .6rem;margin-bottom:.75rem;color:#fff}
 .doorlabel.home{background:var(--door-home)}
@@ -119,7 +126,7 @@ footer{margin-top:3rem;padding:1.5rem 1rem;background:var(--ink);color:#fff;font
 footer a{color:#fff}
 `.trim();
 
-const HEAD = ({ title, description, canonical, jsonLd }) => `<meta charset="UTF-8" />
+const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png` }) => `<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
@@ -128,12 +135,12 @@ const HEAD = ({ title, description, canonical, jsonLd }) => `<meta charset="UTF-
 <meta property="og:url" content="${canonical}" />
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
-<meta property="og:image" content="${SITE}/og.png" />
+<meta property="og:image" content="${image}" />
 <meta property="og:site_name" content="AI Risk Practice" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
-<meta name="twitter:image" content="${SITE}/og.png" />
+<meta name="twitter:image" content="${image}" />
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 ${PLAUSIBLE}
 <style>${STYLE}</style>`;
@@ -162,8 +169,12 @@ function scenarioRows(door) {
   return scenarios
     .filter((s) => s.door === door)
     .map(
-      (s) => `<li><a href="/scenarios/${s.id}/"><span>${esc(s.shelfLine)}</span>
-<span class="door">${DOOR[s.door]}</span></a></li>`
+      // Rows go straight to play: the hub was a two-hop path to the first
+      // decision (5 Oct). The quiet "about" link keeps the static page one
+      // tap away and crawlable from here.
+      (s) => `<li><a class="play" href="/#/scenario/${s.id}"><span>${esc(s.shelfLine)}</span>
+<span class="go">${SHORT_MIN[s.door]} &rarr;</span></a>
+<a class="about" href="/scenarios/${s.id}/">About this one</a></li>`
     )
     .join('\n');
 }
@@ -201,11 +212,27 @@ sounds most like your week.</p>
 mkdirSync(join(DIST, 'scenarios'), { recursive: true });
 writeFileSync(join(DIST, 'scenarios', 'index.html'), scenariosIndexHtml);
 
+// ── Per-scenario share images ────────────────────────────────────────
+// Link previews on Reddit, LinkedIn, Slack and email are mostly the image,
+// and every page used to share one og.png. Cropped from the scenario's own
+// scene to 1200×630 JPG (WebP previews are unreliable on LinkedIn). A
+// missing scene fails the build rather than shipping a broken preview.
+
+mkdirSync(join(DIST, 'og'), { recursive: true });
+for (const s of scenarios) {
+  const src = join(DIST, 'scenes', `${s.scene}.webp`);
+  if (!s.scene || !existsSync(src)) {
+    console.error(`${s.id}: scene image '${s.scene}' not found in dist/scenes. Aborting rather than shipping a broken share preview.`);
+    process.exit(1);
+  }
+  await sharp(src).resize(1200, 630, { fit: 'cover' }).jpeg({ quality: 82, mozjpeg: true })
+    .toFile(join(DIST, 'og', `${s.id}.jpg`));
+}
+
 // ── /scenarios/<id>/ ─────────────────────────────────────────────────
 // Tell only (Ben, 20 Sep) — never consequences, debrief frame, or recall.
 
 for (const s of scenarios) {
-  const time = s.door === 'home' ? 'About five minutes.' : 'About eight to ten minutes.';
   const canWhat = `<p><span class="meta">What you can do</span><br>${esc(s.authority)}</p>`;
   const standing = s.standing ? `<p><span class="meta">You are</span><br>${esc(s.standing)}</p>` : '';
 
@@ -213,12 +240,14 @@ for (const s of scenarios) {
 <span class="doorlabel ${s.door}">${DOOR[s.door]}</span>
 <h1>${esc(s.title)}</h1>
 ${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}
+<div class="actions">
+<a class="btn primary" href="/#/scenario/${s.id}">${esc(s.begin || 'Start')}</a>
+</div>
+<p class="meta">${cap(MINUTES[s.door])} · no login · nothing scored</p>
 ${standing}
 ${canWhat}
 <p class="tell">${esc(s.tell)}</p>
-<p class="meta">${time} No login. Nothing scored.</p>
 <div class="actions">
-<a class="btn primary" href="/#/scenario/${s.id}">Play the full scenario</a>
 <a class="btn" href="/cards/?s=${s.id}">Print discussion cards</a>
 ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : ''}
 </div>
@@ -226,9 +255,12 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
 
   const html = page({
     head: HEAD({
-      title: `${s.title} — AI Risk Practice`,
-      description: s.shelfLine,
+      // Situation first: it is what a worried person types. Situation
+      // phrasing, never a risk name, so the Setup rule still holds.
+      title: `${s.shelfLine.replace(/\.$/, '')} — ${s.title}`,
+      description: `${s.shelfLine} A free practice scenario, ${MINUTES[s.door]}, no login.`,
       canonical: `${SITE}/scenarios/${s.id}/`,
+      image: `${SITE}/og/${s.id}.jpg`,
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'LearningResource',
@@ -291,6 +323,14 @@ mkdirSync(join(DIST, 'cards'), { recursive: true });
 writeFileSync(join(DIST, 'cards', 'index.html'), cardsHtml);
 
 // ── sitemap.xml — replaces vite-plugin-sitemap's single-URL output ────
+// lastmod is the deploying commit's date: honest for a site where every page
+// is generated from the same registry in the same build.
+
+let LASTMOD;
+try {
+  LASTMOD = execSync('git log -1 --format=%cs', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+} catch { /* no git (e.g. a tarball build) */ }
+if (!/^\d{4}-\d{2}-\d{2}$/.test(LASTMOD || '')) LASTMOD = new Date().toISOString().slice(0, 10);
 
 const urls = [
   '/',
@@ -300,10 +340,29 @@ const urls = [
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
+${urls.map((u) => `  <url><loc>${SITE}${u}</loc><lastmod>${LASTMOD}</lastmod></url>`).join('\n')}
 </urlset>
 `;
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap);
+
+// ── llms.txt — a plain map for AI tools. Cheap bet, weak evidence (5 Oct) ──
+
+const llms = `# AI Risk Practice
+
+> Free, open-source practice scenarios about AI going wrong, at home and at work. You make decisions with incomplete information, see what followed, and read how someone experienced would read it. No login, nothing scored. Code Apache 2.0, content CC BY 4.0.
+
+## Scenarios
+
+${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${MINUTES[s.door]})`).join('\n')}
+
+## Also
+
+- [All scenarios](${SITE}/scenarios/): the full list
+- [Discussion cards](${SITE}/cards/): printable cards for a group of three to six
+- [Reference library](https://library.airiskpractice.org/): AI risks with controls, mapped to the EU AI Act, NIST AI RMF, ISO 42001 and OWASP
+- [Source](https://github.com/b-gowland/ai-risk-training)
+`;
+writeFileSync(join(DIST, 'llms.txt'), llms);
 
 // ── Fill the empty #root fallback in dist/index.html ───────────────────
 // createRoot() replaces this on mount; it exists only for a crawler or a
@@ -383,4 +442,4 @@ if (!indexHtml.includes('application/ld+json')) {
 
 writeFileSync(indexPath, indexHtml);
 
-console.log(`Static pages written: /scenarios/ (×${scenarios.length + 1}), /cards/, sitemap.xml (${urls.length} URLs), #root fallback filled.`);
+console.log(`Static pages written: /scenarios/ (×${scenarios.length + 1}), /cards/, og/ (×${scenarios.length}), sitemap.xml (${urls.length} URLs), llms.txt, #root fallback filled.`);

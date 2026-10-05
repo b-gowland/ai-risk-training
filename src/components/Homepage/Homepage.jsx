@@ -37,7 +37,7 @@ export default function Homepage() {
             </button>.
           </p>
           <ul className={s.facts}>
-            <li>About 5 minutes</li>
+            <li>5 to 10 minutes</li>
             <li>Nothing scored</li>
             <li>Just explore</li>
           </ul>

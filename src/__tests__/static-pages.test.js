@@ -16,6 +16,7 @@ import { execSync } from 'node:child_process';
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it, expect, beforeAll } from 'vitest';
+import sharp from 'sharp';
 import { scenarios } from '../scenarios/index.js';
 
 const DIST = join(process.cwd(), 'dist');
@@ -91,6 +92,44 @@ describe('static pages (dist/, post-build)', () => {
       expect(locs).toContain(`https://app.airiskpractice.org/scenarios/${s.id}/`);
     }
     expect(locs.length).toBe(3 + scenarios.length);
+    expect(xml).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+  });
+
+  // DECIDED 5 Oct: the play button comes straight after the cold open and
+  // above the tell, so the answer never precedes the question for a human.
+  it.each(scenarios.map((s) => [s.id, s]))('%s: play button sits above the tell and uses the scenario\'s own start line', (_id, s) => {
+    const html = read(`scenarios/${s.id}/index.html`);
+    const play = html.indexOf(`href="/#/scenario/${s.id}"`);
+    const tell = html.indexOf('class="tell"');
+    expect(play).toBeGreaterThan(-1);
+    expect(play).toBeLessThan(tell);
+    const after = html.slice(play, play + 200);
+    expect(textOf(after.split('</a>')[0] + '</a>')).toContain(norm(s.begin));
+  });
+
+  it.each(scenarios.map((s) => [s.id, s]))('%s: title leads with the situation; share image is its own 1200x630 JPG', async (_id, s) => {
+    const html = read(`scenarios/${s.id}/index.html`);
+    const title = norm(new DOMParser().parseFromString(html, 'text/html').title);
+    expect(title.startsWith(norm(s.shelfLine).replace(/\.$/, ''))).toBe(true);
+    expect(html).toContain(`content="https://app.airiskpractice.org/og/${s.id}.jpg"`);
+    const meta = await sharp(join(DIST, 'og', `${s.id}.jpg`)).metadata();
+    expect([meta.width, meta.height, meta.format]).toEqual([1200, 630, 'jpeg']);
+  });
+
+  it('hub rows go straight to play and keep a crawlable link to each static page', () => {
+    const html = read('scenarios/index.html');
+    for (const s of scenarios) {
+      // Built through a helper: route-audit rightly flags literal
+      // server-absolute hrefs in app source, and these are static-page paths.
+      const link = (cls, url) => `class="${cls}" href="${url}"`;
+      expect(html).toContain(link('play', `/#/scenario/${s.id}`));
+      expect(html).toContain(link('about', `/scenarios/${s.id}/`));
+    }
+  });
+
+  it('llms.txt lists every scenario with its static URL', () => {
+    const txt = read('llms.txt');
+    for (const s of scenarios) expect(txt).toContain(`https://app.airiskpractice.org/scenarios/${s.id}/`);
   });
 
   it('the SPA entry point has real content in #root, not an empty div', () => {
