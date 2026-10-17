@@ -65,6 +65,16 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
               <div className={s.proseSoft}>
                 {rest.filter(Boolean).map((para, i) => <p key={i}>{para}</p>)}
               </div>
+              {scenario.sources?.length > 0 && (
+                <ul className={s.sources} aria-label="Sources">
+                  {scenario.sources.map((src) => (
+                    <li key={src.url}>
+                      Source: {src.who}, <a href={src.url} target="_blank" rel="noreferrer">{src.title}</a>,
+                      {' '}{src.date}: &ldquo;{src.quote}&rdquo;
+                    </li>
+                  ))}
+                </ul>
+              )}
             </>
           );
         })()}
@@ -131,6 +141,7 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
                     className={`${s.nextRow} ${sc.door === 'home' ? s.nextHome : s.nextWork}`}
                   >
                     <span className={s.nextDoor}>{sc.door === 'home' ? 'At home' : 'At work'}</span>
+                    <span className="srOnly">: </span>
                     <span className={s.nextLine}>{sc.shelfLine}</span>
                     <span className={s.nextGo} aria-hidden="true">→</span>
                   </Link>

@@ -23,7 +23,7 @@ function MessageThread({ a }) {
     <div className={`${s.frame} ${s.phone}`}>
       <div className={s.phoneBar}>
         <span className={s.phoneWho}>{a.contact}</span>
-        {a.contactNote && <span className={s.phoneNote}>{a.contactNote}</span>}
+        {a.contactNote && <><span className="srOnly">, </span><span className={s.phoneNote}>{a.contactNote}</span></>}
       </div>
       <ol className={s.thread}>
         {a.messages.map((m, i) => (
@@ -123,7 +123,9 @@ function SystemOutput({ a }) {
     <div className={`${s.frame} ${s.system}`}>
       <div className={s.systemHead}>
         <span className={s.systemTool}>{a.system}</span>
-        {a.status && <span className={s.systemStatus}>{a.status}</span>}
+        {/* Visually a badge beside the name; read aloud it needs a break and a
+            label, or "licence scan Review required" runs together. */}
+        {a.status && <><span className="srOnly">. Status: </span><span className={s.systemStatus}>{a.status}</span></>}
       </div>
       <p className={s.systemHeadline}>{a.headline}</p>
       {a.fields && (
@@ -155,13 +157,13 @@ function Transcript({ a }) {
     <div className={`${s.frame} ${s.transcript}`}>
       <div className={s.transcriptHead}>
         <span>{a.source}</span>
-        {a.duration && <span className={s.transcriptDur}>{a.duration}</span>}
+        {a.duration && <><span className="srOnly">, </span><span className={s.transcriptDur}>{a.duration}</span></>}
       </div>
       <ol className={s.lines}>
         {a.lines.map((l, i) => (
           <li key={i}>
-            {l.time && <span className={s.time}>{l.time}</span>}
-            <span className={s.speaker}>{l.speaker}</span>
+            {l.time && <><span className={s.time}>{l.time}</span><span className="srOnly">, </span></>}
+            <span className={s.speaker}>{l.speaker}</span><span className="srOnly">: </span>
             <span className={s.said}>{l.text}</span>
           </li>
         ))}

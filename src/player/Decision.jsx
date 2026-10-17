@@ -26,8 +26,10 @@ export default function Decision({ node, path, revealedChoice, onCommit, onAdvan
   return (
     <article className={s.screen} tabIndex={-1} aria-labelledby="decision-step">
       <div className={s.margin}>
-        <span className={s.counter}>{String(index).padStart(2, '0')}</span>
-        <span className={s.counterOf}>decision</span>
+        {/* Visual only: "Decision {index}" below says the same thing to a
+            screen reader, which otherwise hears "01decision". */}
+        <span className={s.counter} aria-hidden="true">{String(index).padStart(2, '0')}</span>
+        <span className={s.counterOf} aria-hidden="true">decision</span>
         <div className={s.rail} aria-hidden="true">
           {Array.from({ length: ticks }, (_, i) => (
             <span

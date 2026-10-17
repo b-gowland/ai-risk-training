@@ -256,6 +256,22 @@ for (const sc of targets) {
   for (const [id, n] of Object.entries(nodes)) checkParas(`${id}.prose`, id, n.prose);
   for (const [id, o] of Object.entries(outcomes)) checkParas(`${id}.description`, id, o.description);
 
+  /* ── Sources ─────────────────────────────────────────────────────
+     A dated claim in the debrief ("From 10 December 2026, …") is the
+     kind of sentence people repeat and AI assistants quote. It carries
+     its primary source: who said it, where, when, and their exact words. */
+  const DATED = /\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b/;
+  const debriefText = [...(sc.debrief?.frame || []), sc.debrief?.keyLine].filter(Boolean).join(' ');
+  if (DATED.test(debriefText) && !(sc.sources || []).length) {
+    fail('source', `debrief states a dated fact ("${debriefText.match(DATED)[0]}") with no sources entry`);
+  }
+  for (const [i, src] of (sc.sources || []).entries()) {
+    for (const f of ['quote', 'who', 'title', 'date', 'url']) {
+      if (!src[f]) fail('source', `sources[${i}] is missing '${f}'`);
+    }
+    if (src.url && !/^https:\/\//.test(src.url)) fail('source', `sources[${i}].url is not https`);
+  }
+
   /* ── Outcomes ────────────────────────────────────────────────── */
   const tones = new Set();
   for (const [id, o] of Object.entries(outcomes)) {

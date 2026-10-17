@@ -106,7 +106,8 @@ describe('invented names stay invented', () => {
 
   it('every web address or email domain in a scenario is a reserved .example name', () => {
     for (const s of scenarios) {
-      const hosts = strings(s).flatMap((t) => t.match(/\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|ai|io|co|au|example)\b/gi) || []);
+      // sources are real citations by design; everything else is fiction.
+      const hosts = strings({ ...s, sources: undefined }).flatMap((t) => t.match(/\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|ai|io|co|au|example)\b/gi) || []);
       for (const h of hosts) {
         if (/airiskpractice\.org$/.test(h)) continue;
         expect(h, `${s.id}: ${h} could be a real domain`).toMatch(/\.example$/);

@@ -173,18 +173,20 @@
   letter-spacing: 0.02em;
 }
 
-/* Phones only: the start button sat 790–1120px down on a 390px screen, below
-   the first viewport on every scenario (measured 5 Oct). Sticky keeps it in
-   reach while the page reads in order; it settles into place once the reader
-   scrolls to it. Ground-coloured halo stops text showing round it. */
-@media (max-width: 40rem) {
-  .beginSticky {
-    position: sticky;
-    bottom: calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
-    z-index: 2;
-    box-shadow: 0 0 0 var(--sp-3) var(--ground);
-  }
+/* The start button sat below the first screen almost everywhere: 790–1120px
+   down on a 390px phone (measured 5 Oct), 855–1240px in a 960×600 window,
+   and 140–340px on a 1280×900 desktop (17 Oct). A sticky bar keeps it in
+   reach while the page reads in order, and settles into place once the
+   reader scrolls to it. The bar spans the column, so the story text never
+   shows beside the button. */
+.beginBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: var(--ground);
+  padding: var(--sp-3) 0 calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
 }
+.beginBar > button { margin: 0; }
 
 /* ── Decision ────────────────────────────────────────────────── */
 
@@ -460,3 +462,15 @@
   text-underline-offset: 3px;
 }
 .allLink:hover { color: var(--amber-deep); }
+
+/* Primary sources for dated or legal claims in the debrief. Small, after
+   the frame: there for anyone who wants to check, not part of the read. */
+.sources {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--sp-5);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-soft, inherit);
+}
+.sources a { color: inherit; }

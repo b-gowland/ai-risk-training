@@ -299,6 +299,18 @@ export const scenario = {
     ],
   },
 
+  // Dated or legal claims in the debrief, with the primary source and its
+  // exact words, so a reader (or an AI assistant quoting this) can check it.
+  sources: [
+    {
+      quote: `On 10 December 2026, APP entities must include information in their privacy policy`,
+      who: `Office of the Australian Information Commissioner`,
+      title: `New resources on transparency for use of AI and automated decision-making`,
+      date: `30 September 2026`,
+      url: `https://www.oaic.gov.au/news/media-centre/new-resources-on-transparency-for-use-of-ai-and-automated-decision-making`,
+    },
+  ],
+
   recall: {
     id: `home-algorithm-said-no-recall`,
     prompt: `A friend is rejected within an hour of applying, with no reason given, for a role they're well qualified for. What's the most useful thing to tell them?`,
