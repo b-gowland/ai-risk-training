@@ -8,7 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import { scenarios, FEATURED_PAIR } from '../../scenarios/index.js';
-import { rangeDigits } from '../../scenarios/timing.js';
+import { rangeDigits } from '../../engine/timing.js';
 import s from './Homepage.module.css';
 
 export default function Homepage() {

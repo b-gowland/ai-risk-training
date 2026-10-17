@@ -18,7 +18,7 @@ import { join } from 'node:path';
 import { describe, it, expect, beforeAll } from 'vitest';
 import sharp from 'sharp';
 import { scenarios } from '../scenarios/index.js';
-import { isoDuration, minutesWords } from '../scenarios/timing.js';
+import { isoDuration, minutesWords } from '../engine/timing.js';
 
 const DIST = join(process.cwd(), 'dist');
 const read = (p) => readFileSync(join(DIST, p), 'utf8');

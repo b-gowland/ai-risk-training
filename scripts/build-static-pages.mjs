@@ -66,8 +66,8 @@ const server = await createServer({
   logLevel: 'error',
 });
 const { scenarios } = await server.ssrLoadModule('/src/scenarios/index.js');
-// Times come from the content (src/scenarios/timing.js), never typed in.
-const { minutesWords, minutesShort, isoDuration } = await server.ssrLoadModule('/src/scenarios/timing.js');
+// Times come from the content (src/engine/timing.js), never typed in.
+const { minutesWords, minutesShort, isoDuration } = await server.ssrLoadModule('/src/engine/timing.js');
 await server.close();
 
 const DOOR = { home: 'At home', work: 'At work' };

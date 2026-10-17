@@ -16,7 +16,8 @@
     "test:watch": "vitest",
     "readability": "node scripts/readability-report.mjs",
     "joins": "node scripts/branch-joins.mjs",
-    "og": "node scripts/render-og.mjs"
+    "og": "node scripts/render-og.mjs",
+    "review-pack": "node scripts/review-pack.mjs"
   },
   "dependencies": {
     "react": "^19.2.4",

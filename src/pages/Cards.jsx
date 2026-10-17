@@ -18,7 +18,7 @@ import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react
 import { Link, useSearchParams } from 'react-router-dom';
 import { scenarios } from '../scenarios/index.js';
 import { resolveParas } from '../engine/narrativeEngine.js';
-import { rangeWords } from '../scenarios/timing.js';
+import { rangeWords } from '../engine/timing.js';
 import { trackCardsPrinted } from '../utils/analytics.js';
 import a from './About.module.css';
 import s from './Cards.module.css';

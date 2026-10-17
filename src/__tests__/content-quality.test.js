@@ -12,7 +12,7 @@ import { scenarios } from '../scenarios/index.js';
 import {
   estimateMinutes, headlineMinutes, wordCount, rangeDigits,
   WORDS_PER_MINUTE, SECONDS_PER_DECISION,
-} from '../scenarios/timing.js';
+} from '../engine/timing.js';
 
 // Every question the player answers: decision nodes and the recall item.
 const questions = scenarios.flatMap((s) => [

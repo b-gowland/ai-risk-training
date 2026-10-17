@@ -14,7 +14,7 @@
 // A scenario's headline is the median over every route through it, rounded
 // to the nearest minute: half of plays are quicker, half slower.
 
-import { resolveParas } from '../engine/narrativeEngine.js';
+import { resolveParas } from './narrativeEngine.js';
 
 export const WORDS_PER_MINUTE = 238;
 export const SECONDS_PER_DECISION = 30;

@@ -77,7 +77,7 @@ export const trackReplayChosen = (scenarioId) =>
   }));
 
 // The Act beat (§4.7). The action id is a content-defined key ('c1'…'c4' or
-// 'skip'), never text. A selection is an implementation intention and nothing
+// 'none' for "None of these fits"), never text. A selection is an implementation intention and nothing
 // more — it is never evidence that anything was done, and no report may
 // describe it as such. An explicit skip is a recorded signal, not an absence.
 export const trackCommitmentSelected = (scenarioId, actId) =>
