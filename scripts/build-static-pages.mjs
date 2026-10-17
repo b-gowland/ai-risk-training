@@ -127,6 +127,33 @@ footer{margin-top:3rem;padding:1.5rem 1rem;background:var(--ink);color:#fff;font
 footer a{color:#fff}
 `.trim();
 
+// Structured data is generated from the scenario registry. If a field it
+// relies on comes back empty, the page would ship a LearningResource with
+// no name or time, which search engines ignore or misreport: fail instead.
+const REQUIRED_LD = {
+  LearningResource: ['name', 'description', 'url', 'timeRequired', 'inLanguage', 'isAccessibleForFree', 'license'],
+  ItemList: ['itemListElement'],
+  CreativeWork: ['name', 'description', 'license'],
+  WebSite: ['name', 'url'],
+  Organization: ['name', 'url'],
+};
+function checkLd(where, ld) {
+  for (const node of ld['@graph'] || [ld]) {
+    for (const f of REQUIRED_LD[node['@type']] || []) {
+      const v = node[f];
+      if (v === undefined || v === null || v === '' || (Array.isArray(v) && !v.length)) {
+        console.error(`${where}: ${node['@type']} has no '${f}'. Aborting rather than shipping incomplete structured data.`);
+        process.exit(1);
+      }
+    }
+    if (node['@type'] === 'LearningResource' && !/^PT\d+M$/.test(node.timeRequired)) {
+      console.error(`${where}: timeRequired '${node.timeRequired}' is not an ISO 8601 duration. Aborting.`);
+      process.exit(1);
+    }
+  }
+  return JSON.stringify(ld);
+}
+
 const OG_ALT = 'AI Risk Practice: What would you do? Short situations where AI goes wrong.';
 const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png`, imageAlt = OG_ALT }) => `<meta charset="UTF-8" />
 ${CSP_META}
@@ -148,7 +175,7 @@ ${CSP_META}
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${image}" />
 <meta name="twitter:image:alt" content="${esc(imageAlt)}" />
-<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+<script type="application/ld+json">${checkLd(canonical, jsonLd)}</script>
 ${PLAUSIBLE}
 <style>${STYLE}</style>`;
 
@@ -437,7 +464,7 @@ if (!indexHtml.includes('application/ld+json')) {
   };
   indexHtml = indexHtml.replace(
     '</head>',
-    `    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n  </head>`
+    `    <script type="application/ld+json">${checkLd('index.html', jsonLd)}</script>\n  </head>`
   );
 }
 
