@@ -58,9 +58,14 @@ cpSync(join(root, 'dist'), stage, { recursive: true });
     prev = html;
     html = html
       .replace(/\s*<script[^>]*plausible\.io[^>]*><\/script>/g, '')
-      .replace(/\s*<script>[^<]*window\.plausible[^<]*<\/script>/g, '');
+      .replace(/\s*<script>[^<]*window\.plausible[^<]*<\/script>/g, '')
+      .replace(/\s*<script[^>]*plausible-init\.js[^>]*><\/script>/g, '');
   } while (html !== prev);
+  // With analytics gone, the package's CSP needs no outside script or
+  // connection at all.
+  html = html.replace(/ https:\/\/plausible\.io/g, '');
   writeFileSync(idx, html);
+  rmSync(join(stage, 'plausible-init.js'), { force: true });
 }
 
 // Launch page: same-window redirect into the scenario route.

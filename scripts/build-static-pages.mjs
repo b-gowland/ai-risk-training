@@ -31,6 +31,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 import sharp from 'sharp';
+import { CSP_META } from './lib/csp.mjs';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -52,7 +53,7 @@ if (!PLAUSIBLE_SRC) {
   process.exit(1);
 }
 const PLAUSIBLE = `<script async src="${PLAUSIBLE_SRC}"></script>
-<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>`;
+<script src="/plausible-init.js"></script>`;
 
 // Load the live registry through Vite so `import.meta.glob` in
 // scenarios/index.js resolves as it does in the real app. A plain `node
@@ -126,7 +127,9 @@ footer{margin-top:3rem;padding:1.5rem 1rem;background:var(--ink);color:#fff;font
 footer a{color:#fff}
 `.trim();
 
-const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png` }) => `<meta charset="UTF-8" />
+const OG_ALT = 'AI Risk Practice: What would you do? Short situations where AI goes wrong.';
+const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png`, imageAlt = OG_ALT }) => `<meta charset="UTF-8" />
+${CSP_META}
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
@@ -136,11 +139,15 @@ const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png` 
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:image" content="${image}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="${esc(imageAlt)}" />
 <meta property="og:site_name" content="AI Risk Practice" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${image}" />
+<meta name="twitter:image:alt" content="${esc(imageAlt)}" />
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 ${PLAUSIBLE}
 <style>${STYLE}</style>`;
@@ -261,6 +268,7 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
       description: `${s.shelfLine} A free practice scenario, ${minutesWords(s)}, no login.`,
       canonical: `${SITE}/scenarios/${s.id}/`,
       image: `${SITE}/og/${s.id}.jpg`,
+      imageAlt: `Illustration from ${s.title}, a free AI Risk Practice scenario`,
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'LearningResource',
@@ -393,19 +401,12 @@ install.</p>
 
 indexHtml = indexHtml.replace('<div id="root"></div>', fallback);
 
-// Target the call alone, not the surrounding <script> block. The block
-// spans a newline, and a checkout with CRLF line endings (the default on
-// Windows, where this repo is worked on in Git Bash) silently fails to
-// match a literal '\n' — replace() finds nothing and returns the string
-// unchanged, with no error. A single-line match has no line ending to get
-// wrong. Confirmed 20 Sep against a CRLF-converted copy of this exact file.
-if (indexHtml.includes('hashBasedRouting')) {
-  // Already applied — running the script twice without an intervening
-  // `vite build` shouldn't double up or throw.
-} else if (indexHtml.includes('plausible.init()')) {
-  indexHtml = indexHtml.replace('plausible.init()', 'plausible.init({ hashBasedRouting: true })');
-} else {
-  console.error("dist/index.html: expected a bare 'plausible.init()' call — the Plausible snippet has changed shape. Aborting the hashBasedRouting fix rather than silently skipping it.");
+// Plausible counts the app's hash routes (#/scenario/…) as pages only if
+// told to. That used to be patched into an inline snippet here; the
+// snippet now lives in public/plausible-init.js (inline scripts are not
+// allowed by the CSP) and the app's tag opts in with data-hash-routing.
+if (!/plausible-init\.js"[^>]*data-hash-routing/.test(indexHtml)) {
+  console.error('dist/index.html: plausible-init.js tag without data-hash-routing. App pageviews would collapse to "/". Aborting.');
   process.exit(1);
 }
 
