@@ -70,7 +70,7 @@ export const scenario = {
       decision: {
         prompt: `What do you do?`,
         choices: [
-          { id: `a`, label: `Accept it and move on. This is just how hiring works now`, quality: `poor`,
+          { id: `a`, label: `Accept it and move on. This is how hiring works now, and asking won't change it`, quality: `poor`,
             consequence: `You close the email. It is the fourth one this month with the same three sentences. It has never occurred to you that you could ask.` },
           { id: `b`, label: `Email HR and ask what the screening tool filtered on and why you didn't meet it`, quality: `good`,
             consequence: `Six polite lines, no accusations. You reread it twice before sending. It feels like a bigger ask than it is.` },
@@ -89,7 +89,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Tell them what happened to you, and that almost nobody thinks to ask why`, quality: `good`,
             consequence: `They put their coffee down. "Nobody has ever asked us. Not once." They look unsettled by that.` },
-          { id: `b`, label: `Say AI screening's fine. Hiring teams are busy and it saves time`, quality: `poor`,
+          { id: `b`, label: `Say AI screening's fine. Hiring teams are busy, and it saves a lot of time`, quality: `poor`,
             consequence: `They look relieved. "Good. Three hundred applications a role, we'd never cope otherwise." The conversation moves on to something else.` },
         ],
       },
@@ -105,10 +105,10 @@ export const scenario = {
       decision: {
         prompt: `What do you tell them the fix looks like?`,
         choices: [
-          { id: `a`, label: `Put every screening requirement in the ad, and have a human glance at the borderline rejections`, quality: `good`,
-            consequence: `They get their phone out and type it into a note. "Every requirement in the ad, human eyes on the near-misses." Then: "That's not much work."` },
           { id: `b`, label: `Just tell them to trust the tool less in general`, quality: `partial`,
             consequence: `They agree that it's worrying. On Monday they have three hundred applications and the same tool.` },
+          { id: `a`, label: `Put every screening requirement in the ad, and have a human glance at the borderline rejections`, quality: `good`,
+            consequence: `They get their phone out and type it into a note. "Every requirement in the ad, human eyes on the near-misses." Then: "That's not much work."` },
         ],
       },
       branches: { a: `n_pass_it_on`, b: `n_pass_it_on` },
@@ -135,9 +135,9 @@ export const scenario = {
       decision: {
         prompt: `A rule that wasn't in the ad screened you out. What do you do?`,
         choices: [
-          { id: `a`, label: `Point out it wasn't in the ad, and ask for a person to review your application`, quality: `good`,
+          { id: `a`, label: `Point out it wasn't in the ad, and ask a person to review your application`, quality: `good`,
             consequence: `You quote the ad back at them, the whole requirements section, and ask where the five years appears. It isn't there.` },
-          { id: `b`, label: `Thank them for explaining and leave it there`, quality: `poor`,
+          { id: `b`, label: `Thank them for explaining. At least now you know why, and that's something`, quality: `poor`,
             consequence: `You thank them for being so clear about it, which they were. Nothing else happens.` },
         ],
       },
@@ -152,10 +152,10 @@ export const scenario = {
       decision: {
         prompt: `What do you do with the offer?`,
         choices: [
-          { id: `a`, label: `Accept, and suggest they review the screening requirements for future applicants`, quality: `good`,
-            consequence: `You say it in one sentence at the end of the call, half expecting it to land badly. There is a pause and then: "No, you're right. I'll look at the others."` },
           { id: `b`, label: `Accept and leave it there. You got what you wanted`, quality: `partial`,
             consequence: `You take the slot and say thank you twice. The ad is still live and still says nothing about five years.` },
+          { id: `a`, label: `Accept, and suggest they review the screening requirements for future applicants`, quality: `good`,
+            consequence: `You say it in one sentence at the end of the call, half expecting it to land badly. There is a pause and then: "No, you're right. I'll look at the others."` },
         ],
       },
       branches: { a: `n_close_systemic`, b: `n_close_personal` },
@@ -171,7 +171,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Apply, and ask upfront whether the screening requirements match the job ad`, quality: `good`,
             consequence: `You put one line at the end of the cover note asking whether the ad lists everything the screening looks for. Somebody has to read that.` },
-          { id: `b`, label: `Don't bother. If they use that tool, any application is pointless`, quality: `poor`,
+          { id: `b`, label: `Don't bother. If they use that tool, any application you send is pointless`, quality: `poor`,
             consequence: `You close the tab. The role stays open for another five weeks.` },
         ],
       },
@@ -186,10 +186,10 @@ export const scenario = {
       decision: {
         prompt: `What do you do with what you learned?`,
         choices: [
-          { id: `a`, label: `Tell people the useful part: ask why, and point out any rule that wasn't in the ad`, quality: `good`,
-            consequence: `You say it in about fifteen words. Two people ask you to repeat it so they can remember it.` },
           { id: `b`, label: `Keep it vague ("AI hiring is dodgy") and leave it there`, quality: `partial`,
             consequence: `Everyone in the thread agrees with you. Nobody does anything differently on Monday.` },
+          { id: `a`, label: `Tell people the useful part: ask why, and point out any rule that wasn't in the ad`, quality: `good`,
+            consequence: `You say it in about fifteen words. Two people ask you to repeat it so they can remember it.` },
         ],
       },
       branches: { a: `outcome_spoke_up`, b: `outcome_silent` },
@@ -220,10 +220,10 @@ export const scenario = {
       decision: {
         prompt: `A week later a friend job-hunting mentions a blank automated rejection of their own. What do you do?`,
         choices: [
-          { id: `a`, label: `Tell them what you did: ask for reasons, and question any rule that wasn't in the ad`, quality: `good`,
-            consequence: `You send them the email you sent, almost word for word. They send something like it that evening.` },
-          { id: `b`, label: `Commiserate and leave it. Automated rejections are just how it is now`, quality: `partial`,
+          { id: `b`, label: `Commiserate and leave it there. Automated rejections are just how it is now`, quality: `partial`,
             consequence: `They feel better for ten minutes. You know the question that got you an interview, and you didn't share it.` },
+          { id: `a`, label: `Tell them what you did: ask why, and question any rule not in the ad`, quality: `good`,
+            consequence: `You send them the email you sent, almost word for word. They send something like it that evening.` },
         ],
       },
       branches: { a: `outcome_spoke_up`, b: `outcome_silent` },
@@ -303,10 +303,10 @@ export const scenario = {
     id: `home-algorithm-said-no-recall`,
     prompt: `A friend is rejected within an hour of applying, with no reason given, for a role they're well qualified for. What's the most useful thing to tell them?`,
     options: [
+      { id: `b`, quality: `good`, label: `Ask why, and if a rule turns up that wasn't in the ad, put it back to them`,
+        note: `Yes. You can ask why, and a requirement that wasn't in the ad is fair to question. It can get a person to look again, for them and later applicants.` },
       { id: `a`, quality: `poor`, label: `Not much they can do. Automated hiring is a black box, so move on`,
         note: `This is the resignation the scenario warns against. A rejection within the hour is exactly the case worth asking about. Nobody has to answer, but plenty do.` },
-      { id: `b`, quality: `good`, label: `Ask why, and if a requirement turns up that wasn't in the ad, put it back to them`,
-        note: `Yes. You can ask why, and a requirement that wasn't in the ad is fair to question. It can get a person to look again, for them and later applicants.` },
       { id: `c`, quality: `partial`, label: `Tell them AI hiring tools are often biased so they shouldn't take it personally`,
         note: `Kind, and one step short of useful. "Don't take it personally" eases the sting. "You can ask why" gives them something to do.` },
     ],

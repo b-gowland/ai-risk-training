@@ -65,11 +65,11 @@ const server = await createServer({
   logLevel: 'error',
 });
 const { scenarios } = await server.ssrLoadModule('/src/scenarios/index.js');
+// Times come from the content (src/scenarios/timing.js), never typed in.
+const { minutesWords, minutesShort, isoDuration } = await server.ssrLoadModule('/src/scenarios/timing.js');
 await server.close();
 
 const DOOR = { home: 'At home', work: 'At work' };
-const MINUTES = { home: 'about five minutes', work: 'about eight to ten minutes' };
-const SHORT_MIN = { home: '5 min', work: '10 min' };
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -173,7 +173,7 @@ function scenarioRows(door) {
       // decision (5 Oct). The quiet "about" link keeps the static page one
       // tap away and crawlable from here.
       (s) => `<li><a class="play" href="/#/scenario/${s.id}"><span>${esc(s.shelfLine)}</span>
-<span class="go">${SHORT_MIN[s.door]} &rarr;</span></a>
+<span class="go">${minutesShort(s)} &rarr;</span></a>
 <a class="about" href="/scenarios/${s.id}/">About this one</a></li>`
     )
     .join('\n');
@@ -243,7 +243,7 @@ ${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}
 <div class="actions">
 <a class="btn primary" href="/#/scenario/${s.id}">${esc(s.begin || 'Start')}</a>
 </div>
-<p class="meta">${cap(MINUTES[s.door])} · no login · nothing scored</p>
+<p class="meta">${cap(minutesWords(s))} · no login · nothing scored</p>
 ${standing}
 ${canWhat}
 <p class="tell">${esc(s.tell)}</p>
@@ -258,7 +258,7 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
       // Situation first: it is what a worried person types. Situation
       // phrasing, never a risk name, so the Setup rule still holds.
       title: `${s.shelfLine.replace(/\.$/, '')} — ${s.title}`,
-      description: `${s.shelfLine} A free practice scenario, ${MINUTES[s.door]}, no login.`,
+      description: `${s.shelfLine} A free practice scenario, ${minutesWords(s)}, no login.`,
       canonical: `${SITE}/scenarios/${s.id}/`,
       image: `${SITE}/og/${s.id}.jpg`,
       jsonLd: {
@@ -271,7 +271,7 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
         inLanguage: 'en',
         learningResourceType: 'Interactive scenario',
         educationalLevel: 'Beginner',
-        timeRequired: s.door === 'home' ? 'PT5M' : 'PT10M',
+        timeRequired: isoDuration(s),
         license: 'https://creativecommons.org/licenses/by/4.0/',
         publisher: { '@type': 'Organization', name: 'AI Risk Practice', url: SITE },
       },
@@ -353,7 +353,7 @@ const llms = `# AI Risk Practice
 
 ## Scenarios
 
-${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${MINUTES[s.door]})`).join('\n')}
+${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${minutesWords(s)})`).join('\n')}
 
 ## Also
 

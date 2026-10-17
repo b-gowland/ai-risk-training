@@ -218,11 +218,12 @@ describe('Close', () => {
   });
 
   it('reveals the recall note only after answering', () => {
+    const note = f2.recall.options.find((o) => o.id === 'b').note;
     const { unmount } = render(<Close {...props} />);
-    expect(screen.queryByText(f2.recall.options[1].note)).toBeNull();
+    expect(screen.queryByText(note)).toBeNull();
     unmount();
     render(<Close {...props} recallAnswer="b" />);
-    expect(screen.getByText(f2.recall.options[1].note)).toBeTruthy();
+    expect(screen.getByText(note)).toBeTruthy();
   });
 });
 

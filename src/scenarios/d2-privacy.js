@@ -50,7 +50,7 @@ export const scenario = {
         status: `Logged`,
         headline: `Outbound sessions to an unapproved AI service`,
         fields: [
-          { label: `Destination`, value: `chat.brightline.example` },
+          { label: `Destination`, value: `chat.wrenfold.example` },
           { label: `Sessions`, value: `3 — Tuesday 14:02, 14:19, 15:41` },
           { label: `Text submitted`, value: `~11,400 words` },
           { label: `Managed session`, value: `No — personal browser profile` },
@@ -60,12 +60,12 @@ export const scenario = {
       decision: {
         prompt: `What do you tell the partner?`,
         choices: [
-          { id: `a`, label: `Yes. I used a public AI tool on the contract summary last week`, quality: `good`,
-            consequence: `She writes down the date and the name of the tool. She doesn't react at all, which somehow feels worse.` },
-          { id: `b`, label: `I may have. I'd need to check which tool I used`, quality: `partial`,
+          { id: `b`, label: `I may have. I'd need to check which tool I used before I say for sure`, quality: `partial`,
             consequence: `"Then check, please, now." The client is still waiting for a callback.` },
           { id: `c`, label: `No. I only used the firm's approved drafting tools`, quality: `poor`,
             consequence: `She thanks you and moves on to the next question. Two floors away, IT is already pulling the records of which websites each laptop connected to.` },
+          { id: `a`, label: `Yes. I used a public AI tool on the contract summary last week`, quality: `good`,
+            consequence: `She writes down the date and the name of the tool. She doesn't react at all, which somehow feels worse.` },
         ],
       },
       branches: { a: `n2_honest`, b: `n2_uncertain`, c: `n_unravel` },
@@ -79,11 +79,11 @@ export const scenario = {
       decision: {
         prompt: `What do you do first to limit the damage?`,
         choices: [
-          { id: `a`, label: `Stop using the tool for client work now, and write down exactly what you pasted so the firm knows how big this is`, quality: `good`,
+          { id: `a`, label: `Stop using it for client work, and write down exactly what you pasted`, quality: `good`,
             consequence: `It takes you twenty minutes to work out what went in. Three sessions, the full contract, the pricing schedules, one clause you pasted twice.` },
           { id: `b`, label: `Delete your chat history in the tool so it's not sitting there`, quality: `partial`,
             consequence: `The history clears in one click. Nothing else changes, except that you've now deleted something in the middle of an investigation.` },
-          { id: `c`, label: `Wait to see if the client noticed anything before doing anything`, quality: `poor`,
+          { id: `c`, label: `Wait to see whether the client has noticed anything before doing anything`, quality: `poor`,
             consequence: `The client noticed four hours ago. That is why you are in this room.` },
         ],
       },
@@ -98,10 +98,10 @@ export const scenario = {
       decision: {
         prompt: `What do you do before the logs come back?`,
         choices: [
+          { id: `b`, label: `Tell only IT, and ask them to keep it quiet until you know more`, quality: `partial`,
+            consequence: `The IT lead is sympathetic and says nothing to anyone. The partner rings the client at four with a story that leaves out the most important fact.` },
           { id: `a`, label: `Correct it with the partner now: what you pasted, and when`, quality: `good`,
             consequence: `You knock on her door before you have worked out how to start the sentence. It's harder than telling her the first time would have been, and much easier than being caught.` },
-          { id: `b`, label: `Tell only IT, and ask them to keep it quiet for now`, quality: `partial`,
-            consequence: `The IT lead is sympathetic and says nothing to anyone. The partner rings the client at four with a story that leaves out the most important fact.` },
           { id: `c`, label: `Say nothing and hope the logs are inconclusive`, quality: `poor`,
             consequence: `They're clear. It takes IT about ninety minutes.` },
         ],
@@ -133,10 +133,10 @@ export const scenario = {
       decision: {
         prompt: `You remember pasting the full contract, pricing schedules and all. What do you say?`,
         choices: [
+          { id: `b`, label: `Parts of it. I don't remember exactly what I included, so I'd rather not guess`, quality: `partial`,
+            consequence: `She writes "parts — unclear" and looks at it. Nobody can tell the client what happened from that, so someone will ask you again this afternoon.` },
           { id: `a`, label: `The full contract text, including the pricing schedules`, quality: `good`,
             consequence: `She writes "pricing schedules" and underlines it twice. You both know the client will care about that part most.` },
-          { id: `b`, label: `Parts of it. I don't remember exactly what I included`, quality: `partial`,
-            consequence: `She writes "parts — unclear" and looks at it. Nobody can tell the client what happened from that, so someone will ask you again this afternoon.` },
         ],
       },
       branches: { a: `n_contain`, b: `n_contain` },
@@ -167,12 +167,12 @@ export const scenario = {
       decision: {
         prompt: `What do you tell her about the other times?`,
         choices: [
-          { id: `a`, label: `Everything: which other client documents went through the tool, so the firm can check them too`, quality: `good`,
-            consequence: `You name two more clients before you've decided to. Her expression doesn't change, and the list gets longer.` },
           { id: `b`, label: `Just this contract for now. Deal with the others if they come up`, quality: `partial`,
             consequence: `The conversation ends sooner. Two other clients' documents are still sitting in the same tool.` },
           { id: `c`, label: `That this was a one-off, to keep the problem small`, quality: `poor`,
             consequence: `The same records that showed today's three sessions cover the whole month. IT already has them.` },
+          { id: `a`, label: `Everything: which other client documents went through the tool, so the firm can check them too`, quality: `good`,
+            consequence: `You name two more clients before you've decided to. Her expression doesn't change, and the list gets longer.` },
         ],
       },
       branches: { a: `n_notify`, b: `n_notify`, c: `n_notify` },
@@ -186,12 +186,12 @@ export const scenario = {
       decision: {
         prompt: `What do you think the firm should tell the client?`,
         choices: [
-          { id: `a`, label: `The straight version: what happened, what was exposed, and what you're doing about it`, quality: `good`,
-            consequence: `She drafts it in front of you, in plain words, and reads it back. It's a harder email to receive, but easier to answer questions about.` },
           { id: `b`, label: `That there was "a data handling issue" the firm is resolving`, quality: `partial`,
             consequence: `It reads better. The client's second email asks what kind of issue, and now the plain truth arrives as a correction.` },
           { id: `c`, label: `Play it down until the firm is sure how bad it is`, quality: `poor`,
             consequence: `You already know what was pasted. So does the partner, and soon it will be on file.` },
+          { id: `a`, label: `The straight version: what happened, what was exposed, and what you're doing about it`, quality: `good`,
+            consequence: `She drafts it in front of you, in plain words, and reads it back. It's a harder email to receive, but easier to answer questions about.` },
         ],
       },
       branches: { a: `n3_strong`, b: `n3_soft`, c: `n3_soft` },
@@ -204,10 +204,10 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend?`,
         choices: [
-          { id: `a`, label: `An approved company AI tool, and a firm rule: client-confidential text never goes into free AI tools`, quality: `good`,
-            consequence: `She asks what a company licence costs and whether anyone has priced one. Nobody has.` },
           { id: `b`, label: `Remind the team to be more careful with AI tools`, quality: `partial`,
             consequence: `She nods and writes it down. The tool is still free, still faster, and still open in three people's browsers.` },
+          { id: `a`, label: `An approved company AI tool, and a firm rule: client-confidential text never goes into free AI tools`, quality: `good`,
+            consequence: `She asks what a company licence costs and whether anyone has priced one. Nobody has.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good` },
@@ -295,10 +295,10 @@ export const scenario = {
     id: `d2-recall`,
     prompt: `A colleague says they've been using the same free tool but only for "internal stuff, team notes, nothing client-facing." Is that fine?`,
     options: [
-      { id: `a`, quality: `poor`, label: `Yes. Internal notes aren't confidential client data, so there's no risk`,
-        note: `Internal notes often hold client names, deal terms, staff details and strategy. The firm can't control the tool, whatever you put into it.` },
-      { id: `b`, quality: `good`, label: `Not really. The issue is that the firm doesn't control the tool, not whether the text is client-facing`,
+      { id: `b`, quality: `good`, label: `Not really. The firm doesn't control the tool, whoever the text is for`,
         note: `Right. The label on the document doesn't matter. The problem is pasting it into a system the firm can't get anything back from. Same fix: an approved tool, or nothing.` },
+      { id: `a`, quality: `poor`, label: `Yes. Internal notes aren't confidential client data, so there's no real risk in it`,
+        note: `Internal notes often hold client names, deal terms, staff details and strategy. The firm can't control the tool, whatever you put into it.` },
       { id: `c`, quality: `partial`, label: `Probably fine, but they should check with the partner to be safe`,
         note: `Checking beats not checking. But the answer depends on whether the firm controls the tool, not on who says yes.` },
     ],

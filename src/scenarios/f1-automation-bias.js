@@ -52,7 +52,7 @@ export const scenario = {
       artefact: {
         type: `system_output`,
         caption: `The AI read, on screen before yours`,
-        system: `RadAssist AI · study 75 of 80`,
+        system: `Pellarin Read · study 75 of 80`,
         status: `Normal`,
         headline: `No regions flagged`,
         fields: [
@@ -88,11 +88,11 @@ export const scenario = {
       decision: {
         prompt: `The AI says normal. Your instinct says look again. What do you do?`,
         choices: [
-          { id: `a`, label: `Flag it: write down what you see and ask for a second opinion before signing off`, quality: `good`,
-            consequence: `You write two lines describing what you can see and send it for a second read. It takes ninety seconds you did not have.` },
           { id: `b`, label: `Spend another two minutes on the image yourself before deciding`, quality: `partial`,
             consequence: `You zoom in twice. What you can see doesn't change, and nothing is written down yet.` },
-          { id: `c`, label: `Accept the AI result. 91% confidence, and six more to get through`, quality: `poor`,
+          { id: `a`, label: `Flag it: write down what you see and ask for a second opinion before signing off`, quality: `good`,
+            consequence: `You write two lines describing what you can see and send it for a second read. It takes ninety seconds you did not have.` },
+          { id: `c`, label: `Accept the AI result. It says 91% confidence, and there are six more to get through`, quality: `poor`,
             consequence: `Twelve seconds, signed, next scan. The one after is a simple fracture and you're back in rhythm.` },
         ],
       },
@@ -107,10 +107,10 @@ export const scenario = {
       decision: {
         prompt: `The patient is fine. But you're thinking about the other 74 scans, and the screen layout that nearly hid this one. What do you do with that?`,
         choices: [
-          { id: `a`, label: `Raise it formally: the AI's answer shows before you've done your own read, which nudges you to accept it`, quality: `good`,
-            consequence: `You write it up properly, which takes longer than the flag did. The department lead reads it that afternoon and asks you to come and explain the display order to him.` },
           { id: `b`, label: `Note it in your own records as a reminder to be more careful`, quality: `partial`,
             consequence: `You note it in your own file and mean it. Nobody else's screen changes.` },
+          { id: `a`, label: `Raise it formally: the AI's answer shows before you've done your own read, which nudges you to accept it`, quality: `good`,
+            consequence: `You write it up properly, which takes longer than the flag did. The department lead reads it that afternoon and asks you to come and explain the display order to him.` },
         ],
       },
       branches: { a: `n_others`, b: `n_others` },
@@ -160,12 +160,12 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend?`,
         choices: [
-          { id: `a`, label: `Change the order: radiologists do their own read before the AI's answer is shown`, quality: `good`,
-            consequence: `The supplier says the setting can be changed. IT says it will take four weeks, and asks who will approve doing fewer scans a day.` },
           { id: `b`, label: `Add a mandatory second opinion on every AI-normal finding`, quality: `partial`,
             consequence: `It's in place within a fortnight, which is fast for here. But every first read still opens on the AI's answer.` },
           { id: `c`, label: `Run extra training on over-trusting AI, and add a tick-box to confirm you checked`, quality: `poor`,
             consequence: `Ninety minutes of online training and a tick-box after every session. Nobody learns anything they didn't already know.` },
+          { id: `a`, label: `Change the order: radiologists do their own read before the AI's answer is shown`, quality: `good`,
+            consequence: `The supplier says the setting can be changed. IT says it will take four weeks, and asks who will approve doing fewer scans a day.` },
         ],
       },
       branches: { a: `n_tradeoff`, b: `n_tradeoff_net`, c: `outcome_warn` },
@@ -196,10 +196,10 @@ export const scenario = {
       decision: {
         prompt: `How do you explain the trade-off so it gets approved?`,
         choices: [
-          { id: `a`, label: `Say it plainly: a few fewer scans a day against the risk of missed cancers, and let the hospital's safety committee decide`, quality: `good`,
-            consequence: `He writes down your two sentences almost word for word and takes them upstairs. It's now their decision, which is where it belongs.` },
           { id: `b`, label: `Play down the cost to get it approved. Say the slowdown is tiny`, quality: `partial`,
             consequence: `It is approved in a week. Six weeks later, in a bad fortnight, the list backs up and the first thing people blame is your change.` },
+          { id: `a`, label: `Say it plainly: a few fewer scans a day against the risk of missed cancers, and let the hospital's safety committee decide`, quality: `good`,
+            consequence: `He writes down your two sentences almost word for word and takes them upstairs. It's now their decision, which is where it belongs.` },
         ],
       },
       branches: { a: `outcome_good`, b: `outcome_good` },
@@ -231,12 +231,12 @@ export const scenario = {
       decision: {
         prompt: `What do you do about the other scans from that day?`,
         choices: [
-          { id: `a`, label: `Ask for that day's AI-normal scans to be re-checked, starting with the fastest sign-offs`, quality: `good`,
-            consequence: `Nineteen of the day's sign-offs come back under twenty seconds. Two of those get a second read and one of the two gets a follow-up.` },
           { id: `b`, label: `Assume the rest were fine. This was the one that happened to catch your eye`, quality: `partial`,
             consequence: `The other seventy-four sit in the system exactly as you left them.` },
-          { id: `c`, label: `Say nothing about the others. Reopening them puts your whole day under the microscope`, quality: `poor`,
+          { id: `c`, label: `Say nothing about the others. Reopening them puts your whole day's work under the microscope`, quality: `poor`,
             consequence: `Nobody asks. That day's scans stay as they are, each with its sign-off time on record.` },
+          { id: `a`, label: `Ask for that day's AI-normal scans to be re-checked, starting with the fastest sign-offs`, quality: `good`,
+            consequence: `Nineteen of the day's sign-offs come back under twenty seconds. Two of those get a second read and one of the two gets a follow-up.` },
         ],
       },
       branches: { a: `n_design`, b: `n_design`, c: `n_design` },
@@ -311,10 +311,10 @@ export const scenario = {
     id: `f1-recall`,
     prompt: `A different team defends showing the AI's answer first: "our staff are trained professionals. They're told to use their own judgement and not just go along with the AI." Is that enough?`,
     options: [
-      { id: `a`, quality: `poor`, label: `Yes. Trained professionals told to use their judgement will catch the AI's errors`,
-        note: `The radiologist here was a trained professional using their judgement, and seeing the AI's answer first still led to a twelve-second sign-off. Telling people to resist doesn't remove the pull.` },
       { id: `b`, quality: `good`, label: `No. Telling people to resist the pull doesn't remove it. Changing the display order does`,
         note: `Right. Showing a confident answer first, under time pressure, predictably sways people. Human first, AI second is what makes the human check real.` },
+      { id: `a`, quality: `poor`, label: `Yes. Trained professionals who are told to use their own judgement will catch the AI's errors`,
+        note: `The radiologist here was a trained professional using their judgement, and seeing the AI's answer first still led to a twelve-second sign-off. Telling people to resist doesn't remove the pull.` },
       { id: `c`, quality: `partial`, label: `Partly. Training helps, but a second-opinion requirement would make it safer`,
         note: `Both help, but neither stops the pull. Changing the display order does. The rest makes up for leaving the problem in place.` },
     ],

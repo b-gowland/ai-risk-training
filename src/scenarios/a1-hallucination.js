@@ -44,7 +44,7 @@ export const scenario = {
       ],
       artefact: {
         type: `assistant_output`,
-        tool: `DraftWise — Regulatory brief`,
+        tool: `Brieflark — Regulatory brief`,
         prompt: `Summarise the current disclosure obligations for a mid-size financial services client, with citations.`,
         response: [
           `Under the Financial Disclosure and Transparency Regulation 2021 (FDTR), §14(3)(b), in-scope firms must file quarterly beneficial-ownership statements within 30 days of period end.`,
@@ -75,10 +75,10 @@ export const scenario = {
       decision: {
         prompt: `They're waiting. What do you do first?`,
         choices: [
-          { id: `a`, label: `Say now that it's wrong, and that you're reviewing the whole document`, quality: `good`,
-            consequence: `"Right. Thanks for ringing me straight back." The call lasts under two minutes, and they stay friendly.` },
           { id: `b`, label: `Check the other citations first. You want the full picture before you speak`, quality: `partial`,
             consequence: `You tell them you'll call back within the hour. That leaves them waiting an hour about a document their board has already seen.` },
+          { id: `a`, label: `Say now that it's wrong, and that you're reviewing the whole document`, quality: `good`,
+            consequence: `"Right. Thanks for ringing me straight back." The call lasts under two minutes, and they stay friendly.` },
           { id: `c`, label: `Say it may be real but obscure, and you'll find the source`, quality: `poor`,
             consequence: `They accept that, because it is plausible and because you sound certain. Their compliance team starts searching for it, and so do you.` },
         ],
@@ -94,10 +94,10 @@ export const scenario = {
       decision: {
         prompt: `Two of three citations are made up, and it's gone to their board. What do you offer?`,
         choices: [
+          { id: `b`, label: `A corrected version of the two wrong citations by end of day, to fix it fast`, quality: `partial`,
+            consequence: `They agree to it. Then: "And the rest of it? You've been through the rest of it?" You have not, yet.` },
           { id: `a`, label: `A fully checked replacement within 24 hours, every citation linked`, quality: `good`,
             consequence: `You have just committed your evening and someone else's. They say that sounds fine and ask you to send it to the board list directly.` },
-          { id: `b`, label: `A corrected version of the two wrong citations by end of day`, quality: `partial`,
-            consequence: `They agree to it. Then: "And the rest of it? You've been through the rest of it?" You have not, yet.` },
         ],
       },
       branches: { a: `n_scope`, b: `n_scope` },
@@ -111,10 +111,10 @@ export const scenario = {
       decision: {
         prompt: `They want an explanation. What do you send?`,
         choices: [
-          { id: `a`, label: `The truth: two citations were invented, here's what happened, here's the replacement`, quality: `good`,
-            consequence: `The compliance director replies in eleven minutes, copying nobody new. She wants the replacement and she wants to know what changed in your process.` },
           { id: `b`, label: `That there were "formatting issues" with the references and you'll resend`, quality: `poor`,
             consequence: `Her team has already searched three official registers. They know it isn't a formatting problem.` },
+          { id: `a`, label: `The truth: two citations were invented, here's what happened, here's the replacement`, quality: `good`,
+            consequence: `The compliance director replies in eleven minutes, copying nobody new. She wants the replacement and she wants to know what changed in your process.` },
         ],
       },
       branches: { a: `n_scope`, b: `outcome_bad` },
@@ -144,12 +144,12 @@ export const scenario = {
       decision: {
         prompt: `What do you do about the other four?`,
         choices: [
-          { id: `a`, label: `Check all four against source today, and flag whatever turns up`, quality: `good`,
-            consequence: `Two are clean. One has a wrong figure, small, nobody has acted on it. One has a citation you can't confirm or rule out. It bothers you all evening.` },
-          { id: `b`, label: `Check the two that went to the most sensitive clients`, quality: `partial`,
+          { id: `b`, label: `Check the two that went to the most sensitive clients, and trust the rest for now`, quality: `partial`,
             consequence: `Both clean, and it takes an hour. Nobody checks the other two.` },
           { id: `c`, label: `Assume they're fine. This was one bad document.`, quality: `poor`,
             consequence: `This was the one a client noticed. Nobody ringing about the other four doesn't mean they're right.` },
+          { id: `a`, label: `Check all four against source today, and flag whatever turns up`, quality: `good`,
+            consequence: `Two are clean. One has a wrong figure, small, nobody has acted on it. One has a citation you can't confirm or rule out. It bothers you all evening.` },
         ],
       },
       branches: { a: `n_colleague`, b: `n_colleague`, c: `n_colleague` },
@@ -265,7 +265,7 @@ export const scenario = {
         note: `Knowing the firm doesn't mean the report exists. Sounding plausible is what the model does best, and "it's only internal" lowers your guard without lowering the risk.` },
       { id: `b`, quality: `good`, label: `Check all three against source, including the two you recognise`,
         note: `Yes. Sounding right isn't the same as being checked, and a familiar name only sounds right to you. A wrong figure in an internal summary still drives a decision.` },
-      { id: `c`, quality: `partial`, label: `Check only the third one, since the other two look right`,
+      { id: `c`, quality: `partial`, label: `Check only the third one, since you recognise the other two and they look right`,
         note: `Better than nothing, and it repeats the original mistake. "Looks right" is the judgement the briefing proved unreliable.` },
     ],
   },

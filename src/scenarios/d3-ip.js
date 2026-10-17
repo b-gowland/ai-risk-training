@@ -60,10 +60,10 @@ export const scenario = {
       decision: {
         prompt: `How do you think about the code you wrote with AI?`,
         choices: [
-          { id: `a`, label: `As something that might break a licence you never checked, worth flagging however clean it looks`, quality: `good`,
-            consequence: `You reply to Legal within the hour with a link to the code. The code hasn't changed, but what you know about it has.` },
           { id: `b`, label: `As probably fine. You reviewed it carefully and it worked first time`, quality: `partial`,
             consequence: `You say so in the reply, twice. Legal's response does not mention correctness at all.` },
+          { id: `a`, label: `As something that might break a licence you never checked, worth flagging however clean it looks`, quality: `good`,
+            consequence: `You reply to Legal within the hour with a link to the code. The code hasn't changed, but what you know about it has.` },
           { id: `c`, label: `As the tool's output. If there's a licence problem, that's the AI vendor's`, quality: `poor`,
             consequence: `Legal forwards you the AI vendor's terms with two clauses highlighted. Neither says what you assumed.` },
         ],
@@ -79,12 +79,12 @@ export const scenario = {
       decision: {
         prompt: `What do you do?`,
         choices: [
-          { id: `a`, label: `Flag it now with the pull-request link and date`, quality: `good`,
-            consequence: `Four lines and a link, sent before lunch. You are the second person to reply and there are eleven developers on the list.` },
           { id: `b`, label: `Flag it, but note that you reviewed it thoroughly and it looked correct`, quality: `partial`,
             consequence: `You add a paragraph defending the review. Legal reads the first two lines, which are the ones with the date and the link.` },
           { id: `c`, label: `Wait for the scanning tool. It might not flag your code`, quality: `poor`,
             consequence: `Nothing happens for six days, and you stop thinking about it.` },
+          { id: `a`, label: `Flag it now with the pull-request link and date`, quality: `good`,
+            consequence: `Four lines and a link, sent before lunch. You are the second person to reply and there are eleven developers on the list.` },
         ],
       },
       branches: { a: `n2_flagged`, b: `n2_flagged`, c: `n_recover` },
@@ -99,7 +99,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Own it: confirm you used AI, and share the code link and what you remember`, quality: `good`,
             consequence: `You send everything you have, a week later than eleven other people did. They take it and use it.` },
-          { id: `b`, label: `Say you assumed the scan would catch anything, and point to your review`, quality: `partial`,
+          { id: `b`, label: `Say you assumed the scan would catch anything, and point to how carefully you reviewed it`, quality: `partial`,
             consequence: `"We know it caught it. We asked people to tell us." Then they move on and ask for the pull request.` },
           { id: `c`, label: `Frame it as a non-issue. The scan found it, so the process worked`, quality: `poor`,
             consequence: `There is a short silence on the call. Somebody types something.` },
@@ -115,10 +115,10 @@ export const scenario = {
       decision: {
         prompt: `Why does the prompt matter, and what do you tell them?`,
         choices: [
+          { id: `b`, label: `You can't recall exactly. It was three months ago, and you don't keep any prompt records`, quality: `partial`,
+            consequence: `Nobody was ever asked to keep them. Legal notes that nothing in the code shows which parts came from AI.` },
           { id: `a`, label: `Share what you remember. It helps them see whether similar prompts were used elsewhere`, quality: `good`,
             consequence: `You find roughly what you asked for in an old branch description. It turns out two other people phrased it almost identically.` },
-          { id: `b`, label: `You can't recall exactly. It was three months ago and you don't keep prompt records`, quality: `partial`,
-            consequence: `Nobody was ever asked to keep them. Legal notes that nothing in the code shows which parts came from AI.` },
           { id: `c`, label: `The prompt doesn't matter. The tool is responsible for what it generated`, quality: `poor`,
             consequence: `They send you the AI vendor's promise to cover legal costs. It has three conditions, and the team meets one.` },
         ],
@@ -133,12 +133,12 @@ export const scenario = {
       decision: {
         prompt: `Legal asks how wide the check should be. What do you recommend?`,
         choices: [
-          { id: `a`, label: `Scan all the company's code for licence matches, not just yours`, quality: `good`,
-            consequence: `The scan takes four hours to set up and eleven minutes to run across nine years of code.` },
           { id: `b`, label: `Check the other code you personally wrote with AI first, then decide`, quality: `partial`,
             consequence: `Your own commits come back clean apart from the one. But eleven other developers have used the same AI since March.` },
           { id: `c`, label: `Just fix the one confirmed match. There's no evidence of others`, quality: `poor`,
             consequence: `The one piece of code is rewritten by Thursday. Nobody looks at anything else.` },
+          { id: `a`, label: `Scan all the company's code for licence matches, not just yours`, quality: `good`,
+            consequence: `The scan takes four hours to set up and eleven minutes to run across nine years of code.` },
         ],
       },
       branches: { a: `n_remediate`, b: `n_remediate`, c: `n_remediate` },
@@ -154,7 +154,7 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend for the GPL matches?`,
         choices: [
-          { id: `a`, label: `Rewrite them from scratch without AI, and send the LGPL one to Legal rather than guessing`, quality: `good`,
+          { id: `a`, label: `Rewrite them from scratch without AI, and send the LGPL one to Legal`, quality: `good`,
             consequence: `Two rewrites, half a day each, no assistant. Legal comes back on the LGPL one with a set of steps you would not have guessed at.` },
           { id: `b`, label: `Heavily rewrite the GPL code (rename, restructure) so it's not the original anymore`, quality: `partial`,
             consequence: `You rename and rearrange until it looks different. Legal asks how much of the original logic is still there, and you can't give a clear answer.` },
@@ -173,11 +173,11 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend as the lasting fix?`,
         choices: [
-          { id: `a`, label: `An automatic licence scan that blocks problem code, plus a short briefing on why it's there`, quality: `good`,
-            consequence: `The scan is in place within a fortnight. The briefing takes five minutes at a stand-up and half the room has questions.` },
           { id: `b`, label: `An automatic licence scan that blocks problem code, and leave it at that`, quality: `partial`,
             consequence: `The scan goes in and starts blocking code on day two. Nobody has explained to anyone why it is there.` },
-          { id: `c`, label: `A reminder to developers to think about licences, and a tick-box to confirm they did`, quality: `poor`,
+          { id: `a`, label: `An automatic licence scan that blocks problem code, plus a short briefing on why it's there`, quality: `good`,
+            consequence: `The scan is in place within a fortnight. The briefing takes five minutes at a stand-up and half the room has questions.` },
+          { id: `c`, label: `A reminder to developers to think about licences, and a tick-box to confirm they've done it`, quality: `poor`,
             consequence: `The tick-box is added to every code submission. Everybody ticks it, and believes it when they do.` },
         ],
       },
@@ -251,10 +251,10 @@ export const scenario = {
     options: [
       { id: `a`, quality: `poor`, label: `Yes. If it's been substantially rewritten, it's no longer the licensed code`,
         note: `Whether a rewrite is enough is a legal question. It depends on how much of the structure and logic survived, judged by past cases, not by how different it looks.` },
-      { id: `b`, quality: `good`, label: `Not necessarily. Whether a rewrite gets around the licence is a question for Legal`,
-        note: `Right. "I changed it enough" is an engineering answer to a legal question. Code of GPL origin goes to Legal however heavily it was rewritten.` },
       { id: `c`, quality: `partial`, label: `Mostly. A heavy rewrite usually gets around it, though there are exceptions`,
         note: `"Usually" is doing a lot of work, and it isn't the developer's call. The licence can still apply if the structure and logic remain, so refer it to Legal.` },
+      { id: `b`, quality: `good`, label: `Not necessarily. Whether a rewrite is enough is a question for Legal`,
+        note: `Right. "I changed it enough" is an engineering answer to a legal question. Code of GPL origin goes to Legal however heavily it was rewritten.` },
     ],
   },
 

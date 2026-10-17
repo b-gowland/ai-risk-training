@@ -56,10 +56,10 @@ export const scenario = {
       decision: {
         prompt: `Ten shortlists, one shape. What have you got?`,
         choices: [
-          { id: `a`, label: `Something is narrowing the field, and it can be checked. The applicants are more varied than the lists.`, quality: `good`,
-            consequence: `You write it down in one line, without the word bias in it. It reads like something a person with the data could go and check.` },
           { id: `b`, label: `Maybe the best candidates really do share a profile`, quality: `poor`,
             consequence: `Every name on those lists is a real, qualified person. What matters is who is missing, and you can't tell that from here.` },
+          { id: `a`, label: `Something is narrowing the field, and it can be checked. The applicants are more varied than the lists.`, quality: `good`,
+            consequence: `You write it down in one line, without the word bias in it. It reads like something a person with the data could go and check.` },
           { id: `c`, label: `The model is biased. Ten lists like this is not a coincidence.`, quality: `partial`,
             consequence: `It probably isn't a coincidence. But you haven't proved it's bias, and the first person you tell will ask how you know.` },
         ],
@@ -74,10 +74,10 @@ export const scenario = {
       decision: {
         prompt: `What do you do about what you've seen?`,
         choices: [
+          { id: `b`, label: `Gather more shortlists yourself first. You want to be sure before raising it with anyone`, quality: `partial`,
+            consequence: `You start a spreadsheet. Two more roles close while you are building it.` },
           { id: `a`, label: `Raise it with your manager now: describe the pattern and say it needs looking into`, quality: `good`,
             consequence: `You send four lines and the shortlist summary. She reads it in front of you and asks whether your colleague would mind her notes being attached.` },
-          { id: `b`, label: `Gather more shortlists yourself first. You want to be sure before raising it`, quality: `partial`,
-            consequence: `You start a spreadsheet. Two more roles close while you are building it.` },
           { id: `c`, label: `Leave it. The tool was approved by the business, so it's not your place`, quality: `poor`,
             consequence: `Your colleague raises it in a team meeting the following week. You say nothing, and that goes in the meeting notes.` },
         ],
@@ -109,10 +109,10 @@ export const scenario = {
       decision: {
         prompt: `What do you advise telling the affected managers?`,
         choices: [
-          { id: `a`, label: `The plain version: the tool is being checked for a possible problem, and here's how to shortlist by hand meanwhile`, quality: `good`,
-            consequence: `Two of the four ask to see their recent shortlists again. One of them finds a candidate she had passed over and rings her.` },
           { id: `b`, label: `Just say there's a technical issue and shortlists will be a bit slower`, quality: `partial`,
             consequence: `Nobody asks questions. Nobody rechecks a shortlist either.` },
+          { id: `a`, label: `The plain version: the tool is being checked for a possible problem, and here's how to shortlist by hand meanwhile`, quality: `good`,
+            consequence: `Two of the four ask to see their recent shortlists again. One of them finds a candidate she had passed over and rings her.` },
         ],
       },
       branches: { a: `n_evidence`, b: `n_evidence` },
@@ -126,9 +126,9 @@ export const scenario = {
       decision: {
         prompt: `You've done the groundwork. Now what?`,
         choices: [
-          { id: `a`, label: `Raise it now. Twenty shortlists is more than enough for a proper investigation`, quality: `good`,
+          { id: `a`, label: `Raise it now. Twenty shortlists is plenty for a proper investigation`, quality: `good`,
             consequence: `Twenty roles' worth of summary, sent in one email. Analytics reply the same day asking why nobody flagged it in March.` },
-          { id: `b`, label: `Get candidates' age and background data yourself to prove it first`, quality: `poor`,
+          { id: `b`, label: `Get candidates' age and background data yourself, to prove it before raising it`, quality: `poor`,
             consequence: `You ask a friend in HR to pull the data for you as a favour. She hesitates, and then does it.` },
         ],
       },
@@ -160,10 +160,10 @@ export const scenario = {
       decision: {
         prompt: `What do you tell them?`,
         choices: [
-          { id: `a`, label: `That the pattern showed up early across all the lists, and nobody's job was to look`, quality: `good`,
-            consequence: `You describe what the lists looked like together in week one, and whose job it should have been to look. It ends up in the final report.` },
           { id: `b`, label: `That it's hard to say. These things are complicated`, quality: `partial`,
             consequence: `The investigator waits, and then moves on to the next question. Nothing you saw over three months makes it into the report.` },
+          { id: `a`, label: `That the pattern showed up early across all the lists, and nobody's job was to look`, quality: `good`,
+            consequence: `You describe what the lists looked like together in week one, and whose job it should have been to look. It ends up in the final report.` },
         ],
       },
       branches: { a: `outcome_warn`, b: `outcome_warn` },
@@ -193,10 +193,10 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend?`,
         choices: [
-          { id: `a`, label: `Regular checks of who the tool shortlists, broken down by group, from day one, with a named owner`, quality: `good`,
-            consequence: `It goes into the plan with an owner's name next to it. The first monthly report comes out six weeks later and takes someone forty minutes.` },
           { id: `b`, label: `Ask everyone to keep an eye on the shortlists`, quality: `partial`,
             consequence: `Everyone agrees to keep an eye out. Nothing has changed from the last three months.` },
+          { id: `a`, label: `Regular checks of who the tool shortlists, broken down by group, from day one, with a named owner`, quality: `good`,
+            consequence: `It goes into the plan with an owner's name next to it. The first monthly report comes out six weeks later and takes someone forty minutes.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good` },
@@ -270,10 +270,10 @@ export const scenario = {
     options: [
       { id: `a`, quality: `poor`, label: `Yes. With those fields removed, the model has nothing to be biased on`,
         note: `Models can work out removed details from other clues, like university, career gaps, hobbies and phrasing. "We stripped the obvious fields" is the false reassurance this scenario warns about.` },
+      { id: `c`, quality: `partial`, label: `Mostly. Removing those fields helps a lot, though a few edge cases might still slip through`,
+        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case. So check the results.` },
       { id: `b`, quality: `good`, label: `No. Models can guess removed details from other clues, so the results still need checking`,
         note: `Right. The only way to know is to look at all the results together, broken down by group. Clean inputs don't guarantee clean results.` },
-      { id: `c`, quality: `partial`, label: `Mostly. Removing those fields helps a lot, though edge cases might slip through`,
-        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case. So check the results.` },
     ],
   },
 

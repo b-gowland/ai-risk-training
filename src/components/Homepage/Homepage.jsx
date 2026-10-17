@@ -8,6 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import { scenarios, FEATURED_PAIR } from '../../scenarios/index.js';
+import { rangeDigits } from '../../scenarios/timing.js';
 import s from './Homepage.module.css';
 
 export default function Homepage() {
@@ -37,7 +38,7 @@ export default function Homepage() {
             </button>.
           </p>
           <ul className={s.facts}>
-            <li>5 to 10 minutes</li>
+            <li>{rangeDigits(scenarios)}</li>
             <li>Nothing scored</li>
             <li>Just explore</li>
           </ul>

@@ -73,12 +73,12 @@ export const scenario = {
       decision: {
         prompt: `Twenty minutes. What do you do?`,
         choices: [
+          { id: `c`, label: `Say you'll call her straight back, and hang up`, quality: `good`,
+            consequence: `She protests. You hang up anyway. It feels awful.` },
           { id: `a`, label: `Send the money. Sort out the rest afterwards.`, quality: `poor`,
             consequence: `It takes under a minute. You tell her it is done and she says thank you about six times.` },
           { id: `b`, label: `Ask her something only your mum would know`, quality: `partial`,
             consequence: `You ask what the dog was called before Bess. There is a pause of maybe two seconds.` },
-          { id: `c`, label: `Say you'll call her straight back, and hang up`, quality: `good`,
-            consequence: `She protests. You hang up anyway. It feels awful.` },
           { id: `d`, label: `Stay on the line and message your dad at the same time`, quality: `good`,
             consequence: `You keep her talking about the car park while you type one-handed.` },
         ],
@@ -96,7 +96,7 @@ export const scenario = {
       decision: {
         prompt: `She got it. Does that settle it?`,
         choices: [
-          { id: `a`, label: `Yes. Send the money.`, quality: `poor`,
+          { id: `a`, label: `Yes. Only Mum would know that. Send the money.`, quality: `poor`,
             consequence: `You send the eight hundred. Anyone could have known that name: your mum has posted about the dogs for eleven years, and so has your aunt.` },
           { id: `b`, label: `No. Hang up and call her back.`, quality: `good`,
             consequence: `You say you'll ring in two minutes and end the call before she can talk you out of it. She picks up on the fifth ring, at home, with the radio on.` },
@@ -142,10 +142,10 @@ export const scenario = {
       decision: {
         prompt: `The voice in your ear is still asking about the transfer.`,
         choices: [
-          { id: `a`, label: `Hang up`, quality: `good`,
-            consequence: `You end the call without saying anything else. Your hands are shaking.` },
           { id: `b`, label: `Tell the caller you know`, quality: `partial`,
             consequence: `The line goes dead before you finish the sentence.` },
+          { id: `a`, label: `Hang up`, quality: `good`,
+            consequence: `You end the call without saying anything else. Your hands are shaking.` },
         ],
       },
       branches: { a: `n3_who`, b: `n3_who` },
@@ -170,10 +170,10 @@ export const scenario = {
       decision: {
         prompt: `Twelve hundred more.`,
         choices: [
-          { id: `a`, label: `Send it. You've come this far.`, quality: `poor`,
-            consequence: `The second transfer goes at 3:54pm. There is no third message.` },
           { id: `b`, label: `Stop, and ring the number in your contacts`, quality: `good`,
             consequence: `She picks up on the fifth ring. She is at home with the radio on, nowhere near a car park.` },
+          { id: `a`, label: `Send it. You've come this far.`, quality: `poor`,
+            consequence: `The second transfer goes at 3:54pm. There is no third message.` },
           { id: `c`, label: `Ring your bank first`, quality: `good`,
             consequence: `You get through in four minutes, which is fast. They put a hold on the second payment before it moves.` },
         ],
@@ -191,12 +191,12 @@ export const scenario = {
       decision: {
         prompt: `What do you tell her?`,
         choices: [
-          { id: `a`, label: `All of it, plainly`, quality: `good`,
-            consequence: `She is quieter about it than you expected. "That was my voice?" She asks you to play it back and you have nothing to play.` },
           { id: `b`, label: `Play it down. She'll only worry.`, quality: `partial`,
             consequence: `You say it was a wrong number. She lets it go. Her voice was copied, and she is the one person who doesn't know.` },
           { id: `c`, label: `Nothing. Report it and move on.`, quality: `partial`,
             consequence: `The Scamwatch report takes four minutes. Your mum still doesn't know her voice was copied, and the scammers can use it again.` },
+          { id: `a`, label: `All of it, plainly`, quality: `good`,
+            consequence: `She is quieter about it than you expected. "That was my voice?" She asks you to play it back and you have nothing to play.` },
         ],
       },
       branches: { a: `n4_after_caught`, b: `n4_after_caught`, c: `n4_after_caught` },
@@ -228,10 +228,10 @@ export const scenario = {
       decision: {
         prompt: `Two thousand dollars, sent from your phone yesterday afternoon, eight minutes apart.`,
         choices: [
-          { id: `a`, label: `Call the bank now and report it`, quality: `good`,
-            consequence: `It's Sunday, so it takes longer. They log it and block the account it went to. They tell you the money is unlikely to come back once it has been moved on.` },
           { id: `b`, label: `Wait until Monday when you can think straight`, quality: `poor`,
             consequence: `Monday is sixteen hours away. By then the money has usually been moved on.` },
+          { id: `a`, label: `Call the bank now and report it`, quality: `good`,
+            consequence: `It's Sunday, so it takes longer. They log it and block the account it went to. They tell you the money is unlikely to come back once it has been moved on.` },
         ],
       },
       branches: { a: `n4_after_loss`, b: `n4_after_loss` },
@@ -247,12 +247,12 @@ export const scenario = {
       decision: {
         prompt: `Do you do anything about that?`,
         choices: [
-          { id: `a`, label: `Tell the family group chat what happened, in plain terms`, quality: `good`,
-            consequence: `Four replies in an hour. Two people say they nearly fell for something similar. One of them is your aunt, and she had not told anybody.` },
           { id: `b`, label: `Just tell your aunt, privately`, quality: `partial`,
             consequence: `She is grateful, and a little embarrassed. Embarrassment is why most people don't pass a warning on.` },
           { id: `c`, label: `Nothing. It's your family, not a public service announcement.`, quality: `poor`,
             consequence: `Fair enough. Six weeks later your cousin gets a call from the same voice and sends four hundred dollars to a car park.` },
+          { id: `a`, label: `Tell the family group chat what happened, in plain terms`, quality: `good`,
+            consequence: `Four replies in an hour. Two people say they nearly fell for something similar. One of them is your aunt, and she had not told anybody.` },
         ],
       },
       branches: { a: `outcome_protected`, b: `outcome_protected`, c: `outcome_caught_alone` },
@@ -266,10 +266,10 @@ export const scenario = {
       decision: {
         prompt: `She is asking you what to do while it is happening.`,
         choices: [
-          { id: `a`, label: `Tell her to hang up and ring Mum's number herself`, quality: `good`,
-            consequence: `She does it while you are still on the line. Your mum picks up in her kitchen. It takes about thirty seconds.` },
           { id: `b`, label: `Tell her to ask a question only Mum would know`, quality: `poor`,
             consequence: `The voice answers correctly. Your aunt rings you back afterwards, still unsure. She has been on the call for nine minutes.` },
+          { id: `a`, label: `Tell her to hang up and ring Mum herself`, quality: `good`,
+            consequence: `She does it while you are still on the line. Your mum picks up in her kitchen. It takes about thirty seconds.` },
         ],
       },
       branches: { a: `outcome_late`, b: `outcome_late` },
@@ -282,9 +282,9 @@ export const scenario = {
       decision: {
         prompt: `Your mum wants to know what she is supposed to do about a voice she cannot take back.`,
         choices: [
-          { id: `a`, label: `Agree something between you that a real emergency call would include`, quality: `good`,
+          { id: `a`, label: `Agree a code word that a real emergency call would include`, quality: `good`,
             consequence: `You agree on a family code word, and a rule: any call about money gets hung up and rung back. It takes a minute, and neither of you has to spot a fake.` },
-          { id: `b`, label: `Tell her to be careful about what she posts`, quality: `partial`,
+          { id: `b`, label: `Tell her to be careful about what she posts, and lock down her accounts`, quality: `partial`,
             consequence: `She has eleven years of birthdays and dogs online, and a voicemail greeting in her own voice. Being careful now doesn't take any of that back.` },
         ],
       },
@@ -355,11 +355,11 @@ export const scenario = {
     id: `home-voice-clone-recall`,
     prompt: `Three months later, a video call from your brother's account. He's on screen, he looks stressed, and he needs you to move money for a bond on a flat before close of business. What settles it?`,
     options: [
-      { id: `a`, quality: `poor`, label: `You can see his face, so it's him`,
-        note: `Video can be faked too, including live on a call. It's the same trap in a newer wrapper, and what you can see was never the evidence.` },
       { id: `b`, quality: `good`, label: `Hang up and reach him another way before anything moves`,
         note: `Yes. Same step, different channel. Reach him on a number or app you already had, or through someone who's with him. It doesn't depend on spotting anything.` },
-      { id: `c`, quality: `partial`, label: `Ask him something personal on the call`,
+      { id: `a`, quality: `poor`, label: `You can see his face, so it's him`,
+        note: `Video can be faked too, including live on a call. It's the same trap in a newer wrapper, and what you can see was never the evidence.` },
+      { id: `c`, quality: `partial`, label: `Ask him something personal on the call, something a fake wouldn't know`,
         note: `Better than nothing, and weaker than it feels. Shared knowledge is often findable, and a caller who can't answer can just get upset that you asked.` },
     ],
   },

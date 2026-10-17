@@ -64,10 +64,10 @@ export const scenario = {
       decision: {
         prompt: `Excess reduction, or not?`,
         choices: [
-          { id: `a`, label: `Decline it. The answer was clear enough.`, quality: `poor`,
-            consequence: `It saves you $232. You stop thinking about it somewhere over the Tasman.` },
           { id: `b`, label: `Ring the insurer before you decide`, quality: `good`,
             consequence: `Eleven minutes on hold. You spend most of it wondering whether this is a silly question to be asking.` },
+          { id: `a`, label: `Decline it. The answer was clear enough.`, quality: `poor`,
+            consequence: `It saves you $232. You stop thinking about it somewhere over the Tasman.` },
         ],
       },
       branches: { a: `n2_booked`, b: `n2_checked` },
@@ -81,7 +81,7 @@ export const scenario = {
       decision: {
         prompt: `The consultant says your policy covers your own vehicle, in Australia. What do you do?`,
         choices: [
-          { id: `a`, label: `Push back. The AI cited a specific Act`, quality: `poor`,
+          { id: `a`, label: `Push back. The AI cited a specific Act, so ask them to check it`, quality: `poor`,
             consequence: `You read the name of the Act down the phone. There is a pause, and then she asks you to spell it.` },
           { id: `b`, label: `Take it, and ask what your options are now`, quality: `good`,
             consequence: `She is straightforward about it. Your travel insurance might carry rental excess cover; a lot of policies do, and yours turns out not to.` },
@@ -115,10 +115,10 @@ export const scenario = {
       decision: {
         prompt: `Two more confident, specific answers. What do you do with them?`,
         choices: [
+          { id: `b`, label: `These two are smaller, and it was sure of both. Let them go.`, quality: `poor`,
+            consequence: `You find out about the vehicle swap at the terminal, with a sailing in forty minutes.` },
           { id: `a`, label: `Ring the rental company and check both`, quality: `good`,
             consequence: `The licence is fine. The ferry is not: their agreement says the car stays on this island and you swap vehicles at the terminal. The assistant had been certain about both.` },
-          { id: `b`, label: `These two are smaller. Let them go.`, quality: `poor`,
-            consequence: `You find out about the vehicle swap at the terminal, with a sailing in forty minutes.` },
         ],
       },
       branches: { a: `n_forward`, b: `outcome_silent` },
@@ -132,9 +132,9 @@ export const scenario = {
       decision: {
         prompt: `What do you say?`,
         choices: [
-          { id: `a`, label: `Tell them it makes up details, so check the ones that cost money`, quality: `good`,
+          { id: `a`, label: `Tell them it makes up details, so check what costs money`, quality: `good`,
             consequence: `It takes about twenty seconds. They ask you to say the Act name again, and laugh, and then go quiet.` },
-          { id: `b`, label: `Keep it to yourself. It's a bit embarrassing.`, quality: `partial`,
+          { id: `b`, label: `Keep it to yourself. It's embarrassing, and they probably know already.`, quality: `partial`,
             consequence: `Nobody likes being the cautionary tale, so you keep it to yourself.` },
         ],
       },
@@ -149,10 +149,10 @@ export const scenario = {
       decision: {
         prompt: `That was going to be a four-thousand-dollar excess. What do you take from it?`,
         choices: [
+          { id: `b`, label: `A general sense that you should be more careful with AI from now on`, quality: `partial`,
+            consequence: `You take the excess reduction anyway. By the time you land, you've mostly forgotten why.` },
           { id: `a`, label: `Something specific: check the AI on facts that cost money`, quality: `good`,
             consequence: `You take the excess reduction at the desk. You never need it, which is how it usually goes.` },
-          { id: `b`, label: `A general sense that you should be more careful with AI`, quality: `partial`,
-            consequence: `You take the excess reduction anyway. By the time you land, you've mostly forgotten why.` },
         ],
       },
       branches: { a: `n_second`, b: `n_second` },
@@ -183,10 +183,10 @@ export const scenario = {
       decision: {
         prompt: `What do you send back?`,
         choices: [
-          { id: `a`, label: `Explain where it goes wrong, and tell her to ring the pharmacist`, quality: `good`,
-            consequence: `The pharmacist takes four minutes and says there is an interaction worth spacing the doses around. It wasn't dangerous, but it wasn't fine either.` },
-          { id: `b`, label: `It's usually right about that sort of thing`, quality: `poor`,
+          { id: `b`, label: `It's usually right about that sort of thing, so it's probably fine`, quality: `poor`,
             consequence: `Your friend doesn't ask anyone else. You were the person she asked.` },
+          { id: `a`, label: `Explain where it goes wrong, and say to ring the pharmacist`, quality: `good`,
+            consequence: `The pharmacist takes four minutes and says there is an interaction worth spacing the doses around. It wasn't dangerous, but it wasn't fine either.` },
         ],
       },
       branches: { a: `outcome_safe_shared`, b: `outcome_safe_silent` },
