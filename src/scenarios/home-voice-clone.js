@@ -22,6 +22,9 @@ export const scenario = {
   risk_ref: `C4`,
   title: `Is That Really Mum?`,
   shelfLine: `Your mum calls in tears, needs money in twenty minutes, and says not to tell your dad.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `What should I do if a family member calls in tears asking for money?`,
   hook: `It's your mum's number. She's crying, and she needs money in twenty minutes.`,
   doorScene: `door-home`,
   scene: `phone-call`,

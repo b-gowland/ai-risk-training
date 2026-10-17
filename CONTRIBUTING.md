@@ -26,5 +26,6 @@ Code in this repository is licensed under [Apache License 2.0](./LICENSE). Scena
 - The best option must not be findable by position or length: `npm test` fails if it sits in one position too often or is usually the longest. Give wrong options the reason someone would pick them
 - A dated or legal claim in a debrief needs a `sources` entry: who, title, date, URL and their exact words
 - Invented organisations and products must not belong to real ones; check ABN Lookup, trade mark registers and a web search. Web addresses and email domains are `.example`
+- Every scenario has a `question` (what someone would search, ending in `?`) that its `tell` answers. It is shown on the static page and in search data
 - Don't type times into pages: they come from `src/engine/timing.js`
 - CI runs `npm run lint`, `npm test`, `npm run route-audit`, `npm run audit`, `npm run test:scorm` and `npm run build` on every PR. Run them locally first

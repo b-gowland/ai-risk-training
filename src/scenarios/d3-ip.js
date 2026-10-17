@@ -16,6 +16,9 @@ export const scenario = {
   risk_ref: `D3`,
   title: `Who Owns This?`,
   shelfLine: `Legal says code you wrote with AI matches someone else's licensed code. You checked it carefully.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `Is AI-generated code safe to use in a product I sell?`,
   hook: `Legal says code you shipped is almost identical to someone else's licensed code. You wrote it with AI.`,
   scene: `desk-working`,
   determinacy: `clean`,

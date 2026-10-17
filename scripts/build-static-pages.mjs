@@ -106,6 +106,8 @@ margin:2rem 0 1rem}
 p{font-family:var(--serif);font-size:1.0625rem;line-height:1.55;margin:0 0 1rem;max-width:38rem}
 .tell{font-family:var(--serif);font-size:1.2rem;line-height:1.4;font-weight:500;
 padding-left:.9rem;border-left:4px solid var(--amber);margin:1.5rem 0}
+h2.q{font-size:1rem;margin:2rem 0 .5rem}
+h2.q+.tell{margin-top:.5rem}
 .meta{font-size:.8rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.08em;
 margin:0 0 .5rem}
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0}
@@ -136,6 +138,7 @@ const REQUIRED_LD = {
   CreativeWork: ['name', 'description', 'license'],
   WebSite: ['name', 'url'],
   Organization: ['name', 'url'],
+  FAQPage: ['mainEntity'],
 };
 function checkLd(where, ld) {
   for (const node of ld['@graph'] || [ld]) {
@@ -145,6 +148,10 @@ function checkLd(where, ld) {
         console.error(`${where}: ${node['@type']} has no '${f}'. Aborting rather than shipping incomplete structured data.`);
         process.exit(1);
       }
+    }
+    if (node['@type'] === 'FAQPage' && !node.mainEntity.every((q) => q.name?.endsWith('?') && q.acceptedAnswer?.text)) {
+      console.error(`${where}: FAQPage question without a question mark or an answer. Aborting.`);
+      process.exit(1);
     }
     if (node['@type'] === 'LearningResource' && !/^PT\d+M$/.test(node.timeRequired)) {
       console.error(`${where}: timeRequired '${node.timeRequired}' is not an ISO 8601 duration. Aborting.`);
@@ -280,6 +287,7 @@ ${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}
 <p class="meta">${cap(minutesWords(s))} · no login · nothing scored</p>
 ${standing}
 ${canWhat}
+<h2 class="q">${esc(s.question)}</h2>
 <p class="tell">${esc(s.tell)}</p>
 <div class="actions">
 <a class="btn" href="/cards/?s=${s.id}">Print discussion cards</a>
@@ -296,8 +304,7 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
       canonical: `${SITE}/scenarios/${s.id}/`,
       image: `${SITE}/og/${s.id}.jpg`,
       imageAlt: `Illustration from ${s.title}, a free AI Risk Practice scenario`,
-      jsonLd: {
-        '@context': 'https://schema.org',
+      jsonLd: { '@context': 'https://schema.org', '@graph': [{
         '@type': 'LearningResource',
         name: s.title,
         description: s.shelfLine,
@@ -309,7 +316,16 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
         timeRequired: isoDuration(s),
         license: 'https://creativecommons.org/licenses/by/4.0/',
         publisher: { '@type': 'Organization', name: 'AI Risk Practice', url: SITE },
-      },
+      }, {
+        // The same question and answer the page shows (h2.q and p.tell), so
+        // the data and the visible text cannot drift apart.
+        '@type': 'FAQPage',
+        mainEntity: [{
+          '@type': 'Question',
+          name: s.question,
+          acceptedAnswer: { '@type': 'Answer', text: s.tell },
+        }],
+      }] },
     }),
     body,
   });
@@ -389,6 +405,10 @@ const llms = `# AI Risk Practice
 ## Scenarios
 
 ${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${minutesWords(s)})`).join('\n')}
+
+## Questions these answer
+
+${scenarios.map((s) => `- ${s.question} ${s.tell} ([${s.title}](${SITE}/scenarios/${s.id}/))`).join('\n')}
 
 ## Also
 

@@ -57,3 +57,19 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v5
         id: deployment
+
+  # After a deploy, announce the published URLs to IndexNow (Bing and
+  # others) so changes reach search and AI answers without waiting for a
+  # re-crawl. Never fails the workflow: a missed ping only means waiting.
+  indexnow:
+    if: github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Announce URLs
+        run: node scripts/indexnow.mjs

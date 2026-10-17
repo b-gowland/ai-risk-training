@@ -20,6 +20,7 @@ export const scenario = {
   door:        `work`,              // 'home' | 'work' — situational, not identity
   title:       `The Shortcut`,
   shelfLine:   `A colleague tells you to paste the client brief into a free AI tool.`,
+  question:    `Can I paste work documents into a free AI tool?`, // what someone would search; `tell` answers it
   scene:       `desk-casual`,       // optional; must exist as public/scenes/<key>.webp
   determinacy: `open`,              // 'clean' | 'open' — see below
 

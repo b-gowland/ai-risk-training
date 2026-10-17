@@ -13,7 +13,7 @@
 // them only if that decision changes.
 
 import { execSync } from 'node:child_process';
-import { existsSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it, expect, beforeAll } from 'vitest';
 import sharp from 'sharp';
@@ -205,11 +205,33 @@ describe('static pages (dist/, post-build)', () => {
     }
   });
 
+  it('each scenario page asks its question, answers it with the tell, and says the same in FAQPage data', () => {
+    for (const s of scenarios) {
+      const html = read(`scenarios/${s.id}/index.html`);
+      const shown = new DOMParser().parseFromString(html, 'text/html');
+      expect(norm(shown.querySelector('h2.q')?.textContent), s.id).toBe(norm(s.question));
+      expect(norm(shown.querySelector('h2.q + p.tell')?.textContent), s.id).toBe(norm(s.tell));
+      const graph = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])['@graph'];
+      const faq = graph.find((n) => n['@type'] === 'FAQPage');
+      expect(faq.mainEntity[0].name).toBe(s.question);
+      expect(faq.mainEntity[0].acceptedAnswer.text).toBe(s.tell);
+    }
+    const llms = read('llms.txt');
+    for (const s of scenarios) expect(llms).toContain(`- ${s.question} ${s.tell}`);
+  });
+
+  it('serves the IndexNow key file, containing its own key', () => {
+    const files = readdirSync(DIST).filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
+    expect(files).toHaveLength(1);
+    expect(read(files[0]).trim()).toBe(files[0].replace('.txt', ''));
+  });
+
   it('each scenario page states a time and a LearningResource built from the content', () => {
     for (const s of scenarios) {
       const html = read(`scenarios/${s.id}/index.html`);
-      const ld = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
-      expect(ld['@type']).toBe('LearningResource');
+      const graph = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])['@graph'];
+      const ld = graph.find((n) => n['@type'] === 'LearningResource');
+      expect(ld, s.id).toBeTruthy();
       expect(ld.name).toBe(s.title);
       expect(ld.timeRequired).toBe(isoDuration(s));
       expect(ld.isAccessibleForFree).toBe(true);

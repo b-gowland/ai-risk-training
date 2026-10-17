@@ -73,7 +73,7 @@ const DOORS = new Set(['home', 'work']);
 const REQUIRED = [
   'id', 'door', 'title', 'shelfLine', 'coldOpen', 'authority',
   'ending', 'determinacy', 'nodes', 'outcomes', 'debrief', 'recall', 'act',
-  'tell', 'controls_summary',
+  'tell', 'controls_summary', 'question',
 ];
 
 // Load the registered scenarios WITHOUT importing index.js. index.js uses
@@ -109,6 +109,12 @@ for (const sc of targets) {
   /* ── Required fields ─────────────────────────────────────────── */
   for (const f of REQUIRED) {
     if (sc[f] === undefined || sc[f] === null) fail('fields', `missing required field: ${f}`);
+  }
+  // The search question on the static page and in FAQPage data: one short
+  // question, in the words someone would type, that the tell answers.
+  if (sc.question) {
+    if (!/\?$/.test(sc.question)) fail('fields', `question must end with a question mark`);
+    if (sc.question.split(/\s+/).length > 16) warn('fields', `question is over 16 words; keep it to what someone would type`);
   }
   if (sc.door && !DOORS.has(sc.door)) fail('fields', `door must be 'home' or 'work', got '${sc.door}'`);
   // §4.2 — At Work we invent the standing so it must be stated. At Home the
