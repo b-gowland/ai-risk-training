@@ -26,6 +26,9 @@ export const scenario = {
   risk_ref: `E1`,
   title: `The Algorithm Said No`,
   shelfLine: `An automated system rejected you before a human saw your application. You're qualified.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `What can I do if an automated system rejected my job application?`,
   hook: `You met every requirement. An automated system rejected you before a human saw your name.`,
   scene: `rejection-email`,
   determinacy: `clean`,

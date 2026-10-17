@@ -21,6 +21,9 @@ export const scenario = {
   risk_ref: `F1`,
   title: `Trust the Machine`,
   shelfLine: `The AI flags the scan as normal. Your own eye caught something. You have six more to read.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `Should I trust an AI result over my own judgement?`,
   hook: `The AI says the scan is normal, 91% confidence. Your eye caught something. You have six more to read.`,
   scene: `xray-ai`,
   determinacy: `clean`,

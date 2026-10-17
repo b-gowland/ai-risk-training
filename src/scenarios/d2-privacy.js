@@ -15,6 +15,9 @@ export const scenario = {
   risk_ref: `D2`,
   title: `The Accidental Disclosure`,
   shelfLine: `You pasted a client contract into a public AI tool. Now the client is asking questions.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `What happens if I paste a client's contract into a public AI tool?`,
   hook: `A client's contract wording turned up on a public page. You ran that contract through a free AI tool.`,
   scene: `desk-intranet`,
   determinacy: `clean`,

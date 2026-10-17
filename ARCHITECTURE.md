@@ -129,6 +129,16 @@ each route at 238 a minute (Brysbaert 2019) plus 30 seconds a decision, with
 the median route as the headline. Nothing types a time in by hand; a test
 checks.
 
+## Search and AI answers
+
+- Each scenario has a `question`: what someone would type, answered by its
+  `tell`. The static page shows both (`h2.q`, `p.tell`), and the same pair is
+  emitted as FAQPage structured data and listed in `llms.txt`.
+- After each deploy to `main`, the `indexnow` job (`scripts/indexnow.mjs`)
+  announces every sitemap URL to IndexNow (Bing, and through it ChatGPT
+  search and Copilot). The key is `public/<key>.txt`; it is public by
+  design. Google reads `sitemap.xml` via Search Console instead.
+
 ## Content Security Policy
 
 `scripts/lib/csp.mjs` holds the policy. GitHub Pages cannot set response

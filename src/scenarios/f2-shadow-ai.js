@@ -8,6 +8,9 @@ export const scenario = {
   risk_ref: `F2`,
   title: `The Shortcut`,
   shelfLine: `A colleague tells you to paste the client brief into a free AI tool.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `Can I paste work documents into a free AI tool?`,
   hook: `It's four o'clock. Your colleague says just put the client brief through an AI tool.`,
   doorScene: `door-work`,
   scene: `desk-casual`,

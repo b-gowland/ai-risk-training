@@ -24,6 +24,9 @@ export const scenario = {
   risk_ref: `A1`,
   title: `The Answer That Wasn't`,
   shelfLine: `An AI says your car insurance covers you overseas. You're about to book on that.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `Can I trust what an AI chatbot tells me about my insurance cover?`,
   hook: `The AI said your car insurance covers you driving in New Zealand, and named a law. You're about to book.`,
   scene: `phone-search`,
   determinacy: `clean`,

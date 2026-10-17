@@ -14,6 +14,9 @@ export const scenario = {
   risk_ref: `A1`,
   title: `Confident and Wrong`,
   shelfLine: `A client can't find one of the regulations your AI-drafted briefing cited.`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `How do I know if an AI-written report made up its sources?`,
   hook: `A client is on the phone. One of the regulations your briefing cited doesn't exist.`,
   scene: `document-error`,
   determinacy: `clean`,

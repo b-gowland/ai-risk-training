@@ -15,6 +15,9 @@ export const scenario = {
   risk_ref: `E1`,
   title: `The Pattern in the Shortlists`,
   shelfLine: `The AI recruitment tool keeps producing the same narrow profile. Do you say something?`,
+  // The question someone would type, answered by `tell`. Shown on the
+  // static page and as FAQPage structured data.
+  question: `How do you spot bias in an AI recruitment tool?`,
   hook: `Ten AI shortlists, the same narrow profile every time. Your colleague noticed first. Now you see it too.`,
   scene: `chart-declining`,
   determinacy: `clean`,
