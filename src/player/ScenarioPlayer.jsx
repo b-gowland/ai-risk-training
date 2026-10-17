@@ -156,6 +156,7 @@ function ScenarioMachine({ id }) {
       {state.phase === STATES.DECISION && node && (
         <Decision
           node={node}
+          path={state.path}
           index={decisionIndex}
           minDepth={band.min}
           revealedChoice={revealedChoice}
@@ -165,7 +166,7 @@ function ScenarioMachine({ id }) {
       )}
 
       {state.phase === STATES.DEBRIEF && outcome && (
-        <Debrief outcome={outcome} onClose={() => dispatch({ type: 'TO_CLOSE' })} />
+        <Debrief outcome={outcome} path={state.path} onClose={() => dispatch({ type: 'TO_CLOSE' })} />
       )}
 
       {state.phase === STATES.CLOSE && (

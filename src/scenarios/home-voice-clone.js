@@ -97,14 +97,14 @@ export const scenario = {
         prompt: `She got it. Does that settle it?`,
         choices: [
           { id: `a`, label: `Yes. Send the money.`, quality: `poor`,
-            consequence: `Anyone could know that. Your mum has posted about the dogs for eleven years, and so has your aunt.` },
+            consequence: `You send the eight hundred. Anyone could have known that name: your mum has posted about the dogs for eleven years, and so has your aunt.` },
           { id: `b`, label: `No. Hang up and call her back.`, quality: `good`,
             consequence: `You say you'll ring in two minutes and end the call before she can talk you out of it. She picks up on the fifth ring, at home, with the radio on.` },
           { id: `c`, label: `Ask her to video call instead`, quality: `partial`,
             consequence: `"I haven't got— my phone's about to die, love, please." That might be true. It is also an easy thing to say. You ring her own number instead, and she answers from the garden.` },
         ],
       },
-      branches: { a: `n3_gone`, b: `n3_who`, c: `n3_who` },
+      branches: { a: `n2_sent`, b: `n3_who`, c: `n3_who` },
     },
 
     n2_callback: {
@@ -186,7 +186,7 @@ export const scenario = {
     n3_who: {
       prose: [
         `Nothing has been lost. But someone can make your mum's number show up on your phone, and can sound enough like her to make you doubt yourself. Hanging up doesn't change that.`,
-        `She wants to know why you rang twice.`,
+        `Now your mum wants to know what is going on.`,
       ],
       decision: {
         prompt: `What do you tell her?`,
@@ -205,7 +205,8 @@ export const scenario = {
     n3_bank: {
       prose: [
         `The first eight hundred is probably gone. The rest of it is not.`,
-        `The bank asks whether you want it reported to Scamwatch as well, and whether anyone else in the family might get the same call.`,
+        { when: `n2_sent.b`, text: `Then you ring the bank. They ask whether you want it reported to Scamwatch as well, and whether anyone else in the family might get the same call.` },
+        { when: `n2_sent.c`, text: `The bank asks whether you want it reported to Scamwatch as well, and whether anyone else in the family might get the same call.` },
       ],
       decision: {
         prompt: `Does anyone else in the family need to know?`,
@@ -299,7 +300,8 @@ export const scenario = {
       reaction: `Hanging up on someone who sounds like your mum in distress is hard. The call was built so you wouldn't.`,
       description: [
         `You checked against something you already had, her real number or your dad, instead of judging the voice.`,
-        `Then you told the people in the same address book. Your aunt had nearly fallen for something similar and told nobody.`,
+        { when: `n4_after_caught.a`, text: `Then you told the family group chat. Your aunt had nearly fallen for something similar and told nobody.` },
+        { when: `n4_after_caught.b`, text: `Then you told your aunt, privately. The cousins and the family friend in the same address book still don't know.` },
       ],
       judgement: `You didn't need to spot the fake. Calling back on a number you already have works however good the fake voice is. Telling the family matters as much: a scam that works once on a family gets tried on the rest of it.`,
     },
@@ -322,10 +324,11 @@ export const scenario = {
       score: 70,
       reaction: `The second ask is where most people stop. Stopping there matters, because the script depends on you not stopping.`,
       description: [
-        `The first transfer went. When the caller came back for twelve hundred more, you checked instead of sending, and the bank held it.`,
+        { when: `n2_sent.b`, text: `The first transfer went. When the caller came back for twelve hundred more, you rang her real number instead of sending.` },
+        { when: `n2_sent.c`, text: `The first transfer went. When the caller came back for twelve hundred more, you rang the bank first, and it held the payment.` },
         `On Tuesday your aunt got the same call and rang you halfway through.`,
       ],
-      judgement: `A story that needs a second payment will need a third. What helped your aunt on Tuesday was having somewhere to check, and someone who had already said out loud that this happens.`,
+      judgement: `A story that needs a second payment will need a third. What helps the next person in the family is somewhere to check, and someone who has already said out loud that this happens.`,
     },
 
     outcome_loss: {

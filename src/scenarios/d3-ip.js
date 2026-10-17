@@ -146,7 +146,9 @@ export const scenario = {
 
     n_remediate: {
       prose: [
-        `The scan finds a handful of matches. Two more are under GPL, one is under a looser licence called LGPL, and some allow free reuse.`,
+        { when: `n_scope.a`, text: `The scan finds a handful of matches.` },
+        { unless: `n_scope.a`, text: `A month later Legal runs a scan of all the company's code anyway. It finds a handful of matches.` },
+        `Two more are under GPL, one is under a looser licence called LGPL, and some allow free reuse.`,
         `Legal asks how you'd handle the GPL ones, since you know the code.`,
       ],
       decision: {
@@ -188,12 +190,15 @@ export const scenario = {
       heading: `Found everywhere, and blocked for the future`,
       tone: `good`,
       score: 100,
-      reaction: `Asking for a whole-codebase scan when your own fix was underway is the slower call, and the one that keeps this out of the news.`,
+      reaction: `A scan that blocks problem code, with five minutes on why it's there, is the fix people don't work around.`,
       description: [
-        `The full scan found two more problem matches, both fixed. An automatic scan now blocks new ones, and a short briefing explained why.`,
-        `Owning up early, with your prompt, helped Legal size it up fast. The whole risk is closed.`,
+        { when: `n_remediate.a`, text: `The full scan found two more GPL matches. Both were rewritten from scratch, and Legal handled the LGPL one.` },
+        { when: `n_remediate.b`, text: `The full scan found two more GPL matches. Your heavy rewrite didn't settle them, so Legal had them redone.` },
+        { when: `n_remediate.c`, text: `The full scan found two more GPL matches, both fixed. The LGPL one sat ignored until Legal found it.` },
+        `An automatic scan now blocks new ones, and a short briefing explained why.`,
+        { when: `n2_flagged.a`, text: `Your prompt helped Legal find two others who asked the same thing.` },
       ],
-      judgement: `AI-written code needs two safeguards: an automatic check that catches what people can't see, and enough understanding that nobody works around it. At every step you could have played the problem down, and you didn't.`,
+      judgement: `AI-written code needs two safeguards: an automatic check that catches what people can't see, and enough understanding that nobody works around it. Each time someone says what they know sooner, Legal's job gets smaller.`,
     },
 
     outcome_good: {

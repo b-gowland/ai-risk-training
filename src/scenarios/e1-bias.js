@@ -205,24 +205,27 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `Caught early, paused, and the gap closed`,
+      heading: `Raised early, checked, and the gap closed`,
       tone: `good`,
       score: 100,
       reaction: `Saying "something looks off" before you can prove it takes nerve, and it was the most useful thing anyone did here.`,
       description: [
-        `The tool was paused while analytics ran the numbers. They confirmed a significant gap between groups, and the vendor was told to fix it.`,
-        `The monitoring you recommended means the next problem gets caught in week one, not by luck three months in.`,
+        { when: `n2_concern_raised.a`, text: `The tool was paused while analytics ran the numbers.` },
+        { when: `n2_concern_raised.b`, text: `The tool kept running meanwhile, and three more shortlists came out the same shape.` },
+        `Analytics confirmed a significant gap between groups, and the vendor must fix it.`,
+        `The monitoring you recommended catches the next problem in week one, not by luck three months in.`,
       ],
-      judgement: `You treated the pattern as something to check, without dismissing it or jumping to conclusions, and raised it before you could prove it. Regular checks turn a lucky catch into a system that doesn't need luck.`,
+      judgement: `A pattern raised before anyone can prove it is what gives the people with the data something to check. Regular checks turn a lucky catch into a system that doesn't need luck.`,
     },
 
     outcome_good: {
       heading: `Raised and investigated. Still leaning on luck.`,
       tone: `good`,
       score: 70,
-      reaction: `You noticed, raised it and got it paused. "Keep an eye out" as the fix is where it slips. That only worked by chance.`,
+      reaction: `You noticed and raised it. "Keep an eye out" as the fix is where it slips. That only worked by chance.`,
       description: [
-        `The tool was paused and the investigation run properly.`,
+        { when: `n2_concern_raised.a`, text: `The tool was paused and the investigation run properly.` },
+        { when: `n2_concern_raised.b`, text: `The investigation ran properly, with the tool still running alongside it.` },
         `But you left the same "someone will notice" approach that let this run for three months. It worked because one colleague kept notes in her own time. The next team might not have her.`,
       ],
       judgement: `Bias in an AI tool stays invisible until someone looks at all its results together, on purpose. The lasting fix is scheduled monitoring with a named owner. Asking everyone to stay alert relies on the alertness that nearly failed.`,
@@ -241,12 +244,13 @@ export const scenario = {
     },
 
     outcome_bad: {
-      heading: `Not raised, or raised the wrong way, and it starts with you`,
+      heading: `Now the story is partly about you`,
       tone: `bad`,
       score: 5,
-      reaction: `Both roads felt safer than they were: staying quiet, or trying to prove it alone with data you weren't allowed to see.`,
+      reaction: `It felt safer than raising it plainly, and it turned out to be the riskier road.`,
       description: [
-        `Either a complaint exposed the pattern you'd chosen not to raise, or pulling personal data without permission made a second problem.`,
+        { when: `n2_ignored.b`, text: `A complaint exposed the pattern you'd chosen not to raise, and the meeting notes show you knew.` },
+        { when: `n2_investigate_more.b`, text: `Pulling candidates' personal data through a favour made a second problem: a privacy breach on top of the bias question.` },
         `The investigation asks what you knew and when, and now the story is partly about you.`,
       ],
       judgement: `Personal data like age and gender is protected for good reasons. Going around that is its own breach. "It wasn't my place" is a weak answer in any discrimination case. Raise it early and let the people with the data do the proving.`,

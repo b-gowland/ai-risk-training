@@ -11,9 +11,10 @@
 
 import { useEffect, useRef } from 'react';
 import Artefact from '../components/Artefact/Artefact.jsx';
+import { resolveParas } from '../engine/narrativeEngine.js';
 import s from './Player.module.css';
 
-export default function Decision({ node, revealedChoice, onCommit, onAdvance, index, minDepth }) {
+export default function Decision({ node, path, revealedChoice, onCommit, onAdvance, index, minDepth }) {
   const consequenceRef = useRef(null);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function Decision({ node, revealedChoice, onCommit, onAdvance, in
 
       <div className={s.body}>
         <div className={s.prose}>
-          {node.prose.map((para, i) => <p key={i}>{para}</p>)}
+          {resolveParas(node.prose, path).map((para, i) => <p key={i}>{para}</p>)}
         </div>
 
         {node.artefact && <Artefact artefact={node.artefact} />}

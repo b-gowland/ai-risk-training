@@ -73,7 +73,7 @@ export const scenario = {
 
     n_contain: {
       prose: [
-        `You've told her the truth. Her first question is practical, and fast: can any of it be pulled back?`,
+        `The partner's first question is practical, and fast: can any of it be pulled back?`,
         `You know the answer is mostly no. Once text goes into a public tool, it's in that tool's systems and out of your hands. But there are still things that can be done in the next hour.`,
       ],
       decision: {
@@ -106,7 +106,7 @@ export const scenario = {
             consequence: `They're clear. It takes IT about ninety minutes.` },
         ],
       },
-      branches: { a: `n_contain`, b: `n_contain`, c: `n_dig` },
+      branches: { a: `n_contain`, b: `n_dig`, c: `n_dig` },
     },
 
     n_dig: {
@@ -232,13 +232,16 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `Full account, and a fix that holds`,
+      heading: `A straight answer, and a fix that holds`,
       tone: `good`,
       score: 100,
-      reaction: `Telling the partner about the other documents, unprompted, was the hardest part. It's what makes you someone the firm trusts with the next problem.`,
+      reaction: `Giving the whole picture is the hardest part. It's what makes you someone the firm trusts with the next problem.`,
       description: [
-        `Your full account let the partner work out what was exposed and give the client a straight answer.`,
-        `The fix you named, an approved tool plus a firm rule about what goes into anything else, went out to the team that afternoon.`,
+        { when: `start.c`, text: `Your first answer to the partner, no, is on file.` },
+        `The client got a straight answer.`,
+        { when: `n_scope.a`, text: `You named the other client documents too, so the firm could check them.` },
+        { unless: `n_scope.a`, text: `The other client documents came out later from IT's records, not from you.` },
+        `Your fix, an approved tool plus a firm rule, went out to the team that afternoon.`,
       ],
       judgement: `Pasting into a free AI tool is a common mistake, and you can recover from it. What decides the outcome is whether the first account is complete. The firm can only respond as accurately as you let it.`,
     },
@@ -249,22 +252,23 @@ export const scenario = {
       score: 78,
       reaction: `Getting most of this right under pressure is good work. The weak spot is the difference between good and great.`,
       description: [
-        `The firm worked out what was exposed and could respond. Either the fix or the client account was strong, and the other was softer than it needed to be. The partner noticed.`,
-        `It holds, with some awkwardness left.`,
+        { when: `n3_strong.b`, text: `The client got a straight account. The fix you suggested was a reminder to be careful, which is what was in place before.` },
+        { when: `n3_soft.a`, text: `You named a real fix. But the client got the softer version of what happened, and the plain truth arrived later as a correction.` },
+        `The partner noticed. It holds, with some awkwardness left.`,
       ],
       judgement: `A strong fix with a vague client account, or a straight account with a weak fix, each gives the client a reason to doubt you. Doing both well shows the firm can be trusted.`,
     },
 
     outcome_warn: {
-      heading: `Honest account, vague fix`,
+      heading: `Vague with the client, vague on the fix`,
       tone: `warn`,
       score: 55,
       reaction: `"Be more careful" feels responsible because it admits fault. It doesn't stop the next person doing what you did.`,
       description: [
-        `You gave a straight account and the firm could respond to the client. That mattered most.`,
-        `But "remind the team to be careful" is what was in place before. The free tool is still faster, and one deadline from the next paste.`,
+        `The client got a softened version of what happened. The fix was a reminder to be careful, which is what was in place before.`,
+        `The free tool is still faster, and one deadline from the next paste.`,
       ],
-      judgement: `Being honest in the moment and fixing things afterwards are different skills. People paste into free AI tools because it's quicker and there's no approved option. Until something does, care is the only safeguard, and care is what failed.`,
+      judgement: `Softening the story and the fix both feel safer at the time. People paste into free AI tools because it's quicker and there's no approved option. Until there is one, care is the only safeguard, and care is what failed.`,
     },
 
     outcome_bad: {

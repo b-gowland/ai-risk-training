@@ -60,7 +60,7 @@ describe('Setup', () => {
     // promise the tree cannot keep.
     expect(screen.getByText(/six to eight decisions/)).toBeTruthy();
     render(<Setup scenario={home} onBegin={() => {}} />);
-    expect(screen.getByText(/four decisions/)).toBeTruthy();
+    expect(screen.getByText(/four to five decisions/)).toBeTruthy();
   });
 
   // Tested against fixtures, not the live corpus. Every registered scenario is

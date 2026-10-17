@@ -11,8 +11,9 @@
 // four movements survive; the summary of themselves does not.
 
 import s from './Player.module.css';
+import { resolveParas } from '../engine/narrativeEngine.js';
 
-export default function Debrief({ outcome, onClose }) {
+export default function Debrief({ outcome, path, onClose }) {
   return (
     <article className={s.screen} tabIndex={-1} aria-labelledby="debrief-title">
       <div className={s.margin}>
@@ -25,7 +26,7 @@ export default function Debrief({ outcome, onClose }) {
         <p className={s.reaction}>{outcome.reaction}</p>
 
         <div className={s.proseSoft}>
-          {outcome.description.map((para, i) => <p key={i}>{para}</p>)}
+          {resolveParas(outcome.description, path).map((para, i) => <p key={i}>{para}</p>)}
         </div>
 
         <div className={`${s.prose} ${s.afterRecap}`}>

@@ -120,6 +120,24 @@ export function getNext(scenario, state) {
 // the honest one, not a score.
 export const decisionCount = (state) => state.path.length;
 
+// Paragraphs that depend on the route taken. A node's prose or an outcome's
+// description is an array; each entry is either a string (always shown) or
+//   { when: 'node.choice' | ['node.choice', …], text }   shown if any was chosen
+//   { unless: 'node.choice' | […], text }                shown if none was
+// An ending or a join is reached from many routes, so anything it says about
+// what the player did has to come from what they actually chose. A recap
+// written for one route and shown on all of them credits checks nobody made.
+const asList = (v) => (Array.isArray(v) ? v : [v]);
+export function resolveParas(items, path = []) {
+  const taken = new Set(path.map((p) => `${p.nodeId}.${p.choiceId}`));
+  return (items || []).flatMap((item) => {
+    if (typeof item === 'string') return [item];
+    if (item.when && !asList(item.when).some((k) => taken.has(k))) return [];
+    if (item.unless && asList(item.unless).some((k) => taken.has(k))) return [];
+    return [item.text];
+  });
+}
+
 export function pathScore(scenario, state) {
   const outcome = getOutcome(scenario, state.outcomeId);
   return typeof outcome?.score === 'number' ? outcome.score : null;

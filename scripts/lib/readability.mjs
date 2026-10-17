@@ -42,7 +42,7 @@ export const AI_PATTERNS = [
 const SKIP_KEYS = new Set([
   'artefact', 'id', 'quality', 'tone', 'score', 'scene', 'doorScene', 'door',
   'entry', 'branches', 'next', 'kb_url', 'regulatory_tags', 'mit_subdomain',
-  'risk_ref', 'determinacy', 'effort', 'owner', 'go_live',
+  'risk_ref', 'determinacy', 'effort', 'owner', 'go_live', 'when', 'unless',
 ]);
 
 /** Narrator strings of a scenario, with the field each came from. */

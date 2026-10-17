@@ -17,6 +17,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { scenarios } from '../scenarios/index.js';
+import { resolveParas } from '../engine/narrativeEngine.js';
 import { trackCardsPrinted } from '../utils/analytics.js';
 import a from './About.module.css';
 import s from './Cards.module.css';
@@ -167,7 +168,7 @@ export function Deck({ sc, printedOn }) {
 
     <Card key={2} sc={sc} n={2} role="What's in front of you"
       prompt="What here is evidence, and what is just pressure?">
-      {(start.prose || []).map((t, i) => <p key={i}>{t}</p>)}
+      {resolveParas(start.prose).map((t, i) => <p key={i}>{t}</p>)}
       <CardArtefact artefact={start.artefact} />
     </Card>,
 

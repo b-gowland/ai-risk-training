@@ -98,7 +98,8 @@ export const scenario = {
 
     n_friend_asks: {
       prose: [
-        `Your friend leans in. This clearly landed. "So what would you want us to do differently? We're not trying to be unfair, we just don't have time to read three hundred applications by hand."`,
+        { when: `n2_accepted.a`, text: `Your friend leans in. "So what would you want us to do differently? We're not trying to be unfair, we just don't have time to read three hundred applications by hand."` },
+        { when: `n2_accepted.b`, text: `Later, over a second coffee, your friend comes back to it. "If you were in my seat, though, what would you change? We just don't have time to read three hundred applications by hand."` },
         `It's a real problem. It's also where saving time and being fair pull in different directions.`,
       ],
       decision: {
@@ -180,7 +181,7 @@ export const scenario = {
     n_pass_it_on: {
       prose: [
         `Whatever you did about your own application, you now know two things most people don't: this happens, and you're allowed to ask why.`,
-        `You get chances to pass that on: the friend in HR, someone job-hunting, a comment thread full of people who got the same blank rejection.`,
+        `You get chances to pass that on: a friend in HR, someone job-hunting, a comment thread full of people who got the same blank rejection.`,
       ],
       decision: {
         prompt: `What do you do with what you learned?`,

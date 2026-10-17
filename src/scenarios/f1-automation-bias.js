@@ -168,12 +168,12 @@ export const scenario = {
             consequence: `Ninety minutes of online training and a tick-box after every session. Nobody learns anything they didn't already know.` },
         ],
       },
-      branches: { a: `n_tradeoff`, b: `n_tradeoff`, c: `outcome_warn` },
+      branches: { a: `n_tradeoff`, b: `n_tradeoff_net`, c: `outcome_warn` },
     },
 
     n_tradeoff: {
       prose: [
-        `Your suggestion runs into a real problem. Changing the order, or adding second reads, means fewer scans a day, and the department is judged on that number.`,
+        `Your suggestion runs into a real problem. Doing your own read first means fewer scans a day, and the department is judged on that number.`,
         `The lead is sympathetic and under pressure: "I can take this up, but I'll be asked what it costs us."`,
       ],
       decision: {
@@ -186,6 +186,23 @@ export const scenario = {
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good` },
+    },
+
+    n_tradeoff_net: {
+      prose: [
+        `Your suggestion runs into a real problem. Second reads mean fewer scans a day, and the department is judged on that number.`,
+        `The lead is sympathetic and under pressure: "I can take this up, but I'll be asked what it costs us."`,
+      ],
+      decision: {
+        prompt: `How do you explain the trade-off so it gets approved?`,
+        choices: [
+          { id: `a`, label: `Say it plainly: a few fewer scans a day against the risk of missed cancers, and let the hospital's safety committee decide`, quality: `good`,
+            consequence: `He writes down your two sentences almost word for word and takes them upstairs. It's now their decision, which is where it belongs.` },
+          { id: `b`, label: `Play down the cost to get it approved. Say the slowdown is tiny`, quality: `partial`,
+            consequence: `It is approved in a week. Six weeks later, in a bad fortnight, the list backs up and the first thing people blame is your change.` },
+        ],
+      },
+      branches: { a: `outcome_good`, b: `outcome_good` },
     },
 
     n_board: {
@@ -207,18 +224,19 @@ export const scenario = {
 
     n_others: {
       prose: [
-        `Whether this scan was caught or missed, an uncomfortable thought hits you. You've read 74 scans today the same way, at the same pace, with the AI's answer showing first.`,
-        `Some of them were scans the AI called normal, which you signed off quickly.`,
+        { unless: `n2_accepted.a`, text: `An uncomfortable thought hits you. You've read 74 scans today the same way, at the same pace, with the AI's answer showing first.` },
+        { when: `n2_accepted.a`, text: `After the board, you pull up the log for that day. You read 74 scans before this one the same way, at the same pace, with the AI's answer showing first.` },
+        `Some of them were scans the AI called normal, signed off quickly.`,
       ],
       decision: {
-        prompt: `What do you do about the scans you've already read today?`,
+        prompt: `What do you do about the other scans from that day?`,
         choices: [
-          { id: `a`, label: `Ask for today's AI-normal scans to be re-checked, starting with the fastest sign-offs`, quality: `good`,
+          { id: `a`, label: `Ask for that day's AI-normal scans to be re-checked, starting with the fastest sign-offs`, quality: `good`,
             consequence: `Nineteen of the day's sign-offs come back under twenty seconds. Two of those get a second read and one of the two gets a follow-up.` },
           { id: `b`, label: `Assume the rest were fine. This was the one that happened to catch your eye`, quality: `partial`,
-            consequence: `You go home at seven. The other seventy-four sit in the system exactly as you left them.` },
+            consequence: `The other seventy-four sit in the system exactly as you left them.` },
           { id: `c`, label: `Say nothing about the others. Reopening them puts your whole day under the microscope`, quality: `poor`,
-            consequence: `Nobody asks. Today's scans stay as they are, each with its sign-off time on record.` },
+            consequence: `Nobody asks. That day's scans stay as they are, each with its sign-off time on record.` },
         ],
       },
       branches: { a: `n_design`, b: `n_design`, c: `n_design` },
@@ -227,25 +245,29 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `You trusted your eyes, and fixed the screen`,
+      heading: `The screen got fixed`,
       tone: `good`,
       score: 100,
-      reaction: `Flagging a scan the AI called normal, at scan 75 of the day, takes a pause that time pressure wears away. You held on.`,
+      reaction: `Arguing for fewer scans a day, in a department judged on that number, takes nerve. You made the case plainly.`,
       description: [
-        `The tumour was caught early and the patient did well.`,
-        `Your concern about the screen was acted on. Radiologists now finish their own read before the AI's answer appears, and more cancers were caught early the next quarter.`,
+        { unless: `n2_accepted.a`, text: `The tumour was caught early and the patient did well.` },
+        { when: `n2_accepted.a`, text: `The cancer was diagnosed three months late. Because you told the board the truth, the review looked at the screen, not just at you.` },
+        `Radiologists now finish their own read before the AI's answer appears, and more cancers were caught early the next quarter.`,
       ],
-      judgement: `Over-trusting AI is a design problem as much as a personal one. An answer shown first pulls your read towards it. You caught the case and fixed the screen that nearly hid it.`,
+      judgement: `Over-trusting AI is a design problem as much as a personal one. An answer shown first pulls your read towards it. Fixing the screen protects every radiologist on their 75th scan.`,
     },
 
     outcome_good: {
-      heading: `Caught it. Reached for the net, not the cause.`,
+      heading: `A fix went in, shakier than it needed to be`,
       tone: `good`,
       score: 72,
-      reaction: `A second opinion on every AI-normal read does catch cases. It's also the expensive way to fix a problem caused by a screen layout.`,
+      reaction: `Getting a fix approved is half the job. The other half is the right fix, with its cost stated plainly.`,
       description: [
-        `The tumour was caught and the patient did well. The second-read rule you recommended went in and caught two more cases in six months.`,
-        `It's better than before, and costlier than it needed to be, because the AI's answer still shows first.`,
+        { unless: `n2_accepted.a`, text: `The tumour was caught and the patient did well.` },
+        { when: `n2_accepted.a`, text: `The cancer was diagnosed three months late.` },
+        { when: `n_design.a`, text: `The display order changed. You played down the cost, so when the list backed up, your change took the blame.` },
+        { when: `n_design.b`, text: `Your second-read rule caught two more cases in six months. It costs more than it needed to, because the AI's answer still shows first.` },
+        { when: `n_tradeoff_net.b`, text: `You played down that cost to get it approved.` },
       ],
       judgement: `Changing the display order fixes the cause. A second opinion on every scan catches what slips through. Both work, but one fixes the problem and the other pays for it on every scan, forever.`,
     },
@@ -256,22 +278,25 @@ export const scenario = {
       score: 35,
       reaction: `"I'll be more careful" and "more training" both feel responsible. Both put the problem in the person, not the screen that nudged them.`,
       description: [
-        `Caught or missed, the response was to try harder: a tick-box, a reminder, a promise to concentrate. The AI-first display stayed as it was.`,
-        `The next radiologist meets the same screen on their own 75th scan, with the same twelve seconds.`,
+        { unless: `n2_accepted.a`, text: `The case was caught.` },
+        { when: `n2_accepted.a`, text: `The cancer was found late.` },
+        `The response was to try harder: a tick-box, a reminder, a promise to concentrate. The AI-first display stayed as it was.`,
+        `The next radiologist meets the same screen on their own 75th scan, with the same clock running.`,
       ],
       judgement: `Nobody was careless, so being careful was never the fix. Showing the AI's answer first set up the error. A tick-box on top records the risk without reducing it.`,
     },
 
     outcome_bad: {
-      heading: `You went along with the AI, then described a check you didn't do`,
+      heading: `Found late, and the record tells against you`,
       tone: `bad`,
       score: 5,
-      reaction: `Saying "my review confirmed it" after a missed diagnosis is a human flinch. It makes the investigation about you instead of the design.`,
+      reaction: `Going along with the AI, then standing by it, is a human flinch. It makes the investigation about you instead of the design.`,
       description: [
-        `The cancer was diagnosed late. Your account to the review board described a review the records contradict: a twelve-second sign-off on scan 75 of 80.`,
-        `The mismatch became the focus, and the screen layout that caused it stayed in place.`,
+        { when: `n2_reviewed.c`, text: `You looked for four minutes, saw the shadow, and signed off the AI's answer anyway. The cancer was diagnosed three months late. Your four minutes are on the log.` },
+        { when: `n2_accepted.b`, text: `The cancer was diagnosed late. Your account to the review board described a review the records contradict: a twelve-second sign-off on scan 75 of 80.` },
+        `The focus moved to you, and the screen layout behind it stayed in place.`,
       ],
-      judgement: `Over-trusting AI under time pressure is predictable, and a review board exists to find what went wrong in the system. A false account turns a design failure it could fix into a question about your honesty.`,
+      judgement: `Over-trusting AI under time pressure is predictable, and a review board exists to find what went wrong in the system. Signing off what you didn't believe, or defending it afterwards, turns a design failure it could fix into a question about you.`,
     },
   },
 

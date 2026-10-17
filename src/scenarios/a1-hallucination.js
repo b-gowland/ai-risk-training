@@ -157,7 +157,7 @@ export const scenario = {
 
     n_colleague: {
       prose: [
-        `A colleague drafted two of those four. They used the tool the way everyone was shown: prompt, skim, send. Now they're watching you check their work, with a look you recognise.`,
+        `A colleague drafted two of those four. They used the tool the way everyone was shown: prompt, skim, send. Now they're watching you deal with it, with a look you recognise.`,
         `"Wait, are we not supposed to trust it? Nobody said that."`,
       ],
       decision: {
@@ -185,7 +185,7 @@ export const scenario = {
           { id: `b`, label: `Remind everyone to be careful with the tool`, quality: `poor`,
             consequence: `He agrees, and sends the reminder. A version of that reminder went out with the training in March.` },
           { id: `c`, label: `Ask whether the tool should touch client-facing work at all`, quality: `partial`,
-            consequence: `That goes up to the partners, where it will sit for some weeks. The four briefings from this week still need checking tonight, by you.` },
+            consequence: `That goes up to the partners, where it will sit for some weeks. The next briefing is due on Friday.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_warn`, c: `outcome_good` },
@@ -194,27 +194,33 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `Owned fast, fixed properly, and the hole got closed`,
+      heading: `Owned, fixed, and the hole got closed`,
       tone: `good`,
       score: 100,
-      reaction: `Admitting an error before you know its full size is uncomfortable. It's also the only version of this that keeps the client.`,
+      reaction: `Owning an AI error to a client is uncomfortable. It's also the only version of this that keeps them.`,
       description: [
-        `The checked replacement arrived the next morning with every citation linked to source. The client's note was short: glad you sorted it fast.`,
-        `The required-check rule went out to the team, so the next briefing can't leave the way this one did.`,
+        { when: [`n2_called.a`, `n2_audit_first.a`, `n2_defended.a`], text: `The checked replacement arrived the next morning with every citation linked to source.` },
+        { when: `n2_called.b`, text: `The two corrections went out that evening, and the full check a day later.` },
+        { when: `n_response.a`, text: `The client's note was short: glad you sorted it fast.` },
+        { when: `n2_defended.a`, text: `The client had spent an afternoon searching for a document that never existed.` },
+        `The required-check rule went out to the team, so the next briefing can't leave like this one.`,
       ],
-      judgement: `The client never expected the tool to be perfect. They expected someone to own the output. A fast admission, a real fix and a better process is the whole response. The process is the part most people skip.`,
+      judgement: `The client never expected the tool to be perfect. They expected someone to own the output. An honest admission, a real fix and a better process is the whole response. The process is the part most people skip.`,
     },
 
     outcome_good: {
-      heading: `Handled well. The fix is above your desk.`,
+      heading: `The client held. The fix is above your desk.`,
       tone: `warn`,
       score: 75,
       reaction: `Asking whether the tool belongs in client work at all is the right instinct, and it isn't yours to settle.`,
       description: [
-        `You admitted it fast, offered a checked replacement, and the relationship held.`,
-        `Whether the tool should touch client work went up to the partners. Meanwhile this week's four briefings still need checking, by hand, by you.`,
+        { when: `n_response.a`, text: `You admitted it fast, and the relationship held.` },
+        { when: `n_response.b`, text: `You checked before calling back, then told them straight, and the relationship held.` },
+        { when: `n_response.c`, text: `You came clean late in the day, and the relationship held, just.` },
+        `Whether the tool should touch client work went up to the partners, where it will sit for weeks.`,
+        { unless: `n_scope.a`, text: `This week's other briefings still haven't all been checked.` },
       ],
-      judgement: `Knowing what isn't your decision is a skill. So is not using that as an excuse. You passed the policy question up and still did today's checking. Doing only the first is how the next made-up citation goes out.`,
+      judgement: `Knowing what isn't your decision is a skill. So is not using that as an excuse. Passing the policy question up was right. It doesn't check the briefings that go out while the partners decide.`,
     },
 
     outcome_warn: {
@@ -223,22 +229,24 @@ export const scenario = {
       score: 45,
       reaction: `"Remind everyone to be careful" feels like a response because it names the problem. It doesn't change anything.`,
       description: [
-        `You handled the call well and the replacement went out. Asked what would stop a repeat, you suggested a reminder, which is what was in place when this happened.`,
+        `The replacement went out and the client is calm. Asked what would stop a repeat, you suggested a reminder, which is what was in place when this happened.`,
         `The tool still generates citations, and the next invented one will be just as fluent.`,
       ],
       judgement: `Being careful doesn't stop AI making things up. The people here were competent and trying. What was missing was a step that doesn't rely on anyone remembering to be vigilant on a busy Thursday.`,
     },
 
     outcome_bad: {
-      heading: `"Formatting issues" became a complaint`,
+      heading: `A fixable error became a complaint`,
       tone: `bad`,
       score: 10,
-      reaction: `Reaching for a smaller word than "the AI invented a law" is a human move under pressure. It turns a fixable error into a dispute.`,
+      reaction: `Playing for time or reaching for a smaller word is a human move under pressure. It turns a fixable error into a dispute.`,
       description: [
-        `The reply was quick: formatting issues don't make regulations disappear. Your manager is now in the chain.`,
+        { when: `n2_audit_first.b`, text: `The reply was quick: formatting issues don't make regulations disappear.` },
+        { when: `n2_defended.b`, text: `While you and your manager worked out what to say, the client escalated it themselves.` },
+        `Your manager is now in the chain.`,
         `A 24-hour correction became two weeks of repair work, with a client who now reads everything you send more carefully.`,
       ],
-      judgement: `Clients broadly understand that AI makes things up. What they don't forgive is dodging the question, because that's a choice. Playing down an error to someone who already has the facts adds a second error to the first.`,
+      judgement: `Clients broadly understand that AI makes things up. What they don't forgive is dodging or stalling, because that's a choice. Playing down an error to someone who already has the facts adds a second error to the first.`,
     },
   },
 
