@@ -1,5 +1,6 @@
 // Privacy.jsx — static privacy notice page at /#/privacy
-// Content mirrors PRIVACY.md. No markdown parser needed.
+// Every event listed here must match src/utils/analytics.js; the
+// privacy-claims test in analytics.test.js checks the property names.
 
 import { Link } from 'react-router-dom';
 

@@ -17,6 +17,8 @@
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { scenarios } from '../scenarios/index.js';
+import { resolveParas } from '../engine/narrativeEngine.js';
+import { rangeWords } from '../engine/timing.js';
 import { trackCardsPrinted } from '../utils/analytics.js';
 import a from './About.module.css';
 import s from './Cards.module.css';
@@ -167,7 +169,7 @@ export function Deck({ sc, printedOn }) {
 
     <Card key={2} sc={sc} n={2} role="What's in front of you"
       prompt="What here is evidence, and what is just pressure?">
-      {(start.prose || []).map((t, i) => <p key={i}>{t}</p>)}
+      {resolveParas(start.prose).map((t, i) => <p key={i}>{t}</p>)}
       <CardArtefact artefact={start.artefact} />
     </Card>,
 
@@ -258,8 +260,8 @@ function FacilitatorSheet() {
       <h3 className={s.facilH3}>What the cards leave out</h3>
       <p>
         The cards stop at the first decision. The full scenario branches from there to several
-        different endings, and plays on a phone in about five minutes (at home) or eight to ten
-        (at work) at app.airiskpractice.org.
+        different endings, and plays on a phone in {rangeWords(scenarios.filter((x) => x.door === 'home'))} (at
+        home) or {rangeWords(scenarios.filter((x) => x.door === 'work')).replace(/^about /, '')} (at work) at app.airiskpractice.org.
       </p>
       <p className={s.fine}>
         AI Risk Practice is free and open source. Scenario content is licensed CC BY 4.0: copy,

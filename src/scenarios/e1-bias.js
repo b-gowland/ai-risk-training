@@ -56,10 +56,10 @@ export const scenario = {
       decision: {
         prompt: `Ten shortlists, one shape. What have you got?`,
         choices: [
-          { id: `a`, label: `Something is narrowing the field, and it can be checked. The applicants are more varied than the lists.`, quality: `good`,
-            consequence: `You write it down in one line, without the word bias in it. It reads like something a person with the data could go and check.` },
           { id: `b`, label: `Maybe the best candidates really do share a profile`, quality: `poor`,
             consequence: `Every name on those lists is a real, qualified person. What matters is who is missing, and you can't tell that from here.` },
+          { id: `a`, label: `Something is narrowing the field, and it can be checked. The applicants are more varied than the lists.`, quality: `good`,
+            consequence: `You write it down in one line, without the word bias in it. It reads like something a person with the data could go and check.` },
           { id: `c`, label: `The model is biased. Ten lists like this is not a coincidence.`, quality: `partial`,
             consequence: `It probably isn't a coincidence. But you haven't proved it's bias, and the first person you tell will ask how you know.` },
         ],
@@ -74,10 +74,10 @@ export const scenario = {
       decision: {
         prompt: `What do you do about what you've seen?`,
         choices: [
+          { id: `b`, label: `Gather more shortlists yourself first. You want to be sure before raising it with anyone`, quality: `partial`,
+            consequence: `You start a spreadsheet. Two more roles close while you are building it.` },
           { id: `a`, label: `Raise it with your manager now: describe the pattern and say it needs looking into`, quality: `good`,
             consequence: `You send four lines and the shortlist summary. She reads it in front of you and asks whether your colleague would mind her notes being attached.` },
-          { id: `b`, label: `Gather more shortlists yourself first. You want to be sure before raising it`, quality: `partial`,
-            consequence: `You start a spreadsheet. Two more roles close while you are building it.` },
           { id: `c`, label: `Leave it. The tool was approved by the business, so it's not your place`, quality: `poor`,
             consequence: `Your colleague raises it in a team meeting the following week. You say nothing, and that goes in the meeting notes.` },
         ],
@@ -109,10 +109,10 @@ export const scenario = {
       decision: {
         prompt: `What do you advise telling the affected managers?`,
         choices: [
-          { id: `a`, label: `The plain version: the tool is being checked for a possible problem, and here's how to shortlist by hand meanwhile`, quality: `good`,
-            consequence: `Two of the four ask to see their recent shortlists again. One of them finds a candidate she had passed over and rings her.` },
           { id: `b`, label: `Just say there's a technical issue and shortlists will be a bit slower`, quality: `partial`,
             consequence: `Nobody asks questions. Nobody rechecks a shortlist either.` },
+          { id: `a`, label: `The plain version: the tool is being checked for a possible problem, and here's how to shortlist by hand meanwhile`, quality: `good`,
+            consequence: `Two of the four ask to see their recent shortlists again. One of them finds a candidate she had passed over and rings her.` },
         ],
       },
       branches: { a: `n_evidence`, b: `n_evidence` },
@@ -126,9 +126,9 @@ export const scenario = {
       decision: {
         prompt: `You've done the groundwork. Now what?`,
         choices: [
-          { id: `a`, label: `Raise it now. Twenty shortlists is more than enough for a proper investigation`, quality: `good`,
+          { id: `a`, label: `Raise it now. Twenty shortlists is plenty for a proper investigation`, quality: `good`,
             consequence: `Twenty roles' worth of summary, sent in one email. Analytics reply the same day asking why nobody flagged it in March.` },
-          { id: `b`, label: `Get candidates' age and background data yourself to prove it first`, quality: `poor`,
+          { id: `b`, label: `Get candidates' age and background data yourself, to prove it before raising it`, quality: `poor`,
             consequence: `You ask a friend in HR to pull the data for you as a favour. She hesitates, and then does it.` },
         ],
       },
@@ -160,10 +160,10 @@ export const scenario = {
       decision: {
         prompt: `What do you tell them?`,
         choices: [
-          { id: `a`, label: `That the pattern showed up early across all the lists, and nobody's job was to look`, quality: `good`,
-            consequence: `You describe what the lists looked like together in week one, and whose job it should have been to look. It ends up in the final report.` },
           { id: `b`, label: `That it's hard to say. These things are complicated`, quality: `partial`,
             consequence: `The investigator waits, and then moves on to the next question. Nothing you saw over three months makes it into the report.` },
+          { id: `a`, label: `That the pattern showed up early across all the lists, and nobody's job was to look`, quality: `good`,
+            consequence: `You describe what the lists looked like together in week one, and whose job it should have been to look. It ends up in the final report.` },
         ],
       },
       branches: { a: `outcome_warn`, b: `outcome_warn` },
@@ -193,10 +193,10 @@ export const scenario = {
       decision: {
         prompt: `What do you recommend?`,
         choices: [
-          { id: `a`, label: `Regular checks of who the tool shortlists, broken down by group, from day one, with a named owner`, quality: `good`,
-            consequence: `It goes into the plan with an owner's name next to it. The first monthly report comes out six weeks later and takes someone forty minutes.` },
           { id: `b`, label: `Ask everyone to keep an eye on the shortlists`, quality: `partial`,
             consequence: `Everyone agrees to keep an eye out. Nothing has changed from the last three months.` },
+          { id: `a`, label: `Regular checks of who the tool shortlists, broken down by group, from day one, with a named owner`, quality: `good`,
+            consequence: `It goes into the plan with an owner's name next to it. The first monthly report comes out six weeks later and takes someone forty minutes.` },
         ],
       },
       branches: { a: `outcome_great`, b: `outcome_good` },
@@ -205,24 +205,27 @@ export const scenario = {
 
   outcomes: {
     outcome_great: {
-      heading: `Caught early, paused, and the gap closed`,
+      heading: `Raised early, checked, and the gap closed`,
       tone: `good`,
       score: 100,
       reaction: `Saying "something looks off" before you can prove it takes nerve, and it was the most useful thing anyone did here.`,
       description: [
-        `The tool was paused while analytics ran the numbers. They confirmed a significant gap between groups, and the vendor was told to fix it.`,
-        `The monitoring you recommended means the next problem gets caught in week one, not by luck three months in.`,
+        { when: `n2_concern_raised.a`, text: `The tool was paused while analytics ran the numbers.` },
+        { when: `n2_concern_raised.b`, text: `The tool kept running meanwhile, and three more shortlists came out the same shape.` },
+        `Analytics confirmed a significant gap between groups, and the vendor must fix it.`,
+        `The monitoring you recommended catches the next problem in week one, not by luck three months in.`,
       ],
-      judgement: `You treated the pattern as something to check, without dismissing it or jumping to conclusions, and raised it before you could prove it. Regular checks turn a lucky catch into a system that doesn't need luck.`,
+      judgement: `A pattern raised before anyone can prove it is what gives the people with the data something to check. Regular checks turn a lucky catch into a system that doesn't need luck.`,
     },
 
     outcome_good: {
       heading: `Raised and investigated. Still leaning on luck.`,
       tone: `good`,
       score: 70,
-      reaction: `You noticed, raised it and got it paused. "Keep an eye out" as the fix is where it slips. That only worked by chance.`,
+      reaction: `You noticed and raised it. "Keep an eye out" as the fix is where it slips. That only worked by chance.`,
       description: [
-        `The tool was paused and the investigation run properly.`,
+        { when: `n2_concern_raised.a`, text: `The tool was paused and the investigation run properly.` },
+        { when: `n2_concern_raised.b`, text: `The investigation ran properly, with the tool still running alongside it.` },
         `But you left the same "someone will notice" approach that let this run for three months. It worked because one colleague kept notes in her own time. The next team might not have her.`,
       ],
       judgement: `Bias in an AI tool stays invisible until someone looks at all its results together, on purpose. The lasting fix is scheduled monitoring with a named owner. Asking everyone to stay alert relies on the alertness that nearly failed.`,
@@ -241,12 +244,13 @@ export const scenario = {
     },
 
     outcome_bad: {
-      heading: `Not raised, or raised the wrong way, and it starts with you`,
+      heading: `Now the story is partly about you`,
       tone: `bad`,
       score: 5,
-      reaction: `Both roads felt safer than they were: staying quiet, or trying to prove it alone with data you weren't allowed to see.`,
+      reaction: `It felt safer than raising it plainly, and it turned out to be the riskier road.`,
       description: [
-        `Either a complaint exposed the pattern you'd chosen not to raise, or pulling personal data without permission made a second problem.`,
+        { when: `n2_ignored.b`, text: `A complaint exposed the pattern you'd chosen not to raise, and the meeting notes show you knew.` },
+        { when: `n2_investigate_more.b`, text: `Pulling candidates' personal data through a favour made a second problem: a privacy breach on top of the bias question.` },
         `The investigation asks what you knew and when, and now the story is partly about you.`,
       ],
       judgement: `Personal data like age and gender is protected for good reasons. Going around that is its own breach. "It wasn't my place" is a weak answer in any discrimination case. Raise it early and let the people with the data do the proving.`,
@@ -266,10 +270,10 @@ export const scenario = {
     options: [
       { id: `a`, quality: `poor`, label: `Yes. With those fields removed, the model has nothing to be biased on`,
         note: `Models can work out removed details from other clues, like university, career gaps, hobbies and phrasing. "We stripped the obvious fields" is the false reassurance this scenario warns about.` },
+      { id: `c`, quality: `partial`, label: `Mostly. Removing those fields helps a lot, though a few edge cases might still slip through`,
+        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case. So check the results.` },
       { id: `b`, quality: `good`, label: `No. Models can guess removed details from other clues, so the results still need checking`,
         note: `Right. The only way to know is to look at all the results together, broken down by group. Clean inputs don't guarantee clean results.` },
-      { id: `c`, quality: `partial`, label: `Mostly. Removing those fields helps a lot, though edge cases might slip through`,
-        note: `It can help, and it's no guarantee. Models guessing removed details from other clues is normal, not an edge case. So check the results.` },
     ],
   },
 

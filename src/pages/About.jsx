@@ -6,6 +6,11 @@
 
 import { Link } from 'react-router-dom';
 import s from './About.module.css';
+import { scenarios } from '../scenarios/index.js';
+import { rangeWords } from '../engine/timing.js';
+
+const HOME = scenarios.filter((sc) => sc.door === 'home');
+const WORK = scenarios.filter((sc) => sc.door === 'work');
 
 const FEEDBACK_EMAIL = 'hello@airiskpractice.org';
 
@@ -50,8 +55,8 @@ export default function About() {
               can trace to a source.</li>
             <li><strong>Open to anyone.</strong> No login and no prerequisites. Start with
               whichever situation sounds most like your week.</li>
-            <li><strong>Worth your time.</strong> An At Home scenario takes about five minutes, an
-              At Work one eight to ten.</li>
+            <li><strong>Worth your time.</strong> An At Home scenario takes {rangeWords(HOME)}, an
+              At Work one {rangeWords(WORK).replace(/^about /, '')}.</li>
           </ul>
           <p className={s.note}>
             This is practice, not a certification. It isn&rsquo;t legal or security advice, and

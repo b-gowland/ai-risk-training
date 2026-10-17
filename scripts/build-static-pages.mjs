@@ -31,6 +31,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 import sharp from 'sharp';
+import { CSP_META } from './lib/csp.mjs';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -52,7 +53,7 @@ if (!PLAUSIBLE_SRC) {
   process.exit(1);
 }
 const PLAUSIBLE = `<script async src="${PLAUSIBLE_SRC}"></script>
-<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>`;
+<script src="/plausible-init.js"></script>`;
 
 // Load the live registry through Vite so `import.meta.glob` in
 // scenarios/index.js resolves as it does in the real app. A plain `node
@@ -65,11 +66,11 @@ const server = await createServer({
   logLevel: 'error',
 });
 const { scenarios } = await server.ssrLoadModule('/src/scenarios/index.js');
+// Times come from the content (src/engine/timing.js), never typed in.
+const { minutesWords, minutesShort, isoDuration } = await server.ssrLoadModule('/src/engine/timing.js');
 await server.close();
 
 const DOOR = { home: 'At home', work: 'At work' };
-const MINUTES = { home: 'about five minutes', work: 'about eight to ten minutes' };
-const SHORT_MIN = { home: '5 min', work: '10 min' };
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -126,7 +127,36 @@ footer{margin-top:3rem;padding:1.5rem 1rem;background:var(--ink);color:#fff;font
 footer a{color:#fff}
 `.trim();
 
-const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png` }) => `<meta charset="UTF-8" />
+// Structured data is generated from the scenario registry. If a field it
+// relies on comes back empty, the page would ship a LearningResource with
+// no name or time, which search engines ignore or misreport: fail instead.
+const REQUIRED_LD = {
+  LearningResource: ['name', 'description', 'url', 'timeRequired', 'inLanguage', 'isAccessibleForFree', 'license'],
+  ItemList: ['itemListElement'],
+  CreativeWork: ['name', 'description', 'license'],
+  WebSite: ['name', 'url'],
+  Organization: ['name', 'url'],
+};
+function checkLd(where, ld) {
+  for (const node of ld['@graph'] || [ld]) {
+    for (const f of REQUIRED_LD[node['@type']] || []) {
+      const v = node[f];
+      if (v === undefined || v === null || v === '' || (Array.isArray(v) && !v.length)) {
+        console.error(`${where}: ${node['@type']} has no '${f}'. Aborting rather than shipping incomplete structured data.`);
+        process.exit(1);
+      }
+    }
+    if (node['@type'] === 'LearningResource' && !/^PT\d+M$/.test(node.timeRequired)) {
+      console.error(`${where}: timeRequired '${node.timeRequired}' is not an ISO 8601 duration. Aborting.`);
+      process.exit(1);
+    }
+  }
+  return JSON.stringify(ld);
+}
+
+const OG_ALT = 'AI Risk Practice: What would you do? Short situations where AI goes wrong.';
+const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png`, imageAlt = OG_ALT }) => `<meta charset="UTF-8" />
+${CSP_META}
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
@@ -136,12 +166,16 @@ const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png` 
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:image" content="${image}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="${esc(imageAlt)}" />
 <meta property="og:site_name" content="AI Risk Practice" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${image}" />
-<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+<meta name="twitter:image:alt" content="${esc(imageAlt)}" />
+<script type="application/ld+json">${checkLd(canonical, jsonLd)}</script>
 ${PLAUSIBLE}
 <style>${STYLE}</style>`;
 
@@ -173,7 +207,7 @@ function scenarioRows(door) {
       // decision (5 Oct). The quiet "about" link keeps the static page one
       // tap away and crawlable from here.
       (s) => `<li><a class="play" href="/#/scenario/${s.id}"><span>${esc(s.shelfLine)}</span>
-<span class="go">${SHORT_MIN[s.door]} &rarr;</span></a>
+<span class="go">${minutesShort(s)} &rarr;</span></a>
 <a class="about" href="/scenarios/${s.id}/">About this one</a></li>`
     )
     .join('\n');
@@ -243,7 +277,7 @@ ${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}
 <div class="actions">
 <a class="btn primary" href="/#/scenario/${s.id}">${esc(s.begin || 'Start')}</a>
 </div>
-<p class="meta">${cap(MINUTES[s.door])} · no login · nothing scored</p>
+<p class="meta">${cap(minutesWords(s))} · no login · nothing scored</p>
 ${standing}
 ${canWhat}
 <p class="tell">${esc(s.tell)}</p>
@@ -258,9 +292,10 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
       // Situation first: it is what a worried person types. Situation
       // phrasing, never a risk name, so the Setup rule still holds.
       title: `${s.shelfLine.replace(/\.$/, '')} — ${s.title}`,
-      description: `${s.shelfLine} A free practice scenario, ${MINUTES[s.door]}, no login.`,
+      description: `${s.shelfLine} A free practice scenario, ${minutesWords(s)}, no login.`,
       canonical: `${SITE}/scenarios/${s.id}/`,
       image: `${SITE}/og/${s.id}.jpg`,
+      imageAlt: `Illustration from ${s.title}, a free AI Risk Practice scenario`,
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'LearningResource',
@@ -271,7 +306,7 @@ ${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : 
         inLanguage: 'en',
         learningResourceType: 'Interactive scenario',
         educationalLevel: 'Beginner',
-        timeRequired: s.door === 'home' ? 'PT5M' : 'PT10M',
+        timeRequired: isoDuration(s),
         license: 'https://creativecommons.org/licenses/by/4.0/',
         publisher: { '@type': 'Organization', name: 'AI Risk Practice', url: SITE },
       },
@@ -353,7 +388,7 @@ const llms = `# AI Risk Practice
 
 ## Scenarios
 
-${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${MINUTES[s.door]})`).join('\n')}
+${scenarios.map((s) => `- [${s.title}](${SITE}/scenarios/${s.id}/): ${s.shelfLine} (${DOOR[s.door].toLowerCase()}, ${minutesWords(s)})`).join('\n')}
 
 ## Also
 
@@ -393,19 +428,12 @@ install.</p>
 
 indexHtml = indexHtml.replace('<div id="root"></div>', fallback);
 
-// Target the call alone, not the surrounding <script> block. The block
-// spans a newline, and a checkout with CRLF line endings (the default on
-// Windows, where this repo is worked on in Git Bash) silently fails to
-// match a literal '\n' — replace() finds nothing and returns the string
-// unchanged, with no error. A single-line match has no line ending to get
-// wrong. Confirmed 20 Sep against a CRLF-converted copy of this exact file.
-if (indexHtml.includes('hashBasedRouting')) {
-  // Already applied — running the script twice without an intervening
-  // `vite build` shouldn't double up or throw.
-} else if (indexHtml.includes('plausible.init()')) {
-  indexHtml = indexHtml.replace('plausible.init()', 'plausible.init({ hashBasedRouting: true })');
-} else {
-  console.error("dist/index.html: expected a bare 'plausible.init()' call — the Plausible snippet has changed shape. Aborting the hashBasedRouting fix rather than silently skipping it.");
+// Plausible counts the app's hash routes (#/scenario/…) as pages only if
+// told to. That used to be patched into an inline snippet here; the
+// snippet now lives in public/plausible-init.js (inline scripts are not
+// allowed by the CSP) and the app's tag opts in with data-hash-routing.
+if (!/plausible-init\.js"[^>]*data-hash-routing/.test(indexHtml)) {
+  console.error('dist/index.html: plausible-init.js tag without data-hash-routing. App pageviews would collapse to "/". Aborting.');
   process.exit(1);
 }
 
@@ -436,7 +464,7 @@ if (!indexHtml.includes('application/ld+json')) {
   };
   indexHtml = indexHtml.replace(
     '</head>',
-    `    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n  </head>`
+    `    <script type="application/ld+json">${checkLd('index.html', jsonLd)}</script>\n  </head>`
   );
 }
 

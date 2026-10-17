@@ -14,7 +14,10 @@
     "audit": "node scripts/scenario-audit.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "readability": "node scripts/readability-report.mjs"
+    "readability": "node scripts/readability-report.mjs",
+    "joins": "node scripts/branch-joins.mjs",
+    "og": "node scripts/render-og.mjs",
+    "review-pack": "node scripts/review-pack.mjs"
   },
   "dependencies": {
     "react": "^19.2.4",

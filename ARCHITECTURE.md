@@ -98,14 +98,45 @@ Pages at <https://app.airiskpractice.org/>.
 
 | Command | What it guards |
 |---|---|
-| `npm test` | Engine, screens, navigation and focus, artefacts, cards, analytics, static pages |
-| `npm run audit` | Every registered scenario: graph integrity, depth band, choice counts, unverdicted consequences, artefact types, scene keys, wrap-up length caps; warns on machine-writing patterns, jargon, sentences over 25 words and reading grade |
+| `npm test` | Engine, screens, navigation and focus, artefacts, cards, analytics, static pages (CSP, share tags, structured data), content quality (answer position and length, times, invented names), privacy claims, screen-reader text |
+| `npm run audit` | Every registered scenario: graph integrity, depth band, choice counts, unverdicted consequences, artefact types, scene keys, wrap-up length caps measured on the longest route, route conditions (`when`/`unless`) that can actually occur, a primary source for any dated claim in the debrief; warns on machine-writing patterns, jargon, sentences over 25 words and reading grade |
 | `npm run readability` | Per-scenario reading grade, sentence length, pattern and jargon table (`-- --json` for before/after diffs). Rules live in `scripts/lib/readability.mjs` |
+| `npm run joins` | Prints every screen with every way into it, and every ending with the choices made on every route into it. Read it after any change to branches or endings |
 | `npm run route-audit` | Cross-surface integrity: registry vs. routes vs. links vs. files |
 | `npm run lint` | ESLint |
 | `npm run test:scorm` | SCORM adapter call sequence against a mock LMS |
 
-All of these run in CI.
+All of these run in CI. Not in CI, run by hand:
+
+| Command | What it does |
+|---|---|
+| `npm run og` | Regenerates `public/og.png`, the homepage share image, as a screenshot of the built homepage (needs Playwright; see the script header) |
+| `npm run review-pack` | Builds `review-pack/` for an outside reviewer: text, joins, reports, and with `-- --shots` screenshots. Send it with [`docs/REVIEW_PROMPT.md`](docs/REVIEW_PROMPT.md) |
+
+## Route-aware text
+
+A screen or ending reached from several choices must read correctly from
+each. A paragraph in a node's `prose` or an outcome's `description` can be a
+plain string or `{ when: 'node.choice' | [...], text }` /
+`{ unless: …, text }`, resolved against the choices taken
+(`resolveParas` in `src/engine/narrativeEngine.js`). Headings, reactions and
+judgements are plain strings, so they must hold on every route.
+
+## Times
+
+Every time shown to players comes from `src/engine/timing.js`: words on
+each route at 238 a minute (Brysbaert 2019) plus 30 seconds a decision, with
+the median route as the headline. Nothing types a time in by hand; a test
+checks.
+
+## Content Security Policy
+
+`scripts/lib/csp.mjs` holds the policy. GitHub Pages cannot set response
+headers, so it ships as a `<meta>` tag, added by the Vite build and by
+`build-static-pages.mjs`. Scripts and connections are limited to this site
+and Plausible; no page has an inline script (Plausible's queue stub is
+`public/plausible-init.js`). A meta policy cannot set `frame-ancestors`; that
+needs a response header, which means a proxy or host in front of Pages.
 
 ## Scene images
 

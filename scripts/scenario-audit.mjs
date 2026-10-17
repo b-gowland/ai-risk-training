@@ -17,6 +17,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { analyse, GRADE_TARGET, LONG_SENTENCE } from './lib/readability.mjs';
+import { resolveParas } from '../src/engine/narrativeEngine.js';
 
 const ROOT = process.cwd();
 const only = process.argv[2] || null;
@@ -212,6 +213,65 @@ for (const sc of targets) {
     if (!reachedOutcomes.has(id)) fail('graph', `outcome '${id}' is unreachable`);
   }
 
+  /* ── Route-aware text ────────────────────────────────────────────
+     A node or ending reached from several routes can only state what
+     every one of those routes did, unless the line is conditioned on the
+     choice with { when } / { unless } (narrativeEngine.resolveParas).
+     Checked here: every condition names a real choice that can actually
+     precede the place it is used, and every route still renders text. */
+  const routes = {}; // target -> array of Sets of 'node.choice' taken before it
+  const collect = (id, taken, seen) => {
+    if (!id || seen.has(id)) return;
+    (routes[id] ??= []).push(taken);
+    if (id.startsWith('outcome_')) return;
+    const n = nodes[id];
+    if (!n?.decision) return;
+    for (const c of n.decision.choices || []) {
+      const t = n.branches?.[c.id] || n.next;
+      collect(t, new Set([...taken, `${id}.${c.id}`]), new Set([...seen, id]));
+    }
+  };
+  collect(entry, new Set(), new Set());
+  const condKeys = (item) => [item.when, item.unless].flat().filter(Boolean);
+  const checkParas = (where, target, items) => {
+    const reachable = new Set((routes[target] || []).flatMap((r) => [...r]));
+    for (const item of items || []) {
+      if (typeof item === 'string') continue;
+      if (typeof item?.text !== 'string' || !item.text) fail('route', `${where}: conditional paragraph has no text`);
+      if (!item.when && !item.unless) fail('route', `${where}: object paragraph needs 'when' or 'unless'`);
+      for (const k of condKeys(item)) {
+        const [nid, cid] = String(k).split('.');
+        if (!nodes[nid]?.decision?.choices?.some((c) => c.id === cid)) {
+          fail('route', `${where}: condition '${k}' is not a choice`);
+        } else if (!reachable.has(k)) {
+          fail('route', `${where}: condition '${k}' can never be taken before this point`);
+        }
+      }
+    }
+    for (const r of routes[target] || []) {
+      const shown = resolveParas(items, [...r].map((k) => { const [nodeId, choiceId] = k.split('.'); return { nodeId, choiceId }; }));
+      if (!shown.length) { fail('route', `${where}: renders no text on route ${[...r].join(' > ') || '(start)'}`); break; }
+    }
+  };
+  for (const [id, n] of Object.entries(nodes)) checkParas(`${id}.prose`, id, n.prose);
+  for (const [id, o] of Object.entries(outcomes)) checkParas(`${id}.description`, id, o.description);
+
+  /* ── Sources ─────────────────────────────────────────────────────
+     A dated claim in the debrief ("From 10 December 2026, …") is the
+     kind of sentence people repeat and AI assistants quote. It carries
+     its primary source: who said it, where, when, and their exact words. */
+  const DATED = /\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b/;
+  const debriefText = [...(sc.debrief?.frame || []), sc.debrief?.keyLine].filter(Boolean).join(' ');
+  if (DATED.test(debriefText) && !(sc.sources || []).length) {
+    fail('source', `debrief states a dated fact ("${debriefText.match(DATED)[0]}") with no sources entry`);
+  }
+  for (const [i, src] of (sc.sources || []).entries()) {
+    for (const f of ['quote', 'who', 'title', 'date', 'url']) {
+      if (!src[f]) fail('source', `sources[${i}] is missing '${f}'`);
+    }
+    if (src.url && !/^https:\/\//.test(src.url)) fail('source', `sources[${i}].url is not https`);
+  }
+
   /* ── Outcomes ────────────────────────────────────────────────── */
   const tones = new Set();
   for (const [id, o] of Object.entries(outcomes)) {
@@ -345,7 +405,9 @@ for (const sc of targets) {
       fail('length', `${id}: judgement is ${words(o.judgement)} words; cap ${LIMITS.judgement}`);
     }
     if (words(o.reaction) > LIMITS.reaction) warn('length', `${id}: reaction is ${words(o.reaction)} words; aim for ${LIMITS.reaction}`);
-    const d = words((o.description || []).join(' '));
+    // Longest description any route actually renders.
+    const d = Math.max(0, ...(routes[id] || [new Set()]).map((r) => words(resolveParas(o.description,
+      [...r].map((k) => { const [nodeId, choiceId] = k.split('.'); return { nodeId, choiceId }; })).join(' '))));
     if (d > LIMITS.description) warn('length', `${id}: description is ${d} words; aim for ${LIMITS.description}`);
   }
   for (const o of sc.recall?.options || []) {

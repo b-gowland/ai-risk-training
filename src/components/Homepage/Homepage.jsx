@@ -8,6 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import { scenarios, FEATURED_PAIR } from '../../scenarios/index.js';
+import { rangeDigits } from '../../engine/timing.js';
 import s from './Homepage.module.css';
 
 export default function Homepage() {
@@ -37,7 +38,7 @@ export default function Homepage() {
             </button>.
           </p>
           <ul className={s.facts}>
-            <li>5 to 10 minutes</li>
+            <li>{rangeDigits(scenarios)}</li>
             <li>Nothing scored</li>
             <li>Just explore</li>
           </ul>
@@ -63,7 +64,9 @@ export default function Homepage() {
             )}
             <div className={s.doorInk}>
               <span className={s.doorLabel}>{sc.door === 'home' ? 'At home' : 'At work'}</span>
+              <span className="srOnly">: </span>
               <h2 className={s.hook}>{sc.hook}</h2>
+              <span className="srOnly">. </span>
               <span className={s.doorGo}>Start</span>
             </div>
           </Link>
@@ -99,7 +102,8 @@ function IndexGroup({ label, door, items, s }) {
     <div className={`${s.group} ${door === 'home' ? s.groupHome : s.groupWork}`}>
       <div className={s.groupBar}>
         <span className={s.groupLabel}>{label}</span>
-        <span className={s.groupCount}>{items.length}</span>
+        <span className={s.groupCount} aria-hidden="true">{items.length}</span>
+        <span className="srOnly">, {items.length} situations</span>
       </div>
       <ul className={s.rows}>
         {items.map((sc) => (

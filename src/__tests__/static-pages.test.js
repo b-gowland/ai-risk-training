@@ -18,6 +18,7 @@ import { join } from 'node:path';
 import { describe, it, expect, beforeAll } from 'vitest';
 import sharp from 'sharp';
 import { scenarios } from '../scenarios/index.js';
+import { isoDuration, minutesWords } from '../engine/timing.js';
 
 const DIST = join(process.cwd(), 'dist');
 const read = (p) => readFileSync(join(DIST, p), 'utf8');
@@ -152,7 +153,8 @@ describe('static pages (dist/, post-build)', () => {
   });
 
   it('index.html enables Plausible hash-based routing', () => {
-    expect(read('index.html')).toContain('hashBasedRouting: true');
+    expect(read('index.html')).toMatch(/<script src="\/plausible-init\.js" data-hash-routing><\/script>/);
+    expect(read('plausible-init.js')).toContain('hashBasedRouting: true');
   });
 
   it('every static page loads the same Plausible script as the SPA, without hash routing', () => {
@@ -161,8 +163,57 @@ describe('static pages (dist/, post-build)', () => {
     for (const p of pages) {
       const html = read(p);
       expect(html, p).toContain(`src="${src}"`);
-      expect(html, p).toContain('plausible.init()');
-      expect(html, p).not.toContain('hashBasedRouting');
+      expect(html, p).toContain('<script src="/plausible-init.js"></script>');
+      expect(html, p).not.toContain('data-hash-routing');
+    }
+  });
+
+  // Content Security Policy (scripts/lib/csp.mjs). A meta policy, because
+  // GitHub Pages cannot set headers. It only protects if no page needs an
+  // inline script, so that is checked too: JSON-LD is data and allowed.
+  const allPages = () => ['index.html', 'scenarios/index.html', 'cards/index.html',
+    ...scenarios.map((s) => `scenarios/${s.id}/index.html`)];
+  it('every page carries the CSP, and scripts may only come from this site and Plausible', () => {
+    for (const p of allPages()) {
+      const html = read(p);
+      const csp = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];
+      expect(csp, p).toBeTruthy();
+      const scriptSrc = csp.split(';').map((d) => d.trim()).find((d) => d.startsWith('script-src'));
+      expect(scriptSrc, p).toBe("script-src 'self' https://plausible.io");
+      expect(csp, p).toContain("object-src 'none'");
+      expect(csp, p).toContain("connect-src 'self' https://plausible.io");
+      // The policy must come before anything it governs.
+      expect(html.indexOf('Content-Security-Policy'), p).toBeLessThan(html.search(/<script\b/i));
+    }
+  });
+
+  it('no page has an inline script for the CSP to block', () => {
+    for (const p of allPages()) {
+      // Case-insensitive: <SCRIPT> runs just the same.
+      const tags = read(p).match(/<script\b[^>]*>/gi) || [];
+      const inline = tags.filter((t) => !/\ssrc=/i.test(t) && !/type=["']?application\/ld\+json/i.test(t));
+      expect(inline, p).toEqual([]);
+    }
+  });
+
+  it('share previews declare image size and alt text', () => {
+    for (const p of allPages()) {
+      const html = read(p);
+      expect(html, p).toContain('<meta property="og:image:width" content="1200" />');
+      expect(html, p).toContain('<meta property="og:image:height" content="630" />');
+      expect(html, p).toMatch(/<meta property="og:image:alt" content="[^"]{10,}" \/>/);
+    }
+  });
+
+  it('each scenario page states a time and a LearningResource built from the content', () => {
+    for (const s of scenarios) {
+      const html = read(`scenarios/${s.id}/index.html`);
+      const ld = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+      expect(ld['@type']).toBe('LearningResource');
+      expect(ld.name).toBe(s.title);
+      expect(ld.timeRequired).toBe(isoDuration(s));
+      expect(ld.isAccessibleForFree).toBe(true);
+      expect(textOf(html)).toContain(minutesWords(s).replace(/^a/, 'A'));
     }
   });
 

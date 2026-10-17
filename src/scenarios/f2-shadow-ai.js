@@ -42,9 +42,9 @@ export const scenario = {
         filename: `Q3_product_notes_INTERNAL.docx`,
         meta: `Last edited by R. Okonkwo · 11 days ago`,
         lines: [
-          { text: `Northwind Group — renewal positioning`, heading: true },
+          { text: `Marrowfield Group — renewal positioning`, heading: true },
           `Account owner: R. Okonkwo. Renewal date 14 Oct.`,
-          `Current contract: $412,000 annual. Northwind have flagged budget pressure twice this quarter.`,
+          `Current contract: $412,000 annual. Marrowfield have flagged budget pressure twice this quarter.`,
           `Proposed Q4 pricing (NOT ANNOUNCED — do not circulate): tier 2 moves to $38/seat, tier 3 to $61/seat.`,
           `Three competitors are believed to be in conversation with them. Positioning should avoid naming any of them.`,
         ],
@@ -54,10 +54,10 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Paste the lot in and see what comes back`, quality: `poor`,
             consequence: `It takes about ninety seconds. What comes back is better than what you would have written at four o'clock on a Wednesday.` },
-          { id: `b`, label: `Ask your colleague whether this is allowed`, quality: `partial`,
-            consequence: `She shrugs. "Everyone does it." She has been here four years, so you take that as a yes.` },
           { id: `c`, label: `Look for a policy before you do anything`, quality: `good`,
             consequence: `You search the intranet for "AI". Eleven results. Nine are about a webinar.` },
+          { id: `b`, label: `Ask your colleague whether this is allowed`, quality: `partial`,
+            consequence: `She shrugs. "Everyone does it." She has been here four years, so you take that as a yes.` },
           { id: `d`, label: `Write it yourself and lose the evening`, quality: `good`,
             consequence: `It takes forty-five minutes. The one-pager is fine, and nobody will ever know there was a choice to make.` },
         ],
@@ -129,7 +129,7 @@ export const scenario = {
             consequence: `Nobody knows. That turns out to be the useful answer, because it shows the gap.` },
         ],
       },
-      branches: { a: `n2_slow_b`, b: `n3_lead`, c: `n3_lead` },
+      branches: { a: `n2_slow_b`, b: `n2_slow_b`, c: `n2_slow_b` },
     },
 
     n2_output: {
@@ -138,11 +138,11 @@ export const scenario = {
       ],
       artefact: {
         type: `assistant_output`,
-        tool: `Brightline AI — Free plan`,
+        tool: `Wrenfold — Free plan`,
         prompt: `Turn these product notes into a punchy one-page client summary for a meeting tomorrow. [3 pages pasted]`,
         response: [
           `Here is a one-page summary positioned for a renewal conversation:`,
-          `NORTHWIND GROUP — PARTNERSHIP REVIEW. Three years in, Northwind's usage has grown across every tier. As we move into Q4, our pricing has been structured to reward exactly that pattern of growth.`,
+          `MARROWFIELD GROUP — PARTNERSHIP REVIEW. Three years in, Marrowfield's usage has grown across every tier. As we move into Q4, our pricing has been structured to reward exactly that pattern of growth.`,
           `I have kept the competitive landscape implicit rather than explicit, and framed the Q4 tier changes as value alignment rather than an increase. Want me to draft a version that opens on the budget question instead?`,
         ],
         citations: [
@@ -153,11 +153,11 @@ export const scenario = {
         prompt: `What do you do with the output?`,
         choices: [
           { id: `a`, label: `Send it. It's better than yours.`, quality: `poor`,
-            consequence: `You attach it and go home. The meeting goes well. For three weeks, nothing at all happens.` },
-          { id: `b`, label: `Read the line about data first`, quality: `good`,
-            consequence: `Settings › Data. There is a switch to stop this, but on the free plan you can't turn it off. There is an upgrade link underneath.` },
+            consequence: `You attach it and go home.` },
           { id: `c`, label: `Delete the conversation, then send it`, quality: `poor`,
             consequence: `The chat disappears from your history. The company that runs the tool still has it.` },
+          { id: `b`, label: `Read the line about data first`, quality: `good`,
+            consequence: `Settings › Data. There is a switch to stop this, but on the free plan you can't turn it off. There is an upgrade link underneath.` },
         ],
       },
       branches: { a: `n3_after_send`, b: `n3_terms`, c: `n3_after_send` },
@@ -169,7 +169,7 @@ export const scenario = {
       ],
       artefact: {
         type: `document`,
-        caption: `Brightline AI › Plans`,
+        caption: `Wrenfold › Plans`,
         filename: `Data handling by plan`,
         lines: [
           { text: `Free`, heading: true },
@@ -187,20 +187,22 @@ export const scenario = {
             consequence: `You close the tab. It's one document, until someone has to count them all.` },
         ],
       },
-      branches: { a: `n4_notice_clean`, b: `n3_hold` },
+      branches: { a: `n3_hold`, b: `n3_hold` },
     },
 
     n3_lead: {
       prose: [
-        `There is an approved tool. It has been available since March, under a company agreement, but the email about it went to a mailing list you're not on.`,
+        { when: [`n2_asked.c`, `n2_policy.a`], text: `You mention the policy to your team lead on your way past.` },
+        { when: `n2_policy.b`, text: `Information Security replies at half past five.` },
+        `It turns out there is an approved tool. It has been available since March, under a company agreement, but the email about it went to a mailing list you're not on.`,
       ],
       decision: {
-        prompt: `He offers to get you access. It takes a day to set up.`,
+        prompt: `Your team lead can get you access. It takes a day to set up.`,
         choices: [
+          { id: `b`, label: `A day is a day too long. Use the free one tonight.`, quality: `poor`,
+            consequence: `The free plan keeps what you give it. That will matter later.` },
           { id: `a`, label: `Take it, and do tomorrow's one-pager by hand`, quality: `good`,
             consequence: `You lose one evening. From Friday you have the tool everyone assumed you already had.` },
-          { id: `b`, label: `A day is a day too long. Use the free one tonight.`, quality: `poor`,
-            consequence: `You already know the free plan keeps what you give it. That will matter later.` },
         ],
       },
       branches: { a: `n4_notice_clean`, b: `n2_output` },
@@ -220,7 +222,7 @@ export const scenario = {
         to: `Marketing (all)`,
         date: `Mon 8:52`,
         body: [
-          `A preservation notice is now in effect covering all records relating to the use of external AI tools in connection with Northwind Group account activity during Q3.`,
+          `A preservation notice is now in effect covering all records relating to the use of external AI tools in connection with Marrowfield Group account activity during Q3.`,
           `Do not delete any material that may fall within scope. This includes browser history, conversation logs in third-party tools, drafts, and attachments.`,
           `If you believe you hold material within scope, contact Legal Operations directly. You do not need to determine scope yourself.`,
         ],
@@ -229,10 +231,10 @@ export const scenario = {
       decision: {
         prompt: `You know exactly what this is about.`,
         choices: [
-          { id: `a`, label: `Say nothing. Nobody knows it was you.`, quality: `poor`,
-            consequence: `You reread the email twice and then archive it. The rest of Monday is hard, and you can't tell anyone why.` },
           { id: `b`, label: `Tell your manager before lunch`, quality: `good`,
             consequence: `It takes four minutes, and it's harder than you expected. He asks what date and what tool, and writes both down.` },
+          { id: `a`, label: `Say nothing, and wait to see what happens`, quality: `poor`,
+            consequence: `You reread the email twice and then archive it. The rest of Monday is hard, and you can't tell anyone why.` },
           { id: `c`, label: `Contact Legal Operations directly, as the email says`, quality: `good`,
             consequence: `The reply comes within the hour, calm and matter-of-fact. They ask for the date, the tool, and the plan you were on.` },
         ],
@@ -253,7 +255,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Tell her you wrote it by hand, and why`, quality: `good`,
             consequence: `"You did the whole thing manually?" She is not persuaded, but she stops assuming, and she asks who would know.` },
-          { id: `b`, label: `Just say you're busy`, quality: `partial`,
+          { id: `b`, label: `Just say you're too busy with your own deadline`, quality: `partial`,
             consequence: `That's true. She finds someone else to ask by eleven.` },
         ],
       },
@@ -274,7 +276,7 @@ export const scenario = {
         to: `Marketing (all)`,
         date: `Mon 8:52`,
         body: [
-          `Please keep anything relating to the use of outside AI tools for Northwind Group work during Q3. That covers chat histories, drafts, attachments and browser history.`,
+          `Please keep anything relating to the use of outside AI tools for Marrowfield Group work during Q3. That covers chat histories, drafts, attachments and browser history.`,
           `Do not delete anything, even if you think it is irrelevant. If you think you might have something, contact us and we will work out whether it counts. You do not need to decide that yourself.`,
         ],
         signature: `Legal Operations`,
@@ -284,10 +286,10 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Say nothing. It isn't yours to report.`, quality: `partial`,
             consequence: `Fair enough. But it leaves your colleague deciding alone whether to own up.` },
-          { id: `b`, label: `Tell your colleague the notice covers what she did`, quality: `good`,
-            consequence: `She goes very quiet. Then: "I didn't know it was a thing. Everyone does it." You already know that is true.` },
           { id: `c`, label: `Tell your team lead what you saw`, quality: `partial`,
             consequence: `He thanks you and asks whether you have spoken to her. You have not.` },
+          { id: `b`, label: `Tell your colleague the notice covers what she did`, quality: `good`,
+            consequence: `She goes very quiet. Then: "I didn't know it was a thing. Everyone does it." You already know that is true.` },
         ],
       },
       branches: { a: `n5_speak`, b: `n5_speak`, c: `n5_speak` },
@@ -301,10 +303,10 @@ export const scenario = {
       decision: {
         prompt: `Your team lead asks what would help.`,
         choices: [
-          { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
-            consequence: `There is one, and has been since March. The email about it went to a mailing list none of you are on.` },
           { id: `b`, label: `Say people just need to be more careful`, quality: `poor`,
             consequence: `Everyone agrees, as they always have. On Friday someone pastes a pricing sheet into a free tool because the deadline moved.` },
+          { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
+            consequence: `There is one, and has been since March. The email about it went to a mailing list none of you are on.` },
           { id: `c`, label: `Ask what people are supposed to do when a deadline won't move`, quality: `good`,
             consequence: `Nobody has an answer, and it's the problem the team keeps running into. He writes it down.` },
         ],
@@ -328,13 +330,30 @@ export const scenario = {
             consequence: `You will be. But two other people have been doing the same thing since March.` },
         ],
       },
-      branches: { a: `outcome_disclosed`, b: `outcome_found` },
+      branches: { a: `outcome_disclosed`, b: `outcome_disclosed` },
+    },
+
+    n5_after_late: {
+      prose: [
+        `It's handled now, nine days late: the people who needed to know now know.`,
+        `Nothing has changed for next month.`,
+      ],
+      decision: {
+        prompt: `Your team lead asks what would stop this happening again.`,
+        choices: [
+          { id: `b`, label: `Say you'll be more careful`, quality: `poor`,
+            consequence: `You will be. But two other people have been doing the same thing since March.` },
+          { id: `a`, label: `Ask for a list of tools people are allowed to use`, quality: `good`,
+            consequence: `There is one, and has been since March. The email about it went to a mailing list you're not on.` },
+        ],
+      },
+      branches: { a: `outcome_found`, b: `outcome_found` },
     },
 
 
     n3_after_send: {
       prose: [
-        `The meeting is on Thursday and it goes well. Northwind's account manager says the one-pager was the clearest thing they have had from you all year.`,
+        `The meeting is on Thursday and it goes well. Marrowfield's account manager says the one-pager was the clearest thing they have had from you all year.`,
         `Nobody asks how it was written. There is no reason anyone would.`,
       ],
       decision: {
@@ -357,10 +376,10 @@ export const scenario = {
       decision: {
         prompt: `The link goes to the approved-tools list. What do you do with it?`,
         choices: [
-          { id: `a`, label: `Send it to the two people you know are using something else`, quality: `good`,
-            consequence: `One of them replies within the hour asking whether it does summarising. It does.` },
           { id: `b`, label: `Bookmark it and get on with your day`, quality: `partial`,
             consequence: `You're covered. Your colleague still has a deadline every Wednesday.` },
+          { id: `a`, label: `Send it to the two people you know are using something else`, quality: `good`,
+            consequence: `One of them replies within the hour asking whether it does summarising. It does.` },
         ],
       },
       branches: { a: `outcome_route`, b: `outcome_quiet` },
@@ -373,13 +392,13 @@ export const scenario = {
       artefact: {
         type: `system_output`,
         caption: `What the security analyst is looking at`,
-        system: `NetGuard DLP · Retrospective review`,
+        system: `Tarnwick DLP · Retrospective review`,
         status: `Match`,
         headline: `Outbound text volume to unapproved domain — 1 device, 1 session`,
         fields: [
           { label: `Device`, value: `CORP-LAP-0482` },
           { label: `Assigned`, value: `J. Mirza, Marketing` },
-          { label: `Destination`, value: `brightline.ai` },
+          { label: `Destination`, value: `wrenfold.example` },
           { label: `Volume`, value: `847 KB` },
           { label: `Session`, value: `Wed 16:04 AEST` },
         ],
@@ -399,7 +418,7 @@ export const scenario = {
             consequence: `The session timestamp is on the screen behind him. So is the volume.` },
         ],
       },
-      branches: { a: `n5_after`, b: `n5_after` },
+      branches: { a: `n5_after_late`, b: `n5_after_late` },
     },
 
     n4_disclose: {
@@ -411,7 +430,7 @@ export const scenario = {
         choices: [
           { id: `a`, label: `Check properly before you answer`, quality: `good`,
             consequence: `You find two more, both small, both yours. Adding them feels bad for ten minutes and helps from then on.` },
-          { id: `b`, label: `Say it was only the one`, quality: `poor`,
+          { id: `b`, label: `Say it was only the one. You're fairly sure that's right.`, quality: `poor`,
             consequence: `You're fairly sure. But fairly sure isn't checked, and Legal will ask again.` },
         ],
       },
@@ -421,22 +440,23 @@ export const scenario = {
 
   outcomes: {
     outcome_route: {
-      heading: `You ended up on the tool that was already paid for`,
+      heading: `You passed on the tool that was already paid for`,
       tone: `good`,
       score: 100,
       reaction: `The pull here was a nine o'clock meeting and a colleague who sounded like she knew.`,
       description: [
-        `You asked before you pasted. The company had bought an approved tool in March and emailed a mailing list you weren't on.`,
-        `You lost one evening writing the one-pager by hand. Nothing about Northwind left the building.`,
+        { when: `n3_lead.a`, text: `You asked before you pasted. The company had bought an approved tool in March and told a mailing list you weren't on. You wrote the one-pager by hand.` },
+        { unless: `n3_lead.a`, text: `You wrote the one-pager by hand and never pasted anything.` },
+        `Nothing about Marrowfield left the building, and the two people still pasting got the approved list.`,
       ],
-      judgement: `What worked was asking a question that felt slightly stupid, in an organisation where the answer had sat unread since March.`,
+      judgement: `What worked was asking questions that felt slightly stupid, in an organisation where the answer had sat unread since March.`,
     },
 
     outcome_quiet: {
       heading: `You were careful. The team wasn't.`,
       tone: `warn`,
       score: 55,
-      reaction: `"Not my call" is fair. You've been there eighteen months and you can't approve a tool.`,
+      reaction: `Keeping your own work clean is fair. You've been there eighteen months and you can't approve a tool.`,
       description: [
         `You wrote the one-pager by hand and nothing of yours left the building.`,
         `Across the desk, your colleague kept pasting. The preservation notice three weeks later didn't name you. It didn't need to.`,
@@ -445,13 +465,16 @@ export const scenario = {
     },
 
     outcome_disclosed: {
-      heading: `Contained, because you counted properly`,
+      heading: `Contained, because you said so early`,
       tone: `good`,
       score: 85,
-      reaction: `Telling your manager was a hard four minutes. It was still the easiest it was ever going to be.`,
+      reaction: `Speaking up on the Monday was hard. It was still the easiest it was ever going to be.`,
       description: [
-        `You said so on the Monday the notice landed. When Legal asked whether anything else had gone the same way, you checked instead of answering from memory.`,
-        `Two more turned up. Both small. Both on the list.`,
+        { when: `n3_hold.b`, text: `You told your manager on the Monday the notice landed.` },
+        { when: `n3_hold.c`, text: `You went to Legal Operations on the Monday the notice landed.` },
+        { when: `n4_disclose.a`, text: `When Legal asked about anything else, you checked instead of answering from memory. Two more turned up, both small, both on the list.` },
+        { when: `n4_disclose.b`, text: `When Legal asked about anything else, you said it was only the one. The logs showed two more, and Legal asked why you hadn't checked.` },
+        { when: `n5_after.a`, text: `The approved-tools list now goes to the whole team.` },
       ],
       judgement: `Owning up is easiest early, and the full count mattered more than the first admission. A problem that grows after you've described it costs far more, and the person who under-reported gets asked why.`,
     },
@@ -460,7 +483,7 @@ export const scenario = {
       heading: `The logs got there before you did`,
       tone: `bad`,
       score: 20,
-      reaction: `"Nobody knows it was me" was true for nine days, and nine days is long enough to feel like an answer.`,
+      reaction: `Saying nothing felt safe for nine days, and nine days is long enough to feel like an answer.`,
       description: [
         `A review prompted by the preservation notice traced the upload to your laptop, and your laptop to you. Nobody suspected you. Somebody just looked at everything.`,
         `By the time you were in the room, the timestamp and the volume were already on the screen.`,
@@ -482,10 +505,10 @@ export const scenario = {
     options: [
       { id: `a`, quality: `partial`, label: `Whether the spreadsheet is confidential`,
         note: `A habit more than a rule. Plenty of what leaks isn't marked confidential, and these contact details are still someone else's personal information.` },
-      { id: `b`, quality: `good`, label: `Whether that tool has been assessed and approved for this kind of information`,
-        note: `Yes. Same question as the one-pager, and you don't have to classify anything yourself. Someone else can answer it, which makes it usable at four in the afternoon.` },
-      { id: `c`, quality: `poor`, label: `Whether you can delete the conversation afterwards`,
+      { id: `c`, quality: `poor`, label: `Whether you can delete the conversation afterwards, to be safe`,
         note: `Deleting removes it from your history and nowhere else. That was the free-plan trap in the scenario, and it works the same way here.` },
+      { id: `b`, quality: `good`, label: `Whether that tool is approved for this kind of information`,
+        note: `Yes. Same question as the one-pager, and you don't have to classify anything yourself. Someone else can answer it, which makes it usable at four in the afternoon.` },
     ],
   },
 

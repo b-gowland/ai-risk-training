@@ -60,7 +60,7 @@ describe('Setup', () => {
     // promise the tree cannot keep.
     expect(screen.getByText(/six to eight decisions/)).toBeTruthy();
     render(<Setup scenario={home} onBegin={() => {}} />);
-    expect(screen.getByText(/four decisions/)).toBeTruthy();
+    expect(screen.getByText(/four to five decisions/)).toBeTruthy();
   });
 
   // Tested against fixtures, not the live corpus. Every registered scenario is
@@ -218,11 +218,12 @@ describe('Close', () => {
   });
 
   it('reveals the recall note only after answering', () => {
+    const note = f2.recall.options.find((o) => o.id === 'b').note;
     const { unmount } = render(<Close {...props} />);
-    expect(screen.queryByText(f2.recall.options[1].note)).toBeNull();
+    expect(screen.queryByText(note)).toBeNull();
     unmount();
     render(<Close {...props} recallAnswer="b" />);
-    expect(screen.getByText(f2.recall.options[1].note)).toBeTruthy();
+    expect(screen.getByText(note)).toBeTruthy();
   });
 });
 
