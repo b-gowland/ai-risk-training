@@ -183,14 +183,15 @@ describe('static pages (dist/, post-build)', () => {
       expect(csp, p).toContain("object-src 'none'");
       expect(csp, p).toContain("connect-src 'self' https://plausible.io");
       // The policy must come before anything it governs.
-      expect(html.indexOf('Content-Security-Policy'), p).toBeLessThan(html.indexOf('<script'));
+      expect(html.indexOf('Content-Security-Policy'), p).toBeLessThan(html.search(/<script\b/i));
     }
   });
 
   it('no page has an inline script for the CSP to block', () => {
     for (const p of allPages()) {
-      const tags = read(p).match(/<script\b[^>]*>/g) || [];
-      const inline = tags.filter((t) => !/\ssrc=/.test(t) && !/type="application\/ld\+json"/.test(t));
+      // Case-insensitive: <SCRIPT> runs just the same.
+      const tags = read(p).match(/<script\b[^>]*>/gi) || [];
+      const inline = tags.filter((t) => !/\ssrc=/i.test(t) && !/type=["']?application\/ld\+json/i.test(t));
       expect(inline, p).toEqual([]);
     }
   });
