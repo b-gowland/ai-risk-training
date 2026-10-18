@@ -220,6 +220,23 @@ describe('static pages (dist/, post-build)', () => {
     for (const s of scenarios) expect(llms).toContain(`- ${s.question} ${s.tell}`);
   });
 
+  it('scenario pages look like the app: same web fonts, and the scenario scene', () => {
+    // They fell back to system fonts and had no image, so a shared link
+    // looked like a different site from the app (18 Oct).
+    const fonts = read('index.html').match(/https:\/\/fonts\.googleapis\.com\/css2\?[^"]+/)[0];
+    const families = (u) => [...u.matchAll(/family=([^:&]+)/g)].map((m) => m[1]);
+    for (const s of scenarios) {
+      const html = read(`scenarios/${s.id}/index.html`);
+      const own = html.match(/https:\/\/fonts\.googleapis\.com\/css2\?[^"]+/)?.[0];
+      expect(own, s.id).toBeTruthy();
+      for (const f of ['Newsreader', 'Archivo', 'Archivo+Black']) {
+        expect(families(own), s.id).toContain(f);
+        expect(families(fonts)).toContain(f);
+      }
+      if (s.scene) expect(html, s.id).toContain(`src="/scenes/${s.scene}.webp"`);
+    }
+  });
+
   it('serves the IndexNow key file, containing its own key', () => {
     const files = readdirSync(DIST).filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
     expect(files).toHaveLength(1);
