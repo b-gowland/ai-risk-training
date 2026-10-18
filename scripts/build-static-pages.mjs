@@ -106,7 +106,8 @@ margin:2rem 0 1rem}
 p{font-family:var(--serif);font-size:1.0625rem;line-height:1.55;margin:0 0 1rem;max-width:38rem}
 .tell{font-family:var(--serif);font-size:1.2rem;line-height:1.4;font-weight:500;
 padding-left:.9rem;border-left:4px solid var(--amber);margin:1.5rem 0}
-h2.q{font-size:1rem;margin:2rem 0 .5rem}
+h2.q{font-family:var(--display);font-weight:800;text-transform:none;font-size:1.25rem;
+letter-spacing:-.025em;line-height:1.15;border-bottom:none;padding:0;margin:2rem 0 .5rem}
 h2.q+.tell{margin-top:.5rem}
 .meta{font-size:.8rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.08em;
 margin:0 0 .5rem}
@@ -125,6 +126,15 @@ text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:500
 text-transform:uppercase;padding:.2rem .6rem;margin-bottom:.75rem;color:#fff}
 .doorlabel.home{background:var(--door-home)}
 .doorlabel.work{background:var(--door-work)}
+/* Scenario pages: the app's Setup screen (Player.module.css), so a shared
+   link and the app read as the same site. */
+p.door{font-family:var(--display);font-size:.6875rem;font-weight:800;letter-spacing:.14em;
+text-transform:uppercase;color:var(--amber);margin:0 0 .75rem}
+h1.title{font-family:var(--display);font-weight:800;text-transform:none;
+font-size:clamp(2.125rem,5vw,3rem);line-height:1.02;letter-spacing:-.035em;margin:0 0 1rem}
+img.scene{display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover;
+border-top:5px solid var(--ink);margin:0 0 1.5rem;filter:saturate(.92)}
+.coldOpen p{font-size:1.25rem;line-height:1.42;margin:0 0 .75rem}
 footer{margin-top:3rem;padding:1.5rem 1rem;background:var(--ink);color:#fff;font-size:.8rem}
 footer a{color:#fff}
 `.trim();
@@ -161,6 +171,12 @@ function checkLd(where, ld) {
   return JSON.stringify(ld);
 }
 
+// The same web fonts as the app (index.html). Without them the static pages
+// fell back to system fonts and looked like a different site (18 Oct).
+const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Archivo:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">`;
+
 const OG_ALT = 'AI Risk Practice: What would you do? Short situations where AI goes wrong.';
 const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png`, imageAlt = OG_ALT }) => `<meta charset="UTF-8" />
 ${CSP_META}
@@ -184,6 +200,7 @@ ${CSP_META}
 <meta name="twitter:image:alt" content="${esc(imageAlt)}" />
 <script type="application/ld+json">${checkLd(canonical, jsonLd)}</script>
 ${PLAUSIBLE}
+${FONTS}
 <style>${STYLE}</style>`;
 
 const CHROME_HEAD = `<header class="bar"><a href="/">AI Risk Practice</a><span>Free · No login</span></header>`;
@@ -278,9 +295,10 @@ for (const s of scenarios) {
   const standing = s.standing ? `<p><span class="meta">You are</span><br>${esc(s.standing)}</p>` : '';
 
   const body = `<main>
-<span class="doorlabel ${s.door}">${DOOR[s.door]}</span>
-<h1>${esc(s.title)}</h1>
-${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}
+<p class="door">${DOOR[s.door]}</p>
+<h1 class="title">${esc(s.title)}</h1>
+${s.scene ? `<img class="scene" src="/scenes/${s.scene}.webp" alt="" width="1600" height="700">` : ''}
+<div class="coldOpen">${s.coldOpen.map((t) => `<p>${esc(t)}</p>`).join('\n')}</div>
 <div class="actions">
 <a class="btn primary" href="/#/scenario/${s.id}">${esc(s.begin || 'Start')}</a>
 </div>
