@@ -95,7 +95,10 @@ header.bar{display:flex;justify-content:space-between;align-items:center;gap:1re
 padding:.9rem 1rem;background:var(--ink);color:#fff}
 header.bar a{color:#fff;text-decoration:none;font-family:var(--heavy);font-size:.875rem;
 letter-spacing:.01em;text-transform:uppercase}
+header.bar nav{display:flex;align-items:center;gap:1rem}
+header.bar nav a{font-family:inherit;font-size:.6875rem;font-weight:600;letter-spacing:.12em;opacity:.85}
 header.bar span{font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+@media (max-width:40rem){header.bar span{display:none}}
 main{max-width:44rem;margin:0 auto;padding:2rem 1rem 3rem}
 main.wide{max-width:60rem}
 h1{font-family:var(--heavy);font-weight:400;font-size:clamp(2rem,7vw,3rem);line-height:.95;
@@ -203,7 +206,7 @@ ${PLAUSIBLE}
 ${FONTS}
 <style>${STYLE}</style>`;
 
-const CHROME_HEAD = `<header class="bar"><a href="/">AI Risk Practice</a><span>Free · No login</span></header>`;
+const CHROME_HEAD = `<header class="bar"><a href="/">AI Risk Practice</a><nav aria-label="Site"><a href="/cards/">Run a session</a><a href="/#/about">About</a><span>Free · No login</span></nav></header>`;
 const CHROME_FOOT = `<footer><p style="max-width:none;font-family:var(--display);margin:0">
 AI Risk Practice · Not legal or security advice ·
 <a href="https://github.com/b-gowland/ai-risk-training">Source</a></p></footer>`;

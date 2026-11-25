@@ -24,7 +24,9 @@ export default function Homepage() {
         </h1>
         <div className={s.heroRight}>
           <p className={s.explain}>
-            Choose your own adventure in AI risk. Start at home or at work below, or{' '}
+            Free practice for when AI goes wrong: a call that sounds like family, an AI answer
+            that&rsquo;s confidently wrong, a shortcut at work. You decide, then see what
+            follows. Start at home or at work below, or{' '}
             <button
               type="button"
               className={s.inlineLink}
