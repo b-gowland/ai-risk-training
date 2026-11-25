@@ -1,7 +1,8 @@
 # AI Risk Practice — notes for Claude
 
 Free, open-source practice scenarios on AI risk (app.airiskpractice.org).
-React 19 + Vite, HashRouter, deployed to GitHub Pages on push to `main`.
+React 19 + Vite, HashRouter, deployed to Cloudflare Pages on push to `main`
+(GitHub Actions runs `wrangler pages deploy`; see ARCHITECTURE.md).
 Companion repos: `b-gowland/ai-risk-kb` (the reference library,
 library.airiskpractice.org) and `b-gowland/ai-risk-baseline`.
 
@@ -35,5 +36,9 @@ scenario branches or endings, also read `npm run joins`.
 - **Privacy:** the site runs Plausible (anonymous events, listed on the Privacy
   page). Add no new tracking or data collection, and keep the Privacy page
   matching `src/utils/analytics.js` (a test checks this).
-- **Hosting:** don't change hosting, DNS or Cloudflare. List the change for the
-  owner to make.
+- **Hosting:** don't change hosting, DNS or Cloudflare settings. List the change
+  for the owner to make. The sites are on Cloudflare Pages; `public/_headers`
+  and `public/404.html` are part of that and must stay in the build.
+- **Keep work in the repo.** Cloud containers can be rebuilt and lose anything
+  not pushed (this happened in November 2026). Commit plans and reviews to
+  `docs/`, not to scratch files.

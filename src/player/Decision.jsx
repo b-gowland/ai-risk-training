@@ -14,7 +14,7 @@ import Artefact from '../components/Artefact/Artefact.jsx';
 import { resolveParas } from '../engine/narrativeEngine.js';
 import s from './Player.module.css';
 
-export default function Decision({ node, path, revealedChoice, onCommit, onAdvance, index, minDepth }) {
+export default function Decision({ node, path, revealedChoice, onCommit, onAdvance, index, minDepth, scenarioTitle }) {
   const consequenceRef = useRef(null);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function Decision({ node, path, revealedChoice, onCommit, onAdvan
   return (
     <article className={s.screen} tabIndex={-1} aria-labelledby="decision-step">
       <div className={s.margin}>
+        {scenarioTitle && <p className={s.caseTitle}>{scenarioTitle}</p>}
         {/* Visual only: "Decision {index}" below says the same thing to a
             screen reader, which otherwise hears "01decision". */}
         <span className={s.counter} aria-hidden="true">{String(index).padStart(2, '0')}</span>

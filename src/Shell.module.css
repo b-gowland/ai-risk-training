@@ -39,6 +39,24 @@
 }
 .brand:hover { color: var(--door-home); }
 
+.headNav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  font-family: var(--display);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.headNav a { color: #fff; text-decoration: none; opacity: 0.85; }
+.headNav a:hover, .headNav a:focus-visible { opacity: 1; color: var(--door-home); }
+
+/* On a phone the two links matter more than the tag. */
+@media (max-width: 40rem) {
+  .headNav .tag { display: none; }
+}
+
 .tag {
   font-family: var(--display);
   font-size: var(--t-2xs);
@@ -74,9 +92,24 @@
 }
 .footNav a { color: #fff; opacity: 0.7; text-decoration: underline; text-underline-offset: 3px; }
 .footNav a:hover { opacity: 1; }
-.footNote { opacity: 0.45; }
+.footNote { opacity: 0.6; }
+
+.footSlim {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--ink);
+  color: #fff;
+  font-size: var(--t-2xs);
+}
+.footSlim a { color: #fff; opacity: 0.85; text-underline-offset: 3px; }
+.footSlim a:hover { opacity: 1; }
 
 @media (min-width: 52rem) {
   .head { padding: 1rem var(--sp-6); }
   .foot { padding: var(--sp-6) var(--sp-6) var(--sp-7); }
+  .footSlim { padding: var(--sp-4) var(--sp-6); }
 }

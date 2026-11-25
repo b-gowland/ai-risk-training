@@ -1,4 +1,12 @@
-name: Deploy to GitHub Pages
+name: Check and deploy
+
+# Checks run on every pull request and push. A push to main also deploys to
+# Cloudflare Pages (project ai-risk-app), which serves app.airiskpractice.org
+# since the move off GitHub Pages on 17 Nov 2026.
+#
+# Deploying needs two repository secrets: CLOUDFLARE_API_TOKEN (a token with
+# the "Cloudflare Pages: Edit" permission) and CLOUDFLARE_ACCOUNT_ID. Until
+# they exist the deploy job says so and stops without failing the run.
 
 on:
   push:
@@ -9,15 +17,11 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  # Keyed per ref so a batch of PRs (e.g. a stacked contributor series) does
-  # not cancel its own siblings. Real deploys all run on refs/heads/main and
-  # still serialise — the property this block exists for. Mirrors the
-  # Jul 23 2026 ai-risk-kb fix (b45b9ae).
-  group: pages-${{ github.ref }}
+  # Keyed per ref so a batch of PRs does not cancel its own siblings. Real
+  # deploys all run on refs/heads/main and still serialise.
+  group: deploy-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -40,29 +44,55 @@ jobs:
       - name: SCORM adapter check
         run: npm run test:scorm
       - run: npm run build
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
 
-  # Deploys only on push to main (or manual dispatch) — never from a PR,
-  # so unreviewed branches cannot reach production.
+  # Deploys only on push to main (or manual dispatch), never from a PR, so
+  # unreviewed branches cannot reach production. It rebuilds rather than
+  # passing an artifact between jobs; the build takes seconds.
   deploy:
     if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: production
+      url: https://app.airiskpractice.org/
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    outputs:
+      deployed: ${{ steps.publish.outputs.deployed }}
     steps:
-      - uses: actions/deploy-pages@v5
-        id: deployment
+      - name: Check for Cloudflare credentials
+        id: creds
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID is not set, so nothing was deployed. Add both as repository secrets."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v7
+        if: steps.creds.outputs.ok == 'true'
+      - uses: actions/setup-node@v7
+        if: steps.creds.outputs.ok == 'true'
+        with:
+          node-version: 24
+          cache: npm
+      - if: steps.creds.outputs.ok == 'true'
+        run: npm ci
+      - if: steps.creds.outputs.ok == 'true'
+        run: npm run build
+      - name: Publish to Cloudflare Pages
+        id: publish
+        if: steps.creds.outputs.ok == 'true'
+        run: |
+          npx --yes wrangler@4 pages deploy dist --project-name=ai-risk-app --branch=main --commit-dirty=true
+          echo "deployed=true" >> "$GITHUB_OUTPUT"
 
   # After a deploy, announce the published URLs to IndexNow (Bing and
   # others) so changes reach search and AI answers without waiting for a
   # re-crawl. Never fails the workflow: a missed ping only means waiting.
   indexnow:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && needs.deploy.outputs.deployed == 'true'
     needs: deploy
     runs-on: ubuntu-latest
     continue-on-error: true

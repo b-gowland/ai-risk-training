@@ -18,7 +18,19 @@
   gap: var(--sp-3);
 }
 
-.margin { display: flex; align-items: baseline; gap: var(--sp-3); }
+.margin { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-3); }
+
+/* Past Setup nothing else names the scenario, so the margin carries it. */
+.caseTitle {
+  flex-basis: 100%;
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
 .body { min-width: 0; }
 
 /* ── Shared ──────────────────────────────────────────────────── */
@@ -186,6 +198,16 @@
   background: var(--ground);
   padding: var(--sp-3) 0 calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
 }
+.beginBar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--sp-5));
+  height: var(--sp-5);
+  background: linear-gradient(to bottom, transparent, var(--ground));
+  pointer-events: none;
+}
 .beginBar > button { margin: 0; }
 
 /* ── Decision ────────────────────────────────────────────────── */
@@ -248,7 +270,13 @@
   cursor: pointer;
   transition: color 120ms ease, padding-left 120ms ease;
 }
+/* A quiet arrow marks each row as something to tap, matching the index rows
+   on the homepage. Phones have no hover, so the mark has to be there from
+   the start. */
+.option { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); }
+.option::after { content: '\2192'; flex: none; color: var(--amber); opacity: 0.55; }
 .option:hover { color: var(--amber); padding-left: var(--sp-2); }
+.option:hover::after { opacity: 1; }
 .optionChosen { color: var(--amber); font-weight: 700; }
 
 .consequence { margin-top: var(--sp-4); }
@@ -379,6 +407,7 @@
     padding-top: 0.35rem;
   }
   .rail { justify-content: flex-end; margin-top: var(--sp-3); }
+  .caseTitle { margin-bottom: var(--sp-3); line-height: 1.5; }
   .title { font-size: var(--t-3xl); }
   .coldOpen { font-size: var(--t-xl); }
   .primary { width: auto; min-width: 13rem; }

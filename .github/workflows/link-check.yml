@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      # Excluded links, and why:
+      # - The OAIC media release cited in home-algorithm-said-no (30 Sep
+      #   2026) sits behind a bot challenge since November 2026, so every
+      #   automated request gets 403. It was confirmed live through search
+      #   on 25 Nov 2026. Check it by hand in a browser each quarter, with
+      #   the other "where to report" links.
       - uses: lycheeverse/lychee-action@v2
         with:
           fail: true
@@ -39,5 +45,6 @@ jobs:
             --exclude 'schema\.org'
             --exclude '(imsglobal|adlnet|w3|sitemaps)\.org'
             --exclude '^mailto:'
+            --exclude 'oaic\.gov\.au/news/media-centre/new-resources-on-transparency-for-use-of-ai-and-automated-decision-making'
             'src/**/*.js' 'src/**/*.jsx' 'src/**/*.md'
             README.md CONTRIBUTING.md ARCHITECTURE.md index.html

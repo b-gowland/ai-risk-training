@@ -159,6 +159,7 @@ function ScenarioMachine({ id }) {
           path={state.path}
           index={decisionIndex}
           minDepth={band.min}
+          scenarioTitle={scenario.title}
           revealedChoice={revealedChoice}
           onCommit={commit}
           onAdvance={advance}

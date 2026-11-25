@@ -1,8 +1,12 @@
-// App — the shell. Black bar, black footer, outlet. No hooks, no state.
+// App — the shell. Black bar, black footer, outlet. No state; one hook, to
+// know when a scenario is being played.
 // The two black bands are load-bearing in the poster register: they are what
 // make the colour panels read as deliberate rather than as a tinted section.
+//
+// During play the footer shrinks to one line. The full footer under every
+// decision was noise, and five ways out.
 
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import RouteFocus from './components/RouteFocus.jsx';
 import s from './Shell.module.css';
 
@@ -18,6 +22,8 @@ function skipToMain(e) {
 }
 
 export default function App() {
+  const playing = useLocation().pathname.startsWith('/scenario/');
+
   return (
     <div className={s.shell}>
       <a className={s.skipLink} href="#main-content" onClick={skipToMain}>Skip to main content</a>
@@ -25,25 +31,35 @@ export default function App() {
 
       <header className={s.head}>
         <Link className={s.brand} to="/">AI Risk Practice</Link>
-        <span className={s.tag}>Free · No login</span>
+        <nav className={s.headNav} aria-label="Site">
+          <Link to="/cards">Run a session</Link>
+          <Link to="/about">About</Link>
+          <span className={s.tag}>Free · No login</span>
+        </nav>
       </header>
 
       <Outlet />
 
-      <footer className={s.foot}>
-        <p className={s.footLine}>
-          Short situations where AI could go wrong. You make the calls and find out what
-          follows. Based on real incidents and known risks.
-        </p>
-        <nav className={s.footNav}>
-          <Link to="/about">About</Link>
-          <Link to="/privacy">What we don&rsquo;t collect</Link>
-          <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">Reference library</a>
-          <a href="https://baseline.airiskpractice.org" target="_blank" rel="noreferrer">Governance baseline</a>
-          <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">Source code</a>
+      {playing ? (
+        <footer className={s.footSlim}>
+          <Link to="/">All situations</Link>
           <span className={s.footNote}>Not legal or security advice</span>
-        </nav>
-      </footer>
+        </footer>
+      ) : (
+        <footer className={s.foot}>
+          <p className={s.footLine}>
+            Short situations where AI could go wrong. You make the calls and find out what
+            follows. Based on real incidents and known risks.
+          </p>
+          <nav className={s.footNav}>
+            <Link to="/privacy">What we don&rsquo;t collect</Link>
+            <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">Reference library</a>
+            <a href="https://baseline.airiskpractice.org" target="_blank" rel="noreferrer">Governance baseline</a>
+            <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">Source code</a>
+            <span className={s.footNote}>Not legal or security advice</span>
+          </nav>
+        </footer>
+      )}
     </div>
   );
 }

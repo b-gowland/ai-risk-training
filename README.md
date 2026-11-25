@@ -42,7 +42,7 @@ a printable version of each scenario for running a group session.
 
 ## Stack
 
-- React 19 + Vite, deployed to GitHub Pages with custom domain
+- React 19 + Vite, deployed to Cloudflare Pages from GitHub Actions
 - No backend: all scenario logic runs in the browser
 - Privacy-friendly analytics via Plausible (no cookies, no personal data)
 

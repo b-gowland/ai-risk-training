@@ -1,6 +1,6 @@
 # Status
 
-Last updated 18 October 2026. Update this file at the end of a working
+Last updated 25 November 2026. Update this file at the end of a working
 session.
 
 ## Where things stand
@@ -20,23 +20,47 @@ session.
 - **Checks:** 187 tests, the scenario audit, the route audit and the SCORM
   test. All run in CI.
 
+## Hosting and the GitHub suspension
+
+GitHub suspended the owner's account in early November 2026 without notice.
+Every GitHub Pages site went offline and the repos were hidden. On 17 Nov the
+owner moved the four sites to Cloudflare Pages as direct uploads:
+
+| Address | Pages project |
+|---|---|
+| app.airiskpractice.org | `ai-risk-app` |
+| baseline.airiskpractice.org | `ai-risk-baseline` |
+| library.airiskpractice.org | `ai-risk-library` |
+| narratedself.airiskpractice.org | `narratedself` |
+
+The GitHub CNAMEs were deleted (nothing on the domain points at GitHub now).
+GitHub restored the account on 25 Nov. The plan is to keep hosting on
+Cloudflare and deploy from GitHub Actions (`deploy.yml`), so a GitHub outage
+stops deploys, not the sites. The deploy job needs `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID` as repository secrets.
+
+Lesson: a cloud container was rebuilt during the outage and lost every
+unpushed commit. Plans and reviews now live in `docs/`.
+
 ## Outside the repo (set up, no action needed)
 
 | Service | State |
 |---|---|
 | Google Search Console | Domain property `airiskpractice.org` (DNS TXT), covering app, library and baseline. All three sitemaps submitted. Indexed pages: 7 of about 80 known on 12 Oct. Indexing requested for the unindexed key pages on 18 Oct. |
 | Bing Webmaster Tools | Site set up and all three sitemaps read. IndexNow key `public/b569d15f07f9b699dacfaf1d6f3a77ab.txt` validated (HTTP 200 on 18 Oct). |
-| Cloudflare | Proxies only `airiskpractice.org` and `www`, which 301 to `https://app.airiskpractice.org/${1}` with the path and query string kept. Always Use HTTPS is on. AI crawlers are allowed (AI Crawl Control: none blocked). The app, library and baseline are served by GitHub Pages directly. |
+| Cloudflare | Proxies only `airiskpractice.org` and `www`, which 301 to `https://app.airiskpractice.org/${1}` with the path and query string kept. Always Use HTTPS is on. AI crawlers are allowed (AI Crawl Control: none blocked). Since 17 Nov the app, library, baseline and The Narrated Self are Cloudflare Pages projects (above). |
 | Plausible | One property, `airiskpractice.org`, covering the app and library. 14 visitors in the 28 days to 18 Oct. |
 
 ## Follow-ups
 
+The working plan is `docs/PLAN.md` (what to do, in order) and
+`docs/STRATEGY.md` (why). Dated items from before the outage:
+
 | When | What |
 |---|---|
-| About 29 Oct | **Good Things Australia.** If there's no reply, follow up with Linda Wortel directly (not the no-reply address). They are reviewing the cards for Digital Mentors. Offer printed cards or a 15-minute walkthrough. |
-| About 1 Nov | **Search Console.** Export Page indexing and compare it with the 7 indexed pages on 12 Oct. |
-| Next fortnight | **Second LinkedIn post**, on a workplace scenario (for example "paste the client brief into a free AI tool"), on a Tuesday or Wednesday morning. The first, on voice-clone scams for Cyber Security Action Month, went out 18 Oct with `?ref=linkedin-cybermonth`. |
-| Ongoing | **Links from other sites:** AI literacy resource lists, library and community-education programs, targeted Reddit posts, a Show HN, GitHub lists. |
+| Overdue (was 29 Oct) | **Good Things Australia.** Follow up with Linda Wortel directly (not the no-reply address). They were reviewing the cards for Digital Mentors. Offer printed cards or a 15-minute walkthrough. |
+| Now | **Search Console and Bing.** The sites returned errors for about three weeks. Request indexing for the three home pages and resubmit the sitemaps; then compare indexed pages with the 7 on 12 Oct. |
+| Dropped | Organic LinkedIn posting: repeated posts drew little response. Paid seed traffic and published findings replace it (see `docs/STRATEGY.md`). |
 
 ## Open decisions (owner)
 
@@ -44,7 +68,8 @@ session.
   the phone-call scenario. The proposal is "You decide what to do and see what
   follows", and the "Your call" card heading becoming "Your decision". The
   tagline appears in 6 places in this repo and 2 in the KB (`about.md`,
-  `how-to-use.md`). Not started.
+  `how-to-use.md`). The homepage now uses "You decide, then see what follows";
+  the tagline itself is still undecided.
 - **KB timing text.** The KB's "Practise this" links still say At Home takes
   about five minutes and At Work about ten. They should say about seven and
   nine to ten.
