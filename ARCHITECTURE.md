@@ -9,8 +9,9 @@ outside this repository.
 
 ## Routes
 
-`src/main.jsx` mounts a `HashRouter`. GitHub Pages can't rewrite paths, so every
-app URL carries a `#` (`/#/scenario/f2-shadow-ai`).
+`src/main.jsx` mounts a `HashRouter`, so every app URL carries a `#`
+(`/#/scenario/f2-shadow-ai`). It dates from GitHub Pages, which can't rewrite
+paths; the static pages and existing links depend on it, so it stays.
 
 | Route | Renders |
 |---|---|
@@ -91,8 +92,21 @@ script writes plain HTML pages for crawlers (`/scenarios/`, one page per
 scenario, `/cards/`) and `sitemap.xml`, all generated from the registry.
 
 `.github/workflows/deploy.yml` runs on every push and pull request: lint,
-tests, route audit, scenario audit, build. Pushes to `main` deploy to GitHub
-Pages at <https://app.airiskpractice.org/>.
+tests, route audit, scenario audit, SCORM check, build. Pushes to `main`
+deploy to Cloudflare Pages (project `ai-risk-app`), which serves
+<https://app.airiskpractice.org/>. The deploy job needs the repository
+secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`; without them it
+warns and deploys nothing. By hand, from any machine:
+`npm run build && npx wrangler pages deploy dist --project-name=ai-risk-app --branch=main`.
+
+`public/_headers` sets response headers (security headers, and `noindex` on
+the `*.pages.dev` copies). `public/404.html` makes unknown paths return a real
+404.
+
+The sites moved from GitHub Pages to Cloudflare Pages on 17 November 2026,
+when a GitHub account suspension took every Pages site offline for three
+weeks. Hosting on Cloudflare means a GitHub outage stops deploys, not the
+site.
 
 ## Checks
 
@@ -141,12 +155,13 @@ checks.
 
 ## Content Security Policy
 
-`scripts/lib/csp.mjs` holds the policy. GitHub Pages cannot set response
-headers, so it ships as a `<meta>` tag, added by the Vite build and by
+`scripts/lib/csp.mjs` holds the policy. It ships as a `<meta>` tag (from the
+GitHub Pages days, which couldn't set response headers), added by the Vite build and by
 `build-static-pages.mjs`. Scripts and connections are limited to this site
 and Plausible; no page has an inline script (Plausible's queue stub is
 `public/plausible-init.js`). A meta policy cannot set `frame-ancestors`; that
-needs a response header, which means a proxy or host in front of Pages.
+would go in `public/_headers` now, and is left off so the scenarios can be
+embedded by others.
 
 ## Scene images
 
