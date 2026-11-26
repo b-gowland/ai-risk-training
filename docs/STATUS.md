@@ -34,10 +34,12 @@ owner moved the four sites to Cloudflare Pages as direct uploads:
 | narratedself.airiskpractice.org | `narratedself` |
 
 The GitHub CNAMEs were deleted (nothing on the domain points at GitHub now).
-GitHub restored the account on 25 Nov. The plan is to keep hosting on
-Cloudflare and deploy from GitHub Actions (`deploy.yml`), so a GitHub outage
-stops deploys, not the sites. The deploy job needs `CLOUDFLARE_API_TOKEN` and
-`CLOUDFLARE_ACCOUNT_ID` as repository secrets.
+GitHub restored the account on 25 Nov. Hosting stays on Cloudflare and,
+since 26 Nov, the app, Baseline and library deploy from GitHub Actions
+(`wrangler pages deploy`) on every merge to `main`; a GitHub outage stops
+deploys, not the sites. The Cloudflare token (Pages: Edit only, expires
+26 Nov 2027) is a secret of each repo's `production` environment, limited
+to `main`. GitHub Pages is switched off in those repos.
 
 Lesson: a cloud container was rebuilt during the outage and lost every
 unpushed commit. Plans and reviews now live in `docs/`.
