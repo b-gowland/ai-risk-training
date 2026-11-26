@@ -41,9 +41,9 @@ deploys, not the sites. The Cloudflare token (Pages: Edit only, expires
 26 Nov 2027) is a secret of each repo's `production` environment, limited
 to `main`. GitHub Pages is switched off in those repos.
 
-The Narrated Self is moving the same way: its PR (b-gowland/narrated-self#1)
-switches its workflow from GitHub Pages to `wrangler pages deploy` into the
-`narratedself` project. Until it merges, that site is still a direct upload.
+The Narrated Self deploys the same way since 26 Nov (b-gowland/narrated-self#1).
+The full record of the 25–26 Nov session, and the owner's open actions, is in
+[`HANDOVER-2026-11-26.md`](HANDOVER-2026-11-26.md).
 
 Also on 26 Nov, in this repo:
 - **Fonts are served from the site.** Archivo, Archivo Black, Newsreader and
@@ -53,8 +53,8 @@ Also on 26 Nov, in this repo:
   a visitor's browser contacts. The Privacy page says so.
 - **Tagline.** "Make the call(s)" became "You decide, then see what follows"
   (index.html, README, About, footer, static pages, `llms.txt`). The "Your
-  call" card heading is now "Your decision". Still to change: the KB's
-  `about.md` and `how-to-use.md`, and this repo's GitHub description (owner).
+  call" card heading is now "Your decision". The library followed in
+  b-gowland/ai-risk-kb#89; this repo's GitHub description is still the owner's.
 
 Lesson: a cloud container was rebuilt during the outage and lost every
 unpushed commit. Plans and reviews now live in `docs/`.
@@ -81,9 +81,6 @@ The working plan is `docs/PLAN.md` (what to do, in order) and
 
 ## Open decisions (owner)
 
-- **KB timing text.** The KB's "Practise this" links still say At Home takes
-  about five minutes and At Work about ten. They should say about seven and
-  nine to ten.
 - **Trade mark checks** for the invented names (Brieflark, Pellarin Read,
   Wrenfold, Marrowfield Group, Tarnwick DLP) on IP Australia, EUIPO and WIPO.
   ABN Lookup and web searches were clear.

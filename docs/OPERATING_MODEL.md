@@ -62,6 +62,9 @@ scheduled tasks that start a fresh session each time:
 | Weekly upkeep | Monday morning (Australian time) | In every repo: merge green Dependabot patch and minor updates; fix or report red CI on `main`; check the four sites load with their headers; triage new library source-monitoring issues into a PR; one-line update to each `STATUS.md` |
 | Monthly review | First Monday of the month | Library monthly-maintenance triage (verify, then apply, reject or defer); dependency audit; link check results; update `docs/PLAN.md` |
 
+The weekly routine's full instructions, ready to create, are in
+[`ROUTINES.md`](ROUTINES.md).
+
 Each routine reports in a short summary. It merges only what passes the
 repo's checks and its `CLAUDE.md` rules, and leaves anything that needs
 the owner as a clearly labelled PR or issue.
