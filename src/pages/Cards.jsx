@@ -173,7 +173,7 @@ export function Deck({ sc, printedOn }) {
       <CardArtefact artefact={start.artefact} />
     </Card>,
 
-    <Card key={3} sc={sc} n={3} role="Your call"
+    <Card key={3} sc={sc} n={3} role="Your decision"
       prompt="Everyone picks privately. Show fingers on three, then argue it out.">
       <h4 className={s.q}>{decision.prompt}</h4>
       <ol className={s.opts}>

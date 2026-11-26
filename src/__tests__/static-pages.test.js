@@ -223,17 +223,28 @@ describe('static pages (dist/, post-build)', () => {
   it('scenario pages look like the app: same web fonts, and the scenario scene', () => {
     // They fell back to system fonts and had no image, so a shared link
     // looked like a different site from the app (18 Oct).
-    const fonts = read('index.html').match(/https:\/\/fonts\.googleapis\.com\/css2\?[^"]+/)[0];
-    const families = (u) => [...u.matchAll(/family=([^:&]+)/g)].map((m) => m[1]);
+    const link = /<link href="\/fonts\/fonts\.css" rel="stylesheet">/;
+    expect(read('index.html')).toMatch(link);
     for (const s of scenarios) {
       const html = read(`scenarios/${s.id}/index.html`);
-      const own = html.match(/https:\/\/fonts\.googleapis\.com\/css2\?[^"]+/)?.[0];
-      expect(own, s.id).toBeTruthy();
-      for (const f of ['Newsreader', 'Archivo', 'Archivo+Black']) {
-        expect(families(own), s.id).toContain(f);
-        expect(families(fonts)).toContain(f);
-      }
+      expect(html, s.id).toMatch(link);
       if (s.scene) expect(html, s.id).toContain(`src="/scenes/${s.scene}.webp"`);
+    }
+  });
+
+  it('serves its own fonts, and no page asks Google for them', () => {
+    // Google Fonts sent each visitor's IP address to Google (audit, 26 Nov).
+    const css = read('fonts/fonts.css');
+    for (const f of ['Newsreader', 'Archivo', 'Archivo Black', 'IBM Plex Mono']) {
+      expect(css).toContain(`font-family: '${f}'`);
+    }
+    for (const [, file] of css.matchAll(/url\(([^)]+)\)/g)) {
+      expect(file).not.toMatch(/^(https?:)?\/\//);
+      expect(existsSync(join(DIST, 'fonts', file)), file).toBe(true);
+    }
+    const pages = ['index.html', ...scenarios.map((s) => `scenarios/${s.id}/index.html`)];
+    for (const p of pages) {
+      expect(read(p), p).not.toMatch(/fonts\.(googleapis|gstatic)\.com/);
     }
   });
 

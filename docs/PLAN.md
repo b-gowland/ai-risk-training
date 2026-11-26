@@ -32,7 +32,12 @@ GitHub; the sites stay on Cloudflare Pages, deployed by GitHub Actions.
 - [x] Front-door fixes 1 to 8 from `PRODUCT_REVIEW.md` §1.
 - [x] Dependency updates and audit fixes.
 - [x] The same hosting changes in the Baseline and library repos (and narrated-self).
-- [ ] Library PR #77 (four new incident entries): owner reads, then merge.
+- [x] Library PR #77 (corrections to the #75 incident write-ups in c5, d2
+      and f1, plus the changelog): merged 26 Nov; issue #75 closed.
+- [ ] narrated-self PR #1 (deploy to Cloudflare Pages from Actions): owner
+      adds the `production` environment secrets, then merge.
+- [x] Fonts served from the app itself, not Google Fonts; Privacy page
+      updated; "You decide, then see what follows" replaces "Make the call".
 
 ## Next: the engine (December)
 

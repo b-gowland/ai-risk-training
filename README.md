@@ -12,7 +12,7 @@ One training app with two doors. **At home** covers personal AI risk: scams,
 chatbot harm, deepfakes, data exposure. **At work** covers AI risk in a job.
 The same person can use both.
 
-You're dropped into a situation, you make the calls, and you see what follows.
+You're dropped into a situation. You decide, then see what follows.
 Nothing is scored and there's no login. Anonymous, aggregate usage is recorded
 so the project can see what gets played. Nothing personal is stored.
 

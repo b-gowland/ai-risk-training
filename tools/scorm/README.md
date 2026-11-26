@@ -46,8 +46,8 @@ deterministic — identical choices always produce identical records.
 1. `npm run test:scorm` — green.
 2. Upload the zip to **SCORM Cloud** (free tier): launch, play one good
    path and one poor path, confirm completion + score + success arrive;
-   check the browser network tab shows **no third-party calls** except
-   Google Fonts.
+   check the browser network tab shows **no third-party calls** (fonts
+   are packaged with the app).
 3. Repeat on a Moodle sandbox. Track per-platform results; "SCORM-
    compliant" LMSs differ in practice.
 
@@ -60,7 +60,7 @@ deterministic — identical choices always produce identical records.
   only. Resume-from-node is the next adapter increment.
 - **Full app bundle in every package** (under 3 MB incl. all scene images).
   Per-scenario asset slimming is a later packaging increment.
-- Google Fonts loads from CDN (graceful fallback offline). The packaged
+- The packaged
   Privacy page still describes the web deploy's analytics; swap-in copy
   for LMS builds is a later increment.
 - cmi5/xAPI variant (decision-level statements) is the strategic next

@@ -35,7 +35,20 @@ export function Privacy() {
     <main id="main-content" style={s.page} tabIndex={-1}>
       <Link to="/" style={s.back}>← Back</Link>
       <h1 style={s.h1}>Privacy notice</h1>
-      <p style={s.p}>This notice covers both sites: the AI Risk Practice Library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>) and the AI Risk Training app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>).</p>
+      <p style={s.p}>This notice covers the AI Risk Practice app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>) and the reference library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>). The Governance Baseline has its own notice.</p>
+
+      <hr style={s.divider}/>
+      <h2 style={s.h2}>Who receives anything</h2>
+      <p style={s.p}>
+        Plausible Analytics is the only third party that receives anything when you use this app. The app
+        serves its own fonts, images and code, so your browser does not contact Google Fonts or any other
+        outside service.
+      </p>
+      <p style={s.p}>
+        One Plausible site collects the figures for all three AI Risk Practice sites: this app, the reference
+        library and the Governance Baseline. The Baseline&rsquo;s events are listed in its own{' '}
+        <a style={s.a} href="https://baseline.airiskpractice.org/disclaimer" target="_blank" rel="noopener noreferrer">privacy and analytics section</a>.
+      </p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>What this site collects, and what it doesn't</h2>
