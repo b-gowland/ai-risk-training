@@ -1,6 +1,6 @@
 # Status
 
-Last updated 25 November 2026. Update this file at the end of a working
+Last updated 26 November 2026. Update this file at the end of a working
 session.
 
 ## Where things stand
@@ -17,7 +17,7 @@ session.
     question with its tell.
   - FAQPage and LearningResource structured data, plus `llms.txt`.
   - An IndexNow ping to Bing after each deploy.
-- **Checks:** 187 tests, the scenario audit, the route audit and the SCORM
+- **Checks:** 189 tests, the scenario audit, the route audit and the SCORM
   test. All run in CI.
 
 ## Hosting and the GitHub suspension
@@ -34,10 +34,27 @@ owner moved the four sites to Cloudflare Pages as direct uploads:
 | narratedself.airiskpractice.org | `narratedself` |
 
 The GitHub CNAMEs were deleted (nothing on the domain points at GitHub now).
-GitHub restored the account on 25 Nov. The plan is to keep hosting on
-Cloudflare and deploy from GitHub Actions (`deploy.yml`), so a GitHub outage
-stops deploys, not the sites. The deploy job needs `CLOUDFLARE_API_TOKEN` and
-`CLOUDFLARE_ACCOUNT_ID` as repository secrets.
+GitHub restored the account on 25 Nov. Hosting stays on Cloudflare and,
+since 26 Nov, the app, Baseline and library deploy from GitHub Actions
+(`wrangler pages deploy`) on every merge to `main`; a GitHub outage stops
+deploys, not the sites. The Cloudflare token (Pages: Edit only, expires
+26 Nov 2027) is a secret of each repo's `production` environment, limited
+to `main`. GitHub Pages is switched off in those repos.
+
+The Narrated Self is moving the same way: its PR (b-gowland/narrated-self#1)
+switches its workflow from GitHub Pages to `wrangler pages deploy` into the
+`narratedself` project. Until it merges, that site is still a direct upload.
+
+Also on 26 Nov, in this repo:
+- **Fonts are served from the site.** Archivo, Archivo Black, Newsreader and
+  IBM Plex Mono are in `public/fonts` (written by `scripts/fetch-fonts.mjs`),
+  for the app, the static pages and the SCORM packages. Google Fonts is gone
+  from every page and from the CSP, so Plausible is the only outside service
+  a visitor's browser contacts. The Privacy page says so.
+- **Tagline.** "Make the call(s)" became "You decide, then see what follows"
+  (index.html, README, About, footer, static pages, `llms.txt`). The "Your
+  call" card heading is now "Your decision". Still to change: the KB's
+  `about.md` and `how-to-use.md`, and this repo's GitHub description (owner).
 
 Lesson: a cloud container was rebuilt during the outage and lost every
 unpushed commit. Plans and reviews now live in `docs/`.
@@ -49,7 +66,7 @@ unpushed commit. Plans and reviews now live in `docs/`.
 | Google Search Console | Domain property `airiskpractice.org` (DNS TXT), covering app, library and baseline. All three sitemaps submitted. Indexed pages: 7 of about 80 known on 12 Oct. Indexing requested for the unindexed key pages on 18 Oct. |
 | Bing Webmaster Tools | Site set up and all three sitemaps read. IndexNow key `public/b569d15f07f9b699dacfaf1d6f3a77ab.txt` validated (HTTP 200 on 18 Oct). |
 | Cloudflare | Proxies only `airiskpractice.org` and `www`, which 301 to `https://app.airiskpractice.org/${1}` with the path and query string kept. Always Use HTTPS is on. AI crawlers are allowed (AI Crawl Control: none blocked). Since 17 Nov the app, library, baseline and The Narrated Self are Cloudflare Pages projects (above). |
-| Plausible | One property, `airiskpractice.org`, covering the app and library. 14 visitors in the 28 days to 18 Oct. |
+| Plausible | One site, `airiskpractice.org`, shared by the app, the library and the Baseline. The app's Privacy page says so and links the Baseline's own privacy section for its events. 14 visitors in the 28 days to 18 Oct. |
 
 ## Follow-ups
 
@@ -64,12 +81,6 @@ The working plan is `docs/PLAN.md` (what to do, in order) and
 
 ## Open decisions (owner)
 
-- **"Make the call" wording.** It's an idiom, US-leaning, and it clashes with
-  the phone-call scenario. The proposal is "You decide what to do and see what
-  follows", and the "Your call" card heading becoming "Your decision". The
-  tagline appears in 6 places in this repo and 2 in the KB (`about.md`,
-  `how-to-use.md`). The homepage now uses "You decide, then see what follows";
-  the tagline itself is still undecided.
 - **KB timing text.** The KB's "Practise this" links still say At Home takes
   about five minutes and At Work about ten. They should say about seven and
   nine to ten.

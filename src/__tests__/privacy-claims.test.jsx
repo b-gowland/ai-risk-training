@@ -53,3 +53,24 @@ describe('privacy claims match what the code sends', () => {
     expect(text).not.toMatch(/\bscore\b/i);
   });
 });
+
+describe('the Privacy page names every outside party the site contacts', () => {
+  afterEach(() => cleanup());
+
+  it('Plausible is the only outside host the site may contact, and the page says so', async () => {
+    // The page says Plausible is the only third party and the fonts come from
+    // the site itself (Google Fonts removed 26 Nov). The CSP decides what a
+    // browser may contact, so hold the page to it.
+    const { CSP } = await import('../../scripts/lib/csp.mjs');
+    const hosts = new Set([...CSP.matchAll(/https:\/\/([^\s;]+)/g)].map((m) => m[1]));
+    expect([...hosts]).toEqual(['plausible.io']);
+
+    const { Privacy } = await import('../pages/Privacy.jsx');
+    const { container } = render(<MemoryRouter><Privacy /></MemoryRouter>);
+    const text = container.textContent.replace(/\s+/g, ' ');
+    expect(text).toContain('Plausible Analytics is the only third party');
+    expect(text).toMatch(/serves its own fonts/);
+    expect(text).toMatch(/this app, the reference library and the Governance Baseline/);
+    expect(container.querySelector('a[href="https://baseline.airiskpractice.org/disclaimer"]')).toBeTruthy();
+  });
+});

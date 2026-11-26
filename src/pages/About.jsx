@@ -36,8 +36,8 @@ export default function About() {
           <h2 className={s.h2}>What it is</h2>
           <p className={s.p}>
             Nine branching scenarios about AI going wrong, behind two doors: one for home, one
-            for work. You are the person it&rsquo;s happening to. You make the calls with
-            incomplete information and a clock running, then see what followed. Nothing is
+            for work. You are the person it&rsquo;s happening to. You decide with
+            incomplete information and a clock running, then see what follows. Nothing is
             scored. No login, nothing to install.
           </p>
           <p className={s.p}>

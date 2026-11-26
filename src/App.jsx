@@ -48,8 +48,8 @@ export default function App() {
       ) : (
         <footer className={s.foot}>
           <p className={s.footLine}>
-            Short situations where AI could go wrong. You make the calls and find out what
-            follows. Based on real incidents and known risks.
+            Short situations where AI could go wrong. You decide, then see what follows.
+            Based on real incidents and known risks.
           </p>
           <nav className={s.footNav}>
             <Link to="/privacy">What we don&rsquo;t collect</Link>

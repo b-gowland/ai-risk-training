@@ -9,21 +9,21 @@ library, Baseline). The reasons are in [`STRATEGY.md`](STRATEGY.md) and
 GitHub restored the account on 25 Nov. Code, reviews and checks are back on
 GitHub; the sites stay on Cloudflare Pages, deployed by GitHub Actions.
 
-**Owner (one-off, about 20 minutes)**
-- [ ] Create a Cloudflare API token with one permission, **Account ·
+**Owner (one-off, done 26 Nov)**
+- [x] Create a Cloudflare API token with one permission, **Account ·
       Cloudflare Pages · Edit**, for this account only, expiring in 1 year,
       no IP filter (My Profile → API Tokens → Create Token → Custom token).
       Calendar reminder to replace it in November 2027.
-- [ ] In each of `ai-risk-training`, `ai-risk-baseline` and `ai-risk-kb`:
+- [x] In each of `ai-risk-training`, `ai-risk-baseline` and `ai-risk-kb`:
       Settings → Environments → **production** → Deployment branches and
       tags → **Selected branches** → add `main`. Then, on the same page,
       Environment secrets → add `CLOUDFLARE_API_TOKEN` (the token) and
       `CLOUDFLARE_ACCOUNT_ID` (shown on the Workers & Pages overview page).
       Not as repository secrets: environment secrets can only be read by
       the deploy job on `main`.
-- [ ] In the same three repos: Settings → Pages → turn GitHub Pages off and
+- [x] In the same three repos: Settings → Pages → turn GitHub Pages off and
       remove the custom domain, so GitHub stops expecting the old DNS.
-- [ ] Check after the first deploy from Actions that Cloudflare marks it
+- [x] Check after the first deploy from Actions that Cloudflare marks it
       **Production** (Workers & Pages → project → Deployments).
 
 **Claude**
@@ -31,8 +31,13 @@ GitHub; the sites stay on Cloudflare Pages, deployed by GitHub Actions.
       Cloudflare (this repo).
 - [x] Front-door fixes 1 to 8 from `PRODUCT_REVIEW.md` §1.
 - [x] Dependency updates and audit fixes.
-- [ ] The same hosting changes in the Baseline and library repos.
-- [ ] Library PR #77 (four new incident entries): owner reads, then merge.
+- [x] The same hosting changes in the Baseline and library repos (and narrated-self).
+- [x] Library PR #77 (corrections to the #75 incident write-ups in c5, d2
+      and f1, plus the changelog): merged 26 Nov; issue #75 closed.
+- [ ] narrated-self PR #1 (deploy to Cloudflare Pages from Actions): owner
+      adds the `production` environment secrets, then merge.
+- [x] Fonts served from the app itself, not Google Fonts; Privacy page
+      updated; "You decide, then see what follows" replaces "Make the call".
 
 ## Next: the engine (December)
 

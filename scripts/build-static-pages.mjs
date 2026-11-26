@@ -175,10 +175,9 @@ function checkLd(where, ld) {
 }
 
 // The same web fonts as the app (index.html). Without them the static pages
-// fell back to system fonts and looked like a different site (18 Oct).
-const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Archivo:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">`;
+// fell back to system fonts and looked like a different site (18 Oct). They
+// are served from this site (public/fonts), not Google Fonts (26 Nov).
+const FONTS = `<link href="/fonts/fonts.css" rel="stylesheet">`;
 
 const OG_ALT = 'AI Risk Practice: What would you do? Short situations where AI goes wrong.';
 const HEAD = ({ title, description, canonical, jsonLd, image = `${SITE}/og.png`, imageAlt = OG_ALT }) => `<meta charset="UTF-8" />
@@ -259,8 +258,8 @@ const scenariosIndexHtml = page({
   }),
   body: `<main class="wide">
 <h1>All nine situations</h1>
-<p>Short, specific situations about AI going wrong, at home and at work. You make the calls
-with incomplete information, then see what followed. Nothing is scored. Pick whichever one
+<p>Short, specific situations about AI going wrong, at home and at work. You decide
+with incomplete information, then see what follows. Nothing is scored. Pick whichever one
 sounds most like your week.</p>
 <h2>At home</h2>
 <ul class="rows">${scenarioRows('home')}</ul>
@@ -421,7 +420,7 @@ writeFileSync(join(DIST, 'sitemap.xml'), sitemap);
 
 const llms = `# AI Risk Practice
 
-> Free, open-source practice scenarios about AI going wrong, at home and at work. You make decisions with incomplete information, see what followed, and read how someone experienced would read it. No login, nothing scored. Code Apache 2.0, content CC BY 4.0.
+> Free, open-source practice scenarios about AI going wrong, at home and at work. You decide with incomplete information, then see what follows and how someone experienced would read it. No login, nothing scored. Code Apache 2.0, content CC BY 4.0.
 
 ## Scenarios
 
@@ -457,8 +456,8 @@ if (!indexHtml.includes('<div id="root"></div>')) {
 
 const fallback = `<div id="root"><main class="wide">
 <h1>What would you do?</h1>
-<p>Short, specific situations about AI going wrong, at home and at work. You make the
-calls with incomplete information, then see what followed. Free, no login, nothing to
+<p>Short, specific situations about AI going wrong, at home and at work. You decide
+with incomplete information, then see what follows. Free, no login, nothing to
 install.</p>
 <h2>At home</h2>
 <ul class="rows">${scenarioRows('home')}</ul>

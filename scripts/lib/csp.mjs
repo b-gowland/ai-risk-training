@@ -9,14 +9,14 @@
 // JSON-LD blocks are data, not script, and are not affected.
 // Connections: this site and Plausible's event endpoint, nothing else.
 // Styles: inline styles are allowed (the static pages carry their CSS inline
-// and React sets style properties), plus Google Fonts' stylesheet.
+// and React sets style properties). Fonts come from this site (public/fonts).
 
 export const CSP = [
   "default-src 'self'",
   "script-src 'self' https://plausible.io",
   "connect-src 'self' https://plausible.io",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "object-src 'none'",
   "base-uri 'self'",

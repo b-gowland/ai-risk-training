@@ -40,7 +40,6 @@ jobs:
             --exclude '\$'
             --exclude '<'
             --exclude '/docs/\.\.\.'
-            --exclude 'fonts\.(googleapis|gstatic)\.com'
             --exclude 'plausible\.io/js/'
             --exclude 'schema\.org'
             --exclude '(imsglobal|adlnet|w3|sitemaps)\.org'

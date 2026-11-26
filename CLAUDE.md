@@ -9,6 +9,8 @@ library.airiskpractice.org) and `b-gowland/ai-risk-baseline`.
 Start with [`docs/STATUS.md`](docs/STATUS.md) for where things stand and
 what is open, then [`ARCHITECTURE.md`](ARCHITECTURE.md) and
 [`CONTRIBUTING.md`](CONTRIBUTING.md) for how it works and the rules.
+[`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md) covers how work is run
+across the four sites and the standards they share.
 
 ## Before you push
 
