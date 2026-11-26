@@ -32,3 +32,6 @@ dist-scorm/
 # Full-size scene sources; only the WebP in public/scenes/ is committed
 scenes-raw/
 review-pack/
+
+# Cloudflare local emulator state (wrangler pages dev)
+.wrangler/
