@@ -94,9 +94,12 @@ scenario, `/cards/`) and `sitemap.xml`, all generated from the registry.
 `.github/workflows/deploy.yml` runs on every push and pull request: lint,
 tests, route audit, scenario audit, SCORM check, build. Pushes to `main`
 deploy to Cloudflare Pages (project `ai-risk-app`), which serves
-<https://app.airiskpractice.org/>. The deploy job needs the repository
-secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`; without them it
-warns and deploys nothing. By hand, from any machine:
+<https://app.airiskpractice.org/>. The deploy job needs
+`CLOUDFLARE_API_TOKEN` (a token with only Account · Cloudflare Pages · Edit)
+and `CLOUDFLARE_ACCOUNT_ID`, stored as secrets of the `production`
+environment, which only the `main` branch may use; without them it warns and
+deploys nothing. Only the publish step sees the token (not `npm ci` or the
+build), and Wrangler is pinned to an exact version. By hand, from any machine:
 `npm run build && npx wrangler pages deploy dist --project-name=ai-risk-app --branch=main`.
 
 `public/_headers` sets response headers (security headers, and `noindex` on

@@ -4,9 +4,14 @@ name: Check and deploy
 # Cloudflare Pages (project ai-risk-app), which serves app.airiskpractice.org
 # since the move off GitHub Pages on 17 Nov 2026.
 #
-# Deploying needs two repository secrets: CLOUDFLARE_API_TOKEN (a token with
-# the "Cloudflare Pages: Edit" permission) and CLOUDFLARE_ACCOUNT_ID. Until
+# Deploying needs CLOUDFLARE_API_TOKEN (a token with only "Account ·
+# Cloudflare Pages · Edit") and CLOUDFLARE_ACCOUNT_ID, stored as secrets of
+# the "production" environment, which is limited to the main branch. Until
 # they exist the deploy job says so and stops without failing the run.
+#
+# The token is handed only to the publish step, never to npm ci or the build,
+# so no installed package can read it, and Wrangler is pinned to an exact
+# version.
 
 on:
   push:
@@ -55,17 +60,17 @@ jobs:
     environment:
       name: production
       url: https://app.airiskpractice.org/
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     outputs:
       deployed: ${{ steps.publish.outputs.deployed }}
     steps:
       - name: Check for Cloudflare credentials
         id: creds
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "::warning::CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID is not set, so nothing was deployed. Add both as repository secrets."
+            echo "::warning::CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID is not set, so nothing was deployed. Add both as secrets of the production environment."
             echo "ok=false" >> "$GITHUB_OUTPUT"
           else
             echo "ok=true" >> "$GITHUB_OUTPUT"
@@ -84,8 +89,11 @@ jobs:
       - name: Publish to Cloudflare Pages
         id: publish
         if: steps.creds.outputs.ok == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          npx --yes wrangler@4 pages deploy dist --project-name=ai-risk-app --branch=main --commit-dirty=true
+          npx --yes wrangler@4.163.0 pages deploy dist --project-name=ai-risk-app --branch=main --commit-dirty=true
           echo "deployed=true" >> "$GITHUB_OUTPUT"
 
   # After a deploy, announce the published URLs to IndexNow (Bing and
