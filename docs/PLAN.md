@@ -10,12 +10,17 @@ GitHub restored the account on 25 Nov. Code, reviews and checks are back on
 GitHub; the sites stay on Cloudflare Pages, deployed by GitHub Actions.
 
 **Owner (one-off, about 20 minutes)**
-- [ ] Create a Cloudflare API token with the permission **Cloudflare Pages:
-      Edit** (My Profile → API Tokens → Create Token → Custom token).
+- [ ] Create a Cloudflare API token with one permission, **Account ·
+      Cloudflare Pages · Edit**, for this account only, expiring in 1 year,
+      no IP filter (My Profile → API Tokens → Create Token → Custom token).
+      Calendar reminder to replace it in November 2027.
 - [ ] In each of `ai-risk-training`, `ai-risk-baseline` and `ai-risk-kb`:
-      Settings → Secrets and variables → Actions → add
-      `CLOUDFLARE_API_TOKEN` (the token) and `CLOUDFLARE_ACCOUNT_ID` (shown
-      on the Workers & Pages overview page).
+      Settings → Environments → **production** → Deployment branches and
+      tags → **Selected branches** → add `main`. Then, on the same page,
+      Environment secrets → add `CLOUDFLARE_API_TOKEN` (the token) and
+      `CLOUDFLARE_ACCOUNT_ID` (shown on the Workers & Pages overview page).
+      Not as repository secrets: environment secrets can only be read by
+      the deploy job on `main`.
 - [ ] In the same three repos: Settings → Pages → turn GitHub Pages off and
       remove the custom domain, so GitHub stops expecting the old DNS.
 - [ ] Check after the first deploy from Actions that Cloudflare marks it
