@@ -27,6 +27,9 @@ describe('privacy claims match what the code sends', () => {
     fireEvent.click(screen.getByRole('button', { name: sc.begin }));
     // Take the first option at every decision until the debrief.
     for (let i = 0; i < 10; i++) {
+      // Skip the pause-and-flag step where a node has one.
+      const skip = screen.queryByRole('button', { name: 'Skip this' });
+      if (skip) fireEvent.click(skip);
       const opts = container.querySelectorAll('main ul button');
       if (!opts.length) break;
       fireEvent.click(opts[0]);

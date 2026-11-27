@@ -73,6 +73,24 @@ export const scenario = {
         ],
         note: `The number that called is the one saved in your phone as Mum.`,
       },
+      // Flags (27 Nov 2026): look before you act. The reveal splits the
+      // warning signs, which are about what is asked, from the details that
+      // settle nothing, which are about how real it feels. Caller ID can be
+      // spoofed and a cloned voice can't be told apart by ear.
+      flags: {
+        prompt: `Before you answer, tap anything in that call that makes you pause.`,
+        items: [
+          { id: `voice`, label: `It sounds exactly like her`, matters: false },
+          { id: `deadline`, label: `A deadline: twenty minutes`, matters: true },
+          { id: `number`, label: `Her number is on the screen`, matters: false },
+          { id: `secret`, label: `"Don't tell your father"`, matters: true },
+          { id: `detail`, label: `The detail about the car park`, matters: false },
+          { id: `account`, label: `Money to an account she'll text you`, matters: true },
+        ],
+        signsHead: `The warning signs`,
+        neutralHead: `What settles nothing either way`,
+        note: `The signs are about what you're asked to do. How real it feels can be faked: a voice can be cloned and a number can be spoofed. Ringing back on the number you have works either way.`,
+      },
       decision: {
         prompt: `Twenty minutes. What do you do?`,
         choices: [
@@ -364,6 +382,23 @@ export const scenario = {
         note: `Video can be faked too, including live on a call. It's the same trap in a newer wrapper, and what you can see was never the evidence.` },
       { id: `c`, quality: `partial`, label: `Ask him something personal on the call, something a fake wouldn't know`,
         note: `Better than nothing, and weaker than it feels. Shared knowledge is often findable, and a caller who can't answer can just get upset that you asked.` },
+    ],
+  },
+
+  // The benign twin (strategy triage, 27 Nov 2026). Same surface, but this
+  // time the call is genuine. Calling back is still the right step: it costs
+  // thirty seconds and works either way. What the twin catches is the other
+  // failure, refusing everything, which leaves a real person stuck.
+  recallTwin: {
+    id: `home-voice-clone-twin`,
+    prompt: `A month after that, your mum rings from her mobile. She's at the vet, the dog needs surgery, and her card has been declined. She needs $180 in the next half hour. What do you do?`,
+    options: [
+      { id: `a`, quality: `poor`, label: `Pay straight away, because it sounds exactly like her`,
+        note: `It was her this time, so it worked out. But the habit that pays a real Mum is the same one that paid the fake one in the first call.` },
+      { id: `b`, quality: `good`, label: `Ring her back on her own number, then pay`,
+        note: `That's the whole habit. She answers from the vet, it's real, and you pay with ten minutes to spare. Checking is how you get to yes safely.` },
+      { id: `c`, quality: `partial`, label: `Refuse. After last time, any money call could be a fake`,
+        note: `It feels safe, and it leaves her stuck at the vet. The aim was never to say no to family. Ring back on her number, then say yes.` },
     ],
   },
 

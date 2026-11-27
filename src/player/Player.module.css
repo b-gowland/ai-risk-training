@@ -104,6 +104,29 @@
 }
 .secondary:hover { background: var(--ink); color: #fff; }
 
+.shareRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+/* A link that does a button's job (it opens WhatsApp), styled to match. */
+.secondaryAsLink {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--heavy);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 140ms ease;
+}
+.secondaryAsLink:hover { background: var(--ink); color: #fff; }
+
 .secondaryLink {
   font-family: var(--display);
   font-size: var(--t-sm);
@@ -503,3 +526,57 @@
   color: var(--ink-soft, inherit);
 }
 .sources a { color: inherit; }
+
+/* Flags: "what makes you pause" (Flags.jsx). Chips sized for thumbs. */
+.flags { margin-top: var(--sp-4); }
+.flagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: var(--sp-3) 0;
+  padding: 0;
+  list-style: none;
+}
+.flag, .flagOn {
+  min-height: 44px;
+  padding: 0.55rem 0.9rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: var(--t-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+.flagOn { background: var(--ink); color: #fff; }
+.flagOn::before { content: '✓ '; }
+.flagActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: center;
+}
+.flagActions .skip { margin-top: 0; }
+.flagActions .primary { width: auto; }
+.primary:disabled { opacity: 0.45; cursor: not-allowed; }
+.primary:disabled:hover { background: var(--ink); }
+.flagReveal {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--rule);
+}
+.flagReveal ul { margin: var(--sp-2) 0 var(--sp-3); padding-left: 1.1rem; }
+.flagHead {
+  margin: 0;
+  font-family: var(--heavy);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.flagMine { color: var(--ink-soft); }
+.flagNote { color: var(--ink-soft); }
+@media (prefers-reduced-motion: reduce) {
+  .flag, .flagOn { transition: none; }
+}

@@ -9,13 +9,20 @@
 // borrow, and unclear decision points are one of the documented ways
 // branching scenarios lose people — hence the rule above the prompt.
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Artefact from '../components/Artefact/Artefact.jsx';
+import { FlagPicker, FlagReveal } from './Flags.jsx';
 import { resolveParas } from '../engine/narrativeEngine.js';
 import s from './Player.module.css';
 
 export default function Decision({ node, path, revealedChoice, onCommit, onAdvance, index, minDepth, scenarioTitle }) {
   const consequenceRef = useRef(null);
+  // Flags are per node: what was picked is kept with the node it belongs
+  // to, so a new node starts with nothing picked.
+  const [flagState, setFlagState] = useState({ node: null, picked: null });
+  const flagged = flagState.node === node ? flagState.picked : null;
+  const setFlagged = (picked) => setFlagState({ node, picked });
+  const needsFlags = Boolean(node.flags) && flagged === null && !revealedChoice;
 
   useEffect(() => {
     if (revealedChoice && consequenceRef.current) consequenceRef.current.focus();
@@ -51,9 +58,11 @@ export default function Decision({ node, path, revealedChoice, onCommit, onAdvan
 
         {node.decision && (
           <>
-            <h2 className={s.prompt}>{node.decision.prompt}</h2>
+            {!needsFlags && <h2 className={s.prompt}>{node.decision.prompt}</h2>}
 
-            {!revealedChoice && (
+            {needsFlags && <FlagPicker flags={node.flags} onDone={setFlagged} />}
+
+            {!revealedChoice && !needsFlags && (
               <ul className={s.options}>
                 {node.decision.choices.map((c) => (
                   <li key={c.id}>
@@ -76,6 +85,7 @@ export default function Decision({ node, path, revealedChoice, onCommit, onAdvan
                 >
                   <p>{revealedChoice.consequence}</p>
                 </div>
+                {node.flags && <FlagReveal flags={node.flags} picked={flagged || []} />}
                 <button type="button" className={s.primary} onClick={onAdvance}>Keep going</button>
               </div>
             )}

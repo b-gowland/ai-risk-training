@@ -373,6 +373,19 @@ for (const sc of targets) {
     warn('depth', `good outcomes reachable in ${goodMin} decisions but bad ones take up to ${badMax} — playing well ends the scenario early`);
   }
 
+  /* ── Flags: what makes you pause (optional, per node) ───────── */
+  for (const [id, n] of Object.entries(sc.nodes)) {
+    if (!n.flags) continue;
+    const f = n.flags;
+    if (!n.decision) fail('flags', `${id}: flags need a decision to come before`);
+    if (!f.prompt || !f.signsHead || !f.neutralHead) fail('flags', `${id}: needs prompt, signsHead and neutralHead`);
+    const items = f.items || [];
+    if (items.length < 4 || items.length > 7) fail('flags', `${id}: ${items.length} items; use 4 to 7`);
+    if (!items.some((x) => x.matters) || !items.some((x) => !x.matters))
+      fail('flags', `${id}: needs both warning signs and details that settle nothing`);
+    for (const x of items) if (!x.id || !x.label || typeof x.matters !== 'boolean') fail('flags', `${id}: each item needs id, label and matters`);
+  }
+
   /* ── The close ───────────────────────────────────────────────── */
   if (sc.recall) {
     if (!sc.recall.prompt) fail('recall', `no prompt`);
@@ -383,6 +396,21 @@ for (const sc of targets) {
       if (!o.note) fail('recall', `${o.id}: no note`);
     }
     if (!opts.some((o) => o.quality === 'good')) fail('recall', `no 'good' option`);
+  }
+  // Optional benign twin: the same surface as the recall item, but the
+  // request is genuine. It is what lets the aggregate events tell judgement
+  // from blanket caution (strategy triage, 27 Nov 2026).
+  if (sc.recallTwin) {
+    if (!sc.recall) fail('recallTwin', `needs a recall item to follow`);
+    if (!sc.recallTwin.id) fail('recallTwin', `no id`);
+    if (!sc.recallTwin.prompt) fail('recallTwin', `no prompt`);
+    const opts = sc.recallTwin.options || [];
+    if (opts.length < 2) fail('recallTwin', `needs at least 2 options`);
+    for (const o of opts) {
+      if (!QUALITIES.has(o.quality)) fail('recallTwin', `${o.id}: quality '${o.quality}' invalid`);
+      if (!o.note) fail('recallTwin', `${o.id}: no note`);
+    }
+    if (!opts.some((o) => o.quality === 'good')) fail('recallTwin', `no 'good' option`);
   }
   if (Array.isArray(sc.act)) {
     if (sc.act.length < 2 || sc.act.length > 4) fail('act', `${sc.act.length} options; §4.7 says two to four`);
@@ -416,7 +444,7 @@ for (const sc of targets) {
       [...r].map((k) => { const [nodeId, choiceId] = k.split('.'); return { nodeId, choiceId }; })).join(' '))));
     if (d > LIMITS.description) warn('length', `${id}: description is ${d} words; aim for ${LIMITS.description}`);
   }
-  for (const o of sc.recall?.options || []) {
+  for (const o of [...(sc.recall?.options || []), ...(sc.recallTwin?.options || [])]) {
     if (words(o.note) > LIMITS.recallNote) warn('length', `recall ${o.id}: note is ${words(o.note)} words; aim for ${LIMITS.recallNote}`);
   }
   if (words(sc.tell) > LIMITS.tell) warn('length', `tell is ${words(sc.tell)} words; aim for ${LIMITS.tell}`);
