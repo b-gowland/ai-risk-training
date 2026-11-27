@@ -39,8 +39,8 @@
   font-family: var(--display);
   font-weight: 800;
   font-size: var(--t-2xl);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   margin-bottom: var(--sp-4);
 }
 
@@ -329,8 +329,13 @@
 
 /* ── Debrief ─────────────────────────────────────────────────── */
 
+/* Italic in the serif: Archivo has no italic file, so an italic in the
+   sans was a browser-faked slant that clashed with the serif paragraphs. */
 .reaction {
+  font-family: var(--serif);
+  font-size: var(--t-read);
   font-style: italic;
+  line-height: 1.5;
   color: var(--ink-soft);
 }
 
@@ -567,16 +572,30 @@
   padding-top: var(--sp-3);
   border-top: 1px solid var(--rule);
 }
-.flagReveal ul { margin: var(--sp-2) 0 var(--sp-3); padding-left: 1.1rem; }
+.flagReveal ul {
+  margin: var(--sp-2) 0 var(--sp-4);
+  padding-left: 1.1rem;
+  font-family: var(--serif);
+  font-size: var(--t-read);
+  line-height: 1.5;
+}
+.flagReveal li { margin-bottom: var(--sp-1); }
+.flagReveal + .primary, .flagReveal ~ .primary { margin-top: var(--sp-4); }
 .flagHead {
-  margin: 0;
+  margin: var(--sp-3) 0 0;
   font-family: var(--heavy);
   font-size: var(--t-2xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.flagMine { color: var(--ink-soft); }
-.flagNote { color: var(--ink-soft); }
+.flagMine { color: var(--ink-faint); font-style: italic; }
+.flagNote {
+  font-family: var(--serif);
+  font-size: var(--t-read);
+  line-height: 1.58;
+  color: var(--ink-soft);
+  margin-bottom: var(--sp-4);
+}
 @media (prefers-reduced-motion: reduce) {
   .flag, .flagOn { transition: none; }
 }
