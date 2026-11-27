@@ -1,10 +1,5 @@
 # Strategy: will anyone come, and what would make them?
 
-> **Partly superseded on 27 November 2026.** The diagnosis below still
-> holds. The engine in §4 (voice challenge, paid panel studies, ad seed)
-> is on hold: the next 90 days go to At Home through people who run
-> sessions, with the gates in `PLAN.md`.
-
 Written 18 November 2026, revised 19 November (global audience) and 25
 November (GitHub restored). Covers the free sites: the scenarios, the
 reference library and the Governance Baseline. It replaces the earlier
