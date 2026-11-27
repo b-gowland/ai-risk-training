@@ -1,11 +1,11 @@
 # Status
 
-Last updated 26 November 2026. Update this file at the end of a working
+Last updated 27 November 2026. Update this file at the end of a working
 session.
 
 ## Where things stand
 
-- **Content:** nine scenarios, four At Home and five At Work. They were
+- **Content:** nine scenarios, three At Home and six At Work. They were
   checked against the KB and rewritten in plain language in October.
   - Endings are route-aware.
   - Option order and length are balanced.
@@ -19,6 +19,14 @@ session.
   - An IndexNow ping to Bing after each deploy.
 - **Checks:** 189 tests, the scenario audit, the route audit and the SCORM
   test. All run in CI.
+
+## 27 November: new direction
+
+A first-principles review (kept privately) narrowed the next 90 days to
+At Home, reached through people who run sessions, with two dated gates.
+See `PLAN.md`. On the session branch, waiting for review: flags and a
+benign twin in Is That Really Mum?, and WhatsApp and reminder options on
+the close screen.
 
 ## Hosting and the GitHub suspension
 

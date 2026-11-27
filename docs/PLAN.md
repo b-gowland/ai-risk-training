@@ -1,6 +1,6 @@
 # Plan
 
-25 November 2026. What to do, in order, for the free sites (scenarios,
+27 November 2026. What to do, in order, for the free sites (scenarios,
 library, Baseline). The reasons are in [`STRATEGY.md`](STRATEGY.md) and
 [`PRODUCT_REVIEW.md`](PRODUCT_REVIEW.md). Tick items off here as they land.
 
@@ -39,35 +39,74 @@ GitHub; the sites stay on Cloudflare Pages, deployed by GitHub Actions.
 - [x] Fonts served from the app itself, not Google Fonts; Privacy page
       updated; "You decide, then see what follows" replaces "Make the call".
 
-## Next: the engine (December)
+## Next: At Home, through the people who run sessions (1 Dec 2026 – 9 Mar 2027)
 
-See `STRATEGY.md` §4. Each step needs the owner's yes where it spends money
-or commits to outside people.
+Decided after a first-principles review on 27 Nov, checked by an outside
+review. Items marked (owner) wait for the owner's yes. The reasoning is
+summarised here; the full review is kept privately.
 
-1. **Decide** (owner): the challenges lead; a score in the challenges only;
-   research panel budget (about £1,000 to £1,500); ad seed (about A$800, no
-   pixels); voice clips from consenting volunteers only; the gates.
-2. **Voice challenge** ("Is that really Mum?"): spec and words first, then
-   build. Share button with WhatsApp; `?ref=share` for counting.
-3. **Per-country "where to report"** block, chosen in the browser.
-4. **Research studies** on Prolific: a 20-person pilot, then the two full
-   studies.
-5. **Five think-aloud tests** on the challenge and one scenario; fix.
-6. **Findings page** and press release; partners briefed (GASA, national
-   anti-scam and seniors' bodies, libraries).
-7. **Launch**, aiming for the week of 10 December on "agree a family safe
-   word before Christmas"; fallback Safer Internet Day, 9 February 2027.
-8. **Gate 1** about three weeks after launch.
+**Why this shape**
+- Nobody outside a handful of testers has used the scenarios yet, and
+  there is no evidence yet that they change decisions. Those are the two
+  things to find out. More building or polish tests neither.
+- At Home only, for now. It is the largest audience, the warm lead is
+  there (Good Things Australia), and group sessions and cue cards are the
+  best available answer to the evidence that one-off sessions fade within
+  weeks. At Work stays live, with no new work.
+- Reach through people who already run sessions (digital mentors,
+  libraries, U3A, schools), not paid ads. Ads buy clicks at about A$7–20
+  per finished scenario and tell us little.
+- No paid study yet. A small online panel can only detect large effects.
+  A properly powered study comes once a partner or a university
+  supervisor can co-design it, with ethics approval.
 
-## Then (if gate 1 passes)
+**Built on 27 Nov (branch, waiting for review)**
+- [x] Is That Really Mum?: tap what makes you pause before choosing; the
+      reveal separates warning signs from what settles nothing.
+- [x] A benign twin after the recall item: the call is genuine, ringing
+      back is still right, refusing without checking is costly.
+- [x] Close screen: send to family on WhatsApp; a two-week reminder file
+      made in the browser. Nothing new is collected.
 
-- Citation challenge ("Real or invented?") for the work door.
-- Teams page (`PRODUCT_REVIEW.md` §3); presenter mode.
-- Confidence tap; calendar reminder; evidence flagging; paths-not-taken map.
-- Translations of the two challenges (Spanish, Portuguese, French, German,
-  Hindi).
-- New scenarios, home door first.
-- Randomised study; accessibility audit; outside review.
+**Weeks 1–2 (about 6 owner hours)**
+- [ ] (owner) Follow up with Good Things Australia: the cards and the
+      At Home scenarios for Digital Mentors and AI Hubs.
+- [ ] (owner) Ask three facilitators outside our own contacts (a library
+      digital-literacy lead, a U3A coordinator, a neighbourhood house or
+      school): "If I send 10 printed decks free for a 15-minute session,
+      will you run it? If not, what stops you?"
+- [ ] (owner) Search Console and Bing: request reindexing of the home
+      pages and resubmit the sitemaps (the sites were down three weeks).
+- [ ] (owner) Check that the custom-event goals are registered in
+      Plausible (the code sends them; the dashboard only shows registered
+      goals).
+
+**Weeks 3–6**
+- [ ] (owner) Watch five people outside our circle play Is That Really
+      Mum? on their own phones, without help. Note every hesitation.
+- [ ] Fix what they trip on. Then the same flags, twin and close loop for
+      the other two At Home scenarios.
+- [ ] A5 table card for each At Home scenario, print-ready.
+- [ ] (owner) Print and send decks only to facilitators who said yes.
+- [ ] Monthly: what ChatGPT and Perplexity answer for about ten At Home
+      questions; tighten the static pages to be the best answer.
+
+**Weeks 7–12**
+- [ ] (owner) Support the facilitators running sessions; collect three
+      answers from each: how many played, what stuck, would you run it
+      again.
+
+**Gates**
+
+| Gate | When | Pass | Then |
+|---|---|---|---|
+| 1. Facilitator pull | Early Feb 2027 | At least 2 facilitators outside our contacts commit to a session, or Good Things takes the kit to its mentors | Second print run; plan a properly powered study with a partner or supervisor |
+| 2. Real use | Early Mar 2027 | At least 2 outside group sessions with "would run again", or unpaid completions averaging 5 a week over weeks 9–12 | Keep going into Q2 |
+
+If both fail: stop active work and leave the sites up.
+
+**Not doing in this window:** paid ads, paid panel studies, new scenarios,
+translations, At Work changes, library additions, Baseline changes.
 
 ## Every week and month
 
