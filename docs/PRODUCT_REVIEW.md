@@ -94,25 +94,3 @@ the method) but no page is addressed to them:
 
 Route `/teams`, linked from the header in place of "Run a session", with a
 static page to match.
-
-## 4. First-principles design pass (27 November 2026)
-
-The question was: if this were designed today, with what current tools
-can do, what would the ideal At Home scenario look like? Each answer is
-tied to what it's for. None is built until the five-person observation in
-`PLAN.md` shows where people actually struggle.
-
-| Principle | What it means for Is That Really Mum? | State |
-|---|---|---|
-| The artefact is the real interface | The threat arrives as a phone call, so the scenario should open on an incoming-call screen with captions that appear in time with the call, rather than a finished transcript. Timing creates the mild pressure the real call has, without a countdown | Next, after observation |
-| Look before acting | Tap what makes you pause, then choose; the reveal separates warning signs from what settles nothing | **Built 27 Nov** |
-| Judgement, not caution | A benign twin: the call is real, ringing back is still right, refusing everything is costly | **Built 27 Nov** |
-| Hearing is the lesson | People can't tell cloned voices by ear. An optional audio version of the call, in a consented and disclosed synthetic voice (the owner's own, or an actor who agrees in writing), would let players find that out for themselves. Never a real person's voice without consent | Owner decision: consent, cost and ethics |
-| Motion only where it means something | A ringing phone and timed captions; nothing decorative; all of it off under `prefers-reduced-motion` | With the call screen |
-| The refresher lives off the screen | WhatsApp to family and a two-week reminder (**built 27 Nov**); next, a fridge card ("Hang up. Ring back on the number you have.") that prints with the A5 table card | Fridge card next |
-| Pictures orient, artefacts teach | Keep one watercolour scene per scenario; put effort into the call screen, not illustration | Unchanged (28 Jul decision) |
-| Text for every reader | No narration with the browser's built-in speech in this scenario: a robotic voice muddles a lesson about synthetic voices. Revisit for debrief text only | Deferred |
-
-What was rejected from the outside review, and why: a new palette and
-system fonts (taste, not evidence; the current register tests well and is
-self-hosted).
