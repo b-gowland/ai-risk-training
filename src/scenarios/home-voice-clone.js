@@ -73,6 +73,24 @@ export const scenario = {
         ],
         note: `The number that called is the one saved in your phone as Mum.`,
       },
+      // Flags (27 Nov 2026): look before you act. The reveal splits the
+      // warning signs, which are about what is asked, from the details that
+      // settle nothing, which are about how real it feels. Caller ID can be
+      // spoofed and a cloned voice can't be told apart by ear.
+      flags: {
+        prompt: `Before you answer, tap anything in that call that makes you pause.`,
+        items: [
+          { id: `voice`, label: `It sounds exactly like her`, matters: false },
+          { id: `deadline`, label: `A deadline: twenty minutes`, matters: true },
+          { id: `number`, label: `Her number is on the screen`, matters: false },
+          { id: `secret`, label: `"Don't tell your father"`, matters: true },
+          { id: `detail`, label: `The detail about the car park`, matters: false },
+          { id: `account`, label: `Money to an account she'll text you`, matters: true },
+        ],
+        signsHead: `The warning signs`,
+        neutralHead: `What settles nothing either way`,
+        note: `The signs are about what you're asked to do. How real it feels can be faked: a voice can be cloned and a number can be spoofed. Ringing back on the number you have works either way.`,
+      },
       decision: {
         prompt: `Twenty minutes. What do you do?`,
         choices: [

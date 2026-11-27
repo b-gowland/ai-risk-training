@@ -42,6 +42,7 @@ describe('navigating from one scenario to another', () => {
     expect(document.activeElement).toBe(screen.getByRole('article', { name: scenarios[0].title }));
 
     fireEvent.click(byName('Answer it'));
+    fireEvent.click(byName('Skip this')); // the pause-and-flag step comes first
     expect(screen.queryByRole('button', { name: /Send the money/ })).toBeTruthy();
     expect(document.activeElement).toBe(screen.getByRole('article', { name: 'Decision 1' }));
 
@@ -54,6 +55,7 @@ describe('navigating from one scenario to another', () => {
   it('from the Close screen: "Try another" starts the next scenario at Setup, unspoiled', () => {
     render(<MemoryRouter initialEntries={['/scenario/home-voice-clone']}><Machine /></MemoryRouter>);
     fireEvent.click(byName('Answer it'));
+    fireEvent.click(byName('Skip this')); // the pause-and-flag step comes first
     fireEvent.click(byName(`Say you'll call her straight back, and hang up`)); keepGoing();
     fireEvent.click(byName('Wait it out')); keepGoing();
     fireEvent.click(byName('All of it, plainly')); keepGoing();

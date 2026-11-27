@@ -74,3 +74,35 @@ describe('ways back without a login', () => {
     expect(ics.replace(/\r\n /g, '')).not.toMatch(/DESCRIPTION:[^\r]*[^\\],/);
   });
 });
+
+describe('flags: what makes you pause', () => {
+  const start = home.nodes.start;
+
+  it('asks for flags before the choices, and can be skipped', async () => {
+    const { default: Decision } = await import('../player/Decision.jsx');
+    render(<Decision node={start} path={[]} revealedChoice={null} onCommit={() => {}} onAdvance={() => {}} index={1} minDepth={4} />);
+    expect(screen.getByText(start.flags.prompt)).toBeTruthy();
+    expect(screen.queryByText(start.decision.choices[0].label)).toBeNull();
+    const go = screen.getByRole('button', { name: 'Tap at least one' });
+    expect(go.disabled).toBe(true);
+    fireEvent.click(screen.getByText(start.flags.items[0].label));
+    fireEvent.click(screen.getByRole('button', { name: 'Now decide' }));
+    expect(screen.getByText(start.decision.choices[0].label)).toBeTruthy();
+  });
+
+  it('after the choice, separates warning signs from what settles nothing', async () => {
+    const { default: Decision } = await import('../player/Decision.jsx');
+    const chosen = start.decision.choices[0];
+    render(<Decision node={start} path={[]} revealedChoice={chosen} onCommit={() => {}} onAdvance={() => {}} index={1} minDepth={4} />);
+    expect(screen.getByText(start.flags.signsHead)).toBeTruthy();
+    expect(screen.getByText(start.flags.neutralHead)).toBeTruthy();
+    for (const f of start.flags.items) expect(screen.getByText(f.label)).toBeTruthy();
+  });
+
+  it('never treats how real the call feels as a warning sign', () => {
+    const byId = Object.fromEntries(start.flags.items.map((f) => [f.id, f.matters]));
+    expect(byId.voice).toBe(false);
+    expect(byId.number).toBe(false);
+    expect(byId.secret).toBe(true);
+  });
+});

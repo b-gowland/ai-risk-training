@@ -35,6 +35,7 @@ describe('SCORM reporting from the player', () => {
     expect(scormComplete).not.toHaveBeenCalled();
 
     fireEvent.click(byName('Answer it'));
+    fireEvent.click(byName('Skip this')); // the pause-and-flag step comes first
     fireEvent.click(byName(`Say you'll call her straight back, and hang up`)); keepGoing();
     fireEvent.click(byName('Wait it out')); keepGoing();
     fireEvent.click(byName('All of it, plainly')); keepGoing();

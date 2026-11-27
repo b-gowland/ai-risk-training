@@ -373,6 +373,19 @@ for (const sc of targets) {
     warn('depth', `good outcomes reachable in ${goodMin} decisions but bad ones take up to ${badMax} — playing well ends the scenario early`);
   }
 
+  /* ── Flags: what makes you pause (optional, per node) ───────── */
+  for (const [id, n] of Object.entries(sc.nodes)) {
+    if (!n.flags) continue;
+    const f = n.flags;
+    if (!n.decision) fail('flags', `${id}: flags need a decision to come before`);
+    if (!f.prompt || !f.signsHead || !f.neutralHead) fail('flags', `${id}: needs prompt, signsHead and neutralHead`);
+    const items = f.items || [];
+    if (items.length < 4 || items.length > 7) fail('flags', `${id}: ${items.length} items; use 4 to 7`);
+    if (!items.some((x) => x.matters) || !items.some((x) => !x.matters))
+      fail('flags', `${id}: needs both warning signs and details that settle nothing`);
+    for (const x of items) if (!x.id || !x.label || typeof x.matters !== 'boolean') fail('flags', `${id}: each item needs id, label and matters`);
+  }
+
   /* ── The close ───────────────────────────────────────────────── */
   if (sc.recall) {
     if (!sc.recall.prompt) fail('recall', `no prompt`);
