@@ -137,6 +137,13 @@ function ScenarioMachine({ id }) {
     dispatch({ type: 'ANSWER_RECALL', payload: { choiceId } });
   };
 
+  // The benign twin reuses the Recall Answered event under its own item id,
+  // so no new kind of data is collected.
+  const answerRecallTwin = (choiceId) => {
+    const opt = scenario.recallTwin?.options.find((o) => o.id === choiceId);
+    trackRecallAnswered(scenario.id, scenario.recallTwin?.id || 'recall-twin', opt ? opt.quality : 'skipped');
+  };
+
   const chooseAct = (actId) => {
     trackCommitmentSelected(scenario.id, actId);
     dispatch({ type: 'CHOOSE_ACT', payload: { actId } });
@@ -178,7 +185,8 @@ function ScenarioMachine({ id }) {
           onRecall={answerRecall}
           onAct={chooseAct}
           onReplay={replay}
-          onShared={() => trackCardShared(scenario.id, outcome?.tone, 'tell')}
+          onRecallTwin={answerRecallTwin}
+          onShared={(method) => trackCardShared(scenario.id, outcome?.tone, method || 'tell')}
         />
       )}
     </main>

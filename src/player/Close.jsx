@@ -12,15 +12,49 @@
 //   Setup, plus an always-present "none of these fits". A selection, never
 //   evidence of behaviour.
 // §4.8 The tell: one transferable sentence. Nothing congratulates the player.
+//
+// Benign twin (27 Nov 2026): when a scenario has one, a second item follows
+// the recall answer. Same surface, but the request is genuine, so refusing
+// everything is the costly answer. Together the two answers let the existing
+// anonymous events show judgement rather than caution alone.
+//
+// Coming back (27 Nov 2026, reversing the 27 Jul "no return" rule without a
+// login): a WhatsApp message to family and a two-week reminder file, both
+// made in the browser. Nothing is stored; the share method is the only thing
+// counted, as the Privacy page already says.
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { scenarios } from '../scenarios/index.js';
+import { reminderFile, scenarioUrl } from './reminder.js';
 import s from './Player.module.css';
 
-export default function Close({ scenario, recallAnswer, actChoice, onRecall, onAct, onReplay, onShared }) {
+export default function Close({ scenario, recallAnswer, actChoice, onRecall, onRecallTwin, onAct, onReplay, onShared }) {
   const [copied, setCopied] = useState(false);
+  const [twinAnswer, setTwinAnswer] = useState(null);
   const answered = Boolean(recallAnswer);
+  const twin = scenario.recallTwin;
+  const twinChosen = twin?.options.find((o) => o.id === twinAnswer);
+  const link = scenarioUrl(scenario.id);
+  const familyText = `${scenario.tell}\n\nTry it (about seven minutes, free): ${link}`;
+
+  const answerTwin = (id) => {
+    setTwinAnswer(id);
+    onRecallTwin?.(id);
+  };
+
+  const downloadReminder = () => {
+    const blob = new Blob([reminderFile(scenario, new Date())], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ai-risk-practice-reminder.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    onShared?.('calendar');
+  };
 
   // The person who just finished is the most engaged they will ever be — offer
   // the next one here rather than sending them back to the homepage to hunt.
@@ -39,7 +73,7 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
         setCopied(true);
         setTimeout(() => setCopied(false), 2400);
       }
-      onShared?.();
+      onShared?.('tell');
     } catch { /* dismissed or unavailable; the tell is on screen regardless */ }
   };
 
@@ -105,11 +139,53 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onA
           )}
         </section>
 
+        {twin && answered && (
+          <section className={s.closeSection}>
+            <h2 className={s.sectionHead}>{twin.prompt}</h2>
+            {!twinAnswer && (
+              <>
+                <ul className={s.options}>
+                  {twin.options.map((o) => (
+                    <li key={o.id}>
+                      <button type="button" className={s.option} onClick={() => answerTwin(o.id)}>
+                        {o.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" className={s.skip} onClick={() => answerTwin('skipped')}>
+                  Skip this
+                </button>
+              </>
+            )}
+            {twinChosen && (
+              <>
+                <p className={s.chosen}>{twinChosen.label}</p>
+                <div className={s.prose}><p>{twinChosen.note}</p></div>
+              </>
+            )}
+          </section>
+        )}
+
         <section className={s.tellBlock}>
           <blockquote className={s.tell}>{scenario.tell}</blockquote>
-          <button type="button" className={s.secondary} onClick={shareTell}>
-            {copied ? 'Copied' : 'Share this'}
-          </button>
+          <div className={s.shareRow}>
+            <button type="button" className={s.secondary} onClick={shareTell}>
+              {copied ? 'Copied' : 'Share this'}
+            </button>
+            <a
+              className={s.secondaryAsLink}
+              href={`https://wa.me/?text=${encodeURIComponent(familyText)}`}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => onShared?.('whatsapp')}
+            >
+              Send to family on WhatsApp
+            </a>
+            <button type="button" className={s.secondary} onClick={downloadReminder}>
+              Remind me in two weeks
+            </button>
+          </div>
         </section>
 
         <section className={s.closeSection}>

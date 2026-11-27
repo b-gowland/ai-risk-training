@@ -104,6 +104,29 @@
 }
 .secondary:hover { background: var(--ink); color: #fff; }
 
+.shareRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+/* A link that does a button's job (it opens WhatsApp), styled to match. */
+.secondaryAsLink {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--heavy);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 140ms ease;
+}
+.secondaryAsLink:hover { background: var(--ink); color: #fff; }
+
 .secondaryLink {
   font-family: var(--display);
   font-size: var(--t-sm);

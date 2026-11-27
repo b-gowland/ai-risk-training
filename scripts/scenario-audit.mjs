@@ -384,6 +384,21 @@ for (const sc of targets) {
     }
     if (!opts.some((o) => o.quality === 'good')) fail('recall', `no 'good' option`);
   }
+  // Optional benign twin: the same surface as the recall item, but the
+  // request is genuine. It is what lets the aggregate events tell judgement
+  // from blanket caution (strategy triage, 27 Nov 2026).
+  if (sc.recallTwin) {
+    if (!sc.recall) fail('recallTwin', `needs a recall item to follow`);
+    if (!sc.recallTwin.id) fail('recallTwin', `no id`);
+    if (!sc.recallTwin.prompt) fail('recallTwin', `no prompt`);
+    const opts = sc.recallTwin.options || [];
+    if (opts.length < 2) fail('recallTwin', `needs at least 2 options`);
+    for (const o of opts) {
+      if (!QUALITIES.has(o.quality)) fail('recallTwin', `${o.id}: quality '${o.quality}' invalid`);
+      if (!o.note) fail('recallTwin', `${o.id}: no note`);
+    }
+    if (!opts.some((o) => o.quality === 'good')) fail('recallTwin', `no 'good' option`);
+  }
   if (Array.isArray(sc.act)) {
     if (sc.act.length < 2 || sc.act.length > 4) fail('act', `${sc.act.length} options; §4.7 says two to four`);
     if (sc.act.some((a) => a.id === 'none')) fail('act', `'none' is appended by the player, not authored`);
@@ -416,7 +431,7 @@ for (const sc of targets) {
       [...r].map((k) => { const [nodeId, choiceId] = k.split('.'); return { nodeId, choiceId }; })).join(' '))));
     if (d > LIMITS.description) warn('length', `${id}: description is ${d} words; aim for ${LIMITS.description}`);
   }
-  for (const o of sc.recall?.options || []) {
+  for (const o of [...(sc.recall?.options || []), ...(sc.recallTwin?.options || [])]) {
     if (words(o.note) > LIMITS.recallNote) warn('length', `recall ${o.id}: note is ${words(o.note)} words; aim for ${LIMITS.recallNote}`);
   }
   if (words(sc.tell) > LIMITS.tell) warn('length', `tell is ${words(sc.tell)} words; aim for ${LIMITS.tell}`);

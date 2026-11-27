@@ -14,10 +14,12 @@ import {
   WORDS_PER_MINUTE, SECONDS_PER_DECISION,
 } from '../engine/timing.js';
 
-// Every question the player answers: decision nodes and the recall item.
+// Every question the player answers: decision nodes, the recall item and its
+// benign twin.
 const questions = scenarios.flatMap((s) => [
   ...Object.entries(s.nodes).map(([id, n]) => ({ where: `${s.id}/${id}`, options: n.decision.choices })),
   ...(s.recall ? [{ where: `${s.id}/recall`, options: s.recall.options }] : []),
+  ...(s.recallTwin ? [{ where: `${s.id}/recallTwin`, options: s.recallTwin.options }] : []),
 ]).filter((q) => q.options.some((o) => o.quality === 'good'));
 
 describe('the best option cannot be found by pattern', () => {

@@ -367,6 +367,23 @@ export const scenario = {
     ],
   },
 
+  // The benign twin (strategy triage, 27 Nov 2026). Same surface, but this
+  // time the call is genuine. Calling back is still the right step: it costs
+  // thirty seconds and works either way. What the twin catches is the other
+  // failure, refusing everything, which leaves a real person stuck.
+  recallTwin: {
+    id: `home-voice-clone-twin`,
+    prompt: `A month after that, your mum rings from her mobile. She's at the vet, the dog needs surgery, and her card has been declined. She needs $180 in the next half hour. What do you do?`,
+    options: [
+      { id: `a`, quality: `poor`, label: `Pay straight away, because it sounds exactly like her`,
+        note: `It was her this time, so it worked out. But the habit that pays a real Mum is the same one that paid the fake one in the first call.` },
+      { id: `b`, quality: `good`, label: `Ring her back on her own number, then pay`,
+        note: `That's the whole habit. She answers from the vet, it's real, and you pay with ten minutes to spare. Checking is how you get to yes safely.` },
+      { id: `c`, quality: `partial`, label: `Refuse. After last time, any money call could be a fake`,
+        note: `It feels safe, and it leaves her stuck at the vet. The aim was never to say no to family. Ring back on her number, then say yes.` },
+    ],
+  },
+
   act: [
     { id: `a1`, label: `Agree with one family member this week that any call about money gets hung up and rung back` },
     { id: `a2`, label: `Tell one person what a voice-clone call sounds like, before they get one` },
