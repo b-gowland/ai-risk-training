@@ -76,7 +76,7 @@ export const scenario = {
       // Flags (27 Nov 2026): look before you act. The reveal splits the
       // warning signs, which are about what is asked, from the details that
       // settle nothing, which are about how real it feels. Caller ID can be
-      // spoofed and a cloned voice can't be told apart by ear.
+      // faked and a cloned voice can't be told apart by ear.
       flags: {
         prompt: `Before you answer, tap anything in that call that makes you pause.`,
         items: [
@@ -89,7 +89,7 @@ export const scenario = {
         ],
         signsHead: `The warning signs`,
         neutralHead: `What settles nothing either way`,
-        note: `The signs are about what you're asked to do. How real it feels can be faked: a voice can be cloned and a number can be spoofed. Ringing back on the number you have works either way.`,
+        note: `The signs are about what you're asked to do. How real it feels can be faked: a scammer can copy a voice, and can make any number show up on your screen. Ringing back on the number you have works either way.`,
       },
       decision: {
         prompt: `Twenty minutes. What do you do?`,
