@@ -73,7 +73,8 @@ describe('the Privacy page names every outside party the site contacts', () => {
     const text = container.textContent.replace(/\s+/g, ' ');
     expect(text).toContain('Plausible Analytics is the only third party');
     expect(text).toMatch(/serves its own fonts/);
-    expect(text).toMatch(/both AI Risk Practice sites: this app and the Governance Baseline/);
-    expect(container.querySelector('a[href="https://baseline.airiskpractice.org/disclaimer"]')).toBeTruthy();
+    // The Governance Baseline was retired on 28 Nov 2026, so the page no longer points to it.
+    expect(text).not.toMatch(/Baseline has its own notice/);
+    expect(text).toMatch(/governance baseline closed on 28 November 2026/);
   });
 });

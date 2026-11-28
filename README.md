@@ -80,4 +80,5 @@ Built on:
 ## Related
 
 - **Reference library (retired 28 Nov 2026, archived):** https://github.com/b-gowland/ai-risk-kb
+- **Governance Baseline (retired 28 Nov 2026):** https://github.com/b-gowland/ai-risk-baseline
 - **AI Risk Practice:** https://airiskpractice.org/

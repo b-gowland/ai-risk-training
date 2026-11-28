@@ -144,8 +144,9 @@ note(`registered: ${atWork.length} At Work, ${atHome.length} At Home, ${register
    4. Stale hosts (the June sweep; keep it closed)
    ───────────────────────────────────────────────────────────── */
 
-// library.airiskpractice.org was retired on 28 Nov 2026; its pages redirect.
-const STALE = ['b-gowland.github.io', 'library.airiskpractice.org'];
+// library.airiskpractice.org and baseline.airiskpractice.org were retired on
+// 28 Nov 2026; their pages redirect.
+const STALE = ['b-gowland.github.io', 'library.airiskpractice.org', 'baseline.airiskpractice.org'];
 for (const f of [...srcFiles, 'index.html', 'README.md']) {
   let body;
   try { body = read(f); } catch { continue; }

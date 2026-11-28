@@ -35,7 +35,7 @@ export function Privacy() {
     <main id="main-content" style={s.page} tabIndex={-1}>
       <Link to="/" style={s.back}>← Back</Link>
       <h1 style={s.h1}>Privacy notice</h1>
-      <p style={s.p}>This notice covers the AI Risk Practice app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>). The Governance Baseline has its own notice. The reference library closed on 28 November 2026; its address now redirects and collects nothing.</p>
+      <p style={s.p}>This notice covers the AI Risk Practice app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>). The reference library and the governance baseline closed on 28 November 2026; their addresses now redirect and collect nothing.</p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Who receives anything</h2>
@@ -43,11 +43,6 @@ export function Privacy() {
         Plausible Analytics is the only third party that receives anything when you use this app. The app
         serves its own fonts, images and code, so your browser does not contact Google Fonts or any other
         outside service.
-      </p>
-      <p style={s.p}>
-        One Plausible site collects the figures for both AI Risk Practice sites: this app and the
-        Governance Baseline. The Baseline&rsquo;s events are listed in its own{' '}
-        <a style={s.a} href="https://baseline.airiskpractice.org/disclaimer" target="_blank" rel="noopener noreferrer">privacy and analytics section</a>.
       </p>
 
       <hr style={s.divider}/>
