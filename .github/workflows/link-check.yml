@@ -29,6 +29,11 @@ jobs:
       #   automated request gets 403. It was confirmed live through search
       #   on 25 Nov 2026. Check it by hand in a browser each quarter, with
       #   the other "where to report" links.
+      # - The Scamwatch and ai.gov.au home pages on the About page (28 Nov
+      #   2026). Scamwatch returns 403 to automated requests and ai.gov.au
+      #   fails over HTTP/2 from GitHub's runners and cloud machines. Both
+      #   were confirmed live through search on 28 Nov 2026. Only the exact
+      #   home-page URLs are excluded; check them by hand with the others.
       - uses: lycheeverse/lychee-action@v2
         with:
           fail: true
@@ -45,5 +50,7 @@ jobs:
             --exclude '(imsglobal|adlnet|w3|sitemaps)\.org'
             --exclude '^mailto:'
             --exclude 'oaic\.gov\.au/news/media-centre/new-resources-on-transparency-for-use-of-ai-and-automated-decision-making'
+            --exclude '^https://www\.scamwatch\.gov\.au/$'
+            --exclude '^https://www\.ai\.gov\.au/$'
             'src/**/*.js' 'src/**/*.jsx' 'src/**/*.md'
             README.md CONTRIBUTING.md ARCHITECTURE.md index.html

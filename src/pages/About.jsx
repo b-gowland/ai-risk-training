@@ -1,5 +1,7 @@
-// About.jsx — the aim, why it exists, where the content comes from, and how to
-// reach out. Static; on the poster register via About.module.css.
+// About.jsx — the north star (owner, 28 Nov 2026), why it matters, what it is,
+// where the content comes from, where to go further, and how to reach out.
+// Kept short for phones; the full redesign comes later (owner, 28 Nov).
+// Static; on the poster register via About.module.css.
 //
 // Claims discipline: no efficacy claim anywhere ("designed to", never "proven
 // to"). No employer reference. Contribution-first voice, not a pitch.
@@ -26,110 +28,79 @@ export default function About() {
         <h1 className={s.h1}>Why this exists</h1>
 
         <p className={s.lede}>
-          AI is turning up in everyday life and work faster than anyone is being taught to
-          handle it. Most training is a course: watch, read, answer a quiz. Very little of it
-          puts you in the situation and makes you decide. This does. Short, specific situations
-          you play, free for anyone, with the reasoning open for you to check.
+          Basic AI risk training for everyone that is accessible and makes a real difference.
         </p>
+
+        <p className={s.p}>That means it is:</p>
+        <ul className={s.list}>
+          <li><strong>Free.</strong> No cost and no login. We count plays and choices anonymously
+            to improve it, and nothing we keep identifies you.</li>
+          <li><strong>For as many people as possible,</strong> regardless of location, age,
+            ability, language or device, and on paper as well as online.</li>
+          <li><strong>About real AI risks affecting people today:</strong> scams, wrong answers,
+            personal information, mistakes at work.</li>
+          <li><strong>Tested and improved.</strong> We try it with real people, change it based on
+            feedback, and compare it with the best training anywhere, free or paid.</li>
+        </ul>
+
+        <section className={s.section}>
+          <h2 className={s.h2}>Why it matters</h2>
+          <p className={s.p}>
+            AI now writes, decides and even speaks for people, including people trying to trick
+            you. In Australia, more than half of adults are worried that scams are getting harder
+            to spot, and fewer than a third feel confident they can avoid them online (
+            <a href="https://newshub.medianet.com.au/2026/09/more-than-half-of-australians-say-scams-are-becoming-harder-to-spot/171480/" target="_blank" rel="noreferrer">Good Things Australia, 2026</a>).
+          </p>
+        </section>
 
         <section className={s.section}>
           <h2 className={s.h2}>What it is</h2>
           <p className={s.p}>
-            Nine branching scenarios about AI going wrong, behind two doors: one for home, one
-            for work. You are the person it&rsquo;s happening to. You decide with
-            incomplete information and a clock running, then see what follows. Nothing is
-            scored. No login, nothing to install.
+            Nine short scenarios about AI going wrong, at home and at work. You decide with part of
+            the picture, see what follows, and leave with one check you can use the next day. An At
+            Home scenario takes {rangeWords(HOME)}, an At Work
+            one {rangeWords(WORK).replace(/^about /, '')}. Each also comes
+            as <Link to="/cards" className={s.inlineLink}>printable cards</Link> for a group.
           </p>
           <p className={s.p}>
-            It&rsquo;s a story you play because people remember decisions they made far better
-            than slides they clicked through.
+            The scenarios draw on documented incidents and published research, organised
+            by <a href="https://airisk.mit.edu/" target="_blank" rel="noreferrer">the MIT AI Risk Repository</a>.
+            The characters and organisations are fictional, and each scenario links
+            to <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">a library entry</a> with
+            its sources. It was built with AI and every part was reviewed by a person.
           </p>
-        </section>
-
-        <section className={s.section}>
-          <h2 className={s.h2}>What we&rsquo;re aiming for</h2>
-          <ul className={s.list}>
-            <li><strong>Free and open.</strong> The app, its source code and the reference library
-              behind it are all public.</li>
-            <li><strong>Accurate.</strong> Real risks, responses you can act on, and reasoning you
-              can trace to a source.</li>
-            <li><strong>Open to anyone.</strong> No login and no prerequisites. Start with
-              whichever situation sounds most like your week.</li>
-            <li><strong>Worth your time.</strong> An At Home scenario takes {rangeWords(HOME)}, an
-              At Work one {rangeWords(WORK).replace(/^about /, '')}.</li>
-          </ul>
           <p className={s.note}>
-            This is practice, not a certification. It isn&rsquo;t legal or security advice, and
-            it won&rsquo;t make anyone &ldquo;compliant.&rdquo; It&rsquo;s a place to make the
-            decision once before you have to make it for real.
+            This is practice, not a certification.
           </p>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>How it was made</h2>
-          <p className={s.p}>
-            This was built with AI, and a project about AI risk should say so. The code and much
-            of the first-draft writing came from working with an AI model. A person reviewed and
-            approved all of it. AI is useful when you check its work, which is roughly what this
-            site is about.
-          </p>
-          <p className={s.p}>
-            This is the second version. The first was aimed at corporate training: 32 scenarios,
-            four roles each. Feedback said it was too technical for most people, so this version
-            covers fewer risks, for a wider audience, with a simpler setup and a shorter ending.
-          </p>
-        </section>
-
-        <section className={s.section}>
-          <h2 className={s.h2}>Where the content comes from</h2>
-          <p className={s.p}>
-            Scenarios draw on documented incidents and published risk research. The characters
-            and organisations are fictional. Every scenario links to a reference library entry
-            with the full detail and citations. The main sources:
-          </p>
+          <h2 className={s.h2}>Want to go further?</h2>
           <ul className={s.list}>
-            <li>
-              <a href="https://airisk.mit.edu/" target="_blank" rel="noreferrer">The MIT AI Risk Repository</a>,
-              the risk taxonomy the scenarios are organised by.
-            </li>
-            <li>
-              <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noreferrer">The NIST AI Risk Management Framework</a>,
-              for how the controls are framed.
-            </li>
-            <li>
-              <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">The AI Risk Practice library</a>,
-              the reference entries and citations behind each scenario.
-            </li>
+            <li><strong>If something has gone wrong:</strong> in Australia,{' '}
+              <a href="https://www.scamwatch.gov.au/" target="_blank" rel="noreferrer">Scamwatch</a> to
+              report a scam and{' '}
+              <a href="https://www.idcare.org/" target="_blank" rel="noreferrer">IDCARE</a> for
+              help with your identity or accounts. Elsewhere, your country&rsquo;s fraud reporting
+              service.</li>
+            <li><strong>Learn more, free:</strong>{' '}
+              <a href="https://bluedot.org/courses/future-of-ai" target="_blank" rel="noreferrer">The Future of AI</a> from
+              BlueDot Impact, and <a href="https://www.ai.gov.au/" target="_blank" rel="noreferrer">ai.gov.au</a>.</li>
+            <li><strong>Work on AI risk:</strong>{' '}
+              <a href="https://80000hours.org/problem-profiles/artificial-intelligence-risk/" target="_blank" rel="noreferrer">80,000 Hours</a>.</li>
           </ul>
         </section>
 
         <section className={s.section}>
-          <h2 className={s.h2}>Tell us what you think</h2>
+          <h2 className={s.h2}>Get in touch</h2>
           <p className={s.p}>
-            This is a small project and feedback shapes it. Most useful:
+            Tell us what stuck, what fell flat or what looked wrong. If you&rsquo;d like to review a
+            scenario or help build it, the code and content
+            are <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">open on GitHub</a>.
           </p>
-          <ul className={s.list}>
-            <li>Which scenario stuck with you, and which fell flat.</li>
-            <li>Anything that looked wrong, broke, or read as inaccurate.</li>
-            <li>An AI risk you&rsquo;d like to see as a scenario.</li>
-          </ul>
           <div className={s.actions}>
             <a className={s.primary} href={mailto('AI Risk Practice: feedback')}>Send feedback</a>
-            <a className={s.secondary} href={mailto('AI Risk Practice: scenario idea')}>Suggest a scenario</a>
-          </div>
-        </section>
-
-        <section className={s.section}>
-          <h2 className={s.h2}>Help build it</h2>
-          <p className={s.p}>
-            If you work in AI risk, governance, security or learning design and want to review a
-            scenario, correct something or collaborate, get in touch. The code and content
-            are{' '}
-            <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">open on GitHub</a>,
-            and email is the quickest way to start.
-          </p>
-          <div className={s.actions}>
-            <a className={s.primary} href={mailto('AI Risk Practice: collaboration')}>Get in touch</a>
+            <a className={s.secondary} href={mailto('AI Risk Practice: collaboration')}>Help build it</a>
           </div>
         </section>
 
