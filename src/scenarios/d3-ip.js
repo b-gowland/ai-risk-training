@@ -23,7 +23,6 @@ export const scenario = {
   scene: `desk-working`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-d-data/d3-intellectual-property`,
   regulatory_tags: [`eu-ai-act-article-53`, `jurisdiction-global`, `jurisdiction-eu`],
   mit_subdomain: `mit-6.3`,
 

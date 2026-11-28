@@ -16,7 +16,6 @@ export const scenario = {
   scene: `desk-casual`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-f-deployment/f2-shadow-ai`,
   regulatory_tags: [`eu-ai-act-article-4`, `nist-ai-rmf-govern-2`, `jurisdiction-au`, `jurisdiction-eu`],
   mit_subdomain: `mit-2.1`,
 

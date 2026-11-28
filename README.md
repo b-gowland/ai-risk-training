@@ -1,6 +1,6 @@
 # ai-risk-training
 
-Interactive scenario-based AI risk training, and a companion to [ai-risk-kb](https://github.com/b-gowland/ai-risk-kb).
+Interactive scenario-based AI risk training.
 
 **Live:** https://app.airiskpractice.org/
 
@@ -22,11 +22,11 @@ so the project can see what gets played. Nothing personal is stored.
   decision turns on seeing something, you see it.
 - **A short debrief:** what happened, what made it look legitimate, and one
   sentence worth passing on.
-- **Links to the reference library** at
-  [library.airiskpractice.org](https://library.airiskpractice.org/)
+- **Where to go next:** help if something has gone wrong, free courses, and
+  ways to work on AI risk (the About page).
 
-All characters and organisations are fictional. Incidents referenced in the
-knowledge base are real and cited.
+All characters and organisations are fictional. Where a scenario states a
+dated or legal fact, its primary source is shown at the end (`sources`).
 
 ## Scenarios
 
@@ -79,6 +79,5 @@ Built on:
 
 ## Related
 
-- **Knowledge base (GitHub):** https://github.com/b-gowland/ai-risk-kb
-- **Knowledge base (live):** https://library.airiskpractice.org/
+- **Reference library (retired 28 Nov 2026, archived):** https://github.com/b-gowland/ai-risk-kb
 - **AI Risk Practice:** https://airiskpractice.org/

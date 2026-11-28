@@ -22,7 +22,6 @@ export const scenario = {
   scene: `chart-declining`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-e-fairness/e1-algorithmic-bias`,
   regulatory_tags: [`eu-ai-act-article-10`, `eu-ai-act-annex-iii`, `jurisdiction-eu`, `jurisdiction-au`],
   mit_subdomain: `mit-1.1`,
 

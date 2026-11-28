@@ -31,7 +31,6 @@ export const scenario = {
   scene: `phone-search`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination`,
   regulatory_tags: [`jurisdiction-au`, `jurisdiction-global`],
   mit_subdomain: `mit-3.1`,
 

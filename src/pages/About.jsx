@@ -65,9 +65,9 @@ export default function About() {
           <p className={s.p}>
             The scenarios draw on documented incidents and published research, organised
             by <a href="https://airisk.mit.edu/" target="_blank" rel="noreferrer">the MIT AI Risk Repository</a>.
-            The characters and organisations are fictional, and each scenario links
-            to <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">a library entry</a> with
-            its sources. It was built with AI and every part was reviewed by a person.
+            The characters and organisations are fictional. Where a scenario states a fact
+            with a date or a law, its source is shown at the end. It was built with AI and
+            every part was reviewed by a person.
           </p>
           <p className={s.note}>
             This is practice, not a certification.

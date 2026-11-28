@@ -25,7 +25,6 @@ export const scenario = {
   determinacy: `open`,              // 'clean' | 'open' — see below
 
   risk_ref:        `F2`,            // optional, links the reference layer
-  kb_url:          `https://library.airiskpractice.org/docs/...`,
   regulatory_tags: [`eu-ai-act-article-26`],   // vocabulary: CONTENT_STYLE_GUIDE
   mit_subdomain:   `mit-2.1`,
 

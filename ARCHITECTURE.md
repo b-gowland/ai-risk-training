@@ -58,8 +58,9 @@ Ids that are not live are handled before the player starts:
 
 - `REPLACED` in `src/scenarios/index.js` redirects the three old
   `everyday-*` ids to their `home-*` successors.
-- `RETIRED` maps the other pre-rebuild ids to their library entry, and the
-  player shows a short "retired" page with that link.
+- `RETIRED` lists the other pre-rebuild ids, which get a soft landing (the
+  reference library they used to point to was retired on 28 Nov 2026), and the
+  player shows a short "retired" page linking to what can be played now.
 
 `src/player/depth.js` derives the decision-count band shown on Setup from the
 tree, so it can't drift from what was written.

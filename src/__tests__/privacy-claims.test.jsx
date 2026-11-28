@@ -73,7 +73,7 @@ describe('the Privacy page names every outside party the site contacts', () => {
     const text = container.textContent.replace(/\s+/g, ' ');
     expect(text).toContain('Plausible Analytics is the only third party');
     expect(text).toMatch(/serves its own fonts/);
-    expect(text).toMatch(/this app, the reference library and the Governance Baseline/);
+    expect(text).toMatch(/both AI Risk Practice sites: this app and the Governance Baseline/);
     expect(container.querySelector('a[href="https://baseline.airiskpractice.org/disclaimer"]')).toBeTruthy();
   });
 });

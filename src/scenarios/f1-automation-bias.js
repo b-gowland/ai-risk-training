@@ -28,7 +28,6 @@ export const scenario = {
   scene: `xray-ai`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-f-deployment/f1-automation-bias`,
   regulatory_tags: [`eu-ai-act-article-14`, `eu-ai-act-annex-iii`, `jurisdiction-eu`, `jurisdiction-global`],
   mit_subdomain: `mit-5.1`,
 
