@@ -22,7 +22,6 @@ export const scenario = {
   scene: `desk-intranet`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-d-data/d2-privacy`,
   regulatory_tags: [`eu-ai-act-article-10`, `eu-ai-act-article-26`, `jurisdiction-au`, `jurisdiction-eu`],
   mit_subdomain: `mit-2.1`,
 

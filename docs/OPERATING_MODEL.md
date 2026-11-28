@@ -6,7 +6,7 @@ keeps running with very little of the owner's time.
 | Site | Repo |
 |---|---|
 | app.airiskpractice.org (scenarios) | `ai-risk-training` (this repo) |
-| library.airiskpractice.org (reference library) | `ai-risk-kb` |
+| library.airiskpractice.org (retired 28 Nov 2026; redirects only) | `ai-risk-kb` (archived) |
 | baseline.airiskpractice.org (Governance Baseline) | `ai-risk-baseline` |
 | narratedself.airiskpractice.org | `narrated-self` |
 
@@ -59,7 +59,7 @@ scheduled tasks that start a fresh session each time:
 
 | Routine | When | What it does |
 |---|---|---|
-| Weekly upkeep | Monday morning (Australian time) | In every repo: merge green Dependabot patch and minor updates; fix or report red CI on `main`; check the four sites load with their headers; triage new library source-monitoring issues into a PR; one-line update to each `STATUS.md` |
+| Weekly upkeep | Monday morning (Australian time) | In every repo: merge green Dependabot patch and minor updates; fix or report red CI on `main`; check the four sites load with their headers; one-line update to each `STATUS.md` |
 | Monthly review | First Monday of the month | Library monthly-maintenance triage (verify, then apply, reject or defer); dependency audit; link check results; update `docs/PLAN.md` |
 
 The weekly routine's full instructions, ready to create, are in

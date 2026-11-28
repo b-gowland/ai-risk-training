@@ -93,24 +93,22 @@ function ScenarioMachine({ id }) {
 
   if (!scenario) {
     // An old link to a retired scenario is a real and common case, not an
-    // error. Say so plainly and send the reader to the reference entry for
-    // that risk, which has the full detail.
-    const entry = Object.hasOwn(RETIRED, id) ? RETIRED[id] : null;
+    // error. Say so plainly and offer what can be played now, and where to
+    // go for more.
+    const retired = RETIRED.has(id);
     return (
       <main id="main-content" className={s.missing} tabIndex={-1} ref={stageRef}>
         <h1 className={s.title}>
-          {entry ? 'This scenario has been retired' : 'That situation isn\u2019t here'}
+          {retired ? 'This scenario has been retired' : 'That situation isn\u2019t here'}
         </h1>
         <p>
-          {entry
-            ? 'It was part of an earlier version of the app. The reference entry for the same risk is still there.'
+          {retired
+            ? 'It was part of an earlier version of the app. The situations you can play now are one tap away.'
             : 'The link may be old or mistyped. Everything that is playable is one tap away.'}
         </p>
         <p className={s.missingLinks}>
           <Link to="/">See what you can play</Link>
-          <a href={entry || 'https://library.airiskpractice.org'} target="_blank" rel="noreferrer">
-            {entry ? 'Read the reference entry' : 'Reference library'}
-          </a>
+          <Link to="/about">Where to go next</Link>
         </p>
       </main>
     );

@@ -1,12 +1,17 @@
 # Status
 
-Last updated 26 November 2026. Update this file at the end of a working
+Last updated 28 November 2026. Update this file at the end of a working
 session.
 
 ## Where things stand
 
-- **Content:** nine scenarios, four At Home and five At Work. They were
-  checked against the KB and rewritten in plain language in October.
+- **28 Nov 2026:** the About page opens with the agreed vision (#57). The
+  reference library was retired: the app no longer links to it, scenarios
+  show their own sources for dated or legal facts, and each close screen and
+  static page links to "Where to go next" on the About page.
+- **Content:** nine scenarios, three At Home and six At Work. They were
+  checked against the reference library and rewritten in plain language in
+  October.
   - Endings are route-aware.
   - Option order and length are balanced.
   - Times are worked out from the content: about seven minutes At Home, nine

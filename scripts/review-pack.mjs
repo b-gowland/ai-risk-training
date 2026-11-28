@@ -52,7 +52,7 @@ for (const s of scenarios) {
     s.recall.options.forEach((o, i) => lines.push(`${i + 1}. [${o.quality}] ${o.label}`, `   ${o.note}`));
     lines.push('');
   }
-  lines.push(`Tell: ${s.tell}`, '', `Reference entry: ${s.kb_url || '-'}`);
+  lines.push(`Tell: ${s.tell}`);
   for (const src of s.sources || []) lines.push(`Source: ${src.who}, "${src.title}", ${src.date}, ${src.url}: "${src.quote}"`);
   writeFileSync(join(OUT, 'content', `${s.id}.md`), lines.join('\n') + '\n');
 }

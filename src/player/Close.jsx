@@ -230,11 +230,9 @@ export default function Close({ scenario, recallAnswer, actChoice, onRecall, onR
 
         <div className={s.closeFoot}>
           <button type="button" className={s.secondary} onClick={onReplay}>Play it differently</button>
-          {scenario.kb_url && (
-            <a className={s.secondaryLink} href={scenario.kb_url} target="_blank" rel="noreferrer">
-              The reference entry behind this
-            </a>
-          )}
+          <Link className={s.secondaryLink} to="/about">
+            Where to go next
+          </Link>
         </div>
       </div>
     </article>

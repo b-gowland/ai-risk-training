@@ -141,31 +141,11 @@ for (const f of registered) {
 note(`registered: ${atWork.length} At Work, ${atHome.length} At Home, ${registered.length} live`);
 
 /* ─────────────────────────────────────────────────────────────
-   3. kb_url shape (CONTENT_QA_CHECKLIST step 4)
-   ───────────────────────────────────────────────────────────── */
-
-const KB_HOST = 'https://library.airiskpractice.org/';
-
-for (const f of atWork) {
-  const body = read(`src/scenarios/${f}.js`);
-  const m = body.match(/kb_url:\s*['"`]([^'"`]+)['"`]/);
-  if (!m) {
-    warn('kb_url', `${f}.js has no kb_url — the "go deeper" link will be absent.`);
-    continue;
-  }
-  const url = m[1];
-  if (!url.startsWith(KB_HOST)) {
-    err('kb_url', `${f}.js kb_url does not point at ${KB_HOST} — got ${url}`);
-  } else if (!url.includes('/docs/domain-')) {
-    err('kb_url', `${f}.js kb_url is not a /docs/domain-… path — got ${url}`);
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────
    4. Stale hosts (the June sweep; keep it closed)
    ───────────────────────────────────────────────────────────── */
 
-const STALE = ['b-gowland.github.io'];
+// library.airiskpractice.org was retired on 28 Nov 2026; its pages redirect.
+const STALE = ['b-gowland.github.io', 'library.airiskpractice.org'];
 for (const f of [...srcFiles, 'index.html', 'README.md']) {
   let body;
   try { body = read(f); } catch { continue; }

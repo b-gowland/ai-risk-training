@@ -53,7 +53,6 @@ export default function App() {
           </p>
           <nav className={s.footNav}>
             <Link to="/privacy">What we don&rsquo;t collect</Link>
-            <a href="https://library.airiskpractice.org" target="_blank" rel="noreferrer">Reference library</a>
             <a href="https://baseline.airiskpractice.org" target="_blank" rel="noreferrer">Governance baseline</a>
             <a href="https://github.com/b-gowland/ai-risk-training" target="_blank" rel="noreferrer">Source code</a>
             <span className={s.footNote}>Not legal or security advice</span>

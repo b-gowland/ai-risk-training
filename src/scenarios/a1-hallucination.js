@@ -21,7 +21,6 @@ export const scenario = {
   scene: `document-error`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-a-technical/a1-hallucination`,
   regulatory_tags: [`eu-ai-act-article-13`, `nist-ai-rmf-measure-2`, `jurisdiction-global`],
   mit_subdomain: `mit-3.1`,
 

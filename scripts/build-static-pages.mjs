@@ -311,7 +311,7 @@ ${canWhat}
 <p class="tell">${esc(s.tell)}</p>
 <div class="actions">
 <a class="btn" href="/cards/?s=${s.id}">Print discussion cards</a>
-${s.kb_url ? `<a class="btn" href="${s.kb_url}">Read the reference entry</a>` : ''}
+<a class="btn" href="/#/about">Where to go next</a>
 </div>
 </main>`;
 
@@ -434,7 +434,7 @@ ${scenarios.map((s) => `- ${s.question} ${s.tell} ([${s.title}](${SITE}/scenario
 
 - [All scenarios](${SITE}/scenarios/): the full list
 - [Discussion cards](${SITE}/cards/): printable cards for a group of three to six
-- [Reference library](https://library.airiskpractice.org/): AI risks with controls, mapped to the EU AI Act, NIST AI RMF, ISO 42001 and OWASP
+- [About](${SITE}/#/about): what this is for, and where to go to learn more
 - [Source](https://github.com/b-gowland/ai-risk-training)
 `;
 writeFileSync(join(DIST, 'llms.txt'), llms);

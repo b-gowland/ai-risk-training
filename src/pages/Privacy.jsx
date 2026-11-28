@@ -35,7 +35,7 @@ export function Privacy() {
     <main id="main-content" style={s.page} tabIndex={-1}>
       <Link to="/" style={s.back}>← Back</Link>
       <h1 style={s.h1}>Privacy notice</h1>
-      <p style={s.p}>This notice covers the AI Risk Practice app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>) and the reference library (<a style={s.a} href="https://library.airiskpractice.org/" target="_blank" rel="noopener noreferrer">library.airiskpractice.org</a>). The Governance Baseline has its own notice.</p>
+      <p style={s.p}>This notice covers the AI Risk Practice app (<a style={s.a} href="https://app.airiskpractice.org/" target="_blank" rel="noopener noreferrer">app.airiskpractice.org</a>). The Governance Baseline has its own notice. The reference library closed on 28 November 2026; its address now redirects and collects nothing.</p>
 
       <hr style={s.divider}/>
       <h2 style={s.h2}>Who receives anything</h2>
@@ -45,8 +45,8 @@ export function Privacy() {
         outside service.
       </p>
       <p style={s.p}>
-        One Plausible site collects the figures for all three AI Risk Practice sites: this app, the reference
-        library and the Governance Baseline. The Baseline&rsquo;s events are listed in its own{' '}
+        One Plausible site collects the figures for both AI Risk Practice sites: this app and the
+        Governance Baseline. The Baseline&rsquo;s events are listed in its own{' '}
         <a style={s.a} href="https://baseline.airiskpractice.org/disclaimer" target="_blank" rel="noopener noreferrer">privacy and analytics section</a>.
       </p>
 

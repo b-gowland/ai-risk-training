@@ -30,7 +30,6 @@ export const scenario = {
   scene: `phone-call`,
   determinacy: `clean`,
 
-  kb_url: `https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes`,
   regulatory_tags: [`eu-ai-act-article-50`, `jurisdiction-au`],
   mit_subdomain: `mit-4.2`,
 
@@ -371,6 +370,18 @@ export const scenario = {
       `Copying a voice takes only a few seconds of audio, so "does it sound right?" is the wrong test. Check outside the call instead: a number you already have, someone else in the house, the bank. Then warn the family.`,
     ],
   },
+
+  // The claim about how little audio a voice copy needs, with the primary
+  // source and its exact words.
+  sources: [
+    {
+      quote: `can be used to synthesize high-quality personalized speech with only a 3-second enrolled recording of an unseen speaker`,
+      who: `Wang and others, Microsoft`,
+      title: `Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers`,
+      date: `5 January 2023`,
+      url: `https://arxiv.org/abs/2301.02111`,
+    },
+  ],
 
   recall: {
     id: `home-voice-clone-recall`,

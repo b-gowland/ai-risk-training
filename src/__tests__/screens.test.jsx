@@ -297,17 +297,14 @@ describe('stale deep links', () => {
     'everyday-p1-deepfake-voice', 'everyday-p2-hallucination', 'everyday-p3-employment-screening',
   ];
 
-  it('every old scenario id is live, retired with an entry, or replaced by a live one', async () => {
+  it('every old scenario id is live, retired, or replaced by a live one', async () => {
     const { RETIRED, REPLACED, scenarios: live } = await import('../scenarios/index.js');
     const liveIds = new Set(live.map((s) => s.id));
-    const orphans = oldIds.filter((id) => !liveIds.has(id) && !RETIRED[id] && !liveIds.has(REPLACED[id]));
+    const orphans = oldIds.filter((id) => !liveIds.has(id) && !RETIRED.has(id) && !liveIds.has(REPLACED[id]));
     expect(orphans).toEqual([]);
-    for (const url of Object.values(RETIRED)) {
-      expect(url).toMatch(/^https:\/\/library\.airiskpractice\.org\/docs\/domain-[a-g]-[a-z]+\/[a-z0-9-]+$/);
-    }
   });
 
-  it('a retired id lands on its reference entry, not a dead end', async () => {
+  it('a retired id lands on a page that says so, not a dead end', async () => {
     const ScenarioPlayer = (await import('../player/ScenarioPlayer.jsx')).default;
     rtlRender(
       <MemoryRouter initialEntries={['/scenario/c4-deepfakes']}>
@@ -315,8 +312,8 @@ describe('stale deep links', () => {
       </MemoryRouter>
     );
     expect(screen.getByRole('heading', { name: 'This scenario has been retired' })).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Read the reference entry' }).getAttribute('href'))
-      .toBe('https://library.airiskpractice.org/docs/domain-c-security/c4-deepfakes');
+    expect(screen.getByRole('link', { name: 'See what you can play' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Where to go next' }).getAttribute('href')).toBe('/about');
   });
 
   it('an id that names an Object prototype member is just not found', async () => {
