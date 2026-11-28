@@ -8,7 +8,10 @@ session.
 - **28 Nov 2026:** the About page opens with the agreed vision (#57). The
   reference library was retired: the app no longer links to it, scenarios
   show their own sources for dated or legal facts, and each close screen and
-  static page links to "Where to go next" on the About page.
+  static page links to "Where to go next" on the About page. The
+  Governance Baseline was retired the same day: the app no longer links to
+  it, and its address redirects to the EU AI Act Service Desk's Compliance
+  Checker.
 - **Content:** nine scenarios, three At Home and six At Work. They were
   checked against the reference library and rewritten in plain language in
   October.
@@ -71,7 +74,7 @@ unpushed commit. Plans and reviews now live in `docs/`.
 | Google Search Console | Domain property `airiskpractice.org` (DNS TXT), covering app, library and baseline. All three sitemaps submitted. Indexed pages: 7 of about 80 known on 12 Oct. Indexing requested for the unindexed key pages on 18 Oct. |
 | Bing Webmaster Tools | Site set up and all three sitemaps read. IndexNow key `public/b569d15f07f9b699dacfaf1d6f3a77ab.txt` validated (HTTP 200 on 18 Oct). |
 | Cloudflare | Proxies only `airiskpractice.org` and `www`, which 301 to `https://app.airiskpractice.org/${1}` with the path and query string kept. Always Use HTTPS is on. AI crawlers are allowed (AI Crawl Control: none blocked). Since 17 Nov the app, library, baseline and The Narrated Self are Cloudflare Pages projects (above). |
-| Plausible | One site, `airiskpractice.org`, shared by the app, the library and the Baseline. The app's Privacy page says so and links the Baseline's own privacy section for its events. 14 visitors in the 28 days to 18 Oct. |
+| Plausible | One site, `airiskpractice.org`. The library and the Baseline were retired on 28 Nov and only redirect, so the app is the only site sending events. 14 visitors in the 28 days to 18 Oct. |
 
 ## Follow-ups
 

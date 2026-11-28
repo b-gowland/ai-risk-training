@@ -7,7 +7,7 @@ keeps running with very little of the owner's time.
 |---|---|
 | app.airiskpractice.org (scenarios) | `ai-risk-training` (this repo) |
 | library.airiskpractice.org (retired 28 Nov 2026; redirects only) | `ai-risk-kb` (archived) |
-| baseline.airiskpractice.org (Governance Baseline) | `ai-risk-baseline` |
+| baseline.airiskpractice.org (retired 28 Nov 2026; redirects to the EU AI Act Service Desk's Compliance Checker) | `ai-risk-baseline` (to be archived) |
 | narratedself.airiskpractice.org | `narrated-self` |
 
 ## What went wrong before

@@ -3,8 +3,8 @@
 Free, open-source practice scenarios on AI risk (app.airiskpractice.org).
 React 19 + Vite, HashRouter, deployed to Cloudflare Pages on push to `main`
 (GitHub Actions runs `wrangler pages deploy`; see ARCHITECTURE.md).
-Companion repo: `b-gowland/ai-risk-baseline`. The reference library
-(`b-gowland/ai-risk-kb`) was retired on 28 Nov 2026; its pages redirect.
+The reference library (`b-gowland/ai-risk-kb`) and the Governance Baseline
+(`b-gowland/ai-risk-baseline`) were retired on 28 Nov 2026; their pages redirect.
 
 Start with [`docs/STATUS.md`](docs/STATUS.md) for where things stand and
 what is open, then [`ARCHITECTURE.md`](ARCHITECTURE.md) and
